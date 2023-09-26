@@ -1,0 +1,63 @@
+actions:
+  - title: Turn Comskip Off by Channel
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/setcomskipignore.sh {{ channel }}
+    arguments:
+      - name: channel
+        type: int
+
+  - title: Turn Comskip Back On by Channel
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/removecomskipignore.sh {{ channel }}
+    arguments:
+      - name: channel
+        type: int
+
+  - title: List Channels with Comskip Off
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/listcomskipignore.sh
+
+  - title: Manually Add Recordings
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/manualrecordings.sh "{{ name }}" {{ channel }} {{ time }} {{ duration }} "{{ summary }}" {{ image }}
+    arguments:
+      - name: name
+        type: ascii_sentence
+        description: The name you'd like used for the recording
+      - name: channel
+        type: int
+        description: The channel number to use for the recording
+      - name: time
+        type: very_dangerous_raw_string
+        description: The time to start the recording in 24h format (hh:mm), or with date (mm/dd/yyyy hh:mm)
+      - name: duration
+        type: int
+        description: The length of the recording in minutes
+      - name: summary
+        type: ascii_sentence
+        description: A Description of the recording (optional)
+      - name: image
+        type: url
+        description: An image URL to use for the recording
+        default: https://tmsimg.fancybits.co/assets/p9467679_st_h6_aa.jpg
+
+  - title: Find Gracenote Station IDs
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/stationid.sh "{{ station }}"
+    arguments:
+      - name: station
+        type: ascii_identifier
+
+  - title: Fix YouTube Thumbnails
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: ruby /config/fix_thumbnails.rb {{ video_group }}
+    arguments:
+      - name: video_group
+        type: ascii_identifier
+        description: Enter the Video Group ID where you'd like to have the thumbnails fixed
+
+  - title: Generate TWiT.tv Guide Data
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/ical_2_xmltv.sh
+    timeout: 10
+   

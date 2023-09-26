@@ -1,0 +1,22 @@
+#docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile.bnhf -t bnhf/olivetin:latest . --push --no-cache
+FROM jamesread/olivetin:latest
+
+USER root
+
+COPY scripts /tmp
+COPY start.sh /
+
+RUN microdnf update -y \
+    && microdnf install -y \
+    --nodocs --noplugins --setopt=keepcache=0 --setopt=install_weak_deps=0 \
+    jq \
+    procps \
+    python3 \
+    pip
+RUN microdnf install -y \
+    ruby \
+    && gem install httparty \
+    && pip install -r /tmp/ical_2_xmltv.txt \
+    && microdnf clean all
+
+ENTRYPOINT [ "/start.sh" ]
