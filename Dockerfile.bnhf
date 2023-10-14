@@ -1,5 +1,5 @@
 #docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile.bnhf -t bnhf/olivetin:latest . --push --no-cache
-FROM jamesread/olivetin:latest
+FROM jamesread/olivetin:2023.03.25
 
 USER root
 

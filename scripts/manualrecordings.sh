@@ -5,8 +5,10 @@ channel="$2"
 time=$(date -d "$3" +%s)
 duration=$(("$4" * 60))
 summary="$5"
-image="$6"
-
+  [[ $summary == "none" ]] && summary=""
+genres=$(echo "\"$6"\" | sed 's/,/","/g' | sed 's/" /"/g')
+  [[ $genres == "\"none"\" ]] && genres=""
+image="$7"
 source="manual"
 
 recordingJob() {
@@ -23,7 +25,8 @@ cat <<EOF
         "Duration": $duration,
         "Title": "$name",
         "Summary": "$summary",
-        "SeriesID": "$source/$channel"
+        "Genres": [$genres],
+        "SeriesID": "$source/$channel",
         "Image": "$image"
     }
 }

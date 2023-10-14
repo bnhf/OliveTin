@@ -1,17 +1,17 @@
 actions:
-  - title: Turn Comskip Off by Channel
+  - title: Turn Comskip Off/On by Channel
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/setcomskipignore.sh {{ channel }}
+    shell: /config/comskipignore.sh {{ channel }} {{ action }}
     arguments:
       - name: channel
         type: int
-
-  - title: Turn Comskip Back On by Channel
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/removecomskipignore.sh {{ channel }}
-    arguments:
-      - name: channel
-        type: int
+      - name: action
+        description: Turn Comskip On or Off for the above channel
+        choices:
+          - title: Off
+            value: PUT
+          - title: On
+            value: DELETE
 
   - title: List Channels with Comskip Off
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -19,7 +19,7 @@ actions:
 
   - title: Manually Add Recordings
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/manualrecordings.sh "{{ name }}" {{ channel }} {{ time }} {{ duration }} "{{ summary }}" {{ image }}
+    shell: /config/manualrecordings.sh "{{ name }}" {{ channel }} "{{ time }}" {{ duration }} "{{ summary }}" "{{ genres }}" {{ image }}
     arguments:
       - name: name
         type: ascii_sentence
@@ -36,6 +36,11 @@ actions:
       - name: summary
         type: ascii_sentence
         description: A Description of the recording (optional)
+        default: none
+      - name: genres
+        type: ascii_sentence
+        description: Genre(s) you'd like assigned to the recording (optional - comma separated)
+        default: none 
       - name: image
         type: url
         description: An image URL to use for the recording
@@ -46,18 +51,108 @@ actions:
     shell: /config/stationid.sh "{{ station }}"
     arguments:
       - name: station
-        type: ascii_identifier
+        type: ascii_sentence
 
-  - title: Fix YouTube Thumbnails
+  - title: Fix YouTube Thumbnails #fix_thumbnails title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: ruby /config/fix_thumbnails.rb {{ video_group }}
+    shell: /config/foreground.sh fix_thumbnails "{{ interval }}" {{ healthchecks_io }}
     arguments:
-      - name: video_group
-        type: ascii_identifier
-        description: Enter the Video Group ID where you'd like to have the thumbnails fixed
-
-  - title: Generate TWiT.tv Guide Data
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/ical_2_xmltv.sh
+      - name: interval
+        type: ascii
+        description: Interval to run YouTube thumbnails fix (followed m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: once #fix_thumbnails interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/your_custom_uuid #fix_thumbnails healthchecks default
     timeout: 10
-   
+
+  - title: Generate TWiT.tv Guide Data #ical_2_xmltv title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/foreground.sh ical_2_xmltv "{{ interval }}" {{ healthchecks_io }}
+    arguments:
+      - name: interval
+        type: ascii
+        description: Interval for guide data update (followed m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: 72h #ical_2_xmltv interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/985f53ea-c76f-4cc8-a470-07f6a996bf72 #ical_2_xmltv healthchecks default
+    timeout: 10
+
+  - title: Create Channels List in CSV Format
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/channels_to_csv.sh
+    
+  - title: Create Movies List in CSV Format
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/cdvr_movie_library_to_csv.sh
+
+  - title: Scan/Prune Local Content
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/scanlocalcontent.sh {{ action }}
+    arguments:
+      - name: action
+        description: Scan or Prune local content
+        choices:
+          - title: Scan
+            value: scan
+          - title: Prune
+            value: imports/prune
+    timeout: 20
+
+  - title: Mark an Episode for Re-Recording
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/markforrerecord.sh {{ file_id }}
+    arguments:
+      - name: file_id
+        type: int
+        description: The File ID can be found using Library - TV Shows - <show name> - <episode name> - Options - View Details - File ID
+
+  - title: Channel Lineup Change Notifications #channels_dvr_monitor_channels title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/channels_dvr_monitor_channels.sh {{ frequency }} {{ email }} "{{ password }}" {{ recipient }} {{ text }}
+    arguments:
+      - name: frequency
+        type: int
+        description: Frequency of queries sent to the Channels DVR server, in minutes (minimum 5). Enter 0 to kill active background process
+        default: 30 #channels_dvr_monitor_channels frequency default
+      - name: email
+        type: very_dangerous_raw_string
+        description: (use none for blank) Email address to use as the sender
+        default: none #channels_dvr_monitor_channels email default
+      - name: password
+        type: very_dangerous_raw_string
+        default: none #channels_dvr_monitor_channels password default
+        description: (use none for blank) Password to log in to the email account (unique Gmail or Yahoo "app" password recommended)
+      - name: recipient
+        type: very_dangerous_raw_string
+        default: none #channels_dvr_monitor_channels recipient default
+        description: (use none for blank) Email address of the recipient. Not required if text is specified. Use with email and password.
+      - name: text
+        type: very_dangerous_raw_string
+        default: none #channels_dvr_monitor_channels text default
+        description: (use none for blank) Cell phone number to send a text to in the format - <10 digits>@<SMS gateway>
+    timeout: 4
+
+  - title: Generate Filtered Channels DVR Log
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/logfilter.sh {{ lines }} "{{ filter }}"
+    arguments:
+      - name: lines
+        type: int
+        default: 100 #logfilter lines default
+        description: Number of log lines to grab
+      - name: filter
+        type: very_dangerous_raw_string
+        default: none
+        description: Grep filter to apply. Examples include - [ERR], Face the Nation, 09:38 or whatever really. Special characters will be automatically escaped
+
+  - title: List Sources for a Single Channel
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/channels_to_csv_awk.sh {{ channel }}
+    arguments:
+      - name: channel
+        type: very_dangerous_raw_string
+        description: Channel name to search for, case insensitive, use comma at end of shortnames. First match only from latest generated CSV

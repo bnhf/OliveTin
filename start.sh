@@ -37,10 +37,40 @@ checkScripts() {
   done
 }
 
+loadScriptArguments() {
+  local argumentFiles=($(cd /config && ls *.running))
+  [[ -z $argumentFiles ]] && return 0
+
+  for argumentFile in "${argumentFiles[@]}"
+    do
+      arguments=$(cat /config/$argumentFile)
+      grep -q '.sh' /config/$argumentFile
+      standaloneScript=$?
+      [[ "$standaloneScript" == "0" ]] && /config/$arguments \
+      && echo "Launching script with these arguments: $arguments"
+      [[ "$standaloneScript" == "1" ]] && /config/foreground.sh $arguments \
+      && echo "Launching foreground.sh with these arguments: $arguments"
+  done
+}
+
+# channelsDvrServers() {
+#   for dvrServer in $(printenv | cut -d= -f1); do
+#     if [[ $dvrServer == CHANNELS_DVR* && -n "${!dvrServer}" ]]; then
+#       dvrServers+=("$dvrServer=${!dvrServer}")
+#     fi
+#   done
+
+#   for dvrServer in "${dvrServers[@]}"; do
+#     serverPort=$(awk -F= '{print $2}')
+#     grep $dvrServer | sed -i 's/'"$dvrServer"'/'"$serverPort"'/g' /config/config.yaml
+#   done
+# }
+
 main() {
   cd ~
   checkYamls  
   checkScripts
+  loadScriptArguments
   /usr/bin/OliveTin
 }
 
