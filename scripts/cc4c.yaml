@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  chrome-capture-for-channels:
+    image: fancybits/chrome-capture-for-channels:latest
+    container_name: cc4c
+    command:
+      - sh 
+      - -c 
+      - |
+        Xvfb :99 -screen 0 1920x1080x16 &
+        x11vnc -display :99 -forever &
+        sed -i '/videoBitsPerSecond/c\        videoBitsPerSecond: process.env.VIDEO,' main.js;
+        sed -i '/audioBitsPerSecond/c\        audioBitsPerSecond: process.env.AUDIO,' main.js;
+        exec node main.js
+    #devices:
+      #- /dev/dri:/dev/dri # Uncomment for Intel Quick Sync (GPU) access
+    ports:
+      - 5589:5589 # cc4c proxy port
+      - 5900:5900 # VNC port for entering credentials
+    environment:
+      - VIDEO=${VIDEO}
+      - AUDIO=${AUDIO}
+      - TZ=${TZ} # Add your timezone in the Environment variables section with "name" set to TZ and "value" to your local timezone
+    volumes:
+      - cc4c:/home/chrome # Creates persistent Docker Volume in /var/lib/docker/volumes for Chrome data and main.js
+    restart: unless-stopped
+volumes:
+  cc4c:

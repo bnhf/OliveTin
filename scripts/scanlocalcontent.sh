@@ -1,5 +1,8 @@
 #!/bin/bash
 
-urlAction=$1
+set -x
 
-curl -X PUT http://$CHANNELS_DVR/dvr/scanner/$urlAction
+dvr=$1
+urlAction=$2
+
+curl -X PUT http://$dvr/dvr/scanner/$urlActionction

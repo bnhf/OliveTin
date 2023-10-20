@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  # GitHub home for this project: https://github.com/matthuisman/frndlytv-for-channels
+  # Matt Huisman's webpage for this project: https://www.matthuisman.nz/2021/11/frndly-tv-for-channels.html
+  # Docker Hub home for this project: https://hub.docker.com/r/matthuisman/frndlytv-for-channels
+  frndlytv-for-channels:
+    image: matthuisman/frndlytv-for-channels:latest
+    container_name: frndlytv-for-channels
+    environment:
+      - IP=${IP} # For Geo-locating FrndlyTV to a different area
+      - USERNAME=${USERNAME} # FrndlyTV username (the email you used to sign-up)
+      - PASSWORD=${PASSWORD} # FrndlyTV password (the password you chose when you signed-up)
+    ports:
+      - 8183:80
+    restart: unless-stopped

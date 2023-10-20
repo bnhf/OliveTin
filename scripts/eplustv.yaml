@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  # GitHub home for this project with setup instructions: https://github.com/m0ngr31/EPlusTV
+  # Docker Hub home for this project: https://hub.docker.com/r/m0ngr31/eplustv
+  eplustv:
+    image: m0ngr31/eplustv
+    ports:
+      - 8185:8000 # For use with Portainer this port is being mapped to 8185, as Portainer uses port 8000
+    environment:
+      - START_CHANNEL=${START_CHANNEL} # What the first channel number should be.
+      - NUM_OF_CHANNELS=${NUM_OF_CHANNELS} # How many channels to create? This is dependent on the networks you are using. A good number to start with is >= 150 if you are using ESPN+.
+      - USE_LINEAR=${USE_LINEAR} # If you are using linear channels like ESPN, FS1, ect., and want those events on their own dedicated channels.
+      - PROXY_SEGMENTS=${PROXY_SEGMENTS} # Proxy keyed *.ts files.
+      - PUID=${PUID} # Current user ID. Use if you have permission issues. Needs to be combined with PGID.
+      - PGID=${PGID} # Current group ID. Use if you have permission issues. Needs to be combined with PUID.
+      - MAX_RESOLUTION=${MAX_RESOLUTION} # Max resolution to use. Valid options are UHD/HDR, UHD/SDR, 1080p, 720p, and 540p (Some providers don't offer 4K or 1080p and will attempt to play the highest framerate available for selected resolution).
+      - ESPNPLUS={ESPNPLUS} # Set to false if you only want events that come from your TV provider
+      - ESPN=${ESPN} # ESPN: Set if your TV provider supports it
+      - ESPN2=${ESPN2} # ESPN2: Set if your TV provider supports it
+      - ESPN3=${ESPN3} # ESPN3: Set if your TV provider supports it
+      - ESPNU=${ESPNU} # ESPNU: Set if your TV provider supports it
+      - SEC=${SEC} # SEC Network: Set if your TV provider supports it
+      - SECPLUS=${SECPLUS} # SEC Network+: Set if your TV provider supports it
+      - ACCN=${ACCN} # ACCN: Set if your TV provider supports it
+      - ACCNX=${ACCNX} # ACCNX: Set if your TV provider supports it
+      - LONGHORN=${LONGHORN} # Longhorn Network: Set if your TV provider supports it
+      - FOXSPORTS=${FOXSPORTS} # Set if your TV provider supports it
+      - FOXSPORTS_ALLOW_REPLAYS=${FOXSPORTS_ALLOW_REPLAYS} # If you would like to schedule events that aren't live
+      - MLBTV=${MLBTV} # Set if you would like to use MLB.tv
+      - MLBTV_USER=${MLBTV_USER} # MLB.tv Username
+      - MLBTV_PASS=${MLBTV_PASS} # MLB.tv Password
+      - MLBTV_ONLY_FREE=${MLBTV_ONLY_FREE} # Only schedule free games
+    volumes:
+      - /data/eplustv:/app/config
+      
+# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

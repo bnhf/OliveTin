@@ -1,10 +1,11 @@
 #!/bin/bash
 
-fileID=$1
+dvr=$1
+fileID=$2
 
-recordingJSON=$(curl http://$CHANNELS_DVR/dvr/files/$fileID)
+recordingJSON=$(curl http://$dvr/dvr/files/$fileID)
 
 programID=$(echo $recordingJSON | jq -r '.Airing.ProgramID')
 programID=${programID//\//%2F}
 
-curl -X DELETE http://$CHANNELS_DVR/dvr/programs/$programID
+curl -X DELETE http://$dvr/dvr/programs/$programID

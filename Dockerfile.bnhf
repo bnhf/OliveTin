@@ -5,6 +5,7 @@ USER root
 
 COPY scripts /tmp
 COPY start.sh /
+COPY webui/icons /tmp
 
 RUN microdnf update -y \
     && microdnf install -y \

@@ -3,7 +3,7 @@
 checkYamls() {
 
   #local scripts=($@)
-  local yamls=($(cd /tmp && ls *.yaml))
+  local yamls=($(cd /tmp && ls *.yaml *.env))
   
   for yaml in "${yamls[@]}"
     do
@@ -66,11 +66,18 @@ loadScriptArguments() {
 #   done
 # }
 
+channelsDvrServers() {
+  sed -i '/default: .* dvr default/s/default: .* #/default: '"$CHANNELS_DVR"' #/g' /config/config.yaml
+  sed -i '/description: .* dvr description/s/description: .* #/description: Drag and drop alternates - '"$CHANNELS_DVR_ALTERNATES"' #/g' /config/config.yaml
+}
+
 main() {
   cd ~
   checkYamls  
   checkScripts
   loadScriptArguments
+  channelsDvrServers
+  mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
   /usr/bin/OliveTin
 }
 

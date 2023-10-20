@@ -1,14 +1,15 @@
 #!/bin/bash
 
-name="$1"
-channel="$2"
-time=$(date -d "$3" +%s)
-duration=$(("$4" * 60))
-summary="$5"
+dvr="$1"
+name="$2"
+channel="$3"
+time=$(date -d "$4" +%s)
+duration=$(("$5" * 60))
+summary="$6"
   [[ $summary == "none" ]] && summary=""
-genres=$(echo "\"$6"\" | sed 's/,/","/g' | sed 's/" /"/g')
+genres=$(echo "\"$7"\" | sed 's/,/","/g' | sed 's/" /"/g')
   [[ $genres == "\"none"\" ]] && genres=""
-image="$7"
+image="$8"
 source="manual"
 
 recordingJob() {
@@ -35,4 +36,4 @@ EOF
 
 recordingJSON=$(echo -n "$(recordingJob)" | tr -d '\n')
 
-curl -v --data-binary "$recordingJSON" http://$CHANNELS_DVR/dvr/jobs/new
+curl -v --data-binary "$recordingJSON" http://$dvr/dvr/jobs/new

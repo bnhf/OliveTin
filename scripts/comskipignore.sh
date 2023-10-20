@@ -1,6 +1,7 @@
 #! /bin/bash
 
-channel=$1
-curlAction=$2
+dvr=$1
+channel=$2
+curlAction=$3
 
-curl -X $curlAction http://$CHANNELS_DVR/comskip/ignore/channel/$channel
+curl -X $curlAction http://$dvr/comskip/ignore/channel/$channel

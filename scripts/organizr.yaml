@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  organizr:
+    image: organizr/organizr:latest
+    container_name: organizr
+    hostname: organizr
+    ports:
+      - 80:80
+    environment:
+      - PUID=nobody
+      - PGID=nobody
+      - TZ=${TZ}
+    volumes:
+      - /data/organizr:/config
+    restart: unless-stopped
