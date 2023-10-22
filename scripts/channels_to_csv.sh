@@ -2,10 +2,10 @@
 
 set -x
 
-dvr=$1
+dvr=$(echo $1 | sed 's/:/-/')
 
-channelsHost=$(echo $dvr | awk -F: '{print $1}')
-channelsPort=$(echo $dvr | awk -F: '{print $2}')
+channelsHost=$(echo $1 | awk -F: '{print $1}')
+channelsPort=$(echo $1 | awk -F: '{print $2}')
 
 python3 /config/channels_to_csv.py -i $channelsHost -p $channelsPort
 

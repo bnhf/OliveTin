@@ -66,9 +66,19 @@ loadScriptArguments() {
 #   done
 # }
 
+substituteDropdown() {
+  sed -i '/- name: dvr/,/dvr default/c\      - name: dvr\n        description: Channels DVR server to use.\n        choices:\n          - title: '"$CHANNELS_DVR"'\n            value: '"$CHANNELS_DVR"'\n          #lastchoice dvr default' /config/config.yaml
+
+  dvrs=($CHANNELS_DVR_ALTERNATES)
+  for dvr in "${dvrs[@]}"; do
+    sed -i 's/#lastchoice dvr default/- title: '"$dvr"'\n            value: '"$dvr"'\n          #lastchoice dvr default/g' /config/config.yaml
+  done
+}
+
 channelsDvrServers() {
   sed -i '/default: .* dvr default/s/default: .* #/default: '"$CHANNELS_DVR"' #/g' /config/config.yaml
-  sed -i '/description: .* dvr description/s/description: .* #/description: Drag and drop alternates - '"$CHANNELS_DVR_ALTERNATES"' #/g' /config/config.yaml
+  [[ -n $CHANNELS_DVR_ALTERNATES ]] \
+  && substituteDropdown
 }
 
 main() {

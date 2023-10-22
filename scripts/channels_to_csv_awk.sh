@@ -2,9 +2,9 @@
 
 set -x
 
-dvr=$1
+dvr=$(echo $1 | sed 's/:/-/')
 stationID=$2
-[ -f "/config/"$dvr"_channel_list_latest.csv" ] || /config/channels_to_csv.sh $dvr
+[ -f "/config/"$dvr"_channel_list_latest.csv" ] || /config/channels_to_csv.sh $1
 
 awk -F',' -v pattern="$stationID" '
     NR == 1 {

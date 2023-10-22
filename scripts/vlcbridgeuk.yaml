@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  vlc-bridge-uk:
+    image: registry.gitlab.com/miibeez/vlc-bridge-uk
+    container_name: vlc-bridge-uk
+    ports:
+      - 7777:7777
+    environment:
+      - ITV_USER=${ITV_USER}
+      - ITV_PASS=${ITV_PASS}
+    restart: unless-stopped
