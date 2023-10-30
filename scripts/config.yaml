@@ -266,3 +266,32 @@ actions:
             value: vlcbridgeuk
           - title: Watchtower (for bulk container updating)
             value: watchtower
+
+  - title: Remove Comskip Markers from a Recording
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/marknocommercials.sh "{{ dvr }}" {{ file_id }}
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #marknocommercials dvr description
+        default: none #marknocommercials dvr default
+      - name: file_id
+        type: int
+        description: The File ID can be found using Library - TV Shows / Movies - <show name> - <episode name> - Options - View Details - File ID.
+
+  - title: Restart or Shutdown a Channels DVR Server
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/restartshutdown.sh "{{ dvr }}" {{ action }}
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #restartshutdown dvr description
+        default: none #restartshutdown dvr default
+      - name: action
+        description: Force a restart or shutdown of a Channels DVR server. Current recordings or other activities will be terminated!
+        choices:
+          - title: Restart
+            value: force/restart
+          - title: Shutdown
+            value: halt
+    timeout: 30
