@@ -190,7 +190,7 @@ actions:
       - name: filter
         type: very_dangerous_raw_string
         default: none
-        description: Grep filter to apply. Examples include - [ERR], Face the Nation, 09:38 or whatever really. Special characters will be automatically escaped.
+        description: Grep filter. Examples [ERR], Face the Nation, 09:38 or whatever. Special characters auto escaped. file://_.grep to load from file.
 
   - title: List Sources for a Single Channel
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -295,3 +295,21 @@ actions:
           - title: Shutdown
             value: halt
     timeout: 30
+
+  - title: Ping Channels DVR Server #pingcdvr title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #pingcdvr icon
+    shell: /config/foreground.sh "{{ dvr }}" pingcdvr "{{ interval }}" {{ healthchecks_io }}
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #pingcdvr dvr description
+        default: none #pingcdvr dvr default
+      - name: interval
+        type: ascii
+        description: Interval for ping of CDVR server (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: once #pingcdvr interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/your_custom_uuid #pingcdvr healthchecks default
+    timeout: 10
