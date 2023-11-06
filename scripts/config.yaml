@@ -28,7 +28,7 @@ actions:
 
   - title: Manually Add Recordings
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/manualrecordings.sh "{{ dvr }}" "{{ name }}" {{ channel }} "{{ time }}" {{ duration }} "{{ summary }}" "{{ genres }}" {{ image }}
+    shell: /config/manualrecordings.sh "{{ dvr }}" "{{ name }}" {{ channel }} "{{ time }}" {{ duration }} "{{ summary }}" "{{ genres }}" {{ image }} {{ type }}
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -58,6 +58,13 @@ actions:
         type: url
         description: An image URL to use for the recording.
         default: https://tmsimg.fancybits.co/assets/p9467679_st_h6_aa.jpg
+      - name: type
+        description: Recording type. Choose TV Series or Movie.
+        choices:
+          - title: TV Series
+            value: tv
+          - title: Movie
+            value: movie
 
   - title: Find Gracenote Station IDs
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -278,6 +285,7 @@ actions:
       - name: file_id
         type: int
         description: The File ID can be found using Library - TV Shows / Movies - <show name> - <episode name> - Options - View Details - File ID.
+    timeout: 20
 
   - title: Restart or Shutdown a Channels DVR Server
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
