@@ -8,15 +8,14 @@ healthchecksIO=$3
 logFile=/config/"$channelsHost"-"$channelsPort"_pingcdvr_latest.log
 
 while true; do
+  pingDVR=$(ping -q -c 1 -W 2 $channelsHost)
 
-  if ping -q -c 1 -W 2 $channelsHost | sed '/^$/d' | sed 's/PING/\nPING/' >> $logFile; then
-    [[ $runInterval == "once" ]] \
-    && exit 0
-
-    [[ -n $healthchecksIO ]] \
+  [[ $? -eq 0 && -n $healthchecksIO ]] \
     && curl -m 10 --retry 5 $healthchecksIO
-  fi
 
-  [[ $runInterval != "once" ]] \
-  && sleep $runInterval
+  { printf "\n%s" "$(date)"; echo "$pingDVR" | sed '/^$/d' | sed 's/PING/\nPING/'; } >> $logFile
+
+  [[ $runInterval == "once" ]] \
+    && exit 0 \
+    || sleep $runInterval
 done
