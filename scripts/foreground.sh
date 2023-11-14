@@ -84,7 +84,7 @@ case "$runInterval" in
     sed -i "/#${backgroundScript} interval default/s/default: .* #/default: ${runInterval} #/" /config/config.yaml
     [[ -n $healthchecksIO ]] && echo "Using healthcheck.io pings to $healthchecksIO to confirm functionality" >> $logFile \
     && sed -i "/#${backgroundScript} healthchecks default/s|default: .* #|default: ${healthchecksIO} #|" /config/config.yaml
-    echo "$backgroundScript $dvr $runInterval $healthchecksIO" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
+    echo "$dvr $backgroundScript $runInterval $healthchecksIO" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
 
     runningScripts
     exit 0
