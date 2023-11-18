@@ -79,8 +79,12 @@ actions:
 
   - title: Fix YouTube Thumbnails #fix_thumbnails title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #fix_thumbnails icon
-    shell: /config/foreground.sh fix_thumbnails "{{ interval }}" {{ healthchecks_io }}
+    shell: /config/foreground.sh "{{ dvr }}" fix_thumbnails "{{ interval }}" {{ healthchecks_io }}
     arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #fix_thumbnails dvr description
+        default: none #fix_thumbnails dvr default
       - name: interval
         type: ascii
         description: Interval to run YouTube thumbnails fix (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
@@ -93,8 +97,12 @@ actions:
 
   - title: Generate TWiT.tv Guide Data #ical_2_xmltv title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #ical_2_xmltv icon
-    shell: /config/foreground.sh ical_2_xmltv "{{ interval }}" {{ healthchecks_io }}
+    shell: /config/foreground.sh "{{ dvr }}" ical_2_xmltv "{{ interval }}" {{ healthchecks_io }}
     arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #ical_2_xmltv dvr description
+        default: none #ical_2_xmltv dvr default
       - name: interval
         type: ascii
         description: Interval for guide data update (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
@@ -213,8 +221,12 @@ actions:
 
   - title: Delete Channels DVR Recording Log Files #deletelogs title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #deletelogs icon
-    shell: /config/foreground.sh deletelogs "{{ interval }}" {{ healthchecks_io }}
+    shell: /config/foreground.sh "{{ dvr }}" deletelogs "{{ interval }}" {{ healthchecks_io }}
     arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #deletelogs dvr description
+        default: none #deletelogs dvr default
       - name: interval
         type: ascii
         description: Run/Age interval (followed by d for days!). E.G. 7d = run every 7 days deleting files > 7 days old. 0 to kill existing background process.

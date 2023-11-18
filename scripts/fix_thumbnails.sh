@@ -1,20 +1,24 @@
 #!/bin/bash
 
-runInterval=$1
-healthchecksIO=$2
+dvr=$1
+channelsHost=$(echo $dvr | awk -F: '{print $1}')
+channelsPort=$(echo $dvr | awk -F: '{print $2}')
+runInterval=$2
+healthchecksIO=$3
+logFile=/config/"$channelsHost"-"$channelsPort"_fix_thumbnails_latest.log
 
 while true; do
-  [[ $runInterval == "once" ]] && echo "Retrieving YouTube video_groups..."
-  videoGroups=$(curl http://$CHANNELS_DVR/api/v1/video_groups)
+  [[ $runInterval == "once" ]] && echo "Retrieving YouTube video_groups for $dvr..." >> "$logFile"
+  videoGroups=$(curl http://$dvr/api/v1/video_groups)
 
   ids=$(echo "$videoGroups" | jq -r '.[] | .id')
   
   for id in $ids; do
-    echo "Fixing thumbnails for video_group $id"
+    echo "Fixing thumbnails for video_group $id" >> "$logFile"
     ruby /config/fix_thumbnails.rb "$id"
   done
 
-  [[ $runInterval == "once" ]] && echo "done." \
+  [[ $runInterval == "once" ]] && echo "done." >> "$logFile" \
   && exit 0
 
   [[ -n $healthchecksIO ]] \
