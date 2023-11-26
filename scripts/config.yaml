@@ -28,7 +28,7 @@ actions:
 
   - title: Manually Add Recordings
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/manualrecordings.sh "{{ dvr }}" "{{ name }}" {{ channel }} "{{ time }}" {{ duration }} "{{ summary }}" "{{ genres }}" {{ image }} {{ type }}
+    shell: /config/manualrecordings.sh "{{ dvr }}" "{{ name }}" {{ channel }} "{{ time }}" {{ duration }} "{{ summary }}" "{{ genres }}" "{{ image }}" {{ type }}
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -333,3 +333,37 @@ actions:
         description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
         default: https://hc-ping.com/your_custom_uuid #pingcdvr healthchecks default
     timeout: 10
+
+    - title: Generate a Channels DVR M3U Playlist
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/generatem3u.sh "{{ dvr }}" "{{ source }}" "{{ bitrate }}" "{{ filter }}" "{{ format }}" "{{ abr }}" "{{ duration }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #generatem3u dvr description
+        default: none #generatem3u dvr default
+      - name: source
+        type: very_dangerous_raw_string
+        description: Use ANY for all sources, or use source name in parens from http://dvr:port/admin/settings/sources
+        default: ANY
+      - name: bitrate
+        type: very_dangerous_raw_string
+        description: none = default defined in WebUI. x000 = define bitrate in Kbps. copy = remux only.
+        default: none
+      - name: filter
+        type: very_dangerous_raw_string
+        description: none = default of all channels, hd = HD channels only, favorites = Favorites only.
+        default: none
+      - name: format
+        type: very_dangerous_raw_string
+        description: hls = default streaming format, ts = MPEG-TS (not as robust as hls).
+        default: hls
+      - name: abr
+        type: ascii
+        description: Adaptive Bitrate. true = default, false = turn off.
+        default: "true"
+      - name: duration
+        type: ascii
+        description: Optional URL for guide data. Amount of guide data desired in seconds. 604800 = 1 week.
+        default: none
+    timeout: 20

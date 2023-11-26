@@ -9,6 +9,7 @@ foregroundScript=channels_dvr_monitor_channels
 runningScriptPID=$(ps -ef | grep "[p]ython3 .* -i $channelsHost -p $channelsPort" | awk '{print $2}')
 greenIcon=\"icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
+logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
 
 #Trap end of script run
 finish() {
@@ -74,7 +75,7 @@ scriptRun() {
   [[ -n $runningScriptPID ]] && kill $runningScriptPID && echo "Killing currently running script with PID $runningScriptPID" \
   && sed -i "/#${foregroundScript} title/s/(.*) #/($(date +'%d%b%y_%H:%M')) #/" /config/config.yaml \
   && sed -i "/#${foregroundScript} icon/s|img src = .* width|img src = $greenIcon width|" /config/config.yaml
-  nohup python3 -u /config/$foregroundScript.py -i $channelsHost -p $channelsPort -f $frequency $optionalArguments > /config/"$channelsHost"-"$channelsPort"_monitor_channels.log 2>&1 &
+  nohup python3 -u /config/$foregroundScript.py -i $channelsHost -p $channelsPort -f $frequency $optionalArguments >> $logFile 2>&1 &
   runningScriptPID=$!
   echo "$foregroundScript.sh $dvr $frequency $email $password $recipient $text" > /config/"$channelsHost"-"$channelsPort"_monitor_channels.running
 
@@ -84,7 +85,7 @@ scriptRun() {
     && sed -i "/#${foregroundScript} icon/s|img src = .* width|img src = $greenIcon width|" /config/config.yaml
 
   sleep 2
-  cat /config/"$channelsHost"-"$channelsPort"_monitor_channels.log
+  cat $logFile
 
   runningScripts
 }

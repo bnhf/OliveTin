@@ -44,13 +44,13 @@ scriptRun() {
 case "$runInterval" in
   "once")
     /config/$backgroundScript.sh $dvr $runInterval \
-    && echo "One time run mode used..." \
+    && echo "One time run mode used..." >> $logFile \
     && exit 0
   ;;
   
   "0")
-    kill $runningScriptPID $runningSleepPID \
-    && echo "Killing script/sleep with PIDs $runningScriptPID/$runningSleepPID for $dvr" > $logFile
+    kill $runningScriptPID $runningSleepPID > $logFile \
+    && echo "Killing script/sleep with PIDs $runningScriptPID/$runningSleepPID for $dvr" >> $logFile
     rm /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
     sleep 2
     lastActive=$(ps -e | grep $backgroundScript | awk '{print $1}')
