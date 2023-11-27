@@ -10,6 +10,7 @@ runningScriptPID=$(ps -ef | grep "[p]ython3 .* -i $channelsHost -p $channelsPort
 greenIcon=\"icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
+[[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
 
 #Trap end of script run
 finish() {

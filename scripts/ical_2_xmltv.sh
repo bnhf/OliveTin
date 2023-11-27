@@ -7,6 +7,7 @@ channelsPort=$(echo $dvr | awk -F: '{print $2}')
 runInterval=$2
 healthchecksIO=$3
 logFile=/config/"$channelsHost"-"$channelsPort"_ical_2_xmltv_latest.log
+runFile=/tmp/"$channelsHost"-"$channelsPort"_ical_2_xmltv.run
 
 cd /config
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
@@ -21,11 +22,13 @@ while true; do
   mv $DIR/basic.xml $DIR/"$channelsHost"-"$channelsPort"_data/
   
   [[ $runInterval == "once" ]] && echo "done." >> $logFile \
-  && exit 0
+    && touch $runFile \
+    && exit 0
 
   [[ -n $healthchecksIO ]] \
-  && curl -m 10 --retry 5 $healthchecksIO
+    && curl -m 10 --retry 5 $healthchecksIO
 
   [[ $runInterval != "once" ]] \
-  && sleep $runInterval
+    && touch $runFile \
+    && sleep $runInterval
 done

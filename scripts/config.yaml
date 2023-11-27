@@ -93,7 +93,7 @@ actions:
         type: url
         description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
         default: https://hc-ping.com/your_custom_uuid #fix_thumbnails healthchecks default
-    timeout: 10
+    timeout: 40
 
   - title: Generate TWiT.tv Guide Data #ical_2_xmltv title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #ical_2_xmltv icon
@@ -111,7 +111,7 @@ actions:
         type: url
         description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
         default: https://hc-ping.com/your_custom_uuid #ical_2_xmltv healthchecks default
-    timeout: 10
+    timeout: 40
 
   - title: Create Channels List in CSV Format
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -235,7 +235,7 @@ actions:
         type: url
         description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
         default: https://hc-ping.com/your_custom_uuid #deletelogs healthchecks default
-    timeout: 10
+    timeout: 40
 
   - title: Send Message to Defined Channels Clients
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -332,9 +332,9 @@ actions:
         type: url
         description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
         default: https://hc-ping.com/your_custom_uuid #pingcdvr healthchecks default
-    timeout: 10
+    timeout: 40
 
-    - title: Generate a Channels DVR M3U Playlist
+  - title: Generate a Channels DVR M3U Playlist
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/generatem3u.sh "{{ dvr }}" "{{ source }}" "{{ bitrate }}" "{{ filter }}" "{{ format }}" "{{ abr }}" "{{ duration }}"
     arguments:
