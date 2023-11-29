@@ -10,6 +10,7 @@ firstChar=${backgroundScript:0:1}
 runInterval=$3
 healthchecksIO=$4
 [[ "$healthchecksIO" == "https://hc-ping.com/your_custom_uuid" ]] && healthchecksIO=""
+spinUp=$5
 runningScriptPID=$(ps -ef | grep "[$firstChar]${backgroundScript:1}.* $dvr" | awk '{print $2}')
 [[ -n $runningScriptPID ]] && runningSleepPID=$(ps --ppid $runningScriptPID | grep sleep | awk '{print $1}')
 backgroundArguments="$dvr $runInterval $healthchecksIO"
@@ -18,6 +19,7 @@ purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f
 logFile=/config/"$channelsHost"-"$channelsPort"_"$backgroundScript"_latest.log
 runFile=/tmp/"$channelsHost"-"$channelsPort"_"$backgroundScript".run
 [[ -f $runFile ]] && rm $runFile
+[[ $spinUp ]] && touch $runFile
 
 #Trap end of script run
 finish() {

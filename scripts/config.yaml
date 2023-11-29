@@ -79,7 +79,7 @@ actions:
 
   - title: Fix YouTube Thumbnails #fix_thumbnails title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #fix_thumbnails icon
-    shell: /config/foreground.sh "{{ dvr }}" fix_thumbnails "{{ interval }}" {{ healthchecks_io }}
+    shell: /config/foreground.sh "{{ dvr }}" fix_thumbnails "{{ interval }}" "{{ healthchecks_io }}"
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -97,7 +97,7 @@ actions:
 
   - title: Generate TWiT.tv Guide Data #ical_2_xmltv title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #ical_2_xmltv icon
-    shell: /config/foreground.sh "{{ dvr }}" ical_2_xmltv "{{ interval }}" {{ healthchecks_io }}
+    shell: /config/foreground.sh "{{ dvr }}" ical_2_xmltv "{{ interval }}" "{{ healthchecks_io }}"
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -221,7 +221,7 @@ actions:
 
   - title: Delete Channels DVR Recording Log Files #deletelogs title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #deletelogs icon
-    shell: /config/foreground.sh "{{ dvr }}" deletelogs "{{ interval }}" {{ healthchecks_io }}
+    shell: /config/foreground.sh "{{ dvr }}" deletelogs "{{ interval }}" "{{ healthchecks_io }}"
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -318,7 +318,7 @@ actions:
 
   - title: Ping Channels DVR Server #pingcdvr title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #pingcdvr icon
-    shell: /config/foreground.sh "{{ dvr }}" pingcdvr "{{ interval }}" {{ healthchecks_io }}
+    shell: /config/foreground.sh "{{ dvr }}" pingcdvr "{{ interval }}" "{{ healthchecks_io }}"
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
