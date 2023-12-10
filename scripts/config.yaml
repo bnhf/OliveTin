@@ -336,7 +336,7 @@ actions:
 
   - title: Generate a Channels DVR M3U Playlist
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/generatem3u.sh "{{ dvr }}" "{{ source }}" "{{ bitrate }}" "{{ filter }}" "{{ format }}" "{{ abr }}" "{{ duration }}"
+    shell: /config/generatem3u.sh "{{ dvr }}" "{{ source }}" "{{ collection }}" "{{ bitrate }}" "{{ filter }}" "{{ format }}" "{{ abr }}" "{{ duration }}"
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -346,6 +346,10 @@ actions:
         type: very_dangerous_raw_string
         description: Use ANY for all sources, or use source name in parens from http://dvr:port/admin/settings/sources
         default: ANY
+      - name: collection
+        type: very_dangerous_raw_string
+        description: none = default of not limiting M3U to a single Channel Collection. Source should be ANY when using a Collection name.
+        default: none
       - name: bitrate
         type: very_dangerous_raw_string
         description: none = default defined in WebUI. x000 = define bitrate in Kbps. copy = remux only.
