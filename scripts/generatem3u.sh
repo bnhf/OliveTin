@@ -8,7 +8,7 @@ channelsPort=$(echo $dvr | awk -F: '{print $2}')
 logFile=/config/"$channelsHost"-"$channelsPort"_generatem3u_latest.log
 source=$2
 collection=$3
-  [[ "$collection" == "none" ]] && $collection=""
+  [[ "$collection" == "none" ]] && collection=""
 bitrate=$4
   [[ "$bitrate" == "none" ]] && bitrate="" || bitrate=$(echo "bitrate=$bitrate")
   [[ "$bitrate" == "bitrate=copy" ]] && bitrate="codec=copy"

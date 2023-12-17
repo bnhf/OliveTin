@@ -1,0 +1,27 @@
+FROM python:slim-bookworm
+
+COPY scripts /tmp
+COPY start.sh /
+COPY webui/icons /tmp
+COPY /pkgs-deb/OliveTin_linux_amd64.deb /tmp
+
+RUN mkdir -p /config /var/www/olivetin \
+    && apt update \
+    && apt install -y --no-install-recommends \
+       curl \
+	   iputils-ping \
+	   openssh-client \
+	   /tmp/OliveTin_linux_amd64.deb \
+	   jq \
+       procps \
+       #python3 \
+       #python3-pip \
+       ruby \
+       ffmpeg \
+    && gem install httparty \
+    && pip3 install -r /tmp/ical_2_xmltv.txt \
+    && rm -rf /tmp/*deb
+
+EXPOSE 1337/tcp
+
+ENTRYPOINT [ "/start.sh" ]

@@ -371,3 +371,61 @@ actions:
         description: Optional URL for guide data. Amount of guide data desired in seconds. 604800 = 1 week.
         default: none
     timeout: 20
+
+  - title: Remove Commercials Based on an EDL File
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/edlstrip.sh "{{ dvr }}" "{{ input_path }}" "{{ input_filename }}" "{{ output_path }}" "{{ output_filename }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #edlstrip dvr description
+        default: none #edlstrip dvr default
+      - name: input_path
+        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: input_filename
+        description: Filename of recording to remove commercials from. E.G. Wild (2014) 2023-06-26-1900. The .mpg will be added automaically!
+        type: very_dangerous_raw_string
+      - name: output_path
+        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: output_filename
+        description: MKV file to output with commercials removed. E.G. Movies/Wild (2014). A .mkv will be added automatically!
+        type: very_dangerous_raw_string
+    timeout: 10
+
+  - title: Create EDL File from PlayOn Recording Chapters
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/playonedl.sh "{{ dvr }}" "{{ playon_path }}" "{{ playon_mp4 }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #playonedl dvr description
+        default: none #playonedl dvr default
+      - name: playon_path
+        description: Relative path to Playon recordings, starting after dvr/PlayOn. E.G. TV/The Guardian. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: playon_mp4
+        description: PlayOn MP4 filename to create a matching EDL file. E.G. The Guardian - S1E1 - Pilot.mp4 or *.mp4 for all in path.
+        type: very_dangerous_raw_string
+    timeout: 30
+
+  - title: Create Subtitles (.srt) File from Closed Captions
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/ccextractor.sh "{{ dvr }}" "{{ recording_path }}" "{{ recording_filename }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #ccextractor dvr description
+        default: none #ccextractor dvr default
+      - name: recording_path
+        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: recording_filename
+        description: Filename of recording to create matching subtitles file from. E.G. Wild (2014) 2023-06-26-1900.
+        type: very_dangerous_raw_string
+    timeout: 60

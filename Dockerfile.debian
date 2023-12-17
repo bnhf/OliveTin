@@ -1,0 +1,57 @@
+#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') -f Dockerfile.debian -t bnhf/olivetin:test.debian . --push --no-cache
+FROM python:slim-bullseye
+
+ARG OS=linux
+ARG OT_RELEASE=2023.03.25
+ARG OT_URL=https://github.com/OliveTin/OliveTin/releases/download
+#ARG CDVR_RELEASE=2023.11.13.2159
+ARG CDVR_RELEASE
+ARG CDVR_URL=https://channels-dvr.s3.amazonaws.com
+ARG EDLSTRIP_FIX=/usr/local/lib/python3.12/site-packages/edlstrip/__init__.py
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt update \
+    && apt install -y --no-install-recommends \
+       wget \
+       curl \
+	     iputils-ping \
+	     openssh-client \
+       nano
+
+RUN if [[ $(uname -m) == "x86_64" ]]; then \
+      wget -O /tmp/OliveTin.deb ${OT_URL}/${OT_RELEASE}/OliveTin_${OS}_amd64.deb; \
+      wget -O /usr/bin/ffmpeg ${CDVR_URL}/${CDVR_RELEASE}/ffmpeg-${OS}-x86_64; \
+      wget -O /usr/bin/ffprobe ${CDVR_URL}/${CDVR_RELEASE}/ffprobe-${OS}-x86_64; \
+    else \
+      wget -O /tmp/OliveTin.deb ${OT_URL}/${OT_RELEASE}/OliveTin_${OS}_arm64.deb; \
+      wget -O /usr/bin/ffmpeg ${CDVR_URL}/${CDVR_RELEASE}/ffmpeg-${OS}-arm64; \
+      wget -O /usr/bin/ffprobe ${CDVR_URL}/${CDVR_RELEASE}/ffprobe-${OS}-arm64; \
+    fi \
+    && chmod +x /usr/bin/ff*
+
+COPY scripts /tmp
+COPY start.sh /
+COPY webui/icons /tmp
+
+RUN mkdir -p /config /var/www/olivetin \
+    && apt install -y --no-install-recommends \
+       /tmp/OliveTin.deb \
+       jq \
+       procps \
+       ruby \
+       #ffmpeg \
+       ccextractor \
+    && gem install httparty \
+    && pip3 install -r /tmp/ical_2_xmltv.txt \
+    && pip3 install edlstrip click \
+    && sed -i "/import tempfile/a import re" ${EDLSTRIP_FIX} \
+    && sed -i "s/^\s*length = float(result\.stdout)$/    try:\n \
+        length = float(result.stdout)\n    except:\n \
+        result.stdout = result.stdout.decode('utf-8')\n \
+        errorMessage = re.search(r\"\\d+\\.\\d+\", result.stdout)\n \
+        length = float(errorMessage.group())/" ${EDLSTRIP_FIX}
+
+EXPOSE 1337/tcp
+
+ENTRYPOINT [ "/start.sh" ]

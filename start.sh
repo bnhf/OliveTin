@@ -88,7 +88,8 @@ main() {
   loadScriptArguments
   channelsDvrServers
   mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
-  /usr/bin/OliveTin
+  #/usr/bin/OliveTin
+  OliveTin
 }
 
 main

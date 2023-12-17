@@ -1,0 +1,25 @@
+FROM alpine:latest
+
+COPY scripts /tmp
+COPY start.sh /
+COPY webui/icons /tmp
+COPY /pkgs-apk/OliveTin_linux_amd64.apk /tmp
+
+RUN mkdir -p /config /var/www/olivetin \
+    && apk update \
+    && apk add --no-cache --allow-untrusted \
+	   iputils \
+	   openssh-client \
+	   /tmp/OliveTin_linux_amd64.apk \
+	   jq \
+       procps \
+       python3 \
+       py3-pip \
+       ruby \
+    && gem install httparty \
+    && pip install --break-system-packages -r /tmp/ical_2_xmltv.txt
+    #&& rm -rf /tmp/*.apk
+
+EXPOSE 1337/tcp
+
+ENTRYPOINT [ "/start.sh" ]
