@@ -429,3 +429,15 @@ actions:
         description: Filename of recording to create matching subtitles file from. E.G. Wild (2014) 2023-06-26-1900.
         type: very_dangerous_raw_string
     timeout: 60
+
+  - title: Update Commercials Metadata from LosslessCut LLC File
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/llc2metadata.sh "{{ dvr }}" {{ file_id }}
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #llc2metadata dvr description
+        default: none #llc2metadata dvr default
+      - name: file_id
+        type: int
+        description: The File ID can be found using DVR - Manage - <show name> - <episode name> - Options - View Details - File ID.
