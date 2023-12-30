@@ -20,11 +20,13 @@ logFile=/config/"$channelsHost"-"$channelsPort"_"$backgroundScript"_latest.log
 runFile=/tmp/"$channelsHost"-"$channelsPort"_"$backgroundScript".run
 [[ -f $runFile ]] && rm $runFile
 [[ $spinUp ]] && touch $runFile
+configFile=/config/config.yaml
+configTemp=/tmp/config.yaml
 
 #Trap end of script run
 finish() {
   echo -e "foreground.sh is exiting for $backgroundScript with exit code $?" >> "$logFile"
-  cp /config/config.yaml /config/temp.yaml && cp /config/temp.yaml /config/config.yaml
+  cp $configTemp /config
   backgroundWait=0
   maxWait=30
 
@@ -68,10 +70,10 @@ case "$runInterval" in
     lastActive=$(ps -e | grep $backgroundScript | awk '{print $1}')
 
     if [[ -z $lastActive ]]; then
-      sed -i "/#${backgroundScript} title/s/(.*) #/#/" /config/config.yaml
-      sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $purpleIcon width|" /config/config.yaml
-      sed -i "/#${backgroundScript} interval default/s/default: .* #/default: once #/" /config/config.yaml
-      sed -i "/#${backgroundScript} healthchecks default/s/default: .* #/default: https:\/\/hc-ping.com\/your_custom_uuid #/" /config/config.yaml
+      sed -i "/#${backgroundScript} title/s/(.*) #/#/" $configTemp
+      sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $purpleIcon width|" $configTemp
+      sed -i "/#${backgroundScript} interval default/s/default: .* #/default: once #/" $configTemp
+      sed -i "/#${backgroundScript} healthchecks default/s/default: .* #/default: https:\/\/hc-ping.com\/your_custom_uuid #/" $configTemp
       touch $runFile
       exit 0
     fi
@@ -84,20 +86,20 @@ case "$runInterval" in
   *)
     [[ -n $runningScriptPID ]] && kill $runningScriptPID $runningSleepPID \
       && echo "Killing currently running script/sleep with PIDs $runningScriptPID/$runningSleepPID" \
-      && sed -i "/#${backgroundScript} title/s/(.*) #/($(date +'%d%b%y_%H:%M')) #/" /config/config.yaml \
-      && sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $greenIcon width|" /config/config.yaml
+      && sed -i "/#${backgroundScript} title/s/(.*) #/($(date +'%d%b%y_%H:%M')) #/" $configTemp \
+      && sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $greenIcon width|" $configTemp
 
     echo "Background script initiated, with $runInterval between runs for $dvr" > $logFile
     nohup /config/$backgroundScript.sh $backgroundArguments &>/dev/null &
 
-    grep -q '(.*) #'"$backgroundScript"'' /config/config.yaml
+    grep -q '(.*) #'"$backgroundScript"'' $configTemp
     [[ "$?" == "1" ]] \
-      && sed -i "/#${backgroundScript} title/s/#/($(date +'%d%b%y_%H:%M')) #/" /config/config.yaml \
-      && sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $greenIcon width|" /config/config.yaml
+      && sed -i "/#${backgroundScript} title/s/#/($(date +'%d%b%y_%H:%M')) #/" $configTemp \
+      && sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $greenIcon width|" $configTemp
             
-    sed -i "/#${backgroundScript} interval default/s/default: .* #/default: ${runInterval} #/" /config/config.yaml
+    sed -i "/#${backgroundScript} interval default/s/default: .* #/default: ${runInterval} #/" $configTemp
     [[ -n $healthchecksIO ]] && echo "Using healthcheck.io pings to $healthchecksIO to confirm functionality" >> $logFile \
-      && sed -i "/#${backgroundScript} healthchecks default/s|default: .* #|default: ${healthchecksIO} #|" /config/config.yaml
+      && sed -i "/#${backgroundScript} healthchecks default/s|default: .* #|default: ${healthchecksIO} #|" $configTemp
     echo "$dvr $backgroundScript $runInterval $healthchecksIO" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
 
     sleep 2
@@ -109,6 +111,7 @@ esac
 }
 
 main() {
+  cp $configFile /tmp
   scriptRun
 }
 

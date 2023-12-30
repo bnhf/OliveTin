@@ -11,6 +11,7 @@ recordingLogAge=$(echo "$runInterval" |  sed 's/d//')
 [[ $runInterval == "once" ]] && recordingLogAge=30
 scriptBaseName=$(basename "$0" | sed 's/.sh//')
 logFile=/config/"$channelsHost"-"$channelsPort"_deletelogs_latest.log
+logTemp=/tmp/"$channelsHost"-"$channelsPort"_deletelogs_latest.log
 runFile=/tmp/"$channelsHost"-"$channelsPort"_deletelogs.run
 
 dvrDir="$channelsHost-$channelsPort"
@@ -20,7 +21,9 @@ while true; do
   [ -d "/mnt/$dvrDir/Logs/recording" ] \
     && echo "Deleting recording log files for $dvr that are more than $recordingLogAge days old" >> $logFile \
     && find /mnt/$dvrDir/Logs/recording -type d -mtime +$recordingLogAge -exec rm -r {} \; >> $logFile  2>&1
-  sed -i 's/No such file or directory/Deleted/g' $logFile
+  cp $logFile /tmp \
+  && sed -i 's/No such file or directory/Deleted/g' $logTemp \
+  && cp $logTemp /config
 
   if [ ! -d "/mnt/$dvrDir/Logs/recording" ]; then
     echo "Your Channels DVR Server's /dvr directory needs to be bound to this container" >> $logFile
