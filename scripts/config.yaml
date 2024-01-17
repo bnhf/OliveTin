@@ -252,7 +252,7 @@ actions:
         description: Message duration in seconds.
     timeout: 65
 
-  - title: Docker-Compose Examples for Channels & Related Extensions
+  - title: Docker-Compose Examples for CDVR & Related Extensions
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/dockercompose.sh {{ project }}
     arguments:
@@ -441,3 +441,36 @@ actions:
       - name: file_id
         type: int
         description: The File ID can be found using DVR - Manage - <show name> - <episode name> - Options - View Details - File ID.
+
+  - title: Generate Plex Token for Use with Plex M3U
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/plextoken.sh "{{ dvr }}" "{{ user_id }}" "{{ password }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #plextoken dvr description
+        default: none #plextoken dvr default
+      - name: user_id
+        type: very_dangerous_raw_string
+        description: Your Plex User ID. Usually the email address you used for Plex.
+      - name: password
+        type: very_dangerous_raw_string
+        description: Your Plex password.
+
+  - title: Generate Plex M3U & XML w/Plex Token #plexiptv title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #plexiptv icon
+    shell: /config/foreground.sh "{{ dvr }}" plexiptv "{{ interval }}" "{{ healthchecks_io }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #plexiptv dvr description
+        default: none #plexiptv dvr default
+      - name: interval
+        type: ascii
+        description: Plex M3U/XML download interval (with m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: once #plexiptv interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/your_custom_uuid #plexiptv healthchecks default
+    timeout: 20

@@ -18,7 +18,8 @@ RUN apt update \
 	     iputils-ping \
 	     openssh-client \
        nano \
-       gawk
+       gawk \
+       uuid-runtime
 
 RUN if [[ $(uname -m) == "x86_64" ]]; then \
       wget -O /tmp/OliveTin.deb ${OT_URL}/${OT_RELEASE}/OliveTin_${OS}_amd64.deb; \
