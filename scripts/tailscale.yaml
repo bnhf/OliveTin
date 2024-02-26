@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   tailscale:
-    image: tailscale/tailscale:latest
+    image: tailscale/tailscale:${TAG}
     container_name: tailscaled
     cap_add:
       - NET_ADMIN
@@ -16,9 +16,9 @@ services:
       - TS_EXTRA_ARGS=${TS_EXTRA_ARGS} # Add any other supported arguments in the docker commandline style: e.g. --advertise-exit-node
       - TS_STATE_DIR=${TS_STATE_DIR} # Required to create a persistent container state that will survive reboots
     volumes:
-      - /data:/var/lib # Creates a tailscale directory under /data for persistence
+      - ${HOST_DIR}:/var/lib # Creates a tailscale directory under /data for persistence
       - /dev/net/tun:/dev/net/tun
     network_mode: host
     restart: unless-stopped
 
-    # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  # GitHub home for this project with setup instructions: https://github.com/jgomez177/tubi-for-channels
+  # Docker container home for this project: https://ghcr.io/jgomez177/tubi-for-channels
+  tubi-for-channels:
+    image: ghcr.io/jgomez177/tubi-for-channels:${TAG}
+    container_name: tubi-for-channels
+    ports:
+      - ${HOST_PORT}:${TUBI_PORT}
+    environment:
+      - TUBI_PORT=${TUBI_PORT}
+    restart: unless-stopped
+
+  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

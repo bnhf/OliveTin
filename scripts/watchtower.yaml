@@ -1,12 +1,14 @@
 version: '3.9'
 services:
   watchtower:
-    image: containrrr/watchtower:latest
+    image: containrrr/watchtower:${TAG}
     container_name: watchtower
     environment:
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      - WATCHTOWER_RUN_ONCE=true
+      - WATCHTOWER_RUN_ONCE=${WATCHTOWER_RUN_ONCE}
     labels:
       - 'com.centurylinklabs.watchtower.enable=true'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+    # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

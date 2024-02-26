@@ -259,30 +259,34 @@ actions:
       - name: project
         description: Project name for the Channels extension for which you'd like a Docker-Compose Example.
         choices:
-          - title: ADBTuner
-            value: adbtuner
-          - title: ah4c (formerly AndroidHDMI-for-Channels)
-            value: ah4c
           - title: cc4c (ChromeCapture-for-Channels)
             value: cc4c
           - title: EPlusTV
             value: eplustv
           - title: FrndlyTV-for-Channels
-            value: frndlytv
+            value: frndlytv-for-channels
           - title: Organizr
             value: organizr
-          - title: Pluto-for-Channels
+          - title: Plex
+            value: plex-for-channels
+          - title: Pluto-for-Channels (jonmaddox)
             value: pluto
+          - title: Pluto-for-Channels (joagomez)
+            value: pluto-for-channels
           - title: Stirr-for-Channels
-            value: stirr
+            value: stirr-for-channels
           - title: SamsungTVPlus-for-Channels
-            value: samsungtvplus
+            value: samsung-tvplus-for-channels
           - title: Tailscale
             value: tailscale
+          - title: Tubi
+            value: tubi-for-channels
+          - title: VLC-Bridge-PBS
+            value: vlc-bridge-pbs
           - title: VLC-Bridge-Fubo
-            value: vlcbridgefubo
+            value: vlc-bridge-fubo
           - title: VLC-Bridge-UK
-            value: vlcbridgeuk
+            value: vlc-bridge-uk
           - title: Watchtower (for bulk container updating)
             value: watchtower
 
@@ -356,7 +360,7 @@ actions:
         default: none
       - name: filter
         type: very_dangerous_raw_string
-        description: none = default of all channels, hd = HD channels only, favorites = Favorites only.
+        description: none = default of all channels, hd = HD channels only, favorites = Favorites only, logos = Custom logos only.
         default: none
       - name: format
         type: very_dangerous_raw_string
@@ -370,7 +374,7 @@ actions:
         type: ascii
         description: Optional URL for guide data. Amount of guide data desired in seconds. 604800 = 1 week.
         default: none
-    timeout: 20
+    timeout: 180
 
   - title: Remove Commercials Based on an EDL File
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'

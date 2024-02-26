@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  # GitHub home for this project with setup instructions: https://github.com/robbiet480/stirr-for-channels
+  # Docker Hub home for this project: https://hub.docker.com/r/robbiet480/stirr-for-channels
+  stirr-for-channels:
+    image: robbiet480/stirr-for-channels:${TAG}
+    container_name: stirr-for-channels
+    ports:
+      - ${HOST_PORT}:80 # Use the same port number the container is using, or optionally change it if the port is already in use on your host
+    restart: unless-stopped
+
+  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  chrome-capture-for-channels:
-    image: fancybits/chrome-capture-for-channels:latest
+  cc4c:
+    image: fancybits/chrome-capture-for-channels:${TAG}
     container_name: cc4c
     command:
       - sh 
@@ -15,8 +15,8 @@ services:
     #devices:
       #- /dev/dri:/dev/dri # Uncomment for Intel Quick Sync (GPU) access
     ports:
-      - 5589:5589 # cc4c proxy port
-      - 5900:5900 # VNC port for entering credentials
+      - ${HOST_PORT}:5589 # cc4c proxy port
+      - ${HOST_VNC_PORT}:5900 # VNC port for entering credentials
     environment:
       - VIDEO=${VIDEO}
       - AUDIO=${AUDIO}
@@ -26,3 +26,6 @@ services:
     restart: unless-stopped
 volumes:
   cc4c:
+    name: ${HOST_VOLUME}
+
+  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

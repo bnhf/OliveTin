@@ -1,17 +1,13 @@
 version: '3.9'
 services:
-  organizr:
-    image: organizr/organizr:${TAG}
-    container_name: organizr
-    hostname: organizr
+  vlc-bridge-uk:
+    image: registry.gitlab.com/miibeez/vlc-bridge-uk:${TAG}
+    container_name: vlc-bridge-uk
     ports:
-      - ${HOST_PORT}:80
+      - ${HOST_PORT}:7777
     environment:
-      - PUID=nobody
-      - PGID=nobody
-      - TZ=${TZ}
-    volumes:
-      - ${HOST_DIR}/organizr:/config
+      - ITV_USER=${ITV_USER}
+      - ITV_PASS=${ITV_PASS}
     restart: unless-stopped
 
   # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

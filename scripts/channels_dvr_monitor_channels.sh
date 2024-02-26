@@ -93,6 +93,7 @@ scriptRun() {
 }
 
 main() {
+  cd /config
   cp $configFile /tmp
   scriptRun
 }
