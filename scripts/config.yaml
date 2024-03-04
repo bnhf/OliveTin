@@ -1,4 +1,21 @@
 actions:
+  - title: OliveTin Post-Install Healthcheck
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/healthcheck.sh "{{ dvr }}" "{{ extended_check }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #healthcheck dvr description
+        default: none #healthcheck dvr default
+      - name: extended_check
+        description: Add host healthcheck (requires running ./fifopipe_hostside.sh from host directory bound to /config first!).
+        choices:
+          - title: Absolutely, let's do it!
+            value: true
+          - title: Maybe next time.
+            value: false
+    timeout: 20
+
   - title: Turn Comskip Off/On by Channel
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/comskipignore.sh "{{ dvr }}" {{ channel }} {{ action }}
@@ -259,15 +276,27 @@ actions:
       - name: project
         description: Project name for the Channels extension for which you'd like a Docker-Compose Example.
         choices:
+          - title: ADBTuner
+            value: adbtuner
+          - title: ah4c (formerly AndroidHDMI-for-Channels)
+            value: ah4c
           - title: cc4c (ChromeCapture-for-Channels)
             value: cc4c
           - title: EPlusTV
             value: eplustv
+          - title: FileBot
+            value: filebot
           - title: FrndlyTV-for-Channels
             value: frndlytv-for-channels
+          - title: MediaInfo
+            value: mediainfo
+          - title: MLB.tv-for-Channels
+            value: mlb.tv-for-channels
+          - title: OliveTin-for-Channels
+            value: olivetin-for-channels
           - title: Organizr
             value: organizr
-          - title: Plex
+          - title: Plex-for-Channels
             value: plex-for-channels
           - title: Pluto-for-Channels (jonmaddox)
             value: pluto
@@ -279,7 +308,7 @@ actions:
             value: samsung-tvplus-for-channels
           - title: Tailscale
             value: tailscale
-          - title: Tubi
+          - title: Tubi-for-Channels
             value: tubi-for-channels
           - title: VLC-Bridge-PBS
             value: vlc-bridge-pbs
@@ -445,6 +474,40 @@ actions:
       - name: file_id
         type: int
         description: The File ID can be found using DVR - Manage - <show name> - <episode name> - Options - View Details - File ID.
+
+
+  - title: Update Comskip Settings Used by Channels DVR
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/comskipini.sh "{{ dvr }}" "{{ min_commercial_break_at_start_or_end }}" "{{ always_keep_first_seconds }}" "{{ always_keep_last_seconds }}" "{{ min_show_segment_length }}" "{{ min_commercialbreak }}" "{{ thread_count }}"
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #comskipini dvr description
+        default: none #comskipini dvr default
+      - name: min_commercial_break_at_start_or_end
+        type: very_dangerous_raw_string
+        description: Comskip Default=39. This setting will be added to the CDVR comskip.ini file.
+        default: default
+      - name: always_keep_first_seconds
+        type: very_dangerous_raw_string
+        description: Comskip Default=0. This setting will be added to the CDVR comskip.ini file.
+        default: default
+      - name: always_keep_last_seconds
+        type: very_dangerous_raw_string
+        description: Comskip Default=0. This setting will be added to the CDVR comskip.ini file.
+        default: default
+      - name: min_show_segment_length
+        type: very_dangerous_raw_string
+        description: CDVR Default=222. An override file using the value defined here can be found in Logs-stdout.
+        default: default
+      - name: min_commercialbreak
+        type: very_dangerous_raw_string
+        description: CDVR Default=45. An override file using the value defined here can be found in Logs-stdout.
+        default: default
+      - name: thread_count
+        type: very_dangerous_raw_string
+        description: CDVR Default=1. An override file using the value defined here can be found in Logs-stdout.
+        default: default
 
   - title: Generate Plex Token for Use with Plex M3U
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'

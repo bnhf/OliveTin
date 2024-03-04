@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  olivetin:
+    image: bnhf/olivetin:${TAG} # Add the tag like latest or test to the environment variables below
+    container_name: olivetin
+    dns_search: ${DOMAIN} # For Tailscale users using Magic DNS, add your Tailnet (tailxxxxx.ts.net) to use hostnames for remote nodes, otherwise use your local domain name
+    ports:
+      - ${HOST_PORT}:1337
+    environment:
+      - CHANNELS_DVR=${CHANNELS_DVR} # Add your Channels DVR server in the form hostname:port or ip:port
+      - CHANNELS_DVR_ALTERNATES=${CHANNELS_DVR_ALTERNATES} # Space separated list of alternate Channels DVR servers to choose from in the form hostname:port or ip:port
+      - CHANNELS_CLIENTS=${CHANNELS_CLIENTS} # Space separated list of Channels DVR clients you'd like notifications sent to in the form hostname or IP
+      - UPDATE_YAMLS=${UPDATE_YAMLS} # Set this to true to update config.yaml
+      - UPDATE_SCRIPTS=${UPDATE_SCRIPTS} # Set this to true to update all included scripts
+      - TZ=${TZ} # Add your local timezone in standard linux format. E.G. US/Eastern, US/Central, US/Mountain, US/Pacific, etc
+    volumes:
+      - ${HOST_DIR}/olivetin:/config # Add the parent directory on your Docker you'd like to use
+      - ${DVR_SHARE}:/mnt/local-server-8089 # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share
+      - ${DVR2_SHARE}:/mnt/remote-server-8089 # Note that these volume mounts should always be to /mnt/hostname-port or /mnt/ip-port (dash rather than a colon between)
+    restart: unless-stopped
+
+  static-file-server:
+    image: halverneus/static-file-server:latest
+    container_name: static-file-server
+    dns_search: ${DOMAIN}
+    ports:
+      - ${HOST_SFS_PORT}:8080
+    environment:
+      - FOLDER=${FOLDER}
+    volumes:
+      - ${HOST_DIR}/olivetin/data:${FOLDER}
+    restart: unless-stopped
+
+#volumes: # use this section if you've setup a docker volume named channels-dvr, with CIFS or NFS, to bind to /mnt/dvr inside the container. Set ${HOST_DIR} to channels-dvr (HOST_DIR=channels_dvr) in that example
+  #channels-dvr:
+    #external: true

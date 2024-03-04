@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  filebot:
+    image: jlesage/filebot:${TAG}
+    container_name: filebot
+    ports:
+      - ${HOST_PORT}:5800 # The container port number (to the right of the colon) needs to be left as is. Set the environment variable to the same, or change it if there's a conflict.
+    environment:
+      - DARK_MODE=${DARK_MODE} # 0=off, 1=on
+    volumes:
+      - ${HOST_DIR}/filebot:/config:rw # Add the parent directory on your Docker host you'd like to use
+      - ${DVR_SHARE}:/storage:rw  # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share.
+#volumes: # use this section if you've setup a docker volume named channels-dvr, with CIFS or NFS, to bind to /storage inside the container
+  #channels-dvr:
+    #external: true

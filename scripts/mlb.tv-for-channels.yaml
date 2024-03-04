@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  channels-baseball:
+    image: matty8199/channels-baseball:${TAG}
+    container_name: channels-baseball
+    ports:
+      - ${HOST_PORT}:8080
+    environment:
+      - APP_URL=${APP_URL} # the other required environment var is APP_URL, which needs to be set to your server's IP and port 8080. so, for example, if you're running this on IP 192.168.1.100, then that env should be set as follows: APP_URL=http://192.168.1.100:8080
+                           # if you have another service on your machine at port 8080, you can change this port - just make sure you change it in all applicable locations (both in your docker run command / docker-compose config, as well as in the channels m3u config).
+      - LOG_LEVEL=${LOG_LEVEL} # exactly what you'd expect: defines how much information the logs will show. i would set this to warning initially to avoid a huge log file, but we may need to adjust if there are any issues that i need more detailed logs on.
+      - MLB_USERNAME=${MLB_USERNAME} # Your MLB.tv username. the MLB_USERNAME and MLB_PASSWORD env vars above are both obviously required. put your valid MLB credentials into these two slots.
+      - MLB_PASSWORD=${MLB_PASSWORD} # Your MLB.tv password.
+      - MLB_BITRATE=${MLB_BITRATE} # the default bitrate / video quality, defaults to 720p @ 60 fps (5600). available options are (just enter the number only in the env section of the docker-compose file): 5600 (720p @ 60 fps), 3500 (720p), 2500 (540p), 1800 (504p), 1200 (360p), 800 (288p), 514 (216p), 192 (180p).
+                                   # all options are in Kbps (ie. 5600 = 5600K) and are 30 fps unless otherwise specified. the following example would default to 720p, 30fps: MLB_BITRATE=3500
+      - MLB_PLAYLIST_FIRST_CHANNEL=${MLB_PLAYLIST_FIRST_CHANNEL} # the first channel in the playlist (i.e. the channel number where your MLB section will start in the guide). defaults to 20000, unless you specify otherwise. in my example, i used 777 because i wanted an easy triple tap number to get to the beginning of the list.
+      - MLB_TEAM_ORDER=${MLB_TEAM_ORDER} # the order you want the teams to appear in the guide (will start from the first channel variable and increment one at a time in the order you specify here). if there are teams that are blacked out in your area and you want to exclude those teams, you can just remove them from the list here.
+                                         # the MLB Big Inning feed can be added by including MLB as a team short code somewhere in this list (remove MLB from the list if you don't want the Big Inning feed included).
+      - MLB_TIMEZONE=${MLB_TIMEZONE} # i almost wanted to say this is required, but technically it's not. if you don't set this, things should still work as far as watching games...but the guide data will be way off. if you don't specify a timezone here, the app will default to UTC.
+                                     # example USA timezone values for this variable (just enter the America/xxx or Pacific/xxx part of the timezone below into the env spot in the docker-compose file, leave out the parenthetical timezone name):
+                                     # America/New_York (eastern), America/Chicago (central), America/Denver (mountain w/ DST), America/Phoenix (mountain standard, no DST), America/Los_Angeles (pacific), America/Anchorage (alaska), Pacific/Honolulu (hawaii),
+      - MLB_SHOW_TV_FEEDS=${MLB_SHOW_TV_FEEDS} # these two environment variables can be set to true or false to turn the TV and/or radio feeds on or off
+      - MLB_SHOW_RADIO_FEEDS=${MLB_SHOW_RADIO_FEED}
+    volumes:
+      - storage_app:/var/www/html/storage/app
+      - storage_logs:/var/www/html/storage/logs
+volumes:
+  storage_app:
+    name: ${HOST_VOLUME_APP}
+  storage_logs:
+    name: ${HOST_VOLUME_LOGS}
