@@ -12,4 +12,5 @@ services:
       - ${DVR_SHARE}:/storage:rw # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share.
 #volumes: # use this section if you've setup a docker volume named channels-dvr, with CIFS or NFS, to bind to /storage inside the container
   #channels-dvr:
-    #external: true
+    #external: ${VOL_EXTERNAL}
+    #name: ${VOL_NAME}

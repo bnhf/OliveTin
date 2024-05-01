@@ -10,8 +10,9 @@ runningScriptPID=$(ps -ef | grep "[p]ython3 .* -i $channelsHost -p $channelsPort
 greenIcon=\"icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
-[[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
+  [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
 configFile=/config/config.yaml
+  cp $configFile /tmp
 configTemp=/tmp/config.yaml
 
 #Trap end of script run
@@ -94,7 +95,6 @@ scriptRun() {
 
 main() {
   cd /config
-  cp $configFile /tmp
   scriptRun
 }
 

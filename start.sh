@@ -51,13 +51,13 @@ loadScriptArguments() {
   [[ -z $argumentFiles ]] && return 0
 
   for argumentFile in "${argumentFiles[@]}"; do
-    arguments=$(cat /config/$argumentFile)
+    arguments=$(cat /config/"$argumentFile")
     grep -q '.sh' /config/$argumentFile
     standaloneScript=$?
     [[ "$standaloneScript" == "0" ]] \
       && echo "----------------------------------------" \
       && echo "Launching script with these arguments: $arguments" \
-      && /config/$arguments
+      && eval "/config/${arguments}"
     [[ "$standaloneScript" == "1" ]] \
       && echo "----------------------------------------" \
       && echo "Launching foreground.sh with these arguments: $arguments" \
@@ -66,11 +66,11 @@ loadScriptArguments() {
 }
 
 substituteDropdown() {
-  sed -i '/- name: dvr/,/dvr default/c\      - name: dvr\n        description: Channels DVR server to use.\n        choices:\n          - title: '"$CHANNELS_DVR"'\n            value: '"$CHANNELS_DVR"'\n          #lastchoice dvr default' /config/config.yaml
+  sed -i '/- name: dvr/,/dvr default/c\      - name: dvr\n        description: Channels DVR server to use.\n        choices:\n          - title: '"$CHANNELS_DVR"'\n            value: '"$CHANNELS_DVR"'\n          #lastchoice\n        default: '"$CHANNELS_DVR"' #dvr default' /config/config.yaml
 
   dvrs=($CHANNELS_DVR_ALTERNATES)
   for dvr in "${dvrs[@]}"; do
-    sed -i 's/#lastchoice dvr default/- title: '"$dvr"'\n            value: '"$dvr"'\n          #lastchoice dvr default/g' /config/config.yaml
+    sed -i 's/#lastchoice/- title: '"$dvr"'\n            value: '"$dvr"'\n          #lastchoice/g' /config/config.yaml
   done
 }
 
@@ -80,12 +80,36 @@ channelsDvrServers() {
   && substituteDropdown
 }
 
+createMsmtprc() {
+  smtpHost=$(echo "$ALERT_SMTP_SERVER" | awk -F: '{print $1}')
+  smtpPort=$(echo "$ALERT_SMTP_SERVER" | awk -F: '{print $2}')
+
+echo -e "# Set default values for all following accounts.\n \
+  defaults\n \
+  auth           on\n \
+  tls            on\n \
+  tls_trust_file /etc/ssl/certs/ca-certificates.crt\n \
+  logfile        ~/.msmtp.log\n \
+\n \
+# A first SMTP account\n \
+  account        app\n \
+  host           $smtpHost\n \
+  port           $smtpPort\n \
+  from           $ALERT_EMAIL_FROM\n \
+  user           $ALERT_EMAIL_FROM\n \
+  password       $ALERT_EMAIL_PASS\n \
+\n \
+# Set a default account\n \
+  account default : app\n" > /root/.msmtprc
+}
+
 main() {
   cd ~
   checkYamls  
   checkScripts
   killZombies
   loadScriptArguments
+  createMsmtprc
   channelsDvrServers
   mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
   #/usr/bin/OliveTin

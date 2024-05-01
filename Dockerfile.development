@@ -1,8 +1,7 @@
-#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') -f Dockerfile.debian -t bnhf/olivetin:latest -t bnhf/olivetin:2023.12.26 . --push --no-cache
+#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') -f Dockerfile.development -t bnhf/olivetin:development . --push --no-cache
 FROM python:slim-bullseye
 
 ARG OS=linux
-#ARG OT_RELEASE=2023.03.25
 ARG OT_RELEASE=2024.04.09
 ARG OT_URL=https://github.com/OliveTin/OliveTin/releases/download
 #ARG CDVR_RELEASE=2023.11.13.2159

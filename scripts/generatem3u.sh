@@ -71,7 +71,7 @@ outputCollectionM3U() {
     [[ -z $filter ]] && collectionChannelM3U=$(echo "$allChannelsM3U" | jq -r '.[] | select(.GuideNumber == "'"$collectionChannelNumber"'") | "#EXTINF:-1 channel-id=\"\(.GuideNumber)\" tvg-id=\"\(.GuideNumber)\" tvg-chno=\"\(.GuideNumber)\" tvg-logo=\"\(.Logo)\" tvc-guide-stationid=\"\(.Station)\" tvg-name=\"\(.GuideName)\",\(.GuideName)\nhttp://'$dvr'/devices/ANY/channels/\(.GuideNumber)/'$streamURL'"')
     [[ $logos ]] && contentID=$(echo "$allContentUploads" | jq -r --arg number "$collectionChannelNumber" '.[] | select(.Name | test("^" + $number + "\\.(png|jpg)$")).ID') \
       && collectionChannelM3U=$(echo "$allChannelsM3U" | jq -r --arg contentID "$contentID" --arg dvr "$dvr" --arg channelNumber "$collectionChannelNumber" '.[] | select(.GuideNumber == $channelNumber) | "#EXTINF:-1 channel-id=\"\(.GuideNumber)\" tvg-id=\"\(.GuideNumber)\" tvg-chno=\"\(.GuideNumber)\" tvg-logo=\"https://\($dvr)/dvr/uploads/\($contentID)/content\" tvc-guide-stationid=\"\(.Station)\" tvg-name=\"\(.GuideName)\",\(.GuideName)"')
-    [[ -n $collectionChannelM3U ]] && echo -e "$collectionChannelM3U\n" >> $m3uFile
+    [[ -n $collectionChannelM3U ]] && echo -e "$collectionChannelM3U\n" | awk '!seen[$0]++' | tr -s '\n' | sed 's/#EXTINF/\n#EXTINF/g' >> $m3uFile
   done
 
   cat $m3uFile >> $logFile

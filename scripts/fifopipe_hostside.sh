@@ -1,10 +1,11 @@
 #!/bin/bash
 
-echo -e "\nThis script will be terminated from the container side once the OliveTin healthcheck has finished running..."
-
+parentPath="$1"
+  [[ -n $parentPath ]] && export PATH="$parentPath"
 fifoPipe="./fifopipe"
+  [ ! -p "$fifoPipe" ] && mkfifo "$fifoPipe"
 
-[ ! -p "$fifoPipe" ] && mkfifo "$fifoPipe"
+echo -e "\nThis script will be terminated from the container side once the OliveTin healthcheck has finished running..."
 
 finish() {
   rm $fifoPipe
@@ -15,17 +16,12 @@ trap finish EXIT
 while true; do
   if read -r hostCommand < "$fifoPipe"; then
     case "$hostCommand" in
-      "tailscale netcheck")
-        tailscale netcheck > "$fifoPipe"_latest.log 2>&1
-        ;;
-      "tailscale status")
-        tailscale status > "$fifoPipe"_latest.log 2>&1
-        ;;
       "WSL_DISTRO_NAME")
         echo "$WSL_DISTRO_NAME" > "$fifoPipe"_latest.log 2>&1
         ;;
       "LINUX_DISTRO_NAME")
-        cat /etc/os-release > "$fifoPipe"_latest.log 2>&1
+        [ -f "/etc/os-release" ] && cat /etc/os-release > "$fifoPipe"_latest.log 2>&1
+        [ -f "/etc.defaults/VERSION" ] && cat /etc.defaults/VERSION > "$fifoPipe"_latest.log 2>&1
         ;;      
       "resolv.conf")
         cat /etc/resolv.conf > "$fifoPipe"_latest.log 2>&1
@@ -47,6 +43,12 @@ while true; do
         ;;
       "windows_ipconfig")
         cmd.exe /c ipconfig /all > "$fifoPipe"_latest.log 2>&1
+        ;;
+      "tailscale_version")
+        tailscale version > "$fifoPipe"_latest.log 2>&1
+        ;;
+      "windows_tailscale_version")
+        cmd.exe /c tailscale version > "$fifoPipe"_latest.log 2>&1
         ;;
       "END_OF_RUN")
         exit 0

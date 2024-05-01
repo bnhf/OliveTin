@@ -1,24 +1,112 @@
+pageTitle: OliveTin-for-Channels 2024.04.12
+showFooter: true
 actions:
   - title: OliveTin Post-Install Healthcheck
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/healthcheck.sh "{{ dvr }}" "{{ extended_check }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
         description: Channels DVR server to use. #healthcheck dvr description
         default: none #healthcheck dvr default
       - name: extended_check
-        description: Add host healthcheck (requires running ./fifopipe_hostside.sh from host directory bound to /config first!).
+        description: Add host healthcheck (requires running sudo -E ./fifopipe_hostside.sh "$PATH" from host directory bound to /config first!).
         choices:
           - title: Absolutely, let's do it!
             value: true
           - title: Maybe next time.
             value: false
+        default: false
     timeout: 20
+
+  - title: Send Message to Defined Channels Clients
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/notifications.sh "{{ title }}" "{{ message }}" {{ duration }}
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: title
+        type: very_dangerous_raw_string
+        description: Message title to send to all Channels DVR Clients defined in the environment variable CHANNELS_CLIENTS.
+      - name: message
+        type: very_dangerous_raw_string
+        description: Message body.
+      - name: duration
+        type: int
+        description: Message duration in seconds.
+    timeout: 65
+
+  - title: Restart or Shutdown a Channels DVR Server
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/restartshutdown.sh "{{ dvr }}" {{ action }}
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #restartshutdown dvr description
+        default: none #restartshutdown dvr default
+      - name: action
+        description: Force a restart or shutdown of a Channels DVR server. Current recordings or other activities will be terminated!
+        choices:
+          - title: Restart
+            value: force/restart
+          - title: Shutdown
+            value: halt
+    timeout: 30
+
+  - title: Scan/Prune Local Content
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/scanlocalcontent.sh "{{ dvr }}" {{ action }}
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #scanlocalcontent dvr description
+        default: none #scanlocalcontent dvr default
+      - name: action
+        description: Scan or Prune local content.
+        choices:
+          - title: Scan
+            value: scan
+          - title: Prune
+            value: imports/prune
+    timeout: 20
+
+  - title: Ping Channels DVR Server #pingcdvr title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #pingcdvr icon
+    shell: /config/foreground.sh "{{ dvr }}" pingcdvr "{{ interval }}" "{{ healthchecks_io }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #pingcdvr dvr description
+        default: none #pingcdvr dvr default
+      - name: interval
+        type: ascii
+        description: Interval for ping of CDVR server (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: once #pingcdvr interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/your_custom_uuid #pingcdvr healthchecks default
+    timeout: 40
+
+  - title: Find Gracenote Station IDs
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/stationid.sh "{{ dvr }}" "{{ station }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #stationid dvr description
+        default: none #stationid dvr default
+      - name: station
+        type: ascii_sentence
 
   - title: Turn Comskip Off/On by Channel
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/comskipignore.sh "{{ dvr }}" {{ channel }} {{ action }}
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -37,15 +125,139 @@ actions:
   - title: List Channels with Comskip Off
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/listcomskipignore.sh "{{ dvr }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
         description: Channels DVR server to use. #listcomskipignore dvr description
         default: none #listcomskipignore dvr default
 
+  - title: Remove Comskip Markers from a Recording
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/marknocommercials.sh "{{ dvr }}" {{ file_id }}
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #marknocommercials dvr description
+        default: none #marknocommercials dvr default
+      - name: file_id
+        type: int
+        description: The File ID can be found using Library - TV Shows / Movies - <show name> - <episode name> - Options - View Details - File ID.
+    timeout: 20
+
+  - title: Update Comskip Settings Used by Channels DVR
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/comskipini.sh "{{ dvr }}" "{{ mincombreakstartend }}" "{{ alwayskeepfirstsecs }}" "{{ alwayskeeplastsecs }}" "{{ minshowseglength }}" "{{ mincommercialbreak }}" "{{ threadcount }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #comskipini dvr description
+        default: none #comskipini dvr default
+      - name: mincombreakstartend
+        type: very_dangerous_raw_string
+        description: min_commercial_break_at_start_or_end (Comskip Default=39). This setting will be added to the CDVR comskip.ini file.
+        default: default
+      - name: alwayskeepfirstsecs
+        type: very_dangerous_raw_string
+        description: always_keep_first_seconds (Comskip Default=0). This setting will be added to the CDVR comskip.ini file.
+        default: default
+      - name: alwayskeeplastsecs
+        type: very_dangerous_raw_string
+        description: always_keep_last_seconds (Comskip Default=0). This setting will be added to the CDVR comskip.ini file.
+        default: default
+      - name: minshowseglength
+        type: very_dangerous_raw_string
+        description: min_show_segment_length (CDVR Default=222). An override file using the value defined here can be found in Logs-stdout.
+        default: default
+      - name: mincommercialbreak
+        type: very_dangerous_raw_string
+        description: min_commercialbreak (CDVR Default=45). An override file using the value defined here can be found in Logs-stdout.
+        default: default
+      - name: threadcount
+        type: very_dangerous_raw_string
+        description: threadcount (CDVR Default=1). An override file using the value defined here can be found in Logs-stdout.
+        default: default
+
+  - title: Update Commercials Metadata from LosslessCut LLC File
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/llc2metadata.sh "{{ dvr }}" {{ file_id }}
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #llc2metadata dvr description
+        default: none #llc2metadata dvr default
+      - name: file_id
+        type: int
+        description: The File ID can be found using DVR - Manage - <show name> - <episode name> - Options - View Details - File ID.
+
+  - title: Remove Commercials Based on an EDL File
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/edlstrip.sh "{{ dvr }}" "{{ input_path }}" "{{ input_filename }}" "{{ output_path }}" "{{ output_filename }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #edlstrip dvr description
+        default: none #edlstrip dvr default
+      - name: input_path
+        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: input_filename
+        description: Filename of recording to remove commercials from. E.G. Wild (2014) 2023-06-26-1900. The .mpg will be added automaically!
+        type: very_dangerous_raw_string
+      - name: output_path
+        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: output_filename
+        description: MKV file to output with commercials removed. E.G. Movies/Wild (2014). A .mkv will be added automatically!
+        type: very_dangerous_raw_string
+    timeout: 10
+
+  - title: Create EDL File from PlayOn Recording Chapters
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/playonedl.sh "{{ dvr }}" "{{ playon_path }}" "{{ playon_mp4 }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #playonedl dvr description
+        default: none #playonedl dvr default
+      - name: playon_path
+        description: Relative path to Playon recordings, starting after dvr/PlayOn. E.G. TV/The Guardian. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: playon_mp4
+        description: PlayOn MP4 filename to create a matching EDL file. E.G. The Guardian - S1E1 - Pilot.mp4 or *.mp4 for all in path.
+        type: very_dangerous_raw_string
+    timeout: 30
+
+  - title: Create Subtitles (.srt) File from Closed Captions
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/ccextractor.sh "{{ dvr }}" "{{ recording_path }}" "{{ recording_filename }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #ccextractor dvr description
+        default: none #ccextractor dvr default
+      - name: recording_path
+        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
+        type: very_dangerous_raw_string
+        default: Movies
+      - name: recording_filename
+        description: Filename of recording to create matching subtitles file from. E.G. Wild (2014) 2023-06-26-1900.
+        type: very_dangerous_raw_string
+    timeout: 60
+
   - title: Manually Add Recordings
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/manualrecordings.sh "{{ dvr }}" "{{ name }}" {{ channel }} "{{ time }}" {{ duration }} "{{ summary }}" "{{ genres }}" "{{ image }}" {{ type }}
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -83,20 +295,23 @@ actions:
           - title: Movie
             value: movie
 
-  - title: Find Gracenote Station IDs
+  - title: Mark an Episode for Re-Recording
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/stationid.sh "{{ dvr }}" "{{ station }}"
+    shell: /config/markforrerecord.sh "{{ dvr }}" {{ file_id }}
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #stationid dvr description
-        default: none #stationid dvr default
-      - name: station
-        type: ascii_sentence
+        description: Channels DVR server to use. #markforrerecord dvr description
+        default: none #markforrerecord dvr default
+      - name: file_id
+        type: int
+        description: The File ID can be found using Library - TV Shows - <show name> - <episode name> - Options - View Details - File ID.
 
   - title: Fix YouTube Thumbnails #fix_thumbnails title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #fix_thumbnails icon
     shell: /config/foreground.sh "{{ dvr }}" fix_thumbnails "{{ interval }}" "{{ healthchecks_io }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -115,6 +330,7 @@ actions:
   - title: Generate TWiT.tv Guide Data #ical_2_xmltv title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #ical_2_xmltv icon
     shell: /config/foreground.sh "{{ dvr }}" ical_2_xmltv "{{ interval }}" "{{ healthchecks_io }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -133,6 +349,7 @@ actions:
   - title: Create Channels List in CSV Format
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/channels_to_csv.sh "{{ dvr }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -142,44 +359,94 @@ actions:
   - title: Create Movies List in CSV Format
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/cdvr_movie_library_to_csv.sh "{{ dvr }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
         description: Channels DVR server to use. #cdvr_movie_library_to_csv dvr description
         default: none #cdvr_movie_library_to_csv dvr default
 
-  - title: Scan/Prune Local Content
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/scanlocalcontent.sh "{{ dvr }}" {{ action }}
+  - title: Delete Channels DVR Recording Log Files #deletelogs title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #deletelogs icon
+    shell: /config/foreground.sh "{{ dvr }}" deletelogs "{{ interval }}" "{{ healthchecks_io }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #scanlocalcontent dvr description
-        default: none #scanlocalcontent dvr default
-      - name: action
-        description: Scan or Prune local content.
-        choices:
-          - title: Scan
-            value: scan
-          - title: Prune
-            value: imports/prune
+        description: Channels DVR server to use. #deletelogs dvr description
+        default: none #deletelogs dvr default
+      - name: interval
+        type: ascii
+        description: Run/Age interval (followed by d for days!). E.G. 7d = run every 7 days deleting files > 7 days old. 0 to kill existing background process.
+        default: once #deletelogs interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/your_custom_uuid #deletelogs healthchecks default
+    timeout: 40
+
+  - title: Generate Filtered Channels DVR Log
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/logfilter.sh "{{ dvr }}" {{ lines }} "{{ filter }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #/logfilter dvr description
+        default: none #/logfilter dvr default
+      - name: lines
+        type: int
+        default: 100 #logfilter lines default
+        description: Number of log lines to grab.
+      - name: filter
+        type: very_dangerous_raw_string
+        default: none
+        description: Grep filter. Examples [ERR], Face the Nation, 09:38 or whatever. Special characters auto escaped. file://_.grep to load from file.
+
+  - title: E-Mail Log Alerts #logalerts title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #logalerts icon
+    shell: /config/logalerts.sh "{{ dvr }}" "{{ frequency }}" "{{ filter1 }}" "{{ filter2 }}" "{{ filter3 }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #logalerts dvr description
+        default: none #logalerts dvr default
+      - name: frequency
+        type: ascii
+        description: CDVR log check interval (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: 2m #logalerts frequency default
+      - name: filter1
+        type: very_dangerous_raw_string
+        description: First grep filter to apply. Special characters will be escaped automatically. none = not used.
+        default: "[DVR] Error" #logalerts filter1 default
+      - name: filter2
+        type: very_dangerous_raw_string
+        description: Second grep filter to apply. Special characters will be escaped automatically. none = not used.
+        default: none #logalerts filter2 default
+      - name: filter3
+        type: very_dangerous_raw_string
+        description: Third grep filter to apply. Special characters will be escaped automatically. none = not used.
+        default: none #logalerts filter3 default
     timeout: 20
 
-  - title: Mark an Episode for Re-Recording
+  - title: List Sources for a Single Channel
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/markforrerecord.sh "{{ dvr }}" {{ file_id }}
+    shell: /config/channels_to_csv_awk.sh "{{ dvr }}" "{{ channel }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #markforrerecord dvr description
-        default: none #markforrerecord dvr default
-      - name: file_id
-        type: int
-        description: The File ID can be found using Library - TV Shows - <show name> - <episode name> - Options - View Details - File ID.
+        description: Channels DVR server to use. #channels_to_csv_awk dvr description
+        default: none #channels_to_csv_awk dvr default
+      - name: channel
+        type: very_dangerous_raw_string
+        description: Channel name to search for, case insensitive. Wildcard match like hbo.*2 will match HBO2 WEST HD and HBO 2.
 
   - title: Channel Lineup Change Notifications #channels_dvr_monitor_channels title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #channels_dvr_monitor_channels icon
     shell: /config/channels_dvr_monitor_channels.sh "{{ dvr }}" {{ frequency }} {{ email }} "{{ password }}" {{ recipient }} {{ text }}
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
@@ -207,71 +474,84 @@ actions:
         description: (use none for blank) Cell phone number to send a text to in the format - <10 digits>@<SMS gateway>.
     timeout: 4
 
-  - title: Generate Filtered Channels DVR Log
+  - title: Generate a Channels DVR M3U Playlist
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/logfilter.sh "{{ dvr }}" {{ lines }} "{{ filter }}"
+    shell: /config/generatem3u.sh "{{ dvr }}" "{{ source }}" "{{ collection }}" "{{ bitrate }}" "{{ filter }}" "{{ format }}" "{{ abr }}" "{{ duration }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #/logfilter dvr description
-        default: none #/logfilter dvr default
-      - name: lines
-        type: int
-        default: 100 #logfilter lines default
-        description: Number of log lines to grab.
+        description: Channels DVR server to use. #generatem3u dvr description
+        default: none #generatem3u dvr default
+      - name: source
+        type: very_dangerous_raw_string
+        description: Use ANY for all sources, or use source name in parens from http://dvr:port/admin/settings/sources
+        default: ANY
+      - name: collection
+        type: very_dangerous_raw_string
+        description: none = default of not limiting M3U to a single Channel Collection. Source should be ANY when using a Collection name.
+        default: none
+      - name: bitrate
+        type: very_dangerous_raw_string
+        description: none = default defined in WebUI. x000 = define bitrate in Kbps. copy = remux only.
+        default: none
       - name: filter
         type: very_dangerous_raw_string
+        description: none = default of all channels, hd = HD channels only, favorites = Favorites only, logos = Custom logos only.
         default: none
-        description: Grep filter. Examples [ERR], Face the Nation, 09:38 or whatever. Special characters auto escaped. file://_.grep to load from file.
+      - name: format
+        type: very_dangerous_raw_string
+        description: hls = default streaming format, ts = MPEG-TS (not as robust as hls).
+        default: hls
+      - name: abr
+        type: ascii
+        description: Adaptive Bitrate. true = default, false = turn off.
+        default: "true"
+      - name: duration
+        type: ascii
+        description: Optional URL for guide data. Amount of guide data desired in seconds. 604800 = 1 week.
+        default: none
+    timeout: 180
 
-  - title: List Sources for a Single Channel
+  - title: Generate Plex Token for Use with Plex M3U
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/channels_to_csv_awk.sh "{{ dvr }}" "{{ channel }}"
+    shell: /config/plextoken.sh "{{ dvr }}" "{{ user_id }}" "{{ password }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #channels_to_csv_awk dvr description
-        default: none #channels_to_csv_awk dvr default
-      - name: channel
+        description: Channels DVR server to use. #plextoken dvr description
+        default: none #plextoken dvr default
+      - name: user_id
         type: very_dangerous_raw_string
-        description: Channel name to search for, case insensitive. Wildcard match like hbo.*2 will match HBO2 WEST HD and HBO 2.
+        description: Your Plex User ID. Usually the email address you used for Plex.
+      - name: password
+        type: very_dangerous_raw_string
+        description: Your Plex password.
 
-  - title: Delete Channels DVR Recording Log Files #deletelogs title
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #deletelogs icon
-    shell: /config/foreground.sh "{{ dvr }}" deletelogs "{{ interval }}" "{{ healthchecks_io }}"
+  - title: Generate Plex M3U & XML w/Plex Token #plexiptv title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #plexiptv icon
+    shell: /config/foreground.sh "{{ dvr }}" plexiptv "{{ interval }}" "{{ healthchecks_io }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #deletelogs dvr description
-        default: none #deletelogs dvr default
+        description: Channels DVR server to use. #plexiptv dvr description
+        default: none #plexiptv dvr default
       - name: interval
         type: ascii
-        description: Run/Age interval (followed by d for days!). E.G. 7d = run every 7 days deleting files > 7 days old. 0 to kill existing background process.
-        default: once #deletelogs interval default
+        description: Plex M3U/XML download interval (with m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: once #plexiptv interval default
       - name: healthchecks_io
         type: url
         description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
-        default: https://hc-ping.com/your_custom_uuid #deletelogs healthchecks default
-    timeout: 40
-
-  - title: Send Message to Defined Channels Clients
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/notifications.sh "{{ title }}" "{{ message }}" {{ duration }}
-    arguments:
-      - name: title
-        type: very_dangerous_raw_string
-        description: Message title to send to all Channels DVR Clients defined in the environment variable CHANNELS_CLIENTS.
-      - name: message
-        type: very_dangerous_raw_string
-        description: Message body.
-      - name: duration
-        type: int
-        description: Message duration in seconds.
-    timeout: 65
+        default: https://hc-ping.com/your_custom_uuid #plexiptv healthchecks default
+    timeout: 20
 
   - title: Docker-Compose Examples for CDVR & Related Extensions
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/dockercompose.sh {{ project }}
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: project
         description: Project name for the Channels extension for which you'd like a Docker-Compose Example.
@@ -319,225 +599,778 @@ actions:
           - title: Watchtower (for bulk container updating)
             value: watchtower
 
-  - title: Remove Comskip Markers from a Recording
+  - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/marknocommercials.sh "{{ dvr }}" {{ file_id }}
+    shell: /config/adbtuner.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ HOST_VOLUME }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #marknocommercials dvr description
-        default: none #marknocommercials dvr default
-      - name: file_id
+        description: Channels DVR server to use. #adbtuner dvr description
+        default: none #adbtuner dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: HOST_PORT
         type: int
-        description: The File ID can be found using Library - TV Shows / Movies - <show name> - <episode name> - Options - View Details - File ID.
-    timeout: 20
-
-  - title: Restart or Shutdown a Channels DVR Server
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/restartshutdown.sh "{{ dvr }}" {{ action }}
-    arguments:
-      - name: dvr
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5592
+      - name: HOST_VOLUME
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #restartshutdown dvr description
-        default: none #restartshutdown dvr default
-      - name: action
-        description: Force a restart or shutdown of a Channels DVR server. Current recordings or other activities will be terminated!
-        choices:
-          - title: Restart
-            value: force/restart
-          - title: Shutdown
-            value: halt
-    timeout: 30
-
-  - title: Ping Channels DVR Server #pingcdvr title
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #pingcdvr icon
-    shell: /config/foreground.sh "{{ dvr }}" pingcdvr "{{ interval }}" "{{ healthchecks_io }}"
-    arguments:
-      - name: dvr
+        description: The filename you'd like Docker to use for the volume.
+        default: adbtuner_config
+      - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #pingcdvr dvr description
-        default: none #pingcdvr dvr default
-      - name: interval
-        type: ascii
-        description: Interval for ping of CDVR server (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
-        default: once #pingcdvr interval default
-      - name: healthchecks_io
-        type: url
-        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
-        default: https://hc-ping.com/your_custom_uuid #pingcdvr healthchecks default
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
     timeout: 40
 
-  - title: Generate a Channels DVR M3U Playlist
+  - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/generatem3u.sh "{{ dvr }}" "{{ source }}" "{{ collection }}" "{{ bitrate }}" "{{ filter }}" "{{ format }}" "{{ abr }}" "{{ duration }}"
+    shell: /config/ah4c.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ ADBS_PORT }}" "{{ HOST_PORT }}" "{{ SCRC_PORT }}" "{{ IPADDRESS }}" "{{ NUMBER_TUNERS }}" "{{ TUNER1_IP }}" "{{ ENCODER1_URL }}" "{{ TUNER2_IP }}" "{{ ENCODER2_URL }}" "{{ TUNER3_IP }}" "{{ ENCODER3_URL }}" "{{ TUNER4_IP }}" "{{ ENCODER4_URL }}" "{{ STREAMER_APP }}" "{{ CHANNELSIP }}" "{{ ALERT_SMTP_SERVER }}" "{{ ALERT_AUTH_SERVER }}" "{{ ALERT_EMAIL_FROM }}" "{{ ALERT_EMAIL_PASS }}" "{{ ALERT_EMAIL_TO }}" "{{ LIVETV_ATTEMPTS }}" "{{ CREATE_M3US }}" "{{ UPDATE_SCRIPTS }}" "{{ UPDATE_M3US }}" "{{ TZ }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}" "{{ CDVR_M3U_NAME}}"
+    popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #generatem3u dvr description
-        default: none #generatem3u dvr default
-      - name: source
+        description: Channels DVR server to use. #ah4c dvr description
+        default: none #ah4c dvr default
+      - name: TAG
         type: very_dangerous_raw_string
-        description: Use ANY for all sources, or use source name in parens from http://dvr:port/admin/settings/sources
-        default: ANY
-      - name: collection
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
         type: very_dangerous_raw_string
-        description: none = default of not limiting M3U to a single Channel Collection. Source should be ANY when using a Collection name.
-        default: none
-      - name: bitrate
-        type: very_dangerous_raw_string
-        description: none = default defined in WebUI. x000 = define bitrate in Kbps. copy = remux only.
-        default: none
-      - name: filter
-        type: very_dangerous_raw_string
-        description: none = default of all channels, hd = HD channels only, favorites = Favorites only, logos = Custom logos only.
-        default: none
-      - name: format
-        type: very_dangerous_raw_string
-        description: hls = default streaming format, ts = MPEG-TS (not as robust as hls).
-        default: hls
-      - name: abr
-        type: ascii
-        description: Adaptive Bitrate. true = default, false = turn off.
-        default: "true"
-      - name: duration
-        type: ascii
-        description: Optional URL for guide data. Amount of guide data desired in seconds. 604800 = 1 week.
-        default: none
-    timeout: 180
-
-  - title: Remove Commercials Based on an EDL File
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/edlstrip.sh "{{ dvr }}" "{{ input_path }}" "{{ input_filename }}" "{{ output_path }}" "{{ output_filename }}"
-    arguments:
-      - name: dvr
-        type: very_dangerous_raw_string
-        description: Channels DVR server to use. #edlstrip dvr description
-        default: none #edlstrip dvr default
-      - name: input_path
-        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
-        type: very_dangerous_raw_string
-        default: Movies
-      - name: input_filename
-        description: Filename of recording to remove commercials from. E.G. Wild (2014) 2023-06-26-1900. The .mpg will be added automaically!
-        type: very_dangerous_raw_string
-      - name: output_path
-        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
-        type: very_dangerous_raw_string
-        default: Movies
-      - name: output_filename
-        description: MKV file to output with commercials removed. E.G. Movies/Wild (2014). A .mkv will be added automatically!
-        type: very_dangerous_raw_string
-    timeout: 10
-
-  - title: Create EDL File from PlayOn Recording Chapters
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/playonedl.sh "{{ dvr }}" "{{ playon_path }}" "{{ playon_mp4 }}"
-    arguments:
-      - name: dvr
-        type: very_dangerous_raw_string
-        description: Channels DVR server to use. #playonedl dvr description
-        default: none #playonedl dvr default
-      - name: playon_path
-        description: Relative path to Playon recordings, starting after dvr/PlayOn. E.G. TV/The Guardian. No leading or trailing "/" characters.
-        type: very_dangerous_raw_string
-        default: Movies
-      - name: playon_mp4
-        description: PlayOn MP4 filename to create a matching EDL file. E.G. The Guardian - S1E1 - Pilot.mp4 or *.mp4 for all in path.
-        type: very_dangerous_raw_string
-    timeout: 30
-
-  - title: Create Subtitles (.srt) File from Closed Captions
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/ccextractor.sh "{{ dvr }}" "{{ recording_path }}" "{{ recording_filename }}"
-    arguments:
-      - name: dvr
-        type: very_dangerous_raw_string
-        description: Channels DVR server to use. #ccextractor dvr description
-        default: none #ccextractor dvr default
-      - name: recording_path
-        description: Path to recording relative to your mounted "dvr" path. E.G. TV/The Closer or Movies. No leading or trailing "/" characters.
-        type: very_dangerous_raw_string
-        default: Movies
-      - name: recording_filename
-        description: Filename of recording to create matching subtitles file from. E.G. Wild (2014) 2023-06-26-1900.
-        type: very_dangerous_raw_string
-    timeout: 60
-
-  - title: Update Commercials Metadata from LosslessCut LLC File
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/llc2metadata.sh "{{ dvr }}" {{ file_id }}
-    arguments:
-      - name: dvr
-        type: very_dangerous_raw_string
-        description: Channels DVR server to use. #llc2metadata dvr description
-        default: none #llc2metadata dvr default
-      - name: file_id
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: ADBS_PORT
         type: int
-        description: The File ID can be found using DVR - Manage - <show name> - <episode name> - Options - View Details - File ID.
-
-
-  - title: Update Comskip Settings Used by Channels DVR
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/comskipini.sh "{{ dvr }}" "{{ min_commercial_break_at_start_or_end }}" "{{ always_keep_first_seconds }}" "{{ always_keep_last_seconds }}" "{{ min_show_segment_length }}" "{{ min_commercialbreak }}" "{{ thread_count }}"
-    arguments:
-      - name: dvr
+        description: Use the recommended port number for the ADB Server, or optionally change it if the port is already in use on your host.
+        default: 5037
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number for ah4c, or optionally change it if the port is already in use on your host.
+        default: 7654
+      - name: SCRC_PORT
+        type: int
+        description: Use the recommended port number for ws-scrcpy, or optionally change it if the port is already in use on your host.
+        default: 7655
+      - name: IPADDRESS
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #comskipini dvr description
-        default: none #comskipini dvr default
-      - name: min_commercial_break_at_start_or_end
+        description: Hostname or IP address of this ah4c extension to be used in M3U file (also add port number if not in M3U).
+        default: htpc6:7654
+      - name: NUMBER_TUNERS
+        type: int
+        description: Number of tuners you'd like defined 1, 2, 3 or 4 supported.
+        default: 2
+      - name: TUNER1_IP
         type: very_dangerous_raw_string
-        description: Comskip Default=39. This setting will be added to the CDVR comskip.ini file.
-        default: default
-      - name: always_keep_first_seconds
+        description: "Streaming device #1 with adb port in the form hostname:port or ip:port. Required."
+        default: firestick-rack1:5555
+      - name: ENCODER1_URL
         type: very_dangerous_raw_string
-        description: Comskip Default=0. This setting will be added to the CDVR comskip.ini file.
-        default: default
-      - name: always_keep_last_seconds
+        description: "Full URL for tuner #1 in the form http://hostname/stream or http://ip/stream. Required."
+        default: http://encoder_48007/0.ts
+      - name: TUNER2_IP
         type: very_dangerous_raw_string
-        description: Comskip Default=0. This setting will be added to the CDVR comskip.ini file.
-        default: default
-      - name: min_show_segment_length
+        description: "Streaming device #2 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: firestick-rack2:5555
+      - name: ENCODER2_URL
         type: very_dangerous_raw_string
-        description: CDVR Default=222. An override file using the value defined here can be found in Logs-stdout.
-        default: default
-      - name: min_commercialbreak
+        description: "Full URL for tuner #2 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: http://encoder_48007/4.ts
+      - name: TUNER3_IP
         type: very_dangerous_raw_string
-        description: CDVR Default=45. An override file using the value defined here can be found in Logs-stdout.
-        default: default
-      - name: thread_count
+        description: "Streaming device #3 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: "#"
+      - name: ENCODER3_URL
         type: very_dangerous_raw_string
-        description: CDVR Default=1. An override file using the value defined here can be found in Logs-stdout.
-        default: default
-
-  - title: Generate Plex Token for Use with Plex M3U
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/plextoken.sh "{{ dvr }}" "{{ user_id }}" "{{ password }}"
-    arguments:
-      - name: dvr
+        description: "Full URL for tuner #3 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: "#"
+      - name: TUNER4_IP
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #plextoken dvr description
-        default: none #plextoken dvr default
-      - name: user_id
+        description: "Streaming device #4 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: "#"
+      - name: ENCODER4_URL
         type: very_dangerous_raw_string
-        description: Your Plex User ID. Usually the email address you used for Plex.
-      - name: password
+        description: "Full URL for tuner #4 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: "#"
+      - name: STREAMER_APP
         type: very_dangerous_raw_string
-        description: Your Plex password.
-
-  - title: Generate Plex M3U & XML w/Plex Token #plexiptv title
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #plexiptv icon
-    shell: /config/foreground.sh "{{ dvr }}" plexiptv "{{ interval }}" "{{ healthchecks_io }}"
-    arguments:
-      - name: dvr
+        description: Streaming device name and streaming app you're using in the form scripts/streamer/app.
+        default: scripts/firetv/directv
+      - name: CHANNELSIP
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #plexiptv dvr description
-        default: none #plexiptv dvr default
-      - name: interval
+        description: Hostname or IP address of the Channels DVR server itself.
+        default: media-server6
+      - name: ALERT_SMTP_SERVER
+        type: very_dangerous_raw_string
+        description: "The domainname:port of the SMTP server you'll be using. This is for sending ah4c alerts if tuning fails. Use # for none."
+        default: smtp.gmail.com:587
+      - name: ALERT_AUTH_SERVER
+        type: very_dangerous_raw_string
+        description: "The auth server for the e-mail you'll be using like smtp.gmail.com. Use # for none."
+        default: smtp.gmail.com
+      - name: ALERT_EMAIL_FROM
+        type: very_dangerous_raw_string
+        description: "The e-mail address you'd like your ah4c failure alert e-mails to show as being from. Use # for none."
+        default: xxxxxxxxxx@gmail.com
+      - name: ALERT_EMAIL_PASS
+        type: very_dangerous_raw_string
+        description: "Gmail and Yahoo both support the creation of app-specific e-mail passwords, and this is the way to go! Use # for none."
+        default: xxxxxxxxxxxxxxxx
+      - name: ALERT_EMAIL_TO
+        type: very_dangerous_raw_string
+        description: "The e-mail address you'd like your alert e-mails sent to. Use # for none."
+        default: xxxxxxxxxx@gmail.com
+      - name: LIVETV_ATTEMPTS
+        type: int
+        description: For FireTV Live Guide tuning only, set maximum number of attempts at finding the desired channel.
+        default: 45
+      - name: CREATE_M3US
         type: ascii
-        description: Plex M3U/XML download interval (with m for minutes or h for hours). once for single run. 0 to kill existing background process.
-        default: once #plexiptv interval default
-      - name: healthchecks_io
-        type: url
-        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
-        default: https://hc-ping.com/your_custom_uuid #plexiptv healthchecks default
-    timeout: 20
+        description: Set to true to create device-specific M3Us for use with Amazon Prime Premium channels -- requires a FireTV device.
+        default: "false"
+      - name: UPDATE_SCRIPTS
+        type: ascii
+        description: Set to true if you'd like the sample scripts and STREAMER_APP scripts updated whether they exist of not.
+        default: "true"
+      - name: UPDATE_M3US
+        type: ascii
+        description: Set to true if you'd like the sample m3us updated whether they exist of not.
+        default: "true"
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directories will be ah4c/scripts, ah4c/m3us, ah4c/adb.
+        default: /data
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+      - name: CDVR_M3U_NAME
+        type: very_dangerous_raw_string
+        description: Name of the M3U file you'd like to use for CDVR Custom Channels. Examples include directv.m3u, dtvstream.m3u, livetv.m3u.
+        default: directv.m3u
+    timeout: 40
+
+  - title: Create a Chrome-Capture-for-Channels Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/cc4c.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ HOST_VNC_PORT }}" "{{ VIDEO }}" "{{ AUDIO }}" "{{ TZ }}" "{{ HOST_VOLUME }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #cc4c dvr description
+        default: none #cc4c dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5589
+      - name: HOST_VNC_PORT
+        type: int
+        description: VNC port for entering credentials.
+        default: 5900
+      - name: VIDEO
+        type: int
+        description: Desired video streaming rate in bps.
+        default: 9500000
+      - name: AUDIO
+        type: int
+        description: Desired audio streaming rate in bps.
+        default: 192000
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Add your timezone in the Environment variables section with "name" set to TZ and "value" to your local timezone.
+        default: US/Mountain
+      - name: HOST_VOLUME
+        type: very_dangerous_raw_string
+        description: The filename you'd like Docker to use for the volume.
+        default: cc4c_config
+    timeout: 40
+
+  - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/eplustv.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ START_CHANNEL }}" "{{ NUM_OF_CHANNELS }}" "{{ PROXY_SEGMENTS }}" "{{ PUID }}" "{{ PGID }}" "{{ PORT }}" "{{ ESPNPLUS }}" "{{ ESPN }}" "{{ ESPN2 }}" "{{ ESPN3 }}" "{{ ESPNU }}" "{{ SEC }}" "{{ SECPLUS }}" "{{ ACCN }}" "{{ ACCNX }}" "{{ LONGHORN }}" "{{ ESPNEWS }}" "{{ ESPN_PPV }}" "{{ FOXSPORTS }}" "{{ FS_REPLAYS }}" "{{ MAX_RESOLUTION }}" "{{ FOX_ONLY_4K }}" "{{ PARAMOUNTPLUS }}" "{{ MLBTV }}" "{{ MLBTV_USER }}" "{{ MLBTV_PASS }}" "{{ MLBTV_ONLY_FREE }}" "{{ MSGPLUS }}" "{{ MSGPLUS_USER }}" "{{ MSGPLUS_PASS }}" "{{ HOST_VOLUME }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #eplustv dvr description
+        default: none #eplustv dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8185
+      - name: START_CHANNEL
+        type: int
+        description: What the first channel number should be.
+        default: 1
+      - name: NUM_OF_CHANNELS
+        type: int
+        description: How many channels to create? This is dependent on the networks you are using.
+        default: 150
+      - name: PROXY_SEGMENTS
+        type: ascii
+        description: Proxy keyed *.ts files.
+        default: "false"
+      - name: PUID
+        type: int
+        description: Current user ID. Use if you have permission issues. Needs to be combined with PGID.
+        default: 1000
+      - name: PGID
+        type: int
+        description: Current group ID. Use if you have permission issues. Needs to be combined with PUID.
+        default: 1000
+      - name: PORT
+        type: int
+        description: Port the API will be served on. You can set this if it conflicts with another service in your environment.
+        default: 8000
+      - name: ESPNPLUS
+        type: ascii
+        description: Set to false if you only want events that come from your TV provider.
+        default: "true"
+      - name: ESPN
+        type: ascii
+        description: ESPN - Set if your TV provider supports it.
+        default: "false"
+      - name: ESPN2
+        type: ascii
+        description: ESPN2 - Set if your TV provider supports it.
+        default: "false"
+      - name: ESPN3
+        type: ascii
+        description: ESPN3 - Set if your TV provider supports it.
+        default: "false"
+      - name: ESPNU
+        type: ascii
+        description: ESPNU - Set if your TV provider supports it.
+        default: "false"
+      - name: SEC
+        type: ascii
+        description: SEC Network - Set if your TV provider supports it.
+        default: "false"
+      - name: SECPLUS
+        type: ascii
+        description: SEC Network+ - Set if your TV provider supports it.
+        default: "false"
+      - name: ACCN
+        type: ascii
+        description: ACCN - Set if your TV provider supports it.
+        default: "false"
+      - name: ACCNX
+        type: ascii
+        description: ACCNX - Set if your TV provider supports it.
+        default: "false"
+      - name: LONGHORN
+        type: ascii
+        description: Longhorn Network - Set if your TV provider supports it.
+        default: "false"
+      - name: ESPNEWS
+        type: ascii
+        description: ESPNews - Set if your TV provider supports it.
+        default: "false"
+      - name: ESPN_PPV
+        type: ascii
+        description: PPV - Set if your TV provider supports it.
+        default: "false"
+      - name: FOXSPORTS
+        type: ascii
+        description: Set if your TV provider supports it.
+        default: "false"
+      - name: FS_REPLAYS
+        type: ascii
+        description: If you would like to schedule Fox Sports events that aren't live.
+        default: "false"
+      - name: MAX_RESOLUTION
+        type: very_dangerous_raw_string
+        description: Max resolution to use. Valid options are UHD/HDR, UHD/SDR, 1080p, 720p, and 540p
+        default: UHD/SDR
+      - name: FOX_ONLY_4K
+        type: ascii
+        description: Only grab 4K events.
+        default: "false"
+      - name: PARAMOUNTPLUS
+        type: ascii
+        description: Set if you would like CBS Sports events.
+        default: "false"
+      - name: MLBTV
+        type: ascii
+        description: Set if you would like to use MLB.tv.
+        default: "false"
+      - name: MLBTV_USER
+        type: ascii
+        description: MLB.tv Username.
+        default: "false"
+      - name: MLBTV_PASS
+        type: ascii
+        description: MLB.tv Password.
+        default: "false"
+      - name: MLBTV_ONLY_FREE
+        type: ascii
+        description: Only schedule free games.
+        default: "false"
+      - name: MSGPLUS
+        type: ascii
+        description: Set if you would like to use MSG+.
+        default: "false"
+      - name: MSGPLUS_USER
+        type: very_dangerous_raw_string
+        description: MSG+ Username.
+        default: username@email.com
+      - name: MSGPLUS_PASS
+        type: very_dangerous_raw_string
+        description: MSG+ Password.
+        default: password
+      - name: HOST_VOLUME
+        type: very_dangerous_raw_string
+        description: The filename you'd like Docker to use for the volume.
+        default: eplustv_config
+    timeout: 40
+
+  - title: Create a FileBot Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/filebot.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ DARK_MODE }}" "{{ HOST_DIR }}" "{{ DVR_SHARE }}" "{{ VOL_EXTERNAL }}" "{{ VOL_NAME }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5800
+      - name: DARK_MODE
+        type: int
+        description: When set to 1, dark mode is enabled for the application.
+        default: 1
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directory will be filebot.
+        default: /data
+      - name: DVR_SHARE
+        type: very_dangerous_raw_string
+        description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
+        default: /mnt/dvr
+      - name: VOL_EXTERNAL
+        type: very_dangerous_raw_string
+        description: "If the Docker Volume was created and managed separately to this stack -- set to true. Use # for none."
+        default: "#"
+      - name: VOL_NAME
+        type: very_dangerous_raw_string
+        description: "If your Docker-Volume doesn't already exist, you can specify the real name to be used in the filesystem. Use # for none."
+        default: "#"        
+    timeout: 40
+
+  - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/frndlytv-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ IP }}" "{{ USERNAME }}" "{{ PASSWORD }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #frndlytv dvr description
+        default: none #frndlytv dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8183
+      - name: IP
+        type: very_dangerous_raw_string
+        description: "For Geo-locating FrndlyTV to a different area. Use # for none."
+        default: "#"
+      - name: USERNAME
+        type: very_dangerous_raw_string
+        description: FrndlyTV username (the email you used to sign-up)      
+        default: username@email.com
+      - name: PASSWORD
+        type: very_dangerous_raw_string
+        description: FrndlyTV password (the password you chose when you signed-up)
+        default: password
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create a MediaInfo Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/mediainfo.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ DARK_MODE }}" "{{ HOST_DIR }}" "{{ DVR_SHARE }}" "{{ VOL_EXTERNAL }}" "{{ VOL_NAME }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5801
+      - name: DARK_MODE
+        type: int
+        description: When set to 1, dark mode is enabled for the application.
+        default: 1
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directory will be mediainfo.
+        default: /data
+      - name: DVR_SHARE
+        type: very_dangerous_raw_string
+        description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
+        default: /mnt/dvr
+      - name: VOL_EXTERNAL
+        type: very_dangerous_raw_string
+        description: "If the Docker Volume was created and managed separately to this stack -- set to true. Use # for none."
+        default: "#"
+      - name: VOL_NAME
+        type: very_dangerous_raw_string
+        description: "If your Docker-Volume doesn't already exist, you can specify the real name to be used in the filesystem. Use # for none."
+        default: "#"        
+    timeout: 40
+
+  - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/mlb.tv-for-channels.sh "{{ $dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ APP_URL }}" "{{ LOG_LEVEL }}" "{{ MLB_USERNAME }}" "{{ MLB_PASSWORD }}" "{{ MLB_BITRATE }}" "{{ MLB_START_CHAN }}" "{{ MLB_TEAM_ORDER }}" "{{ MLB_TIMEZONE }}" "{{ MLB_SHOW_TV }}" "{{ MLB_SHOW_RADIO }}" "{{ HOST_VOL_APP }}" "{{ HOST_VOL_LOGS }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #mlb.tv-for-channels dvr description
+        default: none #mlb.tv-for-channels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8080
+      - name: APP_URL
+        type: very_dangerous_raw_string
+        description: required environment var is APP_URL, which needs to be set to your server's IP and port 8080.
+        default: http://server.ip.goes.here:8080
+      - name: LOG_LEVEL
+        type: ascii
+        description: defines how much information the logs will show. i would set this to warning initially to avoid a huge log file.
+        default: warning
+      - name: MLB_USERNAME
+        type: very_dangerous_raw_string
+        description: Your MLB.tv username.
+        default: username@email.com
+      - name: MLB_PASSWORD
+        type: very_dangerous_raw_string
+        description: Your MLB.tv password.
+        default: password
+      - name: MLB_BITRATE
+        type: int
+        description: the default bitrate / video quality, defaults to 720p @ 60 fps (5600).
+        default: 5600
+      - name: MLB_START_CHAN
+        type: int
+        description: the first channel in the playlist (i.e. the channel number where your MLB section will start in the guide).
+        default: 777
+      - name: MLB_TEAM_ORDER
+        type: very_dangerous_raw_string
+        description: the order you want the teams to appear in the guide.
+        default: NYM,SDP,PIT,LAA,ATL,MIA,PHI,WAS,CHC,CIN,MIL,STL,ARI,COL,LAD,SFG,BAL,BOS,NYY,TBR,TOR,CWS,CLE,DET,KCR,MIN,HOU,OAK,SEA,TEX,MLB
+      - name: MLB_TIMEZONE
+        type: very_dangerous_raw_string
+        description: if you don't specify a timezone here, the app will default to UTC.
+        default: America/Los_Angeles
+      - name: MLB_SHOW_TV
+        type: ascii
+        description: can be set to true or false to turn the TV and/or radio feeds on or off.
+        default: "true"
+      - name: MLB_SHOW_RADIO
+        type: ascii
+        description: can be set to true or false to turn the TV and/or radio feeds on or off.
+        default: "false"
+      - name: HOST_VOL_APP
+        type: very_dangerous_raw_string
+        description: The real filename you'd like Docker to use for this volume.
+        default: MLBTV_APP
+      - name: HOST_VOL_LOGS
+        type: very_dangerous_raw_string
+        description: The real filename you'd like Docker to use for this volume.
+        default: MLBTV_LOGS
+    timeout: 40
+
+  - title: Create an Organizr Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/organizr.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ TZ }}" "{{ HOST_DIR }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 80
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directories will be organizr.
+        default: /data
+    timeout: 40
+
+  - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/plex-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ PLEX_PORT }}" "{{ PLEX_CODE }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #plex-for-channels dvr description
+        default: none #plex-for-channels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 7779
+      - name: PLEX_PORT
+        type: int
+        description: Change the port this container uses internally.      
+        default: 7777
+      - name: PLEX_CODE
+        type: very_dangerous_raw_string
+        description: M3U channel options. 500+ channels each. Startup build ~5 mins. (us_east,us_west,local,ca,uk,nz,au,mx,es).
+        default: local
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 300
+
+  - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/pluto-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ PLUTO_PORT }}" "{{ PLUTO_CODE }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #pluto-for-channels dvr description
+        default: none #pluto-for-channels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 7780
+      - name: PLUTO_PORT
+        type: int
+        description: Change the port this container uses internally.      
+        default: 7777
+      - name: PLUTO_CODE
+        type: very_dangerous_raw_string
+        description: What country streams will be hosted. Multiple can be hosted using comma separation.
+        default: local,us_west,us_east,ca,uk
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/samsung-tvplus-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #samsung-tvplus-for-channels dvr description
+        default: none #samsung-tvplus-for-channels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8182
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/stirr-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #stirr-for-channels dvr description
+        default: none #stirr-for-channels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8181
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+    
+  - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/tubi-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TUBI_PORT }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #tubi-for-channels dvr description
+        default: none #tubi-for-channels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 7778
+      - name: TUBI_PORT
+        type: int
+        description: Change the port this container uses internally.      
+        default: 7777
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/vlc-bridge-fubo.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ FUBO_USER }}" "{{ FUBO_PASS }}" "{{ HOST_VOLUME }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #vlc-bridge-fubo dvr description
+        default: none #vlc-bridge-fubo dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 7777
+      - name: FUBO_USER
+        type: very_dangerous_raw_string
+        description: Fubo username (the email you used to sign-up)      
+        default: username@email.com
+      - name: FUBO_PASS
+        type: very_dangerous_raw_string
+        description: Fubo password (the password you chose when you signed-up)
+        default: password
+      - name: HOST_VOLUME
+        type: very_dangerous_raw_string
+        description: The filename you'd like Docker to use for the volume.      
+        default: vlc-bridge-fubo_config
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/vlc-bridge-pbs.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TZ }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #vlc-bridge-pbs dvr description
+        default: none #vlc-bridge-pbs dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 7777
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create a Watchtower Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/watchtower.sh "{{ TAG }}" "{{ WT_RUN_ONCE }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: WT_RUN_ONCE
+        type: very_dangerous_raw_string
+        description: Set to true if you'd like Watchtower to only run on demand. (Recommended)
+        default: "true"
+    timeout: 40
+
+dashboards:
+  - title: Project One-Click
+    contents:
+      - title: Project One-Click
+        type: fieldset
+        contents:
+        - title: Docker-Compose Examples for CDVR & Related Extensions
+        - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
+        - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
+        - title: Create a Chrome-Capture-for-Channels Stack in Portainer
+        - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
+        - title: Create a FileBot Stack in Portainer
+        - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a MediaInfo Stack in Portainer
+        - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create an Organizr Stack in Portainer
+        - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
+        - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
+        - title: Create a Watchtower Stack in Portainer

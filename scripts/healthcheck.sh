@@ -11,7 +11,8 @@ logFile=/config/"$channelsHost"-"$channelsPort"_healthcheck-olivetin_latest.log
 healthcheck="/config/fifopipe_containerside.sh"
 
 containerHealthcheck() {
-  echo -e "Checking your OliveTin installation...\n" > $logFile
+  echo -e "Checking your OliveTin installation..." > $logFile
+  [[ $hostHealthcheck ]] && echo -e "(extended_check=true)\n" >> $logFile || echo -e "(extended_check=false)\n" >> $logFile
 
   echo -e "----------------------------------------\n" >> $logFile
 
@@ -28,12 +29,25 @@ containerHealthcheck() {
 
   echo -e "\n----------------------------------------\n" >> $logFile
 
+  echo -e "Checking that your selected Channels DVR server's log files (/mnt/"$channelsHost"-"$channelsPort"_logs) are accessible:" >> $logFile
+  echo -e "Folders with the names data and latest should be visible...\n" >> $logFile
+  ls -la /mnt/"$channelsHost"-"$channelsPort"_logs  >> $logFile
+
+  echo -e "\n----------------------------------------\n" >> $logFile
+
   echo -e "Here's a list of your current OliveTin-related settings:\n" >> $logFile
+  echo "HOSTNAME=$HOSTNAME" >> $logFile
   echo "CHANNELS_DVR=$CHANNELS_DVR" >> $logFile
   echo "CHANNELS_DVR_ALTERNATES=$CHANNELS_DVR_ALTERNATES" >> $logFile
   echo "CHANNELS_CLIENTS=$CHANNELS_CLIENTS" >> $logFile
+  echo "ALERT_SMTP_SERVER=$ALERT_SMTP_SERVER" >> $logFile
+  echo "$ALERT_EMAIL_FROM" | awk -F@ '{print "ALERT_EMAIL_FROM=[Redacted]@" $2}' >> $logFile
+  [[ ALERT_EMAIL_PASS ]] && echo "ALERT_EMAIL_PASS=[Redacted]" >> $logFile
+  echo "$ALERT_EMAIL_TO" | awk -F@ '{print "ALERT_EMAIL_TO=[Redacted]@" $2}' >> $logFile
   echo "UPDATE_YAMLS=$UPDATE_YAMLS" >> $logFile
   echo "UPDATE_SCRIPTS=$UPDATE_SCRIPTS" >> $logFile
+  [[ $PORTAINER_TOKEN ]] && echo "PORTAINER_TOKEN=[Redacted]" >> $logFile
+  echo "PORTAINER_HOST=$PORTAINER_HOST" >> $logFile
 
   echo -e "\n----------------------------------------\n" >> $logFile
 
@@ -48,7 +62,8 @@ containerHealthcheck() {
 
 determineHostOS() {
   wsl=$($healthcheck WSL_DISTRO_NAME)
-  [[ -z $wsl ]] && linux=$($healthcheck LINUX_DISTRO_NAME) | grep PRETTY_NAME | awk -F= '{print $2}'
+  [[ -z $wsl ]] && linux=$($healthcheck LINUX_DISTRO_NAME | awk -F= '/PRETTY_NAME/ {print $2}')
+  [[ -z $linux ]] && linux=$($healthcheck LINUX_DISTRO_NAME | awk -F= '/os_name/ {print $2}')
 }
 
 linuxHealthcheck() {
@@ -64,7 +79,15 @@ linuxHealthcheck() {
   echo -e "\n----------------------------------------" >> $logFile
   
   echo -e "\nYour Docker-host's /etc/hosts file contains:\n" >> "$logFile"
-  $healthcheck hosts >> "$logFile"
+  $healthcheck hosts | sed 's/tail.*\.ts\.net/tail[Redacted].ts.net/' \
+                     >> "$logFile"
+
+  echo -e "\n----------------------------------------" >> $logFile
+
+  echo -e "\nYour Tailscale version is:\n" >> $logFile
+  $healthcheck tailscale_version >> "$logFile"
+
+  echo -e "\n----------------------------------------" >> $logFile
 }
 
 wslHealthcheck() {
@@ -118,6 +141,13 @@ wslHealthcheck() {
                                 | sed 's/^\([[:space:]]*\)DHCPv6 IAID.*/\1DHCPv6 IAID . . . . . . . . . . . : [Redacted]/' \
                                 | sed 's/^\([[:space:]]*\)DHCPv6 Client DUID.*/\1DHCPv6 Client DUID. . . . . . . . : [Redacted]/' \
                                 >> "$logFile"
+
+  echo -e "\n----------------------------------------" >> $logFile
+
+  echo -e "\nYour Tailscale version is:\n" >> $logFile
+  $healthcheck windows_tailscale_version >> "$logFile"
+
+  echo -e "\n----------------------------------------" >> $logFile
 }
 
 closePipe() {
