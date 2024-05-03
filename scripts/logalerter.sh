@@ -33,8 +33,8 @@ logAlerts() {
 
   while true; do
     if [ -s $logFile ]; then {
-      echo -e "Subject: OliveTin Log Alert\n"
-      echo -e "The following CDVR log lines match your filters:\n"
+      echo -e "Subject: OliveTin Log Alert for $dvr\n"
+      echo -e "The following CDVR ($dvr) log lines match your filters:\n"
       cat $logFile
       } | msmtp -a default $ALERT_EMAIL_TO
       rm $logFile
