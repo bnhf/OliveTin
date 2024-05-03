@@ -1,4 +1,4 @@
-pageTitle: OliveTin-for-Channels 2024.04.12
+pageTitle: OliveTin-for-Channels 2024.05.03
 showFooter: true
 actions:
   - title: OliveTin Post-Install Healthcheck
@@ -941,6 +941,8 @@ actions:
         type: very_dangerous_raw_string
         description: The filename you'd like Docker to use for the volume.
         default: eplustv_config
+      - type: confirmation
+        title: I'll check the EPlusTV Portainer-Log for login links and activation codes if standard output is initially blank! (Click to confirm)
     timeout: 40
 
   - title: Create a FileBot Stack in Portainer
@@ -980,7 +982,7 @@ actions:
 
   - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/frndlytv-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ IP }}" "{{ USERNAME }}" "{{ PASSWORD }}" "{{ CDVR_START_CHAN }}"
+    shell: /config/frndlytv-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ IP }}" "{{ USERNAME }}" "{{ PASSWORD }}" "{{ CDVR_START_CHAN }}" "{{ FRNDLYTV_PLAN }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1011,6 +1013,16 @@ actions:
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
         default: "#"
+      - name: FRNDLYTV_PLAN
+        description: Select based on your FrndlyTV package. Basic=1xStream, Classic=2xStreams, Premium=4xStreams.
+        choices:
+          - title: Basic Plan (one stream)
+            value: 1
+          - title: Classic Plan (two streams)
+            value: 2
+          - title: Premium Plan (four streams)
+            value: 4
+        default: 2
     timeout: 40
 
   - title: Create a MediaInfo Stack in Portainer

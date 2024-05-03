@@ -46,5 +46,7 @@ EOF
 echo "JSON response from $portainerURL:"
 portainerResponse=$(curl -k -X POST -H "Content-Type: application/json" -H "X-API-Key: ${portainerToken}" -d "$stackJSON" "$portainerURL")
 
+[[ -z $portainerResponse ]] && exit 1
+
 echo $portainerResponse
 echo "$portainerResponse" | jq -e '.Id != null' && exit 0 || exit 1

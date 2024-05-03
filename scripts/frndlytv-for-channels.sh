@@ -8,8 +8,9 @@ extension=${extension%.sh}
 cp /config/$extension.env /tmp
 envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-streamLimit="$8"
+[[ "$4" == "#" ]] && georelocationIP="" || georelocationIP="$4"
 [[ "$7" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$7"
+frndlytvPlan="$8"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 [[ -n $cdvrStartingChannel ]] && cdvrStartingChannel2=$((cdvrStartingChannel + 100))
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
@@ -17,7 +18,7 @@ curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use"
 envVars=(
 "TAG=$2"
 "HOST_PORT=$3"
-"IP=$4"
+"IP=$georelocationIP"
 "USERNAME=$5"
 "PASSWORD=$6"
 )
@@ -31,7 +32,7 @@ cat <<EOF
   "url": "http://$extensionURL/playlist.m3u8?gracenote=include",
   "text": "",
   "refresh": "24",
-  "limit": "$streamLimit",
+  "limit": "$frndlytvPlan",
   "satip": "",
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel",
@@ -51,7 +52,7 @@ cat <<EOF
   "url": "http://$extensionURL/playlist.m3u8?gracenote=exclude",
   "text": "",
   "refresh": "24",
-  "limit": "$streamLimit",
+  "limit": "$frndlytvPlan",
   "satip": "",
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel2",
