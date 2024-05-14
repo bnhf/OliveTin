@@ -54,7 +54,8 @@ RUN mkdir -p /config /var/www/olivetin \
         length = float(result.stdout)\n    except:\n \
         result.stdout = result.stdout.decode('utf-8')\n \
         errorMessage = re.search(r\"\\d+\\.\\d+\", result.stdout)\n \
-        length = float(errorMessage.group())/" ${EDLSTRIP_FIX}
+        length = float(errorMessage.group())/" ${EDLSTRIP_FIX} \
+    && /tmp/updateyamldate.sh
 
 EXPOSE 1337/tcp
 

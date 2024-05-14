@@ -1,4 +1,4 @@
-pageTitle: OliveTin-for-Channels 2024.05.03
+pageTitle: OliveTin-for-Channels 1970.01.01
 showFooter: true
 actions:
   - title: OliveTin Post-Install Healthcheck
@@ -547,6 +547,19 @@ actions:
         description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
         default: https://hc-ping.com/your_custom_uuid #plexiptv healthchecks default
     timeout: 20
+
+  - title: CDVR Channel Sources Management Helper Bookmarklet
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/cdvrhelperbookmarklet.sh "{{ bookmarklet_version }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: bookmarklet_version
+        description: Choose Bookmark Bar or Tampermonkey version
+        choices:
+          - title: Bookmark Bar
+            value: true
+          #- title: Tampermonkey
+          #  value: false
 
   - title: Docker-Compose Examples for CDVR & Related Extensions
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
