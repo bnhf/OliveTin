@@ -1,5 +1,6 @@
 pageTitle: OliveTin-for-Channels 1970.01.01
 showFooter: true
+showNewVersions: false
 actions:
   - title: OliveTin Post-Install Healthcheck
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
