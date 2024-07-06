@@ -55,6 +55,25 @@ actions:
             value: halt
     timeout: 30
 
+  - title: Keep CDVR Server Updated to Latest Pre-Release #updateprerelease title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #updateprerelease icon
+    shell: /config/foreground.sh "{{ dvr }}" updateprerelease "{{ interval }}" "{{ healthchecks_io }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #updateprerelease dvr description
+        default: none #updateprerelease dvr default
+      - name: interval
+        type: ascii
+        description: Interval to check for latest pre-release (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: once #updateprerelease interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/your_custom_uuid #updateprerelease healthchecks default
+    timeout: 20
+
   - title: Scan/Prune Local Content
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/scanlocalcontent.sh "{{ dvr }}" {{ action }}
