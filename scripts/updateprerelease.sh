@@ -12,8 +12,14 @@ logFile=/config/"$channelsHost"-"$channelsPort"_updateprerelease_latest.log
 runFile=/tmp/"$channelsHost"-"$channelsPort"_updateprerelease.run
 
 while true; do
+  echo -e "$(date +"%Y-%m-%d %H:%M:%S") - Checking if CDVR Server is busy..." >> $logFile
   dvrBusy=$(curl http://$dvr/dvr | jq -r '.busy')
-  echo -e "Checking if CDVR Server is running the latest pre-release..."
+  echo "$dvrBusy" >> $logFile
+  
+  [[ $dvrBusy == "true" ]] && [[ $runInterval == "once" ]] && echo -e "CDVR Server is busy, try again later." >> $logFile
+  [[ $dvrBusy == "true" ]] && [[ $runInterval != "once" ]] && echo -e "CDVR Server is busy, next check in $runInterval" >> $logFile
+
+  [[ $dvrBusy == "false" ]] && echo -e "$(date +"%Y-%m-%d %H:%M:%S") - Checking if CDVR Server is running the latest pre-release..." >> $logFile
   [[ $dvrBusy == "false" ]] && curl -XPUT http://$dvr/updater/check/prerelease >> $logFile
 
 
@@ -24,7 +30,7 @@ while true; do
   [[ -n $healthchecksIO ]] \
     && curl -m 10 --retry 5 $healthchecksIO
 
-  [[ $runInterval != "once" ]] && echo -e "\nInitial check complete, with continuing checks set for $runInterval intervals.\n" >> "$logFile" \
+  [[ $runInterval != "once" ]] && echo -e "\n$(date +"%Y-%m-%d %H:%M:%S") - Check complete, with continuing checks set for $runInterval intervals.\n" >> "$logFile" \
     && touch $runFile \
     && sleep $runInterval  
 done

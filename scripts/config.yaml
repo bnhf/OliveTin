@@ -484,7 +484,7 @@ actions:
 
   - title: Channel Lineup Change Notifications #channels_dvr_monitor_channels title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #channels_dvr_monitor_channels icon
-    shell: /config/channels_dvr_monitor_channels.sh "{{ dvr }}" {{ frequency }} {{ email }} "{{ password }}" {{ recipient }} {{ text }}
+    shell: /config/channels_dvr_monitor_channels.sh "{{ dvr }}" "{{ frequency }}" "{{ email }}" "{{ password }}" "{{ recipient }}" "{{ text }}" "{{ start }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -495,6 +495,10 @@ actions:
         type: int
         description: Frequency of queries sent to the Channels DVR server, in minutes (minimum 5). Enter 0 to kill active background process.
         default: 30 #channels_dvr_monitor_channels frequency default
+      - name: start
+        type: "regex:^((0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])|none)$"
+        description: (use none to start now) Specify a future start time for first run in 24 hour form HH:MM.
+        default: none #channels_dvr_monitor_channels start default
       - name: email
         type: very_dangerous_raw_string
         description: (use none for blank) Email address to use as the sender.

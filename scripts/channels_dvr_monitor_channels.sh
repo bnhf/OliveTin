@@ -12,7 +12,6 @@ purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f
 logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
   [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
 configFile=/config/config.yaml
-  cp $configFile /tmp
 configTemp=/tmp/config.yaml
 
 #Trap end of script run
@@ -50,6 +49,7 @@ scriptKill() {
     sed -i "/#${foregroundScript} email default/s/default: .* #/default: none #/" $configTemp
     sed -i "/#${foregroundScript} recipient default/s/default: .* #/default: none #/" $configTemp
     sed -i "/#${foregroundScript} text default/s/default: .* #/default: none #/" $configTemp
+    sed -i "/#${foregroundScript} start default/s/default: .* #/default: none #/" $configTemp
     exit 0
   fi
 
@@ -57,6 +57,7 @@ scriptKill() {
   exit 0
 }
 
+cp $configFile /tmp
 frequency=$2
   [[ "$frequency" == "0" ]] && scriptKill
   [[ "$frequency" != "0" ]] \
@@ -72,6 +73,9 @@ recipient=$5
 text=$6
   [[ "$text" != "none" ]] && optionalArguments="$optionalArguments -t $text" \
   && sed -i "/#${foregroundScript} text default/s/default: .* #/default: ${text} #/" $configTemp
+start=$7
+  [[ "$start" != "none" ]] && optionalArguments="$optionalArguments -s $start" \
+  && sed -i "/#${foregroundScript} start default/s/default: .* #/default: ${start} #/" $configTemp
 
 scriptRun() {
   runningScriptPID=$(ps -ef | grep "[p]ython3 .* -i $channelsHost -p $channelsPort" | awk '{print $2}')
@@ -80,7 +84,7 @@ scriptRun() {
   && sed -i "/#${foregroundScript} icon/s|img src = .* width|img src = $greenIcon width|" $configTemp
   nohup python3 -u /config/$foregroundScript.py -i $channelsHost -p $channelsPort -f $frequency $optionalArguments >> $logFile 2>&1 &
   runningScriptPID=$!
-  echo "$foregroundScript.sh $dvr $frequency $email $password $recipient $text" > /config/"$channelsHost"-"$channelsPort"_monitor_channels.running
+  echo "$foregroundScript.sh $dvr $frequency $email $password $recipient $text $start" > /config/"$channelsHost"-"$channelsPort"_monitor_channels.running
 
   grep -q '(.*) #'"$foregroundScript"'' $configTemp
     [[ "$?" == "1" ]] \

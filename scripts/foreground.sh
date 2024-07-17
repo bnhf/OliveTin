@@ -25,7 +25,7 @@ configTemp=/tmp/config.yaml
 
 #Trap end of script run
 finish() {
-  echo -e "foreground.sh is exiting for $backgroundScript with exit code $?" >> "$logFile"
+  echo -e "foreground.sh is exiting for $backgroundScript with exit code $?\n" >> "$logFile"
   cp $configTemp /config
   backgroundWait=0
   maxWait=30

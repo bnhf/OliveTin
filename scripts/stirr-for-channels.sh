@@ -11,6 +11,8 @@ envFile="/tmp/$extension.env"
 [[ "$4" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$4"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
+curlAttempts=0
+maxCurlAttempts=6
 
 envVars=(
 "TAG=$2"
@@ -50,7 +52,8 @@ customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
 
 while true; do
   curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || sleep 5
+  [[ $extensionUp ]] && break || { curlAttempts=$((curlAttempts + 1)); sleep 5; }
+  [[ $curlAttempts -ge $maxCurlAttempts ]] && echo "Container failed to start properly. Check Portainer logs and stop the stack" && exit 1
 done
 
 curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/StirrTV
