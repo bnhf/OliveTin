@@ -23,7 +23,7 @@ if [[ -n $dockerVolume ]]; then
   [[ -n $volumeName ]] && sed -i 's/#name:/name:/' $stackFile
 fi
 
-stackContent=$(awk '{printf "%s\\n", $0}' "$stackFile" | sed 's/"/\\"/g')
+stackContent=$(sed 's/\\/\\\\/g' "$stackFile" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')
 stackEnvVars="["
 
 while IFS='=' read -r key value
