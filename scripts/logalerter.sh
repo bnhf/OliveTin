@@ -37,7 +37,7 @@ logAlerts() {
       echo -e "The following CDVR ($dvr) log lines match your filters:\n"
       cat $logFile
       } | msmtp -a default $ALERT_EMAIL_TO
-      > $logFile
+      truncate -s 0 $logFile
     fi
 
     sleep $runInterval
