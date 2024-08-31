@@ -8,14 +8,16 @@ extension=${extension%.sh}
 cp /config/$extension.env /tmp
 envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "$4" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$4"
+[[ "$6" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$6"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
 
 envVars=(
 "TAG=$2"
 "HOST_PORT=$3"
-"CDVR_STARTING_CHANNEL=$4"
+"REGIONS=$4"
+"TZ=$5"
+"CDVR_STARTING_CHANNEL=$6"
 )
 
 customChannels() {
@@ -24,7 +26,7 @@ cat <<EOF
   "name": "Samsung TV Plus",
   "type": "HLS",
   "source": "URL",
-  "url": "http://$extensionURL/playlist.m3u",
+  "url": "http://$extensionURL/playlist.m3u8",
   "text": "",
   "refresh": "24",
   "limit": "",
@@ -32,7 +34,7 @@ cat <<EOF
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel",
   "logos": "",
-  "xmltv_url": "http://$extensionURL/epg.xml",
+  "xmltv_url": "http://$extensionURL/epg.xml.gz",
   "xmltv_refresh": "3600"
 }
 EOF

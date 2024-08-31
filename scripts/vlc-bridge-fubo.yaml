@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   vlc-bridge-fubo:
-    image: registry.gitlab.com/yankees4life/vlc-bridge-fubo/main:${TAG}
+    image: registry.gitlab.com/yankees4life/vlc-bridge-fubo:${TAG}
     container_name: vlc-bridge-fubo
     ports:
       - ${HOST_PORT}:7777 # Use the same port number the container is using, or optionally change it if the port is already in use on your host

@@ -1270,7 +1270,7 @@ actions:
 
   - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/samsung-tvplus-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ CDVR_START_CHAN }}"
+    shell: /config/samsung-tvplus-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ REGIONS }}" "{{ TZ }}" "{{ CDVR_START_CHAN }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1285,6 +1285,14 @@ actions:
         type: int
         description: Use the recommended port number, or optionally change it if the port is already in use on your host.
         default: 8182
+      - name: REGIONS
+        type: very_dangerous_raw_string
+        description: List desired region streams (comma separated - us,kr,it,in,gb,fr,es,de,ch,ca,at) or use all
+        default: us
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
