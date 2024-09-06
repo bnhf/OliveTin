@@ -306,7 +306,7 @@ actions:
         type: ascii_sentence
         description: The name you'd like used for the recording.
       - name: channel
-        type: int
+        type: ascii_sentence
         description: The channel number to use for the recording.
       - name: time
         type: very_dangerous_raw_string
