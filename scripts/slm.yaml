@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  # 2024.09.12
+  # GitHub home for this project with setup instructions: https://github.com/babsonnexus/stream-link-manager-for-channels
+  # Docker container home for this project: https://ghcr.io/babsonnexus/stream-link-manager-for-channels
+  slm:
+    image: ghcr.io/babsonnexus/stream-link-manager-for-channels:${TAG:-latest}
+    container_name: slm
+    ports:
+      - ${SLM_PORT:-5000}:5000
+    environment:
+      - TZ=${TIMEZONE:-UTC}
+    volumes:
+      - slm_files:/app/program_files
+      - ${CHANNELS_FOLDER}:/app/channels_folder
+    restart: unless-stopped
+volumes:
+  slm_files:
+
+# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

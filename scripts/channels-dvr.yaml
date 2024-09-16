@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  # 2024.09.15
+  # Docker Hub home for this project: https://hub.docker.com/r/fancybits/channels-dvr
+  channels-dvr:
+    image: fancybits/channels-dvr:${TAG}
+    container_name: channels-dvr
+    #devices:
+      #- /dev/dri:/dev/dri
+    ports:
+      - ${HOST_PORT}:${CHANNELS_PORT}
+    environment:
+      - CHANNELS_PORT=${CHANNELS_PORT}
+      - TZ=${TZ}
+    volumes:
+      - ${HOST_DIR}/channels-dvr:/channels-dvr
+      - ${DVR_SHARE}:${DVR_CONTAINER_DIR}
+    #network_mode: host
+    restart: unless-stopped
+#volumes: # use this section if you've setup a docker volume named channels-dvr, with CIFS or NFS, to bind to /channels-dvr inside the container
+  #channels-dvr:
+    #external: ${VOL_EXTERNAL}
+    #name: ${VOL_NAME}

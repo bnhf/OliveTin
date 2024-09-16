@@ -1,19 +1,22 @@
 version: '3.9'
 services:
+  # 2024.09.12
   # GitHub home for this project with setup instructions: https://github.com/m0ngr31/EPlusTV
   # Docker Hub home for this project: https://hub.docker.com/r/m0ngr31/eplustv
   eplustv:
     image: m0ngr31/eplustv:${TAG}
+    container_name: eplustv
     ports:
       - ${HOST_PORT}:${PORT} # For use with Portainer this port is being mapped to 8185, as Portainer uses port 8000
     environment:
       - START_CHANNEL=${START_CHANNEL} # What the first channel number should be.
       - NUM_OF_CHANNELS=${NUM_OF_CHANNELS} # How many channels to create? This is dependent on the networks you are using. A good number to start with is >= 150 if you are using ESPN+.
+      - LINEAR_CHANNELS=${LINEAR_CHANNELS} # Break out dedicated linear channels.
       - PROXY_SEGMENTS=${PROXY_SEGMENTS} # Proxy keyed *.ts files.
       - PUID=${PUID} # Current user ID. Use if you have permission issues. Needs to be combined with PGID.
       - PGID=${PGID} # Current group ID. Use if you have permission issues. Needs to be combined with PUID.
       - PORT=${PORT} # Port the API will be served on. You can set this if it conflicts with another service in your environment.
-      - ESPNPLUS={ESPNPLUS} # Set to false if you only want events that come from your TV provider.
+      - ESPNPLUS=${ESPNPLUS} # Set to false if you only want events that come from your TV provider.
       - ESPN=${ESPN} # ESPN: Set if your TV provider supports it.
       - ESPN2=${ESPN2} # ESPN2: Set if your TV provider supports it.
       - ESPN3=${ESPN3} # ESPN3: Set if your TV provider supports it.
@@ -30,6 +33,19 @@ services:
       - MAX_RESOLUTION=${MAX_RESOLUTION} # Max resolution to use. Valid options are UHD/HDR, UHD/SDR, 1080p, 720p, and 540p (Some providers don't offer 4K or 1080p and will attempt to play the highest framerate available for selected resolution).
       - FOX_ONLY_4K=${FOX_ONLY_4K} # Only grab 4K events.
       - PARAMOUNTPLUS=${PARAMOUNTPLUS} # Set if you would like CBS Sports events.
+      - CBSSPORTSHQ=${CBSSPORTSHQ} # Set if you would like the CBS Sports HQ channel (only available with LINEAR_CHANNELS).
+      - GOLAZO=${GOLAZO} # Set if you would like the Golazo Network channel (only available with LINEAR_CHANNELS).
+      - NFLPLUS=${NFLPLUS} # Set if you would like NFL+ events.
+      - NFLNETWORK=${NFLNETWORK} # Set if you would like the NFL Network channel (only available with LINEAR_CHANNELS).
+      - NFLREDZONE=${NFLREDZONE} # Set if you would like NFL RedZone (have to have NFL+ Premium).
+      - B1GPLUS=${B1GPLUS} # Set if you would like to use B1G+.
+      - B1GPLUS_USER=${B1GPLUS_USER} # B1G+ Username.
+      - B1GPLUS_PASS=${B1GPLUS_PASS} # B1G+ Password.
+      - MSGPLUS=${MSGPLUS} # Set if you would like to use MSG+
+      - MSGPLUS_USER=${MSGPLUS_USER} # MSG+ Username.
+      - MSGPLUS_PASS=${MSGPLUS_PASS} # MSG+ Password.
+      - FLOSPORTS=${FLOSPORTS} # Set if you would like FloSports events.
+      - MTNWEST=${MTNWEST} # Set if you would like Mountain West events.
       - MLBTV=${MLBTV} # Set if you would like to use MLB.tv.
       - MLBTV_USER=${MLBTV_USER} # MLB.tv Username.
       - MLBTV_PASS=${MLBTV_PASS} # MLB.tv Password.

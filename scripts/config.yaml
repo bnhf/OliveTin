@@ -638,10 +638,12 @@ actions:
             value: pluto
           - title: Pluto-for-Channels (joagomez)
             value: pluto-for-channels
-          - title: Stirr-for-Channels
-            value: stirr-for-channels
           - title: SamsungTVPlus-for-Channels
             value: samsung-tvplus-for-channels
+          - title: Stirr-for-Channels
+            value: stirr-for-channels
+          - title: Stream-Link-Manager-for-Channels
+            value: slm
           - title: Tailscale
             value: tailscale
           - title: Tubi-for-Channels
@@ -817,6 +819,95 @@ actions:
         default: directv.m3u
     timeout: 40
 
+  - title: Create a Channels DVR Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/channels-dvr.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ CHANNELS_PORT }}" "{{ TZ }}" "{{ HOST_DIR }}" "{{ DVR_SHARE }}" "{{ DVR_CONTAINER_DIR }}" "{{ VOL_EXTERNAL }}" "{{ VOL_NAME }}" "{{ NETWORK_MODE }}" "{{ DEVICES }}" "{{ CDVR_CONTAINER }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest" or "tve".
+        default: tve
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8089
+      - name: CHANNELS_PORT
+        type: int
+        description: When using "host mode" changing the port number must be done here. Otherwise leave as 8089, and change HOST_PORT
+        default: 8089
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directory will be channels-dvr.
+        default: /data
+      - name: DVR_SHARE
+        type: very_dangerous_raw_string
+        description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
+        default: /mnt/dvr
+      - name: DVR_CONTAINER_DIR
+        type: very_dangerous_raw_string
+        description: The name of the directory you'd like used inside the container for your DVR files. This can be the same as DVR_SHARE for convenience.
+        default: /shares/DVR
+      - name: VOL_EXTERNAL
+        type: very_dangerous_raw_string
+        description: "If the Docker Volume was created and managed separately to this stack -- set to true. Use # for none."
+        default: "#"
+      - name: VOL_NAME
+        type: very_dangerous_raw_string
+        description: "If your Docker-Volume doesn't already exist, you can specify the real name to be used in the filesystem. Use # for none."
+        default: "#"
+      - name: NETWORK_MODE
+        description: If you'd like this CDVR server to be discoverable on your LAN, set to "host", otherwise use "bridge".
+        choices:
+          - title: bridge
+            value: "#"
+          - title: host
+            value: host
+        default: "#"
+      - name: DEVICES
+        description: If your Docker host supports Intel Quick Sync for transcoding, set to "/dev/dri", otherwise leave as "none".
+        choices:
+          - title: /dev/dri
+            value: "true"
+          - title: none
+            value: "#"
+        default: "#"
+      - name: CDVR_CONTAINER
+        description: If you have multiple CDVR containers running on a single Docker host, this number will be appended to stack, container and path names. Leave as "#" for none.
+        choices:
+          - title: "#"
+            value: "#"
+          - title: 1
+            value: 1
+          - title: 2
+            value: 2
+          - title: 3
+            value: 3
+          - title: 4
+            value: 4
+          - title: 5
+            value: 5
+          - title: 6
+            value: 6
+          - title: 7
+            value: 7
+          - title: 8
+            value: 8
+          - title: 9
+            value: 9
+          - title: 0
+            value: 0
+        default: "#"
+      - type: confirmation
+        title: I acknowledge that it may take several minutes for CDVR to download and run -- before I can access it (Click to confirm)
+      - type: confirmation
+        title: If I'm running this on a Synology box, I recognize ${HOST_DIR}/channels-dvr and ${DVR_SHARE} need to exist before clicking "Start" (Click to confirm)
+    timeout: 40
+
   - title: Create a Chrome-Capture-for-Channels Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/cc4c.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ HOST_VNC_PORT }}" "{{ VIDEO }}" "{{ AUDIO }}" "{{ TZ }}" "{{ HOST_VOLUME }}"
@@ -858,7 +949,7 @@ actions:
 
   - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/eplustv.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ START_CHANNEL }}" "{{ NUM_OF_CHANNELS }}" "{{ PROXY_SEGMENTS }}" "{{ PUID }}" "{{ PGID }}" "{{ PORT }}" "{{ ESPNPLUS }}" "{{ ESPN }}" "{{ ESPN2 }}" "{{ ESPN3 }}" "{{ ESPNU }}" "{{ SEC }}" "{{ SECPLUS }}" "{{ ACCN }}" "{{ ACCNX }}" "{{ LONGHORN }}" "{{ ESPNEWS }}" "{{ ESPN_PPV }}" "{{ FOXSPORTS }}" "{{ FS_REPLAYS }}" "{{ MAX_RESOLUTION }}" "{{ FOX_ONLY_4K }}" "{{ PARAMOUNTPLUS }}" "{{ MLBTV }}" "{{ MLBTV_USER }}" "{{ MLBTV_PASS }}" "{{ MLBTV_ONLY_FREE }}" "{{ MSGPLUS }}" "{{ MSGPLUS_USER }}" "{{ MSGPLUS_PASS }}" "{{ HOST_VOLUME }}"
+    shell: /config/eplustv.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ START_CHANNEL }}" "{{ NUM_OF_CHANNELS }}" "{{ LINEAR_CHANNELS }}" "{{ PROXY_SEGMENTS }}" "{{ PUID }}" "{{ PGID }}" "{{ PORT }}" "{{ ESPNPLUS }}" "{{ ESPN }}" "{{ ESPN2 }}" "{{ ESPN3 }}" "{{ ESPNU }}" "{{ SEC }}" "{{ SECPLUS }}" "{{ ACCN }}" "{{ ACCNX }}" "{{ LONGHORN }}" "{{ ESPNEWS }}" "{{ ESPN_PPV }}" "{{ FOXSPORTS }}" "{{ FS_REPLAYS }}" "{{ MAX_RESOLUTION }}" "{{ FOX_ONLY_4K }}" "{{ PARAMOUNTPLUS }}" "{{ CBSSPORTSHQ }}" "{{ GOLAZO }}" "{{ NFLPLUS }}" "{{ NFLNETWORK }}" "{{ NFLREDZONE }}" "{{ B1GPLUS }}" "{{ B1GPLUS_USER }}" "{{ B1GPLUS_PASS }}" "{{ MSGPLUS }}" "{{ MSGPLUS_USER }}" "{{ MSGPLUS_PASS }}" "{{ FLOSPORTS }}" "{{ MTNWEST }}" "{{ MLBTV }}" "{{ MLBTV_USER }}" "{{ MLBTV_PASS }}" "{{ MLBTV_ONLY_FREE }}" "{{ HOST_VOLUME }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -881,6 +972,10 @@ actions:
         type: int
         description: How many channels to create? This is dependent on the networks you are using.
         default: 150
+      - name: LINEAR_CHANNELS
+        type: ascii
+        description: Break out dedicated linear channels.
+        default: "false"
       - name: PROXY_SEGMENTS
         type: ascii
         description: Proxy keyed *.ts files.
@@ -965,21 +1060,37 @@ actions:
         type: ascii
         description: Set if you would like CBS Sports events.
         default: "false"
-      - name: MLBTV
+      - name: CBSSPORTSHQ
         type: ascii
-        description: Set if you would like to use MLB.tv.
+        description: Set if you would like the CBS SPorts HQ linear channel.
         default: "false"
-      - name: MLBTV_USER
+      - name: GOLAZO
         type: ascii
-        description: MLB.tv Username.
+        description: Set if you would like the Golazo Network linear channel.
         default: "false"
-      - name: MLBTV_PASS
+      - name: NFLPLUS
         type: ascii
-        description: MLB.tv Password.
+        description: Set if you would like NFL+ events.
         default: "false"
-      - name: MLBTV_ONLY_FREE
+      - name: NFLNETWORK
         type: ascii
-        description: Only schedule free games.
+        description: Set if you would like the NFL Network linear channel.
+        default: "false"
+      - name: NFLREDZONE
+        type: ascii
+        description: Set if you would like NFL RedZone (NFL+ Premium required).
+        default: "false"
+      - name: B1GPLUS
+        type: ascii
+        description: Set if you would like to use B1G+.
+        default: "false"
+      - name: B1GPLUS_USER
+        type: very_dangerous_raw_string
+        description: B1G+ Username.
+        default: "false"
+      - name: B1GPLUS_PASS
+        type: very_dangerous_raw_string
+        description: B1G+ Password.
         default: "false"
       - name: MSGPLUS
         type: ascii
@@ -988,17 +1099,43 @@ actions:
       - name: MSGPLUS_USER
         type: very_dangerous_raw_string
         description: MSG+ Username.
-        default: username@email.com
+        default: "false"
       - name: MSGPLUS_PASS
         type: very_dangerous_raw_string
         description: MSG+ Password.
-        default: password
+        default: "false"
+      - name: FLOSPORTS
+        type: ascii
+        description: Set if you would like FloSports events.
+        default: "false"
+      - name: MTNWEST
+        type: ascii
+        description: Set if you would like Mountain West events.
+        default: "false"
+      - name: MLBTV
+        type: ascii
+        description: Set if you would like to use MLB.tv.
+        default: "false"
+      - name: MLBTV_USER
+        type: very_dangerous_raw_string
+        description: MLB.tv Username.
+        default: "false"
+      - name: MLBTV_PASS
+        type: very_dangerous_raw_string
+        description: MLB.tv Password.
+        default: "false"
+      - name: MLBTV_ONLY_FREE
+        type: ascii
+        description: Only schedule free games.
+        default: "false"
       - name: HOST_VOLUME
         type: very_dangerous_raw_string
         description: The filename you'd like Docker to use for the volume.
         default: eplustv_config
       - type: confirmation
         title: I'll check the EPlusTV Portainer-Log for login links and activation codes if standard output is initially blank! (Click to confirm)
+      - type: confirmation
+        title: It may take a while for the container to gather initial data, so I'll be patient when checking the Portainer-Log... (Click to confirm)
     timeout: 40
 
   - title: Create a FileBot Stack in Portainer
@@ -1321,7 +1458,30 @@ actions:
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
         default: "#"
     timeout: 40
-    
+
+  - title: Create a Stream Link Manager Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/slm.sh "{{ TAG }}" "{{ SLM_PORT }}" "{{ TIMEZONE }}" "{{ CHANNELS_FOLDER }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: SLM_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5000
+      - name: TIMEZONE
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: CHANNELS_FOLDER
+        type: very_dangerous_raw_string
+        description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
+        default: /mnt/dvr
+    timeout: 40
+
   - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/tubi-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TUBI_PORT }}" "{{ CDVR_START_CHAN }}"
@@ -1435,6 +1595,7 @@ dashboards:
         - title: Docker-Compose Examples for CDVR & Related Extensions
         - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
+        - title: Create a Channels DVR Stack in Portainer
         - title: Create a Chrome-Capture-for-Channels Stack in Portainer
         - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
         - title: Create a FileBot Stack in Portainer
@@ -1446,6 +1607,7 @@ dashboards:
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Stream Link Manager Stack in Portainer
         - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
