@@ -604,6 +604,24 @@ actions:
           #- title: Tampermonkey
           #  value: false
 
+  - title: Create a Channel Collection from One or More Sources
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/create_collection_from_sources.sh "{{ dvr }}" "{{ collection_name }}" {{ sources }}
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #create_collection_from_sources dvr description
+        default: none #create_collection_from_sources dvr default
+      - name: collection_name
+        type: very_dangerous_raw_string
+        description: Channel Collection name, as you'd like it to appear on your Channels DVR server and clients.
+        default: 'My Collection'
+      - name: sources
+        type: very_dangerous_raw_string
+        description: The Live TV source or sources you'd like to use to create the collection. Each source must be enclosed in quotes, like "Virtual Channels" or "DIRECTV".
+        default: '"Virtual Channels" "DIRECTV"'
+
   - title: Docker-Compose Examples for CDVR & Related Extensions
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/dockercompose.sh {{ project }}
