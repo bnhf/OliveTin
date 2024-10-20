@@ -622,6 +622,25 @@ actions:
         description: The Live TV source or sources you'd like to use to create the collection. Each source must be enclosed in quotes, like "Virtual Channels" or "DIRECTV".
         default: '"Virtual Channels" "DIRECTV"'
 
+  - title: E-Mail ah4c ADB Device Alerts #adbalerts title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #adbalerts icon
+    shell: /config/adbalerts.sh "{{ dvr }}" "{{ frequency }}" "{{ container_name }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #adbalerts dvr description
+        default: none #adbalerts dvr default
+      - name: frequency
+        type: ascii
+        description: ADB device check interval (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: 30m #adbalerts frequency default
+      - name: container_name
+        type: very_dangerous_raw_string
+        description: ah4c container name. Default = ah4c
+        default: ah4c #adbalerts container_name default
+    timeout: 20
+
   - title: Docker-Compose Examples for CDVR & Related Extensions
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/dockercompose.sh {{ project }}

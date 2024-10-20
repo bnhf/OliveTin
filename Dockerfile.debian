@@ -1,14 +1,17 @@
-#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') -f Dockerfile.debian -t bnhf/olivetin:latest -t bnhf/olivetin:2023.12.26 . --push --no-cache
+#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') --build-arg DOCKER_RELEASE=$(curl https://api.github.com/repos/moby/moby/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/') -f Dockerfile.debian -t bnhf/olivetin:latest -t bnhf/olivetin:2023.12.26 . --push --no-cache
 FROM python:slim-bullseye
 
 ARG OS=linux
+ARG PYTHON=3.13
 #ARG OT_RELEASE=2023.03.25
 ARG OT_RELEASE=2024.04.09
 ARG OT_URL=https://github.com/OliveTin/OliveTin/releases/download
 #ARG CDVR_RELEASE=2023.11.13.2159
 ARG CDVR_RELEASE
 ARG CDVR_URL=https://channels-dvr.s3.amazonaws.com
-ARG EDLSTRIP_FIX=/usr/local/lib/python3.12/site-packages/edlstrip/__init__.py
+ARG EDLSTRIP_FIX=/usr/local/lib/python${PYTHON}/site-packages/edlstrip/__init__.py
+ARG DOCKER_RELEASE
+ARG DOCKER_URL=https://download.docker.com/${OS}/static/stable
 
 SHELL ["/bin/bash", "-c"]
 
@@ -27,10 +30,12 @@ RUN if [[ $(uname -m) == "x86_64" ]]; then \
       wget -O /tmp/OliveTin.deb ${OT_URL}/${OT_RELEASE}/OliveTin_${OS}_amd64.deb; \
       wget -O /usr/bin/ffmpeg ${CDVR_URL}/${CDVR_RELEASE}/ffmpeg-${OS}-x86_64; \
       wget -O /usr/bin/ffprobe ${CDVR_URL}/${CDVR_RELEASE}/ffprobe-${OS}-x86_64; \
+      curl -fsSL ${DOCKER_URL}/x86_64/docker-${DOCKER_RELEASE}.tgz | tar -xz -C /usr/local/bin --strip-components=1 docker/docker; \
     else \
       wget -O /tmp/OliveTin.deb ${OT_URL}/${OT_RELEASE}/OliveTin_${OS}_arm64.deb; \
       wget -O /usr/bin/ffmpeg ${CDVR_URL}/${CDVR_RELEASE}/ffmpeg-${OS}-arm64; \
       wget -O /usr/bin/ffprobe ${CDVR_URL}/${CDVR_RELEASE}/ffprobe-${OS}-arm64; \
+      curl -fsSL ${DOCKER_URL}/aarch64/docker-${DOCKER_RELEASE}.tgz | tar -xz -C /usr/local/bin --strip-components=1 docker/docker; \
     fi \
     && chmod +x /usr/bin/ff*
 
