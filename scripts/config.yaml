@@ -334,7 +334,7 @@ actions:
           - title: Movie
             value: movie
 
-  - title: Mark an Episode for Re-Recording
+  - title: Mark a Movie or Episode for Re-Recording
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/markforrerecord.sh "{{ dvr }}" {{ file_id }}
     popupOnStart: execution-dialog-stdout-only
@@ -345,7 +345,7 @@ actions:
         default: none #markforrerecord dvr default
       - name: file_id
         type: int
-        description: The File ID can be found using Library - TV Shows - <show name> - <episode name> - Options - View Details - File ID.
+        description: The File ID can be found using Library - TV Shows - <show name> - <episode name> - Options - View Details - File ID or Library - Movies - <movie name> - Manage - View Details - File ID.
 
   - title: Fix YouTube Thumbnails #fix_thumbnails title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #fix_thumbnails icon
@@ -639,6 +639,17 @@ actions:
         type: very_dangerous_raw_string
         description: ah4c container name. Default = ah4c
         default: ah4c #adbalerts container_name default
+    timeout: 20
+
+  - title: List Apps Installed on Connected ah4c ADB Devices #adbpackages title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #adbpackages icon
+    shell: /config/adbpackages.sh "{{ container_name }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: container_name
+        type: very_dangerous_raw_string
+        description: ah4c container name. Default = ah4c
+        default: ah4c #adbpackages container_name default
     timeout: 20
 
   - title: Docker-Compose Examples for CDVR & Related Extensions
