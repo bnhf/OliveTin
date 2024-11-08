@@ -34,7 +34,7 @@ cat <<EOF
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel",
   "logos": "",
-  "xmltv_url": "http://$extensionURL/epg.xml.gz",
+  "xmltv_url": "http://$extensionURL/epg.xml",
   "xmltv_refresh": "3600"
 }
 EOF
