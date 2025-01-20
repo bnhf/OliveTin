@@ -74,6 +74,25 @@ actions:
         default: https://hc-ping.com/your_custom_uuid #updateprerelease healthchecks default
     timeout: 20
 
+  - title: Backup CDVR Server Database at a Custom Interval #backupdatabase title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #backupdatabase icon
+    shell: /config/foreground.sh "{{ dvr }}" backupdatabase "{{ interval }}" "{{ healthchecks_io }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #backupdatabase dvr description
+        default: none #backupdatabase dvr default
+      - name: interval
+        type: ascii
+        description: Interval to backup CDVR server database (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: once #backupdatabase interval default
+      - name: healthchecks_io
+        type: url
+        description: URL for an optional healthchecks.io "ping" for confirmation the background task is still running. Leave as default for none.
+        default: https://hc-ping.com/your_custom_uuid #backupdatabase healthchecks default
+    timeout: 20
+
   - title: Scan/Prune Local Content
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/scanlocalcontent.sh "{{ dvr }}" {{ action }}
@@ -91,6 +110,33 @@ actions:
           - title: Prune
             value: imports/prune
     timeout: 20
+
+  - title: Tube Archivist CDVR Processor #youtube-process title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #youtube-process icon
+    shell: /config/youtube-process.sh "{{ dvr }}" "{{ frequency }}" "{{ youtube_api_key }}" "{{ apprise_url }}" "{{ delete_after }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #youtube-process dvr description
+        default: none #youtube-process dvr default
+      - name: frequency
+        type: ascii
+        description: Tube Archivist CDVR processing interval (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: 12h #youtube-process frequency default
+      - name: youtube_api_key
+        type: very_dangerous_raw_string
+        description: Required. Your YouTube API Key.
+        default: none #youtube-process youtube_api_key default
+      - name: apprise_url
+        type: very_dangerous_raw_string
+        default: none #youtube-process apprise_url default
+        description: (use none for blank) Optional. URL for sending notifications via Apprise-supported services.
+      - name: delete_after
+        type: ascii
+        default: none #youtube-process delete_after default
+        description: (use none for blank) Optional. Remove files older than x days.
+    timeout: 40
 
   - title: Delete Watched Videos #deletewatched title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #deletewatched icon
@@ -652,6 +698,29 @@ actions:
         default: ah4c #adbpackages container_name default
     timeout: 20
 
+  - title: Live YouTube Channel Manifest URL Updater  #kisterupdates title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #kisterupdates icon
+    shell: /config/kisterupdates.sh "{{ dvr }}" "{{ frequency }}" "{{ channel_source_name }}" "{{ m3u_name }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #kisterupdates dvr description
+        default: none #kisterupdates dvr default
+      - name: frequency
+        type: ascii
+        description: Manifest URL update interval (followed by m for minutes or h for hours). 0 to kill existing background process.
+        default: 5h #kisterupdates frequency default
+      - name: channel_source_name
+        type: very_dangerous_raw_string
+        description: Channels Custom Source name. This should be identical to the name you used when creating your CDVR Custom Channels Source.
+        default: "YouTube Live" #kisterupdates channel_source_name default
+      - name: m3u_name
+        type: very_dangerous_raw_string
+        description: Channels Custom Source M3U name. This file needs to exist under $HOST_DIR/olivetin/data/$CHANNELS_DVR_HOST-$CHANNELS_DVR_PORT/ on your Docker/Portainer host machine.
+        default: YouTubeLive.m3u #kisterupdates m3u_name default
+    timeout: 20
+
   - title: Docker-Compose Examples for CDVR & Related Extensions
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/dockercompose.sh {{ project }}
@@ -670,12 +739,16 @@ actions:
             value: eplustv
           - title: FileBot
             value: filebot
+          - title: free-iptv-channels
+            value: free-iptv-channels
           - title: FrndlyTV-for-Channels
             value: frndlytv-for-channels
           - title: MediaInfo
             value: mediainfo
           - title: MLB.tv-for-Channels
             value: mlb.tv-for-channels
+          - title: mlbserver
+            value: mlbserver
           - title: OliveTin-for-Channels
             value: olivetin-for-channels
           - title: Organizr
@@ -1303,7 +1376,7 @@ actions:
 
   - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/mlb.tv-for-channels.sh "{{ $dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ APP_URL }}" "{{ LOG_LEVEL }}" "{{ MLB_USERNAME }}" "{{ MLB_PASSWORD }}" "{{ MLB_BITRATE }}" "{{ MLB_START_CHAN }}" "{{ MLB_TEAM_ORDER }}" "{{ MLB_TIMEZONE }}" "{{ MLB_SHOW_TV }}" "{{ MLB_SHOW_RADIO }}" "{{ HOST_VOL_APP }}" "{{ HOST_VOL_LOGS }}"
+    shell: /config/mlb.tv-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ APP_URL }}" "{{ LOG_LEVEL }}" "{{ MLB_USERNAME }}" "{{ MLB_PASSWORD }}" "{{ MLB_BITRATE }}" "{{ MLB_START_CHAN }}" "{{ MLB_TEAM_ORDER }}" "{{ MLB_TIMEZONE }}" "{{ MLB_SHOW_TV }}" "{{ MLB_SHOW_RADIO }}" "{{ HOST_VOL_APP }}" "{{ HOST_VOL_LOGS }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1366,6 +1439,53 @@ actions:
         type: very_dangerous_raw_string
         description: The real filename you'd like Docker to use for this volume.
         default: MLBTV_LOGS
+    timeout: 40
+
+  - title: Create an mlbserver Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/mlbserver.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TIMEZONE }}" "{{ DATA_DIRECTORY }}" "{{ ACCOUNT_USERNAME }}" "{{ ACCOUNT_PASSWORD }}" "{{ FAV_TEAMS }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #mlbserver dvr description
+        default: none #mlbserver dvr default
+      - name: TAG
+        type: "regex:^[a-z0-9]+(?:[._-][a-z0-9]+)*$" # 2024.09.16 regex for a container tag
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 9999
+      - name: TIMEZONE
+        type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
+        description: in Linux Continent/City format.
+        default: America/Denver
+      - name: DATA_DIRECTORY
+        type: very_dangerous_raw_string
+        description: the path where you'd like the your mlbserver data to be stored INSIDE the container. Typically left as default value.
+        default: /mlbserver/data_directory
+      - name: ACCOUNT_USERNAME
+        type: very_dangerous_raw_string
+        description: Your MLB.tv username.
+        default: username@email.com
+      - name: ACCOUNT_PASSWORD
+        type: very_dangerous_raw_string
+        description: Your MLB.tv password.
+        default: password
+      - name: FAV_TEAMS
+        type: very_dangerous_raw_string
+        description: optional, comma-separated list of favorites. Choose from ATL,AZ,BAL,BOS,CHC,CWS,CIN,CLE,COL,DET,HOU,KC,LAA,LAD,MIA,MIL,MIN,NYM,NYY,OAK,PHI,PIT,STL,SD,SF,SEA,TB,TEX,TOR,WSH
+        default: 0
+      - name: HOST_DIR
+        type: "regex:^([a-zA-Z]:/|/|[a-zA-Z0-9_.-]+)(/[a-zA-Z0-9_.-]+)*[a-zA-Z0-9_.-]*$" # 2024.09.16 regex for volume names or Linux/Windows paths with forward slashes only
+        description: Parent directory to be used on host computer for persistent data. A sub-directory name of "mlbserver" will automatically be used.
+        default: /data
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
     timeout: 40
 
   - title: Create an Organizr Stack in Portainer
@@ -1530,6 +1650,49 @@ actions:
         default: /mnt/dvr
     timeout: 40
 
+  - title: Create a TubeArchivist Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/tubearchivist.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ ES_PORT }}" "{{ REDIS_PORT }}" "{{ TA_HOST }}" "{{ TA_USERNAME }}" "{{ TA_PASSWORD }}" "{{ TZ }}" "{{ HOST_DIR }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: "regex:^[a-z0-9]+(?:[._-][a-z0-9]+)*$" # 2024.09.16 regex for a container tag
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8010
+      - name: ES_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 9200
+      - name: REDIS_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 6379
+      - name: TA_HOST
+        type: very_dangerous_raw_string
+        description: TubeArchivist hostname (the hostname or IP you'll use to access the TA WebUI)
+        default: htpc6
+      - name: TA_USERNAME
+        type: very_dangerous_raw_string
+        description: TubeArchivist username (used to sign-in the the TA WebUI)      
+        default: tubearchivist
+      - name: TA_PASSWORD
+        type: very_dangerous_raw_string
+        description: TubeArchivist password (used to sign-in the the TA WebUI)
+        default: ChannelsDVR
+      - name: TZ
+        type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
+        description: Your local timezone in Linux "tz" format. Continent/City or Country/Timezone.
+        default: America/Denver
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used for downloaded videos. Sub-directory will be tubearchivist.
+        default: /mnt/dvr
+    timeout: 40
+
   - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/tubi-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TUBI_PORT }}" "{{ CDVR_START_CHAN }}"
@@ -1650,13 +1813,23 @@ dashboards:
         - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a MediaInfo Stack in Portainer
         - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create an mlbserver Stack in Portainer + CDVR Custom Channels
         - title: Create an Organizr Stack in Portainer
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
-        - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stream Link Manager Stack in Portainer
+        - title: Create a TubeArchivist Stack in Portainer
         - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
         - title: Create a Watchtower Stack in Portainer
+  - title: Deprecated
+    contents:
+      - title: Deprecated
+        type: fieldset
+        contents:
+        - title: Generate TWiT.tv Guide Data
+        - title: Generate Plex Token for Use with Plex M3U
+        - title: Generate Plex M3U & XML w/Plex Token
+        - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels

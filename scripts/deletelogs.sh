@@ -15,7 +15,7 @@ logTemp=/tmp/"$channelsHost"-"$channelsPort"_deletelogs_latest.log
 runFile=/tmp/"$channelsHost"-"$channelsPort"_deletelogs.run
 
 dvrDir="$channelsHost-$channelsPort"
-[ -z $CHANNELS_DVR_ALTERNATES ] && dvrDir="dvr"
+#[ -z $CHANNELS_DVR_ALTERNATES ] && dvrDir="dvr"
 
 while true; do
   [ -d "/mnt/$dvrDir/Logs/recording" ] \

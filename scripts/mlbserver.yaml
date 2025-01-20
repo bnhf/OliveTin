@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  # GitHub home for this project: https://github.com/tonywagner/mlbserver
+  # Docker Hub home for this project: https://hub.docker.com/r/tonywagner/mlbserver
+  mlbserver:
+    image: tonywagner/mlbserver:${TAG}
+    container_name: mlbserver
+    ports:
+      - ${HOST_PORT}:9999
+    environment:
+      - TZ=${TZ}
+      - data_directory=${DATA_DIRECTORY}
+      - account_username=${ACCOUNT_USERNAME}
+      - account_password=${ACCOUNT_PASSWORD}
+      - fav_teams=${FAV_TEAMS}
+    volumes:
+      - ${HOST_DIR}/mlbserver:${DATA_DIRECTORY}
+    restart: unless-stopped
+
+# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

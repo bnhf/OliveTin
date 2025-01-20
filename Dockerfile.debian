@@ -53,7 +53,7 @@ RUN mkdir -p /config /var/www/olivetin \
        ccextractor \
     && gem install httparty \
     && pip3 install -r /tmp/ical_2_xmltv.txt \
-    && pip3 install edlstrip click \
+    && pip3 install edlstrip click apprise \
     && sed -i "/import tempfile/a import re" ${EDLSTRIP_FIX} \
     && sed -i "s/^\s*length = float(result\.stdout)$/    try:\n \
         length = float(result.stdout)\n    except:\n \
