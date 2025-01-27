@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  # 2025.01.21
+  # GitHub home for this project: https://github.com/Threadfin/Threadfin.
+  # Docker container home for this project with setup instructions: https://hub.docker.com/r/fyb3roptik/threadfin.
+  threadfin:
+    image: fyb3roptik/threadfin:${TAG}
+    container_name: threadfin
+    ports:
+      - ${HOST_PORT}:34400
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${HOST_DIR}/conf:/home/threadfin/conf
+      - ${HOST_DIR}/temp:/tmp/threadfin:rw
+    restart: unless-stopped
+
+# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

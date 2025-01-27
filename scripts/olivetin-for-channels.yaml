@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   olivetin: # This docker-compose requires little or no editing. Set the Environment variables section of Portainer.
-    # 2024.10.20
+    # 2025.01.22
     # GitHub home for this project: https://github.com/bnhf/OliveTin.
     # Docker container home for this project with setup instructions: https://hub.docker.com/repository/docker/bnhf/olivetin.
     image: bnhf/olivetin:${TAG} # Add the tag like latest or test to the environment variables below.
@@ -23,12 +23,15 @@ services:
       - TZ=${TZ} # Add your local timezone in standard linux format. E.G. US/Eastern, US/Central, US/Mountain, US/Pacific, etc.
       - PORTAINER_TOKEN=${PORTAINER_TOKEN} # Generate via <username> dropdown (upper right of WebUI), "My account", API tokens.
       - PORTAINER_HOST=${PORTAINER_HOST} # Hostname or IP of the Docker host you're running Portainer on.
+      - PORTAINER_PORT=${PORTAINER_PORT} # https port you're running Portainer on. 9443 is the default.
     volumes:
       - ${HOST_DIR}/olivetin:/config # Add the parent directory on your Docker you'd like to use.
       - ${DVR_SHARE}:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share.
       - ${LOGS_SHARE}:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_logs # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
+      - ${TUBEARCHIVIST_SHARE}:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_ta # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
       #- ${DVR2_SHARE}:/mnt/${CHANNELS_DVR2_HOST}-${CHANNELS_DVR2_PORT} # Note that these volume mounts should always be to /mnt/hostname-port or /mnt/ip-port (dash rather than a colon between).
       #- ${LOGS2_SHARE}:/mnt/${CHANNELS_DVR2_HOST}-${CHANNELS_DVR2_PORT}_logs # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
+      #- ${TUBEARCHIVIST2_SHARE}:/mnt/${CHANNELS_DVR2_HOST}-${CHANNELS_DVR2_PORT}_ta # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
 
@@ -44,10 +47,10 @@ services:
       - ${HOST_DIR}/olivetin/data:${FOLDER}
     restart: unless-stopped
 
-#volumes: # Use this section if you've setup docker volumes named channels-dvr and channels-dvr-logs, with CIFS or NFS, to bind to /mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT} and  /mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_logs inside the container. Set DVR_SHARE=channels-dvr and LOGS_SHARE=channels-dvr-logs in this example.
+#volumes: # use this section if you've setup a docker volume named channels-dvr, with CIFS or NFS, to bind to /mnt/dvr inside the container. Set ${HOST_DIR} to channels-dvr (HOST_DIR=channels_dvr) in that example.
   #channels-dvr:
     #external: true
   #channels-dvr-logs:
     #external: true
-
-# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+  #tubearchivist:
+    #external: true

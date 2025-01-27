@@ -4,9 +4,10 @@ set -x
 
 stackName="$1"
 portainerHost="$PORTAINER_HOST"
+[[ -n $PORTAINER_PORT ]] && portainerPort="$PORTAINER_PORT" || portainerPort="9443"
 curl -s -o /dev/null http://$portainerHost:9000 \
   && portainerURL="http://$portainerHost:9000/api/stacks?type=2&method=string&endpointId=2" \
-  || portainerURL="https://$portainerHost:9443/api/stacks?type=2&method=string&endpointId=2"
+  || portainerURL="https://$portainerHost:$portainerPort/api/stacks?type=2&method=string&endpointId=2"
 portainerToken="$PORTAINER_TOKEN"
 cp /config/$stackName.yaml /tmp
 stackFile="/tmp/$stackName.yaml"

@@ -111,9 +111,32 @@ actions:
             value: imports/prune
     timeout: 20
 
+  - title: Live YouTube Channel Manifest URL Updater  #kisterupdates title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #kisterupdates icon
+    shell: /config/kisterupdates.sh "{{ dvr }}" "{{ frequency }}" "{{ channel_source_name }}" "{{ m3u_name }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #kisterupdates dvr description
+        default: none #kisterupdates dvr default
+      - name: frequency
+        type: ascii
+        description: Manifest URL update interval (followed by m for minutes or h for hours). 0 to kill existing background process.
+        default: 5h #kisterupdates frequency default
+      - name: channel_source_name
+        type: very_dangerous_raw_string
+        description: Channels Custom Source name. This should be identical to the name you used when creating your CDVR Custom Channels Source.
+        default: "YouTube Live" #kisterupdates channel_source_name default
+      - name: m3u_name
+        type: very_dangerous_raw_string
+        description: Channels Custom Source M3U name. This file needs to exist under $HOST_DIR/olivetin/data/$CHANNELS_DVR_HOST-$CHANNELS_DVR_PORT/ on your Docker/Portainer host machine.
+        default: YouTubeLive.m3u #kisterupdates m3u_name default
+    timeout: 20
+
   - title: Tube Archivist CDVR Processor #youtube-process title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #youtube-process icon
-    shell: /config/youtube-process.sh "{{ dvr }}" "{{ frequency }}" "{{ youtube_api_key }}" "{{ apprise_url }}" "{{ delete_after }}"
+    shell: /config/youtube-process.sh "{{ dvr }}" "{{ frequency }}" "{{ youtube_api_key }}" "{{ apprise_url }}" "{{ delete_after }}" "{{ video_directory }}" "{{ channels_directory }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -136,6 +159,14 @@ actions:
         type: ascii
         default: none #youtube-process delete_after default
         description: (use none for blank) Optional. Remove files older than x days.
+      - name: video_directory
+        type: very_dangerous_raw_string
+        default: tubearchivist #youtube-process video_directory default
+        description: The name of the folder containing your TA downloads. This is the path RELATIVE to the value specifed in your TUBEARCHiVIST env var.
+      - name: channels_directory
+        type: very_dangerous_raw_string
+        default: Imports/Videos #youtube-process channels_directory default
+        description: The name of the destination folder for your processed videos. This is the path RELATIVE to the value specifed in your TUBEARCHiVIST env var.
     timeout: 40
 
   - title: Delete Watched Videos #deletewatched title
@@ -698,29 +729,6 @@ actions:
         default: ah4c #adbpackages container_name default
     timeout: 20
 
-  - title: Live YouTube Channel Manifest URL Updater  #kisterupdates title
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #kisterupdates icon
-    shell: /config/kisterupdates.sh "{{ dvr }}" "{{ frequency }}" "{{ channel_source_name }}" "{{ m3u_name }}"
-    popupOnStart: execution-dialog-stdout-only
-    arguments:
-      - name: dvr
-        type: very_dangerous_raw_string
-        description: Channels DVR server to use. #kisterupdates dvr description
-        default: none #kisterupdates dvr default
-      - name: frequency
-        type: ascii
-        description: Manifest URL update interval (followed by m for minutes or h for hours). 0 to kill existing background process.
-        default: 5h #kisterupdates frequency default
-      - name: channel_source_name
-        type: very_dangerous_raw_string
-        description: Channels Custom Source name. This should be identical to the name you used when creating your CDVR Custom Channels Source.
-        default: "YouTube Live" #kisterupdates channel_source_name default
-      - name: m3u_name
-        type: very_dangerous_raw_string
-        description: Channels Custom Source M3U name. This file needs to exist under $HOST_DIR/olivetin/data/$CHANNELS_DVR_HOST-$CHANNELS_DVR_PORT/ on your Docker/Portainer host machine.
-        default: YouTubeLive.m3u #kisterupdates m3u_name default
-    timeout: 20
-
   - title: Docker-Compose Examples for CDVR & Related Extensions
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/dockercompose.sh {{ project }}
@@ -767,6 +775,8 @@ actions:
             value: slm
           - title: Tailscale
             value: tailscale
+          - title: TubeArchivist
+            value: tubearchivist
           - title: Tubi-for-Channels
             value: tubi-for-channels
           - title: VLC-Bridge-PBS
@@ -1070,7 +1080,7 @@ actions:
 
   - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/eplustv.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ START_CHANNEL }}" "{{ NUM_OF_CHANNELS }}" "{{ LINEAR_CHANNELS }}" "{{ PROXY_SEGMENTS }}" "{{ PUID }}" "{{ PGID }}" "{{ PORT }}" "{{ ESPNPLUS }}" "{{ ESPN }}" "{{ ESPN2 }}" "{{ ESPN3 }}" "{{ ESPNU }}" "{{ SEC }}" "{{ SECPLUS }}" "{{ ACCN }}" "{{ ACCNX }}" "{{ LONGHORN }}" "{{ ESPNEWS }}" "{{ ESPN_PPV }}" "{{ FOXSPORTS }}" "{{ FS_REPLAYS }}" "{{ MAX_RESOLUTION }}" "{{ FOX_ONLY_4K }}" "{{ PARAMOUNTPLUS }}" "{{ CBSSPORTSHQ }}" "{{ GOLAZO }}" "{{ NFLPLUS }}" "{{ NFLNETWORK }}" "{{ NFLREDZONE }}" "{{ B1GPLUS }}" "{{ B1GPLUS_USER }}" "{{ B1GPLUS_PASS }}" "{{ MSGPLUS }}" "{{ MSGPLUS_USER }}" "{{ MSGPLUS_PASS }}" "{{ FLOSPORTS }}" "{{ MTNWEST }}" "{{ MLBTV }}" "{{ MLBTV_USER }}" "{{ MLBTV_PASS }}" "{{ MLBTV_ONLY_FREE }}" "{{ HOST_VOLUME }}"
+    shell: /config/eplustv.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ START_CHANNEL }}" "{{ NUM_OF_CHANNELS }}" "{{ LINEAR_CHANNELS }}" "{{ BASE_URL }}" "{{ PROXY_SEGMENTS }}" "{{ PUID }}" "{{ PGID }}" "{{ PORT }}" "{{ HOST_VOLUME }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1084,7 +1094,7 @@ actions:
       - name: HOST_PORT
         type: int
         description: Use the recommended port number, or optionally change it if the port is already in use on your host.
-        default: 8185
+        default: 8020
       - name: START_CHANNEL
         type: int
         description: What the first channel number should be.
@@ -1092,11 +1102,15 @@ actions:
       - name: NUM_OF_CHANNELS
         type: int
         description: How many channels to create? This is dependent on the networks you are using.
-        default: 150
+        default: 200
       - name: LINEAR_CHANNELS
         type: ascii
         description: Break out dedicated linear channels.
         default: "false"
+      - name: BASE_URL
+        type: very_dangerous_raw_string
+        description: Keep as "default" for no change. If using a reverse proxy, m3u will be generated with this uri base.
+        default: default
       - name: PROXY_SEGMENTS
         type: ascii
         description: Proxy keyed *.ts files.
@@ -1113,148 +1127,10 @@ actions:
         type: int
         description: Port the API will be served on. You can set this if it conflicts with another service in your environment.
         default: 8000
-      - name: ESPNPLUS
-        type: ascii
-        description: Set to false if you only want events that come from your TV provider.
-        default: "true"
-      - name: ESPN
-        type: ascii
-        description: ESPN - Set if your TV provider supports it.
-        default: "false"
-      - name: ESPN2
-        type: ascii
-        description: ESPN2 - Set if your TV provider supports it.
-        default: "false"
-      - name: ESPN3
-        type: ascii
-        description: ESPN3 - Set if your TV provider supports it.
-        default: "false"
-      - name: ESPNU
-        type: ascii
-        description: ESPNU - Set if your TV provider supports it.
-        default: "false"
-      - name: SEC
-        type: ascii
-        description: SEC Network - Set if your TV provider supports it.
-        default: "false"
-      - name: SECPLUS
-        type: ascii
-        description: SEC Network+ - Set if your TV provider supports it.
-        default: "false"
-      - name: ACCN
-        type: ascii
-        description: ACCN - Set if your TV provider supports it.
-        default: "false"
-      - name: ACCNX
-        type: ascii
-        description: ACCNX - Set if your TV provider supports it.
-        default: "false"
-      - name: LONGHORN
-        type: ascii
-        description: Longhorn Network - Set if your TV provider supports it.
-        default: "false"
-      - name: ESPNEWS
-        type: ascii
-        description: ESPNews - Set if your TV provider supports it.
-        default: "false"
-      - name: ESPN_PPV
-        type: ascii
-        description: PPV - Set if your TV provider supports it.
-        default: "false"
-      - name: FOXSPORTS
-        type: ascii
-        description: Set if your TV provider supports it.
-        default: "false"
-      - name: FS_REPLAYS
-        type: ascii
-        description: If you would like to schedule Fox Sports events that aren't live.
-        default: "false"
-      - name: MAX_RESOLUTION
-        type: very_dangerous_raw_string
-        description: Max resolution to use. Valid options are UHD/HDR, UHD/SDR, 1080p, 720p, and 540p
-        default: UHD/SDR
-      - name: FOX_ONLY_4K
-        type: ascii
-        description: Only grab 4K events.
-        default: "false"
-      - name: PARAMOUNTPLUS
-        type: ascii
-        description: Set if you would like CBS Sports events.
-        default: "false"
-      - name: CBSSPORTSHQ
-        type: ascii
-        description: Set if you would like the CBS SPorts HQ linear channel.
-        default: "false"
-      - name: GOLAZO
-        type: ascii
-        description: Set if you would like the Golazo Network linear channel.
-        default: "false"
-      - name: NFLPLUS
-        type: ascii
-        description: Set if you would like NFL+ events.
-        default: "false"
-      - name: NFLNETWORK
-        type: ascii
-        description: Set if you would like the NFL Network linear channel.
-        default: "false"
-      - name: NFLREDZONE
-        type: ascii
-        description: Set if you would like NFL RedZone (NFL+ Premium required).
-        default: "false"
-      - name: B1GPLUS
-        type: ascii
-        description: Set if you would like to use B1G+.
-        default: "false"
-      - name: B1GPLUS_USER
-        type: very_dangerous_raw_string
-        description: B1G+ Username.
-        default: "false"
-      - name: B1GPLUS_PASS
-        type: very_dangerous_raw_string
-        description: B1G+ Password.
-        default: "false"
-      - name: MSGPLUS
-        type: ascii
-        description: Set if you would like to use MSG+.
-        default: "false"
-      - name: MSGPLUS_USER
-        type: very_dangerous_raw_string
-        description: MSG+ Username.
-        default: "false"
-      - name: MSGPLUS_PASS
-        type: very_dangerous_raw_string
-        description: MSG+ Password.
-        default: "false"
-      - name: FLOSPORTS
-        type: ascii
-        description: Set if you would like FloSports events.
-        default: "false"
-      - name: MTNWEST
-        type: ascii
-        description: Set if you would like Mountain West events.
-        default: "false"
-      - name: MLBTV
-        type: ascii
-        description: Set if you would like to use MLB.tv.
-        default: "false"
-      - name: MLBTV_USER
-        type: very_dangerous_raw_string
-        description: MLB.tv Username.
-        default: "false"
-      - name: MLBTV_PASS
-        type: very_dangerous_raw_string
-        description: MLB.tv Password.
-        default: "false"
-      - name: MLBTV_ONLY_FREE
-        type: ascii
-        description: Only schedule free games.
-        default: "false"
       - name: HOST_VOLUME
         type: very_dangerous_raw_string
         description: The filename you'd like Docker to use for the volume.
         default: eplustv_config
-      - type: confirmation
-        title: I'll check the EPlusTV Portainer-Log for login links and activation codes if standard output is initially blank! (Click to confirm)
       - type: confirmation
         title: It may take a while for the container to gather initial data, so I'll be patient when checking the Portainer-Log... (Click to confirm)
     timeout: 40
@@ -1650,6 +1526,37 @@ actions:
         default: /mnt/dvr
     timeout: 40
 
+  - title: Create a Threadfin Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/threadfin.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ PUID }}" "{{ PGID }}" "{{ TZ }}" "{{ HOST_DIR }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 34400
+      - name: PUID
+        type: int
+        description: Current user ID. Change if you have permission issues. Needs to be combined with PGID.
+        default: 1001
+      - name: PGID
+        type: int
+        description: Current group ID. Change if you have permission issues. Needs to be combined with PUID.
+        default: 1001
+      - name: TZ
+        type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
+        description: Your local timezone in Linux "tz" format. Continent/City or Country/Timezone.
+        default: America/Denver
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directories will be threadfin/conf, threadfin/temp.
+        default: /data/threadfin
+    timeout: 40
+
   - title: Create a TubeArchivist Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/tubearchivist.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ ES_PORT }}" "{{ REDIS_PORT }}" "{{ TA_HOST }}" "{{ TA_USERNAME }}" "{{ TA_PASSWORD }}" "{{ TZ }}" "{{ HOST_DIR }}"
@@ -1812,13 +1719,13 @@ dashboards:
         - title: Create a FileBot Stack in Portainer
         - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a MediaInfo Stack in Portainer
-        - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create an mlbserver Stack in Portainer + CDVR Custom Channels
         - title: Create an Organizr Stack in Portainer
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stream Link Manager Stack in Portainer
+        - title: Create a Threadfin Stack in Portainer
         - title: Create a TubeArchivist Stack in Portainer
         - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
@@ -1832,4 +1739,5 @@ dashboards:
         - title: Generate TWiT.tv Guide Data
         - title: Generate Plex Token for Use with Plex M3U
         - title: Generate Plex M3U & XML w/Plex Token
+        - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels

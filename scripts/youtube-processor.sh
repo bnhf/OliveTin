@@ -9,13 +9,15 @@ frequency=$2
 youtube_api_key=$3
 apprise_url=$4
 delete_after=$5
+video_directory=$6
+channels_directory=$7
 logFile=/config/"$channelsHost"-"$channelsPort"_youtube-processor_latest.log
 configTubeArchivist=/config/"$channelsHost"-"$channelsPort"_data/config.txt
 
 createConfig() {
   cat << EOF > $configTubeArchivist
-VIDEO_DIRECTORY=/mnt/${channelsHost}-${channelsPort}/tubearchivist
-CHANNELS_DIRECTORY=/mnt/${channelsHost}-${channelsPort}/Imports/Videos
+VIDEO_DIRECTORY=/mnt/${channelsHost}-${channelsPort}_ta/${video_directory}
+CHANNELS_DIRECTORY=/mnt/${channelsHost}-${channelsPort}_ta/${channels_directory}
 PROCESSED_FILES_TRACKER=/config/${channelsHost}-${channelsPort}_data/processed_files.txt
 YOUTUBE_API_KEY=$youtube_api_key
 APPRISE_URL=$apprise_url

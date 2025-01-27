@@ -55,6 +55,8 @@ scriptKill() {
     sed -i "/#${foregroundScript} youtube_api_key default/s/default: .* #/default: none #/" $configTemp
     sed -i "/#${foregroundScript} apprise_url default/s/default: .* #/default: none #/" $configTemp
     sed -i "/#${foregroundScript} delete_after default/s/default: .* #/default: none #/" $configTemp
+    sed -i "/#${foregroundScript} video_directory default/s/default: .* #/default: tubearchivist #/" $configTemp
+    sed -i "/#${foregroundScript} channels_directory default/s/default: .* #/default: Imports/Videos #/" $configTemp    
     exit 0
   fi
 
@@ -76,7 +78,13 @@ apprise_url=$4
 delete_after=$5
   [[ "$delete_after" != "none" ]] \
   && sed -i "/#${foregroundScript} delete_after default/s/default: .* #/default: ${delete_after} #/" $configTemp
-backgroundArguments="$dvr $frequency $youtube_api_key $apprise_url $delete_after"
+video_directory=$6
+  [[ "$video_directory" != "tubearchivist" ]] \
+  && sed -i "/#${foregroundScript} video_directory default/s/default: .* #/default: ${video_directory} #/" $configTemp
+channels_directory=$7
+  [[ "$channels_directory" != "Imports/Videos" ]] \
+  && sed -i "/#${foregroundScript} channels_directory default/s/default: .* #/default: ${channels_directory} #/" $configTemp
+backgroundArguments="$dvr $frequency $youtube_api_key $apprise_url $delete_after $video_directory $channels_directory"
 
 scriptRun() {
   runningScriptPID=$(ps -ef | grep "[$firstChar]${backgroundScript:1}.* $dvr" | awk '{print $2}')

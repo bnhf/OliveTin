@@ -9,6 +9,7 @@ backgroundScript=$2
 firstChar=${backgroundScript:0:1}
 runInterval=$3
 healthchecksIO=$4
+foregroundArguments="$dvr $backgroundScript $runInterval $healthchecksIO"
 [[ "$healthchecksIO" == "https://hc-ping.com/your_custom_uuid" ]] && healthchecksIO=""
 spinUp=$5
 runningScriptPID=$(ps -ef | grep "[$firstChar]${backgroundScript:1}.* $dvr" | awk '{print $2}')
@@ -100,7 +101,8 @@ case "$runInterval" in
     sed -i "/#${backgroundScript} interval default/s/default: .* #/default: ${runInterval} #/" $configTemp
     [[ -n $healthchecksIO ]] && echo "Using healthcheck.io pings to $healthchecksIO to confirm functionality" >> $logFile \
       && sed -i "/#${backgroundScript} healthchecks default/s|default: .* #|default: ${healthchecksIO} #|" $configTemp
-    echo "$dvr $backgroundScript $runInterval $healthchecksIO" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
+    #echo "$dvr $backgroundScript $runInterval $healthchecksIO" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
+    echo "$foregroundArguments" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
 
     sleep 2
     runningScripts
