@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  olivetin: # This docker-compose requires little or no editing. Set the Environment variables section of Portainer.
-    # 2025.01.22
+  olivetin: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2025.02.21
     # GitHub home for this project: https://github.com/bnhf/OliveTin.
     # Docker container home for this project with setup instructions: https://hub.docker.com/repository/docker/bnhf/olivetin.
     image: bnhf/olivetin:${TAG} # Add the tag like latest or test to the environment variables below.
@@ -24,6 +24,7 @@ services:
       - PORTAINER_TOKEN=${PORTAINER_TOKEN} # Generate via <username> dropdown (upper right of WebUI), "My account", API tokens.
       - PORTAINER_HOST=${PORTAINER_HOST} # Hostname or IP of the Docker host you're running Portainer on.
       - PORTAINER_PORT=${PORTAINER_PORT} # https port you're running Portainer on. 9443 is the default.
+      - PORTAINER_ENV=${PORTAINER_ENV} # Set this is if you're using an alternate Portainer Environment for some reason. 2 is the default.
     volumes:
       - ${HOST_DIR}/olivetin:/config # Add the parent directory on your Docker you'd like to use.
       - ${DVR_SHARE}:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share.

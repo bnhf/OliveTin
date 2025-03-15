@@ -37,6 +37,69 @@ actions:
         description: Message duration in seconds.
     timeout: 65
 
+  - title: CDVR Guide Event Reminder via Apprise #remind title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #remind icon
+    shell: /config/remind.sh "{{ dvr }}" "{{ frequency }}" "{{ padding_key }}" "{{ apprise_url }}" "{{ delete_job }}" "{{ check_extra }}" "{{ channel_change }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #remind dvr description
+        default: none #remind dvr default
+      - name: frequency
+        description: Event reminder check frequency in minutes. 0 to kill existing background process.
+        choices:
+          - title: 0
+            value: 0
+          - title: 5
+            value: 5
+          - title: 10
+            value: 10
+          - title: 20
+            value: 20
+          - title: 30
+            value: 30
+        default: 5 #remind frequency default
+      - name: check_extra
+        description: Adds x seconds to DVR job match window, in addition to the frequency specified above. Larger numbers increase the chances of multiple notifications when delete_job=false.
+        choices:
+          - title: 10
+            value: 10
+          - title: 20
+            value: 20
+          - title: 30
+            value: 30
+          - title: 60
+            value: 60
+          - title: 120
+            value: 120
+        default: 10 #remind check_extra default
+      - name: padding_key
+        description: Number of seconds added before or after a DVR job (recording) to trigger an event reminder. Use 10 or 30.
+        choices:
+          - title: 10
+            value: 10
+          - title: 30
+            value: 30
+        default: 10 #remind padding_key default
+      - name: apprise_url
+        type: very_dangerous_raw_string
+        description: Required. URL(s) for sending notifications via Apprise-supported services (space separated). channels:// = CHANNELS_CLIENTS olivetin:// = ALERT_EMAIL
+        default: channels:// #remind apprise_url default
+      - name: delete_job
+        description: Delete DVR job after the event notification is sent, but before recording actually begins.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false" #remind delete_job default
+      - name: channel_change
+        type: very_dangerous_raw_string
+        description: For reminders with 10 second and 30 second padding added (BEFORE and AFTER), the channel will be changed at the start time on this client. Use hostname or IP. Leave as default for none.
+        default: none #remind channel_change default
+    timeout: 40
+
   - title: Restart or Shutdown a Channels DVR Server
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/restartshutdown.sh "{{ dvr }}" {{ action }}
@@ -154,7 +217,7 @@ actions:
       - name: apprise_url
         type: very_dangerous_raw_string
         default: none #youtube-process apprise_url default
-        description: (use none for blank) Optional. URL for sending notifications via Apprise-supported services.
+        description: (use none for blank) Optional. URL for sending notifications via Apprise-supported services. "olivetin://" uses OliveTin env values.
       - name: delete_after
         type: ascii
         default: none #youtube-process delete_after default
@@ -578,20 +641,20 @@ actions:
         default: none #channels_dvr_monitor_channels start default
       - name: email
         type: very_dangerous_raw_string
-        description: (use none for blank) Email address to use as the sender.
+        description: ("none" for blank) Email address to use as sender. "$ALERT_EMAIL_FROM" to use OliveTin env value.
         default: none #channels_dvr_monitor_channels email default
       - name: password
         type: very_dangerous_raw_string
+        description: ("none" for blank) Password to log in to email account ("app" password recommended). "$ALERT_EMAIL_PASS" to use OliveTin env value.
         default: none #channels_dvr_monitor_channels password default
-        description: (use none for blank) Password to log in to the email account (unique Gmail or Yahoo "app" password recommended).
       - name: recipient
         type: very_dangerous_raw_string
+        description: ("none" for blank) Email address for recipient. "$ALERT_EMAIL_TO" to use OliveTin env value.
         default: none #channels_dvr_monitor_channels recipient default
-        description: (use none for blank) Email address of the recipient. Not required if text is specified. Use with email and password.
       - name: text
         type: very_dangerous_raw_string
-        default: none #channels_dvr_monitor_channels text default
         description: (use none for blank) Cell phone number to send a text to in the format - <10 digits>@<SMS gateway>.
+        default: none #channels_dvr_monitor_channels text default
     timeout: 4
 
   - title: Generate a Channels DVR M3U Playlist
@@ -775,6 +838,8 @@ actions:
             value: slm
           - title: Tailscale
             value: tailscale
+          - title: Threadfin
+            value: threadfin
           - title: TubeArchivist
             value: tubearchivist
           - title: Tubi-for-Channels
@@ -1355,7 +1420,7 @@ actions:
         description: optional, comma-separated list of favorites. Choose from ATL,AZ,BAL,BOS,CHC,CWS,CIN,CLE,COL,DET,HOU,KC,LAA,LAD,MIA,MIL,MIN,NYM,NYY,OAK,PHI,PIT,STL,SD,SF,SEA,TB,TEX,TOR,WSH
         default: 0
       - name: HOST_DIR
-        type: "regex:^([a-zA-Z]:/|/|[a-zA-Z0-9_.-]+)(/[a-zA-Z0-9_.-]+)*[a-zA-Z0-9_.-]*$" # 2024.09.16 regex for volume names or Linux/Windows paths with forward slashes only
+        type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. A sub-directory name of "mlbserver" will automatically be used.
         default: /data
       - name: CDVR_START_CHAN
@@ -1389,7 +1454,7 @@ actions:
 
   - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/plex-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ PLEX_PORT }}" "{{ PLEX_CODE }}" "{{ CDVR_START_CHAN }}"
+    shell: /config/plex-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ PORT }}" "{{ REGIONS }}" "{{ MJH_COMPATIBILITY }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1404,18 +1469,32 @@ actions:
         type: int
         description: Use the recommended port number, or optionally change it if the port is already in use on your host.
         default: 7779
-      - name: PLEX_PORT
+      - name: PORT
         type: int
         description: Change the port this container uses internally.      
         default: 7777
-      - name: PLEX_CODE
+      - name: REGIONS
         type: very_dangerous_raw_string
-        description: M3U channel options. 500+ channels each. Startup build ~5 mins. (us_east,us_west,local,ca,uk,nz,au,mx,es).
+        description: M3U channel options. 500+ channels each. Startup build ~2 mins per region. (local,nyc,clt,dfw,la,sea,ca,uk,nz,au,mx,es).
         default: local
+      - name: MJH_COMPATIBILITY
+        description: Compatibility with legacy Matt Huisman Plex playlist.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false"
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
-        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        description: "Override M3U channel numbers, starting with this number. Second NoEPG source will begin 1000 higher. Use # to keep M3U numbering."
         default: "#"
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directory will be plex.
+        default: /data
+      - type: confirmation
+        title: I acknowledge that it will take several minutes per region for the EPG data to be built, and that CDVR has a 750 channel limit per source.
     timeout: 300
 
   - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
@@ -1441,8 +1520,8 @@ actions:
         default: 7777
       - name: PLUTO_CODE
         type: very_dangerous_raw_string
-        description: What country streams will be hosted. Multiple can be hosted using comma separation.
-        default: local,us_west,us_east,ca,uk
+        description: What country streams will be hosted. Multiple can be hosted using comma separation. (local,us_west,us_east,ca,uk)
+        default: local
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
@@ -1468,7 +1547,7 @@ actions:
         default: 8182
       - name: REGIONS
         type: very_dangerous_raw_string
-        description: List desired region streams (comma separated - us,kr,it,in,gb,fr,es,de,ch,ca,at) or use all
+        description: List desired region streams (vertical bar separated - us|kr|it|in|gb|fr|es|de|ch|ca|at) or use all
         default: us
       - name: TZ
         type: very_dangerous_raw_string
@@ -1602,7 +1681,7 @@ actions:
 
   - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/tubi-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TUBI_PORT }}" "{{ CDVR_START_CHAN }}"
+    shell: /config/tubi-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TUBI_PORT }}" "{{ TUBI_USER }}" "{{ TUBI_PASS }}" "{{ CDVR_START_CHAN }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1621,6 +1700,14 @@ actions:
         type: int
         description: Change the port this container uses internally.      
         default: 7777
+      - name: TUBI_USER
+        type: very_dangerous_raw_string
+        description: Optional. Tubi username (leave as "none" for blank)      
+        default: none
+      - name: TUBI_PASS
+        type: very_dangerous_raw_string
+        description: Optional. Tubi password (leave as "none" for blank)
+        default: none
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
@@ -1704,6 +1791,68 @@ actions:
         default: "true"
     timeout: 40
 
+  - title: Delete a Project One-Click Channels DVR Extension
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/one-click_delete.sh "{{ dvr }}" "{{ project }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #one-click_delete dvr description
+        default: none #one-click_delete dvr default
+      - name: project
+        description: Project One-Click name for the Channels DVR extension you'd like to delete.
+        choices:
+          - title: ADBTuner
+            value: adbtuner+adbtuner:latest+ADBTuner
+          - title: ah4c (formerly AndroidHDMI-for-Channels)
+            value: ah4c+ah4c:latest
+          - title: cc4c (ChromeCapture-for-Channels)
+            value: cc4c+cc4c:latest
+          - title: EPlusTV
+            value: eplustv+eplustv:latest+EPlusTV+EPlusTV-Linear
+          - title: FileBot
+            value: filebot+filebot:latest
+          - title: FrndlyTV-for-Channels
+            value: frndlytv-for-channels+frndlytv-for-channels:latest+FrndlyTV+FrndlyTV-NoEPG
+          - title: MediaInfo
+            value: mediainfo+mediainfo:latest
+          - title: MLB.tv-for-Channels
+            value: mlb.tv-for-channels+channels-baseball:latest+MLB.tv
+          - title: mlbserver
+            value: mlbserver+mlbserver:latest+mlbserver
+          - title: Organizr
+            value: organizr+organizr:latest
+          - title: Plex-for-Channels
+            value: plex-for-channels+plex-for-channels:latest+PlexTV+PlexTV-NoEPG
+          - title: Pluto-for-Channels (jonmaddox)
+            value: pluto+jonmaddox/pluto-for-channels:latest
+          - title: Pluto-for-Channels (joagomez)
+            value: pluto-for-channels+jgomez177/pluto-for-channels:latest+PlutoTV
+          - title: SamsungTVPlus-for-Channels
+            value: samsung-tvplus-for-channels+samsung-tvplus-for-channels:latest+SamsungTVPlus
+          - title: Stirr-for-Channels
+            value: stirr-for-channels+stirr-for-channels:latest+StirrTV
+          - title: Stream-Link-Manager-for-Channels
+            value: slm+stream-link-manager-for-channels:latest
+          - title: Tailscale
+            value: tailscale+tailscale:latest
+          - title: Threadfin
+            value: threadfin+threadfin:latest
+          - title: TubeArchivist
+            value: tubearchivist+tubearchivist:latest
+          - title: Tubi-for-Channels
+            value: tubi-for-channels+tubi-for-channels:latest+TubiTV+TubiTV-NoEPG
+          - title: VLC-Bridge-PBS
+            value: vlc-bridge-pbs+vlc-bridge-pbs:latest+PBS
+          - title: VLC-Bridge-Fubo
+            value: vlc-bridge-fubo+vlc-bridge-fubo:latest+FuboTV
+          - title: VLC-Bridge-UK
+            value: vlc-bridge-uk+vlc-bridge-uk:latest
+          - title: Watchtower (for bulk container updating)
+            value: watchtower+watchtower:latest
+    timeout: 40
+
 dashboards:
   - title: Project One-Click
     contents:
@@ -1731,6 +1880,7 @@ dashboards:
         - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
         - title: Create a Watchtower Stack in Portainer
+        - title: Delete a Project One-Click Channels DVR Extension
   - title: Deprecated
     contents:
       - title: Deprecated

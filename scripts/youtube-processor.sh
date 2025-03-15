@@ -1,4 +1,6 @@
 #!/bin/bash
+# youtube-processor.sh
+#2025.01.30
 
 set -x
 
@@ -8,6 +10,8 @@ channelsPort=$(echo "$dvr" | awk -F: '{print $2}')
 frequency=$2
 youtube_api_key=$3
 apprise_url=$4
+  [[ $apprise_url == "olivetin://" ]] && alertUsername="${ALERT_EMAIL_FROM%@*}" && alertDomain="${ALERT_EMAIL_FROM#*@}" \
+  && apprise_url="mailtos://$alertUsername:$ALERT_EMAIL_PASS@$alertDomain@$ALERT_SMTP_SERVER?to=$ALERT_EMAIL_TO"
 delete_after=$5
 video_directory=$6
 channels_directory=$7

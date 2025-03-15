@@ -1,15 +1,16 @@
 version: '3.9'
 services:
-  # GitHub home for this project with setup instructions: https://github.com/jgomez177/pluto-for-channels
-  # Docker container home for this project: https://ghcr.io/jgomez177/pluto-for-channels
   pluto-for-channels:
+    # GitHub home for this project with setup instructions: https://github.com/jgomez177/pluto-for-channels
+    # Docker container home for this project: https://ghcr.io/jgomez177/pluto-for-channels
+    # 2025.02.20
     image: ghcr.io/jgomez177/pluto-for-channels:${TAG}
     container_name: pluto-for-channels
     ports:
-      - ${HOST_PORT}:${PLUTO_PORT} # Use the same port number the container is using, or optionally change it if the port is already in use on your host
+      - ${HOST_PORT}:${PLUTO_PORT} # Use the same port number the container is using, or optionally change it if the port is already in use on your host.
     environment:
-      - PLUTO_PORT=${PLUTO_PORT}
-      - PLUTO_CODE=${PLUTO_CODE} # ALLOWED_COUNTRY_CODES: us_east - United States East Coast, us_west - United States West Coast, local - Local IP address Geolocation, ca - Canada, uk - United Kingdom,
+      - PLUTO_PORT=${PLUTO_PORT} # Port the API will be served on. You can set this if it conflicts with another service in your environment.
+      - PLUTO_CODE=${PLUTO_CODE} # ALLOWED_COUNTRY_CODES: us_east - United States East Coast, us_west - United States West Coast, local - Local IP address Geolocation, ca - Canada, uk - United Kingdom.
     restart: unless-stopped
 
-  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

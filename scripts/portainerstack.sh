@@ -1,13 +1,19 @@
 #!/bin/bash
+# portainerstack.sh
+# 2025.02.21
 
 set -x
 
 stackName="$1"
 portainerHost="$PORTAINER_HOST"
 [[ -n $PORTAINER_PORT ]] && portainerPort="$PORTAINER_PORT" || portainerPort="9443"
+[[ -n $PORTAINER_ENV ]] && portainerEnv="$PORTAINER_ENV" || portainerEnv="2"
+#curl -s -o /dev/null http://$portainerHost:9000 \
+  #&& portainerURL="http://$portainerHost:9000/api/stacks?type=2&method=string&endpointId=2" \
+  #|| portainerURL="https://$portainerHost:$portainerPort/api/stacks?type=2&method=string&endpointId=2"
 curl -s -o /dev/null http://$portainerHost:9000 \
-  && portainerURL="http://$portainerHost:9000/api/stacks?type=2&method=string&endpointId=2" \
-  || portainerURL="https://$portainerHost:$portainerPort/api/stacks?type=2&method=string&endpointId=2"
+  && portainerURL="http://$portainerHost:9000/api/stacks/create/standalone/string?endpointId=$portainerEnv" \
+  || portainerURL="https://$portainerHost:$portainerPort/api/stacks/create/standalone/string?endpointId=$portainerEnv"
 portainerToken="$PORTAINER_TOKEN"
 cp /config/$stackName.yaml /tmp
 stackFile="/tmp/$stackName.yaml"
