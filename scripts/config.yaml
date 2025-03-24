@@ -21,6 +21,145 @@ actions:
         default: false
     timeout: 20
 
+  - title: OliveTin Environment Variables Generator/Tester
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/olivetin.sh "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ CHANNELS_DVR_HOST }}" "{{ CHANNELS_DVR_PORT }}" "{{ CDVR_ALTERNATES }}" "{{ CHANNELS_CLIENTS }}" "{{ ALERT_SMTP_SERVER }}" "{{ ALERT_EMAIL_FROM }}" "{{ ALERT_EMAIL_PASS }}" "{{ ALERT_EMAIL_TO }}" "{{ UPDATE_YAMLS }}" "{{ UPDATE_SCRIPTS }}" "{{ TZ }}" "{{ HOST_DIR }}" "{{ DVR_SHARE }}" "{{ LOGS_SHARE }}" "{{ TUBEARCH_SHARE }}" "{{ DVR2_SHARE }}" "{{ LOGS2_SHARE }}" "{{ TUBEARCH2_SHARE }}" "{{ DVR3_SHARE }}" "{{ LOGS3_SHARE }}" "{{ TUBEARCH3_SHARE }}" "{{ HOST_SFS_PORT }}" "{{ FOLDER }}" "{{ PORTAINER_TOKEN }}" "{{ PORTAINER_HOST }}" "{{ PORTAINER_PORT }}" "{{ PORTAINER_ENV }}" "{{ PERSISTENT_LOGS }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: Defaults to latest. Leave as latest unless you're rolling back to a previous version, or using a test tag.
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Optional. Setting a LAN search domain name allows you to use resolvable hostnames instead of IP addresses. A Tailnet can also be specified for those using Tailscale with MagicDNS. Separate multiple domains with a space.
+        default: $DOMAIN
+      - name: HOST_PORT
+        type: very_dangerous_raw_string
+        description: Defaults to 1337. Leave set as env var ${HOST_PORT:-1337} unless you need to use an alternate port for some reason.
+        default: ${HOST_PORT:-1337}
+      - name: CHANNELS_DVR_HOST
+        type: very_dangerous_raw_string
+        description: Required. Leave set as env var ${CHANNELS_DVR%%:*} and the value you used for this EZ-Start process will be used. If you've specified a DOMAIN value, you can now change to a resolvable hostname.
+        default: ${CHANNELS_DVR%%:*}
+      - name: CHANNELS_DVR_PORT
+        type: very_dangerous_raw_string
+        description: Defaults to 8089. Leave set as env var ${CHANNELS_DVR#*:} unless you need to use an alternate port for some reason.
+        default: ${CHANNELS_DVR#*:}
+      - name: CDVR_ALTERNATES
+        type: very_dangerous_raw_string
+        description: Optional. Space separated list of alternate Channels DVR servers to choose from in the form hostname:port (hostname must be resolvable) or ip:port. Leave set as env var $CHANNELS_DVR_ALTERNATES and any current value will be maintained.
+        default: $CHANNELS_DVR_ALTERNATES
+      - name: CHANNELS_CLIENTS
+        type: very_dangerous_raw_string
+        description: Space separated list of Channels DVR clients you'd like notifications sent to in the form hostname or IP.
+        default: $CHANNELS_CLIENTS
+      - name: ALERT_SMTP_SERVER
+        type: very_dangerous_raw_string
+        description: Optional, but required for OliveTin E-Mail alerts. SMTP server to use for sending alert e-mails. smtp.gmail.com:587 for example.
+        default: $ALERT_SMTP_SERVER
+      - name: ALERT_EMAIL_FROM
+        type: very_dangerous_raw_string
+        description: Optional, but required for OliveTin E-Mail alerts. Sender address for alert e-mails. username@gmail.com for example.
+        default: $ALERT_EMAIL_FROM
+      - name: ALERT_EMAIL_PASS
+        type: very_dangerous_raw_string
+        description: Optional, but required for OliveTin E-Mail alerts. SMTP "app" password established through GMail or Yahoo Mail. Do not use your everyday e-mail address. Gmail app passwords described here https://support.google.com/mail/answer/185833?hl=en
+        default: $ALERT_EMAIL_PASS
+      - name: ALERT_EMAIL_TO
+        type: very_dangerous_raw_string
+        description: Optional, but required for OliveTin E-Mail alerts. Recipient address for alert e-mails. username@gmail.com for example.
+        default: $ALERT_EMAIL_TO
+      - name: UPDATE_YAMLS
+        description: Defaults to true. Only advanced users would ever use false, as this prevents the update of yamls.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "true"
+      - name: UPDATE_SCRIPTS
+        description: Defaults to true. Only advanced users would ever use false, as this prevents the update of scripts.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "true"
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Required. Add your local timezone in standard linux format. E.G. US/Eastern, US/Central, US/Mountain, US/Pacific, etc.
+        default: $TZ
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Required. Add the parent directory on your Docker host you'd like to use for your persistent OliveTin data. On most Linux servers this can be /data. This needs to be a writable location, so /volume1/docker is recommended as HOST_DIR on Synology, where you also need to create an olivetin and olivetin/data directory manually beneath that parent (in advance). Windows can be anywhere you can create a file C:/Users/Public would work for example. On the Mac, use a parent directory allowed by Docker Desktop -- check Docker Desktop settings for a list. 
+        default: ${HOST_DIR:-/data}
+      - name: DVR_SHARE
+        type: very_dangerous_raw_string
+        description: Required. The path to your CDVR recordings. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share. Leave as the env var $DVR_SHARE to have this determined for you using your CDVR server. This only works when CDVR and Docker are installed on the same host computer.
+        default: $DVR_SHARE
+      - name: LOGS_SHARE
+        type: very_dangerous_raw_string
+        description: Required. The path to your CDVR executables. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share. Leave as the env var $LOGS_SHARE to have this determined for you using your CDVR server. This only works when CDVR and Docker are installed on the same host computer.
+        default: $LOGS_SHARE
+      - name: TUBEARCH_SHARE
+        type: very_dangerous_raw_string
+        description: Optional. The path to your TubeArchivist download folder. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share. Leave as the env var $DVR_SHARE if your TubeArchivist download folder is alongside your CDVR recording folders.
+        default: ${TUBEARCHIVIST_SHARE}
+      - name: DVR2_SHARE
+        type: very_dangerous_raw_string
+        description: Optional. The path to your CDVR recordings. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share. Leave as the env var $DVR2_SHARE to have this determined for you using your CDVR server. This only works when CDVR and Docker are installed on the same host computer.
+        default: $DVR2_SHARE
+      - name: LOGS2_SHARE
+        type: very_dangerous_raw_string
+        description: Optional. The path to your CDVR executables. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share. Leave as the env var $LOGS2_SHARE to have this determined for you using your CDVR server. This only works when CDVR and Docker are installed on the same host computer.
+        default: $LOGS2_SHARE
+      - name: TUBEARCH2_SHARE
+        type: very_dangerous_raw_string
+        description: Optional. The path to your TubeArchivist download folder. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share. Leave as the env var $DVR2_SHARE if your TubeArchivist download folder is alongside your CDVR recording folders.
+        default: ${TUBEARCHIVIST2_SHARE}
+      - name: DVR3_SHARE
+        type: very_dangerous_raw_string
+        description: Optional. The path to your CDVR recordings. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share. Leave as the env var $DVR3_SHARE to have this determined for you using your CDVR server. This only works when CDVR and Docker are installed on the same host computer.
+        default: $DVR3_SHARE
+      - name: LOGS3_SHARE
+        type: very_dangerous_raw_string
+        description: Optional. The path to your CDVR executables. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share. Leave as the env var $LOGS3_SHARE to have this determined for you using your CDVR server. This only works when CDVR and Docker are installed on the same host computer.
+        default: $LOGS3_SHARE
+      - name: TUBEARCH3_SHARE
+        type: very_dangerous_raw_string
+        description: Optional. The path to your TubeArchivist download folder. This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share. Leave as the env var $DVR_SHARE if your TubeArchivist download folder is alongside your CDVR recording folders.
+        default: ${TUBEARCHIVIST3_SHARE}
+      - name: HOST_SFS_PORT
+        type: very_dangerous_raw_string
+        description: Required. The port to be used by the Static File Server employed by OliveTin. Leave as the default, unless that port is already in use on your host computer.
+        default: ${HOST_SFS_PORT:-8080}
+      - name: FOLDER
+        type: very_dangerous_raw_string
+        description: Required. The name of the folder to be used internally by the Static File Server. Typically does not need to be changed from /web.
+        default: ${FOLDER:-/web}
+      - name: PORTAINER_TOKEN
+        type: very_dangerous_raw_string
+        description: Required for Project One-Click. Generate via <username> dropdown (upper right of Portainer WebUI), "My account", API tokens.
+        default: ${PORTAINER_TOKEN}
+      - name: PORTAINER_HOST
+        type: very_dangerous_raw_string
+        description: Required for Project One-Click. Hostname or IP of the Docker host you're running Portainer on. Leave as env var ${PORTAINER_HOST:-$CHANNELS_DVR_HOST} if you have Docker/Portainer on the same host as your CDVR server.
+        default: ${PORTAINER_HOST:-$CHANNELS_DVR_HOST}
+      - name: PORTAINER_PORT
+        type: very_dangerous_raw_string
+        description: Optional. https port you're running Portainer on. 9443 is the default. Only change this if you're using a non-stadard port for https!
+        default: ${PORTAINER_PORT:-9443}
+      - name: PORTAINER_ENV
+        type: very_dangerous_raw_string
+        description: Optional. Set this is if you're using an alternate Portainer Environment for some reason. 2 is the default.
+        default: ${PORTAINER_ENV:-2}
+      - name: PERSISTENT_LOGS
+        type: very_dangerous_raw_string
+        description: Optional. For supported Actions, log files are retained on an ongoing basis. false is the default.
+        default: ${PERSISTENT_LOGS:-"false"} 
+    timeout: 20
+
   - title: Send Message to Defined Channels Clients
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/notifications.sh "{{ title }}" "{{ message }}" {{ duration }}
@@ -292,7 +431,7 @@ actions:
         description: Channels DVR server to use. #comskipignore dvr description
         default: none #comskipignore dvr default
       - name: channel
-        type: int
+        type: ascii_sentence
       - name: action
         description: Turn Comskip On or Off for the above channel.
         choices:
@@ -584,7 +723,7 @@ actions:
 
   - title: E-Mail Log Alerts #logalerts title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #logalerts icon
-    shell: /config/logalerts.sh "{{ dvr }}" "{{ frequency }}" "{{ filter1 }}" "{{ filter2 }}" "{{ filter3 }}"
+    shell: /config/logalerts.sh "{{ dvr }}" "{{ frequency }}" "{{ filter1 }}" "{{ filter2 }}" "{{ filter3 }}" "{{ filter4 }}" "{{ filter5 }}" "{{ apprise_url }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -593,7 +732,7 @@ actions:
         default: none #logalerts dvr default
       - name: frequency
         type: ascii
-        description: CDVR log check interval (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        description: CDVR log check interval (followed by m for minutes or h for hours). 0 to kill existing background process.
         default: 2m #logalerts frequency default
       - name: filter1
         type: very_dangerous_raw_string
@@ -607,6 +746,18 @@ actions:
         type: very_dangerous_raw_string
         description: Third grep filter to apply. Special characters will be escaped automatically. none = not used.
         default: none #logalerts filter3 default
+      - name: filter4
+        type: very_dangerous_raw_string
+        description: Fourth grep filter to apply. Special characters will be escaped automatically. none = not used.
+        default: none #logalerts filter4 default
+      - name: filter5
+        type: very_dangerous_raw_string
+        description: Fifth grep filter to apply. Special characters will be escaped automatically. none = not used.
+        default: none #logalerts filter5 default
+      - name: apprise_url
+        type: very_dangerous_raw_string
+        description: Required. URL(s) for sending notifications via Apprise-supported services (space separated). channels:// = CHANNELS_CLIENTS olivetin:// = ALERT_EMAIL
+        default: olivetin:// #logalerts apprise_url default
     timeout: 20
 
   - title: List Sources for a Single Channel
@@ -790,6 +941,73 @@ actions:
         type: very_dangerous_raw_string
         description: ah4c container name. Default = ah4c
         default: ah4c #adbpackages container_name default
+    timeout: 20
+
+  - title: ChannelWatch Real-Time Alerts for CDVR #channelwatch title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #channelwatch icon
+    shell: /config/channelwatch.sh "{{ dvr }}" "{{ log_level }}" "{{ log_retention_days }}" "{{ alerts_channel_watching }}" "{{ channel_images }}" "{{ pushover_user_key }}" "{{ pushover_api_token }}" "{{ apprise_discord }}" "{{ apprise_email }}" "{{ apprise_email_to }}" "{{ apprise_telegram }}" "{{ apprise_slack }}" "{{ apprise_custom }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #adbalerts dvr description
+        default: none #channelwatch dvr default
+      - name: log_level
+        type: int
+        description: Set ChannelWatch log level. 1=standard, 2=verbose. Enter 0 to kill active background process.
+        default: 1 #channelwatch log_level default
+      - name: log_retention_days
+        type: int
+        description: Optional. Number of days to keep log files
+        default: 7 #channelwatch log_retention_days default
+      - name: alerts_channel_watching
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        description: Notify when someone is watching TV.
+        default: "true" #channelwatch alerts_channel_watching default
+      - name: channel_images
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        description: Optional. Enable/disable channel logos in notifications.
+        default: "true" #channelwatch channel_images default
+      - name: pushover_user_key
+        type: very_dangerous_raw_string
+        description: Optional. Your Pushover User Key.
+        default: ua4p1jsouhuxqxr6wx4d55itbpqpsz #channelwatch pushover_user_key default
+      - name: pushover_api_token
+        type: very_dangerous_raw_string
+        description: Optional. Your Pushover API Token.
+        default: a35wfzbmqdphj7pogyyvnw5jei35zn #channelwatch pushover_api_token default
+      - name: apprise_discord
+        type: very_dangerous_raw_string
+        description: Optional. Discord Webhooks - Format- webhook_id/webhook_token. Create webhook in Discord Server Settings → Integrations.
+        default: none #channelwatch apprise_discord default
+      - name: apprise_email
+        type: very_dangerous_raw_string
+        description: Optional. Email - Format- user:password@gmail.com. For Gmail, use App Password from Google Account settings.
+        default: none #channelwatch apprise_email default
+      - name: apprise_email_to
+        type: very_dangerous_raw_string
+        description: Optional. Recipient email (optional).
+        default: none #channelwatch apprise_email_to default
+      - name: apprise_telegram
+        type: very_dangerous_raw_string
+        description: Optional. Telegram - Format- bottoken/ChatID. Create bot with @BotFather and get your Chat ID with @userinfobot.
+        default: none #channelwatch apprise_telegram default
+      - name: apprise_slack
+        type: very_dangerous_raw_string
+        description: Optional. Slack - Format- tokenA/tokenB/tokenC. Create app at https://api.slack.com/apps.
+        default: none #channelwatch apprise_slack default
+      - name: apprise_custom
+        type: very_dangerous_raw_string
+        description: Optional. APPRISE_CUSTOM "pover://your_user_key@your_token"
+        default: none #channelwatch apprise_custom default
     timeout: 20
 
   - title: Docker-Compose Examples for CDVR & Related Extensions
@@ -1528,6 +1746,16 @@ actions:
         default: "#"
     timeout: 40
 
+  - title: Install Portainer on your Docker Host
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/portainer.sh "{{ admin_password }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: admin_password
+        type: very_dangerous_raw_string
+        description: The password you'd like to use for your admin account in Portainer (12 character minimum, no dollar($) signs). This password will be hashed and attached via portainer_secrets volume. This is for use with OliveTin EZ-Start only, when OliveTin was installed from the commandline and Portainer is not already installed.
+    timeout: 60
+
   - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/samsung-tvplus-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ REGIONS }}" "{{ TZ }}" "{{ CDVR_START_CHAN }}"
@@ -1872,6 +2100,7 @@ dashboards:
         - title: Create an Organizr Stack in Portainer
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Install Portainer on your Docker Host
         - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stream Link Manager Stack in Portainer
         - title: Create a Threadfin Stack in Portainer

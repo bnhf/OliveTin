@@ -1,4 +1,6 @@
 #!/bin/bash
+# logalerts.sh
+# 2025.03.15
 
 set -x
 
@@ -48,6 +50,9 @@ scriptKill() {
     sed -i "/#${foregroundScript} filter1 default/s/default: .* #/default: \"[DVR] Error\" #/" $configTemp
     sed -i "/#${foregroundScript} filter2 default/s/default: .* #/default: none #/" $configTemp
     sed -i "/#${foregroundScript} filter3 default/s/default: .* #/default: none #/" $configTemp
+    sed -i "/#${foregroundScript} filter4 default/s/default: .* #/default: none #/" $configTemp
+    sed -i "/#${foregroundScript} filter5 default/s/default: .* #/default: none #/" $configTemp
+    sed -i "/#${foregroundScript} apprise_url default/s|default: .* #|default: olivetin:// #|" $configTemp
     exit 0
   fi
 
@@ -57,6 +62,8 @@ scriptKill() {
 
 cp $configFile /tmp
 frequency="$2"
+  [[ "$frequency" == "once" ]] && echo "Run once mode not supported. Use Generate Filtered Channels DVR Log Action instead" \
+    && exit 0
   [[ "$frequency" == "0" ]] && scriptKill
   [[ "$frequency" != "0" ]] \
   && sed -i "/#${foregroundScript} frequency default/s/default: .* #/default: ${frequency} #/" $configTemp
@@ -66,15 +73,22 @@ filter2="$4"
   sed -i "/#${foregroundScript} filter2 default/s/default: .* #/default: \"${filter2}\" #/" $configTemp
 filter3="$5"
   sed -i "/#${foregroundScript} filter3 default/s/default: .* #/default: \"${filter3}\" #/" $configTemp
+filter4="$6"
+  sed -i "/#${foregroundScript} filter4 default/s/default: .* #/default: \"${filter4}\" #/" $configTemp
+filter5="$7"
+  sed -i "/#${foregroundScript} filter5 default/s/default: .* #/default: \"${filter5}\" #/" $configTemp
+apprise_url=$8
+  [[ "$apprise_url" != "olivetin://" ]] \
+  && sed -i "/#${foregroundScript} apprise_url default/s|default: .* #|default: ${apprise_url} #|" $configTemp
 
 scriptRun() {
   runningScriptPID=$(ps -ef | grep "[l]ogalerter.sh $dvr" | awk '{print $2}')
   [[ -n $runningScriptPID ]] && kill $runningScriptPID && echo "Killing currently running script with PID $runningScriptPID" \
   && sed -i "/#${foregroundScript} title/s/(.*) #/($(date +'%d%b%y_%H:%M')) #/" $configTemp \
   && sed -i "/#${foregroundScript} icon/s|img src = .* width|img src = $greenIcon width|" $configTemp
-  nohup /config/logalerter.sh $dvr $frequency "$filter1" "$filter2" "$filter3" >> $logFile 2>&1 &
+  nohup /config/logalerter.sh $dvr $frequency "$filter1" "$filter2" "$filter3" "$filter4" "$filter5" "$apprise_url" >> $logFile 2>&1 &
   runningScriptPID=$!
-  echo "$foregroundScript.sh $dvr $frequency \"$filter1\" \"$filter2\" \"$filter3\"" > /config/"$channelsHost"-"$channelsPort"_logalerts.running
+  echo "$foregroundScript.sh $dvr $frequency \"$filter1\" \"$filter2\" \"$filter3\" \"$filter4\" \"$filter5\" \"$apprise_url\"" > /config/"$channelsHost"-"$channelsPort"_logalerts.running
 
   grep -q '(.*) #'"$foregroundScript"'' $configTemp
     [[ "$?" == "1" ]] \

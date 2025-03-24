@@ -1,4 +1,6 @@
 #! /bin/bash
+# start.sh
+# 2025.03.21
 
 checkYamls() {
   local yamls=($(cd /tmp && ls *.yaml *.env))
@@ -31,6 +33,26 @@ checkScripts() {
   done
 }
 
+checkSubs() {
+  cd /tmp
+  local subs=($(for d in */ ; do echo "${d%/}"; done))
+
+  for sub in "${subs[@]}"; do
+    local subFiles=($(find "$sub" -type f -name "*.py"))
+
+    for subFile in "${subFiles[@]}"; do
+      if [[ ! -f "/config/$subFile" || "$UPDATE_SCRIPTS" == "true" ]]; then
+        cp --parents "$subFile" /config 2>/dev/null \
+        && chmod +x "/config/$subFile" \
+        && echo "No existing /config/$subFile found or UPDATE_SCRIPTS set to true"
+      else
+        echo "Existing /config/$subFile found, and will be preserved"
+      fi
+    done
+  done
+  cd ~
+}
+
 killZombies() {
   echo "----------------------------------------"
   echo "Checking for .running files that don't match with currently defined DVRs..."
@@ -44,6 +66,15 @@ killZombies() {
   done
 
   find /config -type f -name '*.running' | grep -v $grepArguments | xargs rm -fv
+}
+
+killZombieContainers() {
+  containers=$(docker ps | grep -Eo 'channelwatch[0-9]')
+  for container in "${containers[@]}"; do
+    docker stop $container 2>/dev/null
+    sleep 1
+    docker rm $container 2>/dev/null
+  done
 }
 
 loadScriptArguments() {
@@ -107,7 +138,9 @@ main() {
   cd ~
   checkYamls  
   checkScripts
+  checkSubs
   killZombies
+  killZombieContainers
   loadScriptArguments
   createMsmtprc
   channelsDvrServers

@@ -1,6 +1,6 @@
 #!/bin/bash
 # healthcheck.sh
-# 2025.02.22
+# 2025.03.22
 
 set -x
 
@@ -16,7 +16,8 @@ containerHealthcheck() {
   echo -e "Checking your OliveTin-for-Channels installation..." > $logFile
   [[ $hostHealthcheck ]] && echo -e "(extended_check=true)\n" >> $logFile || echo -e "(extended_check=false)\n" >> $logFile
 
-  olivetinVersion=$(grep "pageTitle:" /config/config.yaml | awk '{print $3}') && echo -e "Version $olivetinVersion\n" >> $logFile
+  olivetinVersion=$(grep "pageTitle:" /config/config.yaml | awk '{print $3}') && echo -e "OliveTin Container Version $olivetinVersion" >> $logFile
+  echo -e "OliveTin Docker Compose Version $OLIVETIN_COMPOSE\n" >> $logFile
   
   echo -e "----------------------------------------\n" >> $logFile
 
@@ -59,10 +60,10 @@ containerHealthcheck() {
 
   echo -e "Checking if your Portainer token is working on ports 9000 and/or 9443:\n" >> $logFile
   [[ -z $PORTAINER_PORT ]] && portainerPort=9443 || portainerPort=$PORTAINER_PORT
-  echo "Portainer http response on port 9000 reports version $(curl -s -k -H "Authorization: Bearer ${PORTAINER_TOKEN}" http://$PORTAINER_HOST:9000/api/status | jq -r '.Version')" >> $logFile
-  echo "Portainer Environment ID for local is $(curl -s -k -X GET -H "X-API-Key: $PORTAINER_TOKEN" "http://$PORTAINER_HOST:9000/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')" >> $logFile
-  echo "Portainer https response on port $portainerPort reports version $(curl -s -k -H "Authorization: Bearer ${PORTAINER_TOKEN}" https://$PORTAINER_HOST:$portainerPort/api/status | jq -r '.Version')" >> $logFile
-  echo "Portainer Environment ID for local is $(curl -s -k -X GET -H "X-API-Key: $PORTAINER_TOKEN" "https://$PORTAINER_HOST:$portainerPort/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')" >> $logFile
+  echo "Portainer http response on port 9000 reports version $(curl -s -k --max-time 3 -H "Authorization: Bearer ${PORTAINER_TOKEN}" http://$PORTAINER_HOST:9000/api/status | jq -r '.Version')" >> $logFile
+  echo "Portainer Environment ID for local is $(curl -s -k -X GET --max-time 3 -H "X-API-Key: $PORTAINER_TOKEN" "http://$PORTAINER_HOST:9000/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')" >> $logFile
+  echo "Portainer https response on port $portainerPort reports version $(curl -s -k --max-time 3 -H "Authorization: Bearer ${PORTAINER_TOKEN}" https://$PORTAINER_HOST:$portainerPort/api/status | jq -r '.Version')" >> $logFile
+  echo "Portainer Environment ID for local is $(curl -s -k -X GET --max-time 3 -H "X-API-Key: $PORTAINER_TOKEN" "https://$PORTAINER_HOST:$portainerPort/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')" >> $logFile
 
   echo -e "\n----------------------------------------\n" >> $logFile
 
