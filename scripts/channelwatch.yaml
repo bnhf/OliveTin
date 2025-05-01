@@ -1,0 +1,27 @@
+version: '3.0'
+services:
+  channelwatch:
+    # 2025.03.24
+    # GitHub home for this project: https://github.com/CoderLuii/ChannelWatch.
+    # Docker container home for this project with setup instructions: https://hub.docker.com/r/coderluii/channelwatch.
+    image: coderluii/channelwatch:${TAG:-latest}
+    container_name: channelwatch
+    environment:
+      CHANNELS_DVR_HOST: ${CHANNELS_DVR_HOST} # Required. IP address of your Channels DVR server.
+      CHANNELS_DVR_PORT: ${CHANNELS_DVR_PORT:-8089} # Optional. Port for your Channels DVR server (default- 8089).
+      TZ: ${TZ} # Optional- Timezone for logs and timestamps. Find your TZ value at: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. Example- America/New_York, Europe/London, Asia/Tokyo.
+      LOG_LEVEL: ${LOG_LEVEL:-1} # Optional. Log verbosity level (1=Standard, 2=Verbose).
+      LOG_RETENTION_DAYS: ${LOG_RETENTION_DAYS:-7} # Optional. Number of days to keep log files.
+      Alerts_Channel-Watching: TRUE # Set to true to enable, false to disable.
+      CHANNEL_IMAGES: TRUE # Optional. Enable/disable channel logos in notifications.
+      PUSHOVER_USER_KEY: ${PUSHOVER_USER_KEY} # Your Pushover user key. Get credentials at https://pushover.net.
+      PUSHOVER_API_TOKEN: ${PUSHOVER_API_TOKEN} # Your Pushover application token.
+      APPRISE_DISCORD: ${APPRISE_DISCORD} # Discord Webhooks - Format- webhook_id/webhook_token. Create webhook in Discord Server Settings → Integrations.
+      APPRISE_EMAIL: ${APPRISE_EMAIL} # Optional. Email - Format- user:password@gmail.com. For Gmail, use App Password from Google Account settings.
+      APPRISE_EMAIL_TO: ${APPRISE_EMAIL_TO} # Recipient email (optional).
+      APPRISE_TELEGRAM: ${APPRISE_TELEGRAM} # Optional. Telegram - Format- bottoken/ChatID. Create bot with @BotFather and get your Chat ID with @userinfobot.
+      APPRISE_SLACK: ${APPRISE_SLACK} # Slack - Format- tokenA/tokenB/tokenC. Create app at https://api.slack.com/apps.
+      APPRISE_CUSTOM: ${APPRISE_CUSTOM} # pover://your_user_key@your_token. Apprise configuration alternative for Pushover.
+    volumes:
+      - ${HOST_DIR}/channelwatch:/config
+    restart: unless-stopped

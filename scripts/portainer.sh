@@ -1,22 +1,59 @@
 #!/bin/bash
 # portainer.sh
-# 2025.03.20
+# 2025.03.29
 
 set -x
 
+[[ -z $PORTAINER_HOST ]] && portainerHost="${CHANNELS_DVR%%:*}" || portainerHost="$PORTAINER_HOST"
 portainerAdminPassword="$1"
 hashedPassword=$(htpasswd -nbB admin "$portainerAdminPassword" | cut -d ":" -f 2)
-#hashedPassword=$(printf "%s\n" "$portainerAdminPassword" | htpasswd -nbB admin - | cut -d ":" -f 2)
-#escapedHashedPassword=$(echo "$hashedPassword" | sed 's/\$/$$/g')
+portainerHttpPort="$2"
+portainerHttpsPort="$3"
 
 docker run -d \
-  -p 8000:8000 \
-  -p 9000:9000 \
-  -p 9443:9443 \
+  -p $portainerHttpPort:9000 \
+  -p $portainerHttpsPort:9443 \
   --name portainer \
   --restart always \
   --pull always \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data \
   portainer/portainer-ce:latest \
---admin-password "$hashedPassword"
+  --admin-password "$hashedPassword" \
+&& echo "Portainer container created successfully" \
+|| { echo "Portainer container creation failed"; exit 0; }
+
+sleep 2
+
+jsonWebToken=$(
+curl -s -X POST "http://$portainerHost:$portainerHttpPort/api/auth" \
+        -H "Content-Type: application/json" \
+        -d '{"Username":"admin", "Password":"'$portainerAdminPassword'"}' \
+        | jq -r '.jwt'
+)
+
+portainerToken=$(
+curl -s -X POST "http://$portainerHost:$portainerHttpPort/api/users/1/tokens" \
+        -H "Authorization: Bearer $jsonWebToken" \
+        -H "Content-Type: application/json" \
+        -d '{"password": "'$portainerAdminPassword'", "description": "olivetin"}' \
+        | jq -r '.rawAPIKey'
+)
+
+portainerEnv=$(
+curl -s -X POST "http://$portainerHost:$portainerHttpPort/api/endpoints" \
+        -H "Authorization: Bearer $jsonWebToken" \
+        -F "Name=local" \
+        -F "EndpointCreationType=1" \
+        | jq -r '.Id'
+)
+
+[[ -n $portainerToken ]] && {
+  echo -e "\nA Portainer token named olivetin has been created...";
+  echo "$portainerToken" > /config/olivetin.token;
+  echo "$portainerToken";
+  echo;
+  echo "and a Portainer local environment initialized...";
+  echo "$portainerEnv" > /config/portainer_env.id;
+  echo "$portainerEnv";
+} || echo -e "\nPortainer token creation and environment initialization failed..."

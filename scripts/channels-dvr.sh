@@ -1,4 +1,6 @@
 #!/bin/bash
+# channels-dvr.sh
+# 2025.04.01
 
 set -x
 
@@ -11,6 +13,9 @@ channelsPort="$3"
 dvrShare="$6"
 dvrContainerDir="$7"
 cdvrContainer="${12}" && [[ "$cdvrContainer" == "#" ]] && cdvrContainer=""
+[[ -z $PORTAINER_HOST ]] && portainerHost="${CHANNELS_DVR%%:*}"
+[[ -f /config/olivetin.token ]] && portainerToken=$(cat /config/olivetin.token)
+dirsFile="/tmp/$extension.dirs"
 
 envVars=(
 "TAG=$1"
@@ -27,7 +32,12 @@ envVars=(
 "CDVR_CONTAINER=${12}"
 )
 
+synologyDirs=(
+"$5/channels-dvr$cdvContainer"
+)
+
 printf "%s\n" "${envVars[@]}" > $envFile
+printf "%s\n" "${synologyDirs[@]}" > $dirsFile
 
 sed -i '/=#/d' $envFile
 
@@ -37,6 +47,6 @@ stackCreated() {
   echo "Setup Channels DVR to use this container directory $dvrContainerDir (case sensitive) for storing recordings, since that is mapped to the host directory $dvrShare you specified."
 }
 
-/config/portainerstack.sh $extension
+/config/portainerstack.sh $extension "$portainerHost" "$portainerToken"
 
 [[ $? == 1 ]] && exit 1 || { stackCreated; exit 0; }

@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+# plex-for-channels.sh
+# 2025.04.01
 
 set -x
 
@@ -14,12 +16,17 @@ regions=$5
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 [[ -n $cdvrStartingChannel ]] && cdvrStartingChannel2=$((cdvrStartingChannel + 1000))
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
+dirsFile="/tmp/$extension.dirs"
 
 envVars=(
 "TAG=$2"
 "HOST_PORT=$3"
 "PORT=$4"
 "HOST_DIR=$7"
+)
+
+synologyDirs=(
+"$7/plex"
 )
 
 customChannels() {
@@ -36,7 +43,7 @@ cat <<EOF
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel",
   "logos": "",
-  "xmltv_url": "http://$extensionURL/plex/epg.xml",
+  "xmltv_url": "",
   "xmltv_refresh": "3600"
 }
 EOF
@@ -63,6 +70,7 @@ EOF
 }
 
 printf "%s\n" "${envVars[@]}" > $envFile
+printf "%s\n" "${synologyDirs[@]}" > $dirsFile
 
 sed -i '/=#/d' $envFile
 
@@ -74,9 +82,10 @@ customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
 customChannelsJSON2=$(echo -n "$(customChannels2)" | tr -d '\n')
 
 while true; do
-  curl -s -o /dev/null $extensionURL && extensionUp=$(echo $?)
+  curl -s -o /dev/null "http://$extensionURL/plex/playlist.m3u?regions=$regions&gracenote=include$mjhCompatibility" && extensionUp=$(echo $?)
   [[ $extensionUp ]] && break || sleep 5
 done
 
+echo -e "\nJSON response from $dvr:"
 curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/PlexTV; echo
 curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON2" http://$dvr/providers/m3u/sources/PlexTV-NoEPG

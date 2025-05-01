@@ -1,23 +1,23 @@
 #!/bin/bash
 # portainerstack.sh
-# 2025.02.21
+# 2025.04.03
 
 set -x
 
 stackName="$1"
-portainerHost="$PORTAINER_HOST"
-[[ -n $PORTAINER_PORT ]] && portainerPort="$PORTAINER_PORT" || portainerPort="9443"
-[[ -n $PORTAINER_ENV ]] && portainerEnv="$PORTAINER_ENV" || portainerEnv="2"
-#curl -s -o /dev/null http://$portainerHost:9000 \
-  #&& portainerURL="http://$portainerHost:9000/api/stacks?type=2&method=string&endpointId=2" \
-  #|| portainerURL="https://$portainerHost:$portainerPort/api/stacks?type=2&method=string&endpointId=2"
+portainerHost="${2:-$PORTAINER_HOST}"
+portainerToken="${3:-$PORTAINER_TOKEN}"
+[[ -n $PORTAINER_PORT ]] && portainerPort="${4:-$PORTAINER_PORT}" || portainerPort="9443"
+yamlCopied="$5"
+portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "http://$portainerHost:9000/api/endpoints" | jq '.[] | select(.Name=="local") | .Id') \
+  && [[ -z $portainerEnv ]] && portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "https://$portainerHost:$portainerPort/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')
 curl -s -o /dev/null http://$portainerHost:9000 \
   && portainerURL="http://$portainerHost:9000/api/stacks/create/standalone/string?endpointId=$portainerEnv" \
   || portainerURL="https://$portainerHost:$portainerPort/api/stacks/create/standalone/string?endpointId=$portainerEnv"
-portainerToken="$PORTAINER_TOKEN"
-cp /config/$stackName.yaml /tmp
+[[ "$yamlCopied" != "true" ]] && cp /config/$stackName.yaml /tmp
 stackFile="/tmp/$stackName.yaml"
 envFile="/tmp/$stackName.env"
+dirsFile="/tmp/$stackName.dirs"
 
 dockerVolume=$(grep 'DVR_SHARE=' $envFile | grep -v '/' | awk -F'=' '{print $2}')
 volumeExternal=$(grep 'VOL_EXTERNAL=' $envFile | grep -v '#' | awk -F'=' '{print $2}')
@@ -51,10 +51,23 @@ if [[ -n $stackNumber ]]; then
 fi
 
 stackContent=$(sed 's/\\/\\\\/g' "$stackFile" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')
+
+synologyDirs() {
+while IFS= read -r hostDir; do
+    if [[ "$hostDir" == /volume1/docker/* ]]; then
+      subDir="${hostDir#/volume1/docker/}"
+      docker run --rm -v /volume1/docker:/data alpine mkdir -p /data/$subDir
+    fi
+done < "$dirsFile"
+}
+
+#[[ "$(docker info --format '{{.DockerRootDir}}')" == "/volume1/@docker" ]] && synologyDirs
+
 stackEnvVars="["
 
-while IFS='=' read -r key value
-do
+while IFS= read -r line; do
+  key="${line%%=*}"
+  value="${line#*=}"
   stackEnvVars="${stackEnvVars}{\"name\": \"$key\", \"value\": \"$value\"},"
 done < "$envFile"
 

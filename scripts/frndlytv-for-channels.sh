@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+# frndlytv-for-channels.sh
+# 2025.04.01
 
 set -x
 
@@ -10,7 +12,7 @@ envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
 [[ "$4" == "#" ]] && georelocationIP="" || georelocationIP="$4"
 [[ "$7" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$7"
-frndlytvPlan="$8"
+streamLimit="$8"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 [[ -n $cdvrStartingChannel ]] && cdvrStartingChannel2=$((cdvrStartingChannel + 100))
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
@@ -32,7 +34,7 @@ cat <<EOF
   "url": "http://$extensionURL/playlist.m3u8?gracenote=include",
   "text": "",
   "refresh": "24",
-  "limit": "$frndlytvPlan",
+  "limit": "$streamLimit",
   "satip": "",
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel",
@@ -52,7 +54,7 @@ cat <<EOF
   "url": "http://$extensionURL/playlist.m3u8?gracenote=exclude",
   "text": "",
   "refresh": "24",
-  "limit": "$frndlytvPlan",
+  "limit": "$streamLimit",
   "satip": "",
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel2",

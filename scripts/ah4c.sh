@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+# ah4c.sh
+# 2025.04.01
 
 set -x
 
@@ -12,6 +14,7 @@ envFile="/tmp/$extension.env"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 cdvrM3UName="${31}"
 cdvrM3UNameNoExt="${cdvrM3UName%.m3u}"
+dirsFile="/tmp/$extension.dirs"
 
 envVars=(
 "TAG=$2"
@@ -46,6 +49,12 @@ envVars=(
 "CDVR_M3U_NAME=${31}"
 )
 
+synologyDirs=(
+"${29}/ah4c/scripts"
+"${29}/ah4c/m3u"
+"${29}/ah4c/adb"
+)
+
 customChannels() {
 cat <<EOF
 {
@@ -67,6 +76,7 @@ EOF
 }
 
 printf "%s\n" "${envVars[@]}" > $envFile
+printf "%s\n" "${synologyDirs[@]}" > $dirsFile
 
 sed -i '/=#/d' $envFile
 

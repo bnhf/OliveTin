@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+# samsung-tvplus-for-channels.sh
+# 2025.04.01
 
 set -x
 
@@ -55,4 +57,5 @@ while true; do
   [[ $extensionUp ]] && break || sleep 5
 done
 
+echo -e "\nJSON response from $dvr:"
 curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/SamsungTVPlus

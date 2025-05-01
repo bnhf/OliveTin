@@ -1,9 +1,9 @@
 #! /bin/bash
 # start.sh
-# 2025.03.21
+# 2025.04.21
 
 checkYamls() {
-  local yamls=($(cd /tmp && ls *.yaml *.env))
+  local yamls=($(cd /tmp && ls *.yaml *.env *.m3u *.csv))
   
   for yaml in "${yamls[@]}"; do
     if [ ! -f /config/$yaml ] && [ -f /tmp/$yaml ] || [[ $UPDATE_YAMLS == "true" ]]; then
@@ -138,7 +138,7 @@ main() {
   cd ~
   checkYamls  
   checkScripts
-  checkSubs
+  #checkSubs
   killZombies
   killZombieContainers
   loadScriptArguments

@@ -1,9 +1,9 @@
 version: '3.9'
 services:
   olivetin: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
-    # 2025.03.22
+    # 2025.03.27
     # GitHub home for this project: https://github.com/bnhf/OliveTin.
-    # Docker container home for this project with setup instructions: https://hub.docker.com/repository/docker/bnhf/olivetin.
+    # Docker container home for this project with setup instructions: https://hub.docker.com/r/bnhf/olivetin.
     image: bnhf/olivetin:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
     container_name: ${OLIVETIN_NAME:-olivetin}${EZ_START}
     hostname: ${OLIVETIN_NAME:-olivetin}${EZ_START}
@@ -11,7 +11,7 @@ services:
     ports:
       - ${HOST_PORT:-1337}:1337
     environment:
-      - OLIVETIN_COMPOSE=2025.03.22 # Do not change this value.
+      - OLIVETIN_COMPOSE=2025.03.26${EZ_START} # Do not change this value.
       - CHANNELS_DVR=${CHANNELS_DVR_HOST}:${CHANNELS_DVR_PORT:-8089} # Add your Channels DVR server in the form CHANNELS_DVR_HOST=<hostname or ip> and CHANNELS_DVR_PORT=<port>.
       - ${CHANNELS_DVR2_HOST:+CHANNELS_DVR_ALTERNATES=${CHANNELS_DVR2_HOST}:${CHANNELS_DVR2_PORT}} ${CHANNELS_DVR3_HOST:+${CHANNELS_DVR3_HOST}:${CHANNELS_DVR3_PORT}} # Space separated list of alternate Channels DVR servers to choose from in the form hostname:port or ip:port.
       - CHANNELS_CLIENTS=${CHANNELS_CLIENTS} # Space separated list of Channels DVR clients you'd like notifications sent to in the form hostname or IP.
@@ -28,16 +28,16 @@ services:
       - PORTAINER_ENV=${PORTAINER_ENV:-2} # Set this is if you're using an alternate Portainer Environment for some reason. 2 is the default.
       - PERSISTENT_LOGS=${PERSISTENT_LOGS:-false} # For supported Actions, log files are retained on an ongoing basis. false is the default.
     volumes:
-      - ${HOST_DIR:-olivetin}${EZ_START:-/olivetin}:/config # Add the parent directory on your Docker you'd like to use.
-      - ${DVR_SHARE:-olivetin}${EZ_START}:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share.
-      - ${LOGS_SHARE:-olivetin}${EZ_START}:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_logs # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
-      - ${TUBEARCHIVIST_SHARE:-olivetin}:/mnt/${CHANNELS_DVR_HOST:-unused}-${CHANNELS_DVR_PORT:-unused}_ta # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
-      - ${DVR2_SHARE:-olivetin}:/mnt/${CHANNELS_DVR2_HOST:-unused}-${CHANNELS_DVR2_PORT:-unused} # Note that these volume mounts should always be to /mnt/hostname-port or /mnt/ip-port (dash rather than a colon between).
-      - ${LOGS2_SHARE:-olivetin}:/mnt/${CHANNELS_DVR2_HOST:-unused}-${CHANNELS_DVR2_PORT:-unused}_logs # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
-      - ${TUBEARCHIVIST2_SHARE:-olivetin}:/mnt/${CHANNELS_DVR2_HOST:-unused}-${CHANNELS_DVR2_PORT:-unused}_ta # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
-      - ${DVR3_SHARE:-olivetin}:/mnt/${CHANNELS_DVR3_HOST:-unused}-${CHANNELS_DVR3_PORT:-unused} # Note that these volume mounts should always be to /mnt/hostname-port or /mnt/ip-port (dash rather than a colon between).
-      - ${LOGS3_SHARE:-olivetin}:/mnt/${CHANNELS_DVR3_HOST:-unused}-${CHANNELS_DVR3_PORT:-unused}_logs # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
-      - ${TUBEARCHIVIST3_SHARE:-olivetin}:/mnt/${CHANNELS_DVR3_HOST:-unused}-${CHANNELS_DVR3_PORT:-unused}_ta # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
+      - ${HOST_DIR:-/unused}${HOST_DIR:+/olivetin:/config} # Add the parent directory on your Docker you'd like to use.
+      - ${DVR_SHARE:-/unused}${DVR_SHARE:+:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share.
+      - ${LOGS_SHARE:-/unused}${LOGS_SHARE:+:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_logs} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
+      - ${TUBEARCHIVIST_SHARE:-/unused}${TUBEARCHIVIST_SHARE:+:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_ta} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
+      - ${DVR2_SHARE:-/unused}${DVR2_SHARE:+:/mnt/${CHANNELS_DVR2_HOST}-${CHANNELS_DVR2_PORT}} # Note that these volume mounts should always be to /mnt/hostname-port or /mnt/ip-port (dash rather than a colon between).
+      - ${LOGS2_SHARE:-/unused}${LOGS2_SHARE:+:/mnt/${CHANNELS_DVR2_HOST}-${CHANNELS_DVR2_PORT}_logs} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
+      - ${TUBEARCHIVIST2_SHARE:-/unused}${TUBEARCHIVIST2_SHARE:+:/mnt/${CHANNELS_DVR2_HOST}-${CHANNELS_DVR2_PORT}_ta} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
+      - ${DVR3_SHARE:-/unused}${DVR3_SHARE:+:/mnt/${CHANNELS_DVR3_HOST}-${CHANNELS_DVR3_PORT}} # Note that these volume mounts should always be to /mnt/hostname-port or /mnt/ip-port (dash rather than a colon between).
+      - ${LOGS3_SHARE:-/unused}${LOGS3_SHARE:+:/mnt/${CHANNELS_DVR3_HOST}-${CHANNELS_DVR3_PORT}_logs} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
+      - ${TUBEARCHIVIST3_SHARE:-/unused}${TUBEARCHIVIST3_SHARE:+:/mnt/${CHANNELS_DVR3_HOST}-${CHANNELS_DVR3_PORT}_ta} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
 
@@ -46,33 +46,29 @@ services:
     container_name: ${SFS_NAME:-static-file-server}${EZ_START}
     dns_search: ${DOMAIN}
     ports:
-      - ${HOST_SFS_PORT:-8080}:8080
+      - ${HOST_SFS_PORT:-0}:8080
     environment:
       - FOLDER=${FOLDER:-/web}
     volumes:
-      - ${HOST_DIR}/olivetin/data:${FOLDER:-/web}
+      - ${HOST_DIR:-/unused}${HOST_DIR:+/olivetin/data:${FOLDER:-/web}}
     restart: unless-stopped
 
-volumes: # use this section if you've setup a docker volume named channels-dvr, with CIFS or NFS, to bind to /mnt/dvr inside the container. Set ${DVR_SHARE} to channels-dvr (DVR_SHARE=channels_dvr) in that example.
-  olivetin-ezstart:
-    name: olivetin-ezstart
-  olivetin:
-    name: olivetin
-  #channels-dvr:
-    #external: true
-  #channels-dvr-logs:
-    #external: true
-  #tubearchivist:
-    #external: true
-  #channels-dvr2:
-    #external: true
-  #channels-dvr2-logs:
-    #external: true
-  #tubearchivist2:
-    #external: true
-   #channels-dvr3:
-    #external: true
-  #channels-dvr3-logs:
-    #external: true
-  #tubearchivist3:
-    #external: true
+#0#volumes: # Remove the #x# to enable. Use this section if you've setup a docker volume named channels-dvr, with CIFS or NFS, to bind to /mnt/dvr inside the container. Set ${DVR_SHARE} to channels-dvr (DVR_SHARE=channels_dvr) in that example.
+  #1#channels-dvr:
+    #1#external: true
+  #2#channels-dvr-logs:
+    #2#external: true
+  #3#tubearchivist:
+    #3#external: true
+  #4#channels-dvr2:
+    #4#external: true
+  #5#channels-dvr2-logs:
+    #5#external: true
+  #6#tubearchivist2:
+    #6#external: true
+  #7#channels-dvr3:
+    #7#external: true
+  #8#channels-dvr3-logs:
+    #8#external: true
+  #9#tubearchivist3:
+    #9#external: true

@@ -1,6 +1,8 @@
 #!/bin/bash
 # olivetin.sh
-# 2025.03.23
+# 2025.04.03
+
+exec > >(tee /config/olivetin-for-channels.env)
 
 set -x
 
@@ -31,14 +33,15 @@ for channelsDVR in "${!channelsDVRs[@]}"; do
 done
 
 echo "CHANNELS_CLIENTS=$7"
-echo "ALERT_EMAIL_SERVER=$8"
+echo "ALERT_SMTP_SERVER=$8"
 echo "ALERT_EMAIL_FROM=$9"
 echo "ALERT_EMAIL_PASS=${10}"
 echo "ALERT_EMAIL_TO=${11}"
 echo "UPDATE_YAMLS=${12}"
 echo "UPDATE_SCRIPTS=${13}"
 
-localTimezone=$(cat /etc/timezone)
+localTimezone="$(echo "$TZ" | awk -F'/zoneinfo/' '{print $2}')"
+[[ -z $localTimezone ]] && localTimezone="$(echo $TZ)"
 echo "TZ=${14:-$localTimezone}"
 
 echo "HOST_DIR=${15}"
@@ -59,18 +62,21 @@ volumeCheck() {
 dvrShare=$(curl -s http://$4:$5/dvr | jq -r '.path')
 dvrShareInspect=$(echo $olivetinDockerJSON | jq -r '.[] | select(.Destination == "/mnt/'"$4"'-'"$5"'") | .Source')
   [[ $dvrShare == *\\* ]] && windowsOS=true || windowsOS=""
-  [[ $windowsOS ]] && dvrShare=$(echo "$dvrShare" | sed 's|\\|/|g')
+  [[ $windowsOS ]] && dvrShare=$(echo "$dvrShare" | sed 's|\\|/|g') && dvrShare="/mnt/${dvrShare/:/}" && dvrShare="${dvrShare,,}"
+  volumeCheck dvrShareInspect "$dvrShareInspect"
   [[ -z "${16}" && -n "$dvrShareInspect" ]] && dvrShare="$dvrShareInspect"
   echo "DVR_SHARE=${16:-$dvrShare}"
 
 logsShare=$(curl -s http://$4:$5/log?n=100000 | grep -m 1 "Starting Channels DVR" | awk '{print $NF}' | awk '{sub(/[\\/]?data$/, ""); print}')
 logsShareInspect=$(echo $olivetinDockerJSON | jq -r '.[] | select(.Destination == "/mnt/'"$4"'-'"$5"'_logs") | .Source')
   [[ $logsShare == *\\* ]] && windowsOS=true || windowsOS=""
-  [[ $windowsOS ]] && logsShare=$(echo "$logsShare" | sed 's|\\|/|g')
+  [[ $windowsOS ]] && logsShare=$(echo "$logsShare" | sed 's|\\|/|g') && logsShare="/mnt/${logsShare/:/}" && logsShare="${logsShare,,}"
+  volumeCheck logsShareInspect "$logsShareInspect"
   [[ -z "${17}" && -n "$logsShareInspect" ]] && logsShare="$logsShareInspect"
   echo "LOGS_SHARE=${17:-$logsShare}"
 
 tubearchivistShareInspect=$(echo $olivetinDockerJSON | jq -r '.[] | select(.Destination == "/mnt/'"$4"'-'"$5"'_ta") | .Source')
+  volumeCheck tubearchivistShareInspect "$tubearchivistShareInspect"
   [[ -z "${18}" && -n "$tubearchivistShareInspect" ]] &&  tubearchivistShare="$tubearchivistShareInspect" || tubearchivistShare="$dvrShare"
   echo "TUBEARCHIVIST_SHARE=${18:-$tubearchivistShare}"
 
@@ -100,8 +106,14 @@ echo "TUBEARCHIVIST3_SHARE=${24:-$tubearchivist3ShareInspect}"
 
 echo "HOST_SFS_PORT=${25}"
 echo "FOLDER=${26}"
-echo "PORTAINER_TOKEN=${27}"
-echo "PORTAINER_HOST=${28}"
+
+portainerToken=$(cat /config/olivetin.token)
+echo "PORTAINER_TOKEN=${27:-$portainerToken}"
+echo "PORTAINER_HOST=${28:-$4}"
 echo "PORTAINER_PORT=${29}"
-echo "PORTAINER_ENV=${30}"
+
+[[ -f /config/portainer_env.id ]] && portainerEnv=$(cat /config/portainer_env.id)
+[[ -z $portainerEnv ]] && portainerEnv="$(echo $PORTAINER_ENV)"
+echo "PORTAINER_ENV=${portainerEnv:-$30}"
+
 echo "PERSISTENT_LOGS=${31}"

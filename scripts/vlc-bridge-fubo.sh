@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+# vlc-bridge-fubo.sh
+# 2025.04.01
 
 set -x
 

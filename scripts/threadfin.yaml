@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  # 2025.01.21
+  # 2025.04.01
   # GitHub home for this project: https://github.com/Threadfin/Threadfin.
   # Docker container home for this project with setup instructions: https://hub.docker.com/r/fyb3roptik/threadfin.
   threadfin:
@@ -13,8 +13,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ${HOST_DIR}/conf:/home/threadfin/conf
-      - ${HOST_DIR}/temp:/tmp/threadfin:rw
+      - ${HOST_DIR}/threadfin/conf:/home/threadfin/conf
+      - ${HOST_DIR}/threadfin/temp:/tmp/threadfin:rw
     restart: unless-stopped
 
-# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+ # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

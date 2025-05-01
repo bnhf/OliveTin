@@ -1,0 +1,46 @@
+#EXTM3U
+
+#EXTINF:-1 channel-id=\"STZHD\" tvc-guide-stationid=\"34941\",Starz HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/1a3c345b84b149918e0bad8f797df70a/watch
+
+#EXTINF:-1 channel-id=\"STZHDP\" tvc-guide-stationid=\"34949\",Starz HD West
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/8a84458592844ff5849712ef7766fb4e/watch
+
+#EXTINF:-1 channel-id=\"STZKHD\" tvc-guide-stationid=\"57581\",Starz Kids & Family HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/148a1e391db94edf96bf25e25beb307d/watch
+
+#EXTINF:-1 channel-id=\"STZCHD\" tvc-guide-stationid=\"57569\",Starz Comedy HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/d96b102ac5c54967bf56b8b57e20c84e/watch
+
+#EXTINF:-1 channel-id=\"STZEHD\" tvc-guide-stationid=\"57573\",Starz Edge HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/1535e572f07348159d8924d58200690e/watch
+
+#EXTINF:-1 channel-id=\"STRZIBH\" tvc-guide-stationid=\"67235\",Starz in Black HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/23a6ea3c163a47f390f73900ccc76bc1/watch
+
+#EXTINF:-1 channel-id=\"STRZCIH\" tvc-guide-stationid=\"67236\",Starz Cinema HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/0eedb59656d243da914fef990a8db903/watch
+
+#EXTINF:-1 channel-id=\"STZENHD\" tvc-guide-stationid=\"36225\",Starz Encore HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/ed5d0f85928f45249f8a67c9746a80b7/watch
+
+#EXTINF:-1 channel-id=\"STZENCP\" tvc-guide-stationid=\"17125\",Starz Encore West
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/a0515fde0c074dc389981e8881874aae/watch
+
+#EXTINF:-1 channel-id=\"STZENCL\" tvc-guide-stationid=\"14764\",Starz Encore Classic
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/2230d31d16d541c08e654d4a11863d2c/watch
+
+#EXTINF:-1 channel-id=\"STZEWSS\" tvc-guide-stationid=\"102906\",Starz Encore Westerns
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/73ab11e5664241a9811e7e22602bfda9/watch
+
+#EXTINF:-1 channel-id=\"STZENSU\" tvc-guide-stationid=\"14766\",Starz Encore Suspense
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/04e4a4f1e0ec4dfba961414197e57d7f/watch
+
+#EXTINF:-1 channel-id=\"STZENBK\" tvc-guide-stationid=\"14870\",Starz Encore Black
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/1ec67d324b564a528f6901ed8e09334e/watch
+
+#EXTINF:-1 channel-id=\"SZEAHD\" tvc-guide-stationid=\"72015\",Starz Encore Action HD
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/8aed8223a6104b53b24f03555fc933a9/watch
+
+#EXTINF:-1 channel-id=\"STZENFS\" tvc-guide-stationid=\"102903\",Starz Encore Family
+chrome://localhost:5589/stream?url=https://watch.sling.com/1/channel/22076462a8124832967e30e0f9f92213/watch

@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+# adbtuner.sh
+# 2025.04.01
 
 set -x
 

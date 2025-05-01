@@ -1,4 +1,6 @@
 #! /bin/bash
+# mlbserver.sh
+# 2025.04.06
 
 set -x
 
@@ -8,9 +10,10 @@ extension=${extension%.sh}
 cp /config/$extension.env /tmp
 envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "${11}" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="${10}"
+[[ "${10}" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="${10}"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
+dirsFile="/tmp/$extension.dirs"
 
 envVars=(
 "TAG=$2"
@@ -22,6 +25,10 @@ envVars=(
 "FAV_TEAMS=$8"
 "ZIP_CODE=0"
 "HOST_DIR=$9"
+)
+
+synologyDirs=(
+"$9/mlbserver"
 )
 
 customChannels() {
@@ -38,13 +45,14 @@ cat <<EOF
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel",
   "logos": "",
-  "xmltv_url": "http://$extensionURL/guide.xml?mediaType=Video",
+  "xmltv_url": "http://$extensionURL/guide.xml?mediaType=Video&includeTeamsInTitles=channels&offAir=channels",
   "xmltv_refresh": "3600"
 }
 EOF
 }
 
 printf "%s\n" "${envVars[@]}" > $envFile
+printf "%s\n" "${synologyDirs[@]}" > $dirsFile
 
 sed -i '/=#/d' $envFile
 

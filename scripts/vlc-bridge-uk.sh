@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+# vlc-bridge-uk.sh
+# 2025.04.01
 
 set -x
 
