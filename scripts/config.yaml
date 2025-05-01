@@ -2292,7 +2292,7 @@ actions:
 
   - title: Create a Stream Link Manager Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/slm.sh "{{ TAG }}" "{{ SLM_PORT }}" "{{ TIMEZONE }}" "{{ CHANNELS_FOLDER }}"
+    shell: /config/slm.sh "{{ TAG }}" "{{ SLM_PORT }}" "{{ TIMEZONE }}" "{{ SLM_HOST_FOLDER }}" "{{ CHANNELS_FOLDER }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: TAG
@@ -2307,6 +2307,10 @@ actions:
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
         default: US/Mountain
+      - name: SLM_HOST_FOLDER
+        type: very_dangerous_raw_string
+        description: Volume name or path on host computer to SLM program files.
+        default: slm_files
       - name: CHANNELS_FOLDER
         type: very_dangerous_raw_string
         description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.

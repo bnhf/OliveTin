@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  # 2024.09.12
+  # 2024.11.11
   # GitHub home for this project with setup instructions: https://github.com/babsonnexus/stream-link-manager-for-channels
   # Docker container home for this project: https://ghcr.io/babsonnexus/stream-link-manager-for-channels
   slm:
@@ -11,7 +11,7 @@ services:
     environment:
       - TZ=${TIMEZONE:-UTC}
     volumes:
-      - slm_files:/app/program_files
+      - ${SLM_HOST_FOLDER:-slm_files}:/app/program_files
       - ${CHANNELS_FOLDER}:/app/channels_folder
     restart: unless-stopped
 volumes:
