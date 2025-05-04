@@ -931,6 +931,29 @@ actions:
         default: ah4c #adbalerts container_name default
     timeout: 20
 
+  - title: ADBTuner Device Alerter #adbtuneralerts title
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #adbtuneralerts icon
+    shell: /config/adbtuneralerts.sh "{{ dvr }}" "{{ frequency }}" "{{ adbtuner_host_port }}" "{{ apprise_url }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #adbalerts dvr description
+        default: none #adbtuneralerts dvr default
+      - name: frequency
+        type: ascii
+        description: ADBTuner device check interval (followed by m for minutes or h for hours). once for single run. 0 to kill existing background process.
+        default: 30m #adbtuneralerts frequency default
+      - name: adbtuner_host_port
+        type: very_dangerous_raw_string
+        description: ADBTuner host:port or ip:port Default = docker-host:5592
+        default: docker-host:5592 #adbtuneralerts adbtuner_host_port default
+      - name: apprise_url
+        type: very_dangerous_raw_string
+        description: URL for sending notifications via Apprise-supported services. For example, pover://userkey@pushoverapi. If set to none, notifications will be sent using OliveTin ALERT_EMAIL values.
+        default: none #adbtuneralerts apprise_url default
+    timeout: 20
+
   - title: List Apps Installed on Connected ah4c ADB Devices #adbpackages title
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #adbpackages icon
     shell: /config/adbpackages.sh "{{ container_name }}"
@@ -1632,6 +1655,25 @@ actions:
         title: I acknowledge that it may take several minutes for CDVR to download and run -- before I can access it (Click to confirm)
       - type: confirmation
         title: If I'm running this on a Synology box, I recognize ${HOST_DIR}/channels-dvr and ${DVR_SHARE} need to exist before clicking "Start" (Click to confirm)
+    timeout: 40
+
+  - title: Create a ChannelWatch Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/channelwatch.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ HOST_DIR }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8501
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directory will be channelwatch.
+        default: /data
     timeout: 40
 
   - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
@@ -2519,6 +2561,8 @@ actions:
             value: adbtuner+adbtuner:latest+ADBTuner
           - title: ah4c (formerly AndroidHDMI-for-Channels)
             value: ah4c+ah4c:latest
+          - title: ChannelWatch
+            value: channelwatch+channelwatch:latest
           - title: cc4c (ChromeCapture-for-Channels)
             value: cc4c+cc4c:latest+cc4c
           - title: EPlusTV
@@ -2632,6 +2676,7 @@ dashboards:
         - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
         - title: Create a Channels DVR Stack in Portainer
+        - title: Create a ChannelWatch Stack in Portainer
         - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
         - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
         - title: Create a FileBot Stack in Portainer
@@ -2663,5 +2708,6 @@ dashboards:
         - title: Generate TWiT.tv Guide Data
         - title: Generate Plex Token for Use with Plex M3U
         - title: Generate Plex M3U & XML w/Plex Token
+        - title: ChannelWatch Real-Time Alerts for CDVR
         - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
