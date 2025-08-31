@@ -1,6 +1,6 @@
 #!/bin/bash
-# cc4c.sh
-# 2025.04.17
+# multi4channels.sh
+# 2025.06.29
 
 set -x
 
@@ -10,42 +10,36 @@ extension=${extension%.sh}
 cp /config/$extension.env /tmp
 envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "${15}" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="${15}"
-[[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
-[[ "${16}" == "none" ]] && m3uFile="" || m3uFile="${16}"
+cdvrChannelNumber="$5"
+rtpPort="$8"
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
 
 envVars=(
 "TAG=$2"
 "HOST_PORT=$3"
-"CC4C_PORT=$4"
-"HOST_VNC_PORT=$5"
-"VIDEO_BITRATE=$6"
-"AUDIO_BITRATE=$7"
-"FRAMERATE=$8"
-"VIDEO_WIDTH=$9"
-"VIDEO_HEIGHT=${10}"
-"VIDEO_CODEC=${11}"
-"AUDIO_CODEC=${12}"
-"TZ=${13}"
-"DEVICES=${14}"
+"WEB_PAGE_PORT=$4"
+"CDVR_HOST=${dvr%%:*}"
+"CDVR_PORT=${dvr##*:}"
+"CDVR_CHNLNUM=$5"
+"OUTPUT_FPS=$6"
+"RTP_HOST=$7"
+"RTP_PORT=$8"
+"HOST_VOLUME=$9"
 )
-
-[[ -n $m3uFile ]] && textM3U=$(awk 'NR > 2' /config/cc4c_"$m3uFile".m3u | sed "s/localhost:5589/$extensionURL/g" | sed ':a;N;$!ba;s/\n/\\n/g')
 
 customChannels() {
 cat <<EOF
 {
-  "name": "cc4c",
+  "name": "Multi4Channels",
   "type": "HLS",
   "source": "Text",
   "url": "",
-  "text": "#EXTM3U\n\n#EXTINF:-1 channel-id=\"weatherscan\",Weatherscan\nchrome://$extensionURL/stream?url=https://v2.weatherscan.net\n\n$textM3U",
+  "text": "#EXTM3U\n\n#EXTINF:0 channel-id=\"M4C\" tvg-id=\"$cdvrChannelNumber\" tvg-chno=\"$cdvrChannelNumber\" tvc-guide-placeholders=\"7200\" tvc-guide-title=\"Start a Stream At $extensionURL.\" tvc-guide-description=\"Visit Multi4Channels Web Page to Start a Stream ($extensionURL).\" tvc-guide-art=\"https://i.postimg.cc/xCy2v22X/IMG-3254.png\" tvg-logo=\"https://i.postimg.cc/xCy2v22X/IMG-3254.png\" tvc-guide-stationid=\"\" tvg-name=\"Multi4Channels\" group-title=\"HD\",M4C\nudp://0.0.0.0:$rtpPort",
   "refresh": "24",
   "limit": "",
   "satip": "",
-  "numbering": "$cdvrIgnoreM3UNumbers",
-  "start_number": "$cdvrStartingChannel",
+  "numbering": "",
+  "start_number": "",
   "logos": "",
   "xmltv_url": "",
   "xmltv_refresh": "3600"
@@ -69,4 +63,4 @@ while true; do
 done
 
 echo -e "\nJSON response from $dvr:"
-curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/cc4c
+curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/multi4channels

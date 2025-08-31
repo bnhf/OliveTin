@@ -1,9 +1,12 @@
 #!/bin/bash
 # olivetin.sh
-# 2025.04.03
+# 2025.07.08
 
 exec > >(tee /config/olivetin-for-channels.env)
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 echo "TAG=$1"
@@ -67,7 +70,7 @@ dvrShareInspect=$(echo $olivetinDockerJSON | jq -r '.[] | select(.Destination ==
   [[ -z "${16}" && -n "$dvrShareInspect" ]] && dvrShare="$dvrShareInspect"
   echo "DVR_SHARE=${16:-$dvrShare}"
 
-logsShare=$(curl -s http://$4:$5/log?n=100000 | grep -m 1 "Starting Channels DVR" | awk '{print $NF}' | awk '{sub(/[\\/]?data$/, ""); print}')
+logsShare=$(curl -s http://$4:$5/log?n=100000 | grep -m 1 "Starting Channels DVR" | awk -F ' in ' '{print $2}' | awk '{sub(/[\\/]?data$/, ""); print}')
 logsShareInspect=$(echo $olivetinDockerJSON | jq -r '.[] | select(.Destination == "/mnt/'"$4"'-'"$5"'_logs") | .Source')
   [[ $logsShare == *\\* ]] && windowsOS=true || windowsOS=""
   [[ $windowsOS ]] && logsShare=$(echo "$logsShare" | sed 's|\\|/|g') && logsShare="/mnt/${logsShare/:/}" && logsShare="${logsShare,,}"

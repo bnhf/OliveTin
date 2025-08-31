@@ -4,7 +4,8 @@ set -x
 
 dvr=$1
 numberLines=$2
-filterResult=$(echo $3 | sed 's/[][\.*^$(){}?+|/]/\\&/g')
+#filterResult=$(echo $3 | sed 's/[][\.*^$(){}?+|/]/\\&/g')
+filterResult=$(echo $3 | sed 's/[][\^$(){}?+|/]/\\&/g')
 
 scriptRun() {
 case "$filterResult" in
@@ -15,7 +16,8 @@ case "$filterResult" in
   *grep)
     filterResult=$(echo $filterResult | sed 's|\\||g' | sed 's|file://||')
     filterResult=$(cat /config/$filterResult)
-    filterResult=$(echo $filterResult | sed 's/[][\.*^$(){}?+|/]/\\&/g')
+    #filterResult=$(echo $filterResult | sed 's/[][\.*^$(){}?+|/]/\\&/g')
+    filterResult=$(echo $filterResult | sed 's/[][\^$(){}?+|/]/\\&/g')
     curl http://$dvr/log?n=$numberLines | grep "$filterResult"
     runResult=$?
     [[ "$runResult" == "1" ]] && echo "No results found using filter of $filterResult" && exit 0

@@ -1,11 +1,12 @@
 #!/bin/bash
 # portainer.sh
-# 2025.03.29
+# 2025.07.09
 
 set -x
 
 [[ -z $PORTAINER_HOST ]] && portainerHost="${CHANNELS_DVR%%:*}" || portainerHost="$PORTAINER_HOST"
 portainerAdminPassword="$1"
+  [[ ${#portainerAdminPassword} -lt 12 ]] && echo "Password too short -- 12 character minimum." && exit 0
 hashedPassword=$(htpasswd -nbB admin "$portainerAdminPassword" | cut -d ":" -f 2)
 portainerHttpPort="$2"
 portainerHttpsPort="$3"

@@ -1,7 +1,10 @@
 #!/bin/bash
 # adbtuneralerts.sh
-# 2025.05.01
+# 2025.05.05
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr="$1"
@@ -10,14 +13,16 @@ channelsPort=$(echo "$dvr" | awk -F: '{print $2}')
 foregroundScript=adbtuneralerts
 runningScriptPID=$(ps -ef | grep "[a]dbtuneralerter.sh $dvr" | awk '{print $2}')
 greenIcon=\"icons\/channels.png\"
+#greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
-  rm $logFile
+  [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
 configFile=/config/config.yaml
 configTemp=/tmp/config.yaml
 
 #Trap end of script run
 finish() {
+  #nohup /config/finish.sh $configTemp >> $logFile 2>&1 &
   cp $configTemp /config
 }
 
@@ -29,7 +34,7 @@ runningScripts() {
   for server in "${servers[@]}"; do
     activeProcess=$(ps -ef | grep "[a]dbtuneralerter.sh $server" | awk '{print $2}')
     if [[ -n $activeProcess ]]; then
-      echo "Background E-Mail ADB Alerts process running for $server"
+      echo "Background ADBTuner Alerts process running for $server"
     fi
   done
 }
@@ -39,7 +44,7 @@ scriptKill() {
   pkill -TERM -P $runningScriptPID
   kill $runningScriptPID
   rm /config/"$channelsHost"-"$channelsPort"_adbtuneralerts.running
-  echo "Killing E-Mail ADBTuner Alerts PID $runningScriptPID"
+  echo "Killing ADBTuner Alerts PID $runningScriptPID"
   sleep 2
   lastActive=$(ps -e | grep adbtuneralerter | awk '{print $1}')
 

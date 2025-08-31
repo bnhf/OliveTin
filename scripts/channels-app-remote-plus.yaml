@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  dvr-remote:
+    # 2025.07.10
+    # GitHub home for this project: https://github.com/nuken/channels-app-remote-plus.
+    # Docker container home for this project with setup instructions: https://hub.docker.com/r/rcvaughn2/channels-remote-plus.
+    image: rcvaughn2/channels-remote-plus:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
+    container_name: channels-remote
+    ports:
+      - ${HOST_PORT:-5000}:5000 # The container port number (to the right of the colon) needs to be left as is. Set the environment variable to the same, or change it if there's a conflict.
+    environment:
+      - CHANNELS_DVR_SERVERS=${CHANNELS_DVR_SERVERS}  # A comma separated list of Channels DVRs by ip:port or hostname:port.
+    restart: unless-stopped

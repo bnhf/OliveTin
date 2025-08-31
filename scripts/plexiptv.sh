@@ -26,8 +26,10 @@ while true; do
   plexToken="$(grep -Po 'TOKEN=\K[^,]+' $plexData)"
 
   # Download m3u/epg
-  wget -nv 'https://i.mjh.nz/Plex/us.m3u8' -O us.m3u8 &>> $logFile || exit
-  wget -nv 'https://i.mjh.nz/Plex/us.xml' -O us.xml &>> $logFile || exit
+  #wget -nv 'https://i.mjh.nz/Plex/us.m3u8' -O us.m3u8 &>> $logFile || exit
+  #wget -nv 'https://i.mjh.nz/Plex/us.xml' -O us.xml &>> $logFile || exit
+  wget -nv 'https://i.mjh.nz/Plex/us.m3u8' -O us.m3u8 &>> $logFile
+  wget -nv 'https://i.mjh.nz/Plex/us.xml' -O us.xml &>> $logFile
 
   # Change the stream links
   sed -i 's!#EXTM3U.*!#EXTM3U!' us.m3u8

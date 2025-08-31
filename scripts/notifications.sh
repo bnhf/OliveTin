@@ -1,8 +1,11 @@
 #!/bin/bash
 # notifications.sh
-# 2025.02.28
+# 2025.05.05
 
-#set -x
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
+set -x
 
 messageTitle=\"$1\"
 messageContent=\"$2\"

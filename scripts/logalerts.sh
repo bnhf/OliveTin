@@ -1,7 +1,10 @@
 #!/bin/bash
 # logalerts.sh
-# 2025.03.15
+# 2025.05.05
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr="$1"
@@ -10,14 +13,16 @@ channelsPort=$(echo "$dvr" | awk -F: '{print $2}')
 foregroundScript=logalerts
 runningScriptPID=$(ps -ef | grep "[l]ogalerter.sh $dvr" | awk '{print $2}')
 greenIcon=\"icons\/channels.png\"
+#greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
-  rm $logFile
+  [[ -f $logFile ]] && rm $logFile
 configFile=/config/config.yaml
 configTemp=/tmp/config.yaml
 
 #Trap end of script run
 finish() {
+  #nohup /config/finish.sh $configTemp >> $logFile 2>&1 &
   cp $configTemp /config
 }
 

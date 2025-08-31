@@ -1,6 +1,6 @@
 #!/bin/bash
 # adbtuneralerter.sh
-# 2025.05.02
+# 2025.07.28
 
 #set -x
 
@@ -17,9 +17,12 @@ appriseURL="$4"
 
 adbtunerAlerts() {
   while true; do
-    adbtunerStatus=$(curl -s http://$adbtunerHostPort/up)
+    #adbtunerStatus=$(curl -s http://$adbtunerHostPort/up)
     #adbtunerStatus=$(echo "$adbtunerStatus" | sed s/true/false/g) # Change true to false for testing
-    adbtunerNotConnected=$(echo "$adbtunerStatus" | jq 'map(select(.device_connected != true or .streaming_endpoint_connected != true))[]')
+    #adbtunerNotConnected=$(echo "$adbtunerStatus" | jq 'map(select(.device_connected != true or .streaming_endpoint_connected != true))[]')
+    adbtunerStatus=$(curl -s -w '%{http_code}' http://$adbtunerHostPort/up)
+    adbtunerNotConnected=$(echo "${adbtunerStatus: -3}" | grep -v "200")
+    adbtunerStatus=${adbtunerStatus:0:${#adbtunerStatus}-3}
 
     if [[ -n "$adbtunerNotConnected" && -z "$appriseURL" ]]; then
       {

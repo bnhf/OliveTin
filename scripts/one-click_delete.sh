@@ -1,23 +1,26 @@
 #!/bin/bash
 # one-click_delete.sh
-# 2025.02.24
+# 2025.04.01
 
 set -x
 
 dvr="$1"
 stackName=$(echo "$2" | awk -F'+' '{print $1}')
+portainerHost="$PORTAINER_HOST"
+portainerToken="$PORTAINER_TOKEN"
+[[ -n $PORTAINER_PORT ]] && portainerPort="${4:-$PORTAINER_PORT}" || portainerPort="9443"
 containerName=$(echo "$2" | awk -F'+' '{print $2}')
 source1Name=$(echo "$2" | awk -F'+' '{print $3}')
   [[ $source1Name == none ]] && source1Name=""
 source2Name=$(echo "$2" | awk -F'+' '{print $4}')
   [[ $source2Name == none ]] && source2Name=""
-portainerHost="$PORTAINER_HOST"
 [[ -n $PORTAINER_PORT ]] && portainerPort="$PORTAINER_PORT" || portainerPort="9443"
-[[ -n $PORTAINER_ENV ]] && portainerEnv="$PORTAINER_ENV" || portainerEnv="2"
+#[[ -n $PORTAINER_ENV ]] && portainerEnv="$PORTAINER_ENV" || portainerEnv="2"
+portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "http://$portainerHost:9000/api/endpoints" | jq '.[] | select(.Name=="local") | .Id') \
+  && [[ -z $portainerEnv ]] && portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "https://$portainerHost:$portainerPort/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')
 curl -s -o /dev/null http://$portainerHost:9000 \
   && portainerURL="http://$portainerHost:9000/api" \
   || portainerURL="https://$portainerHost:$portainerPort/api"
-portainerToken="$PORTAINER_TOKEN"
 
 [[ -n $source1Name ]] && echo "Deleting CDVR Custom Channels Source - $source1Name..." \
   && curl -s -X DELETE http://$dvr/providers/m3u/sources/$source1Name

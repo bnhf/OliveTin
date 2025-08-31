@@ -1,5 +1,10 @@
 #!/bin/bash
+# channels_dvr_monitor_channels.sh
+# 2025.05.05
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr=$1
@@ -8,6 +13,7 @@ channelsPort=$(echo "$dvr" | awk -F: '{print $2}')
 foregroundScript=channels_dvr_monitor_channels
 runningScriptPID=$(ps -ef | grep "[p]ython3 .* -i $channelsHost -p $channelsPort" | awk '{print $2}')
 greenIcon=\"icons\/channels.png\"
+#greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
   [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
@@ -16,6 +22,7 @@ configTemp=/tmp/config.yaml
 
 #Trap end of script run
 finish() {
+  #nohup /config/finish.sh $configTemp >> $logFile 2>&1 &
   cp $configTemp /config
 }
 

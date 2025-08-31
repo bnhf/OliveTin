@@ -1,7 +1,10 @@
 #!/bin/bash
 # remind.sh
-# 2025.03.05
+# 2025.05.05
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr=$1
@@ -13,14 +16,16 @@ firstChar=${backgroundScript:0:1}
 runningScriptPID=$(ps -ef | grep "[$firstChar]${backgroundScript:1}.* $dvr" | awk '{print $2}')
 [[ -n $runningScriptPID ]] && runningSleepPID=$(ps --ppid $runningScriptPID | grep sleep | awk '{print $1}')
 greenIcon=\"icons\/channels.png\"
+#greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$backgroundScript"_latest.log
-  [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
+  [[ -f $logFile ]] && rm $logFile
 configFile=/config/config.yaml
 configTemp=/tmp/config.yaml
 
 #Trap end of script run
 finish() {
+  #nohup /config/finish.sh $configTemp >> $logFile 2>&1 &
   cp $configTemp /config
 }
 

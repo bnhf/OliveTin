@@ -1,5 +1,10 @@
 #!/bin/bash
+# foreground.sh
+# 2025.05.05
 
+script=$2
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr=$1
@@ -16,6 +21,7 @@ runningScriptPID=$(ps -ef | grep "[$firstChar]${backgroundScript:1}.* $dvr" | aw
 [[ -n $runningScriptPID ]] && runningSleepPID=$(ps --ppid $runningScriptPID | grep sleep | awk '{print $1}')
 backgroundArguments="$dvr $runInterval $healthchecksIO"
 greenIcon=\"icons\/channels.png\"
+#greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$backgroundScript"_latest.log
 runFile=/tmp/"$channelsHost"-"$channelsPort"_"$backgroundScript".run
@@ -27,7 +33,8 @@ configTemp=/tmp/config.yaml
 #Trap end of script run
 finish() {
   echo -e "foreground.sh is exiting for $backgroundScript with exit code $?\n" >> "$logFile"
-  cp $configTemp /config
+  nohup /config/finish.sh $configTemp >> $logFile 2>&1 &
+  #cp $configTemp /config
   backgroundWait=0
   maxWait=30
 

@@ -159,6 +159,47 @@ actions:
         default: ${PERSISTENT_LOGS:-"false"} 
     timeout: 20
 
+  - title: OliveTin Actions Debug Log Viewer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/debuglogs.sh "{{ action }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: action
+        description: Name of the OliveTin Action for which you'd like to view the latest debug log.
+        choices:
+          - title: E-Mail ah4c ADB Device Alerts
+            value: adbalerts
+          - title: ADBTuner Device Alerter
+            value: adbtuneralerts
+          - title: List Apps Installed on Connected ah4c ADB Devices
+            value: adbpackages
+          - title: Backup CDVR Server Database at a Custom Interval
+            value: backupdatabase
+          - title: Channel Lineup Change Notifications
+            value: channels_dvr_monitor_channels
+          - title: Delete Watched Videos
+            value: deletewatched
+          - title: OliveTin Post-Install Healthcheck
+            value: healthcheck
+          - title: OliveTin Startup
+            value: start
+          - title: Live YouTube Channel Manifest URL Updater
+            value: kisterupdates
+          - title: E-Mail Log Alerts
+            value: logalerts
+          - title: Send Message to Defined Channels Clients
+            value: notifications
+          - title: OliveTin Environment Variables Generator/Testor
+            value: olivetin
+          - title: Ping Channels DVR Server
+            value: pingcdvr
+          - title: CDVR Guide Event Reminder via Apprise
+            value: remind
+          - title: Keep CDVR Server Updated to Latest Pre-Release
+            value: updateprerelease
+          - title: Tube Archivist CDVR Processor
+            value: youtube-process
+
   - title: Send Message to Defined Channels Clients
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/notifications.sh "{{ title }}" "{{ message }}" {{ duration }}
@@ -1568,6 +1609,38 @@ actions:
         default: directv.m3u
     timeout: 40
 
+  - title: Create a Channels-App-Remote Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/channels-app-remote.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #channels-app-remote dvr description
+        default: none #channels-app-remote dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5000
+
+  - title: Create a Channels-App-Remote-Plus Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/channels-app-remote-plus.sh "{{ TAG }}" "{{ HOST_PORT }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5000
+
   - title: Create a Channels DVR Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/channels-dvr.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ CHANNELS_PORT }}" "{{ TZ }}" "{{ HOST_DIR }}" "{{ DVR_SHARE }}" "{{ DVR_CONTAINER_DIR }}" "{{ VOL_EXTERNAL }}" "{{ VOL_NAME }}" "{{ NETWORK_MODE }}" "{{ DEVICES }}" "{{ CDVR_CONTAINER }}"
@@ -1758,7 +1831,7 @@ actions:
             value: "#"
         default: "#"
       - name: CDVR_START_CHAN
-        type: int
+        type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
         default: "#"
       - name: M3U_TEXT
@@ -2057,6 +2130,100 @@ actions:
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
         default: "#"
+    timeout: 40
+
+  - title: Create a Multi4Channels Stack in Portainer + CDVR Custom Channel
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/multi4channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ WEB_PAGE_PORT }}" "{{ CDVR_CHNLNUM }}" "{{ OUTPUT_FPS }}" "{{ RTP_HOST }}" "{{ RTP_PORT }}" "{{ HOST_VOLUME }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #multi4channels dvr description
+        default: none #multi4channels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run.
+        default: v22
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 9799
+      - name: WEB_PAGE_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 9799
+      - name: CDVR_CHNLNUM
+        type: int
+        description: CDVR channel number to monitor for activity.
+        default: 240
+      - name: OUTPUT_FPS
+        type: int
+        description: Output frame rate for the mosaic stream (25, 30, 50 or 60).
+        default: 60
+      - name: RTP_HOST
+        type: very_dangerous_raw_string
+        description: Destination hostname/IP for RTP stream output.
+        default: 192.168.1.152
+      - name: RTP_PORT
+        type: int
+        description: Destination port for RTP stream output (default=4444).
+        default: 4444
+      - name: HOST_VOLUME
+        type: very_dangerous_raw_string
+        description: The real subdirectory name you'd like Docker to use in /var/lib/docker/volumes (default=multi4channels_config).
+        default: multi4channels_config
+    timeout: 40
+
+  - title: Create a Multichannel View Stack in Portainer + CDVR Custom Channel
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/multichannelview.sh "{{ dvr }}" "{{ TAG }}" "{{ DEVICES }}" "{{ HOST_PORT }}" "{{ CODEC }}" "{{ CDVR_START_CHAN }}" "{{ MULTIVIEW_NAME }}" "{{ CH1 }}" "{{ CH2 }}" "{{ CH3 }}" "{{ CH4 }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #multichannelview dvr description
+        default: none #multichannelview dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run.
+        default: latest
+      - name: DEVICES
+        description: If your Docker host supports Intel Quick Sync for transcoding, set to "/dev/dri", otherwise leave as "none".
+        choices:
+          - title: /dev/dri
+            value: "true"
+          - title: none
+            value: "#"
+        default: "#"
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5001
+      - name: CODEC
+        type: very_dangerous_raw_string
+        description: Use h264_qsv (hardware) or libx264 (software).
+        default: libx264
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+      - name: MULTIVIEW_NAME
+        type: very_dangerous_raw_string
+        description: The name you'd like used in the EPG for this set of channels.
+        default: College Sports
+      - name: CH1
+        type: ascii_sentence
+        description: Required. First channel to include in initial 2x2 mosaic.
+      - name: CH2
+        type: ascii_sentence
+        description: Required. Second channel to include in initial 2x2 mosaic.
+      - name: CH3
+        type: ascii_sentence
+        description: Required. Third channel to include in initial 2x2 mosaic.
+      - name: CH4
+        type: ascii_sentence
+        description: Required. Fourth channel to include in initial 2x2 mosaic.
     timeout: 40
 
   - title: Create an OliveTin Stack in Portainer
@@ -2561,6 +2728,10 @@ actions:
             value: adbtuner+adbtuner:latest+ADBTuner
           - title: ah4c (formerly AndroidHDMI-for-Channels)
             value: ah4c+ah4c:latest
+          - title: Channels-App-Remote
+            value: channels-app-remote+channels-app-remote:latest
+          - title: Channels-App-Remote-Plus
+            value: channels-app-remote-plus+channels-remote-plus:latest
           - title: ChannelWatch
             value: channelwatch+channelwatch:latest
           - title: cc4c (ChromeCapture-for-Channels)
@@ -2577,6 +2748,10 @@ actions:
             value: mlb.tv-for-channels+channels-baseball:latest+MLB.tv
           - title: mlbserver
             value: mlbserver+mlbserver:latest+mlbserver
+          - title: Multi4Channels
+            value: multi4channels+multi4channels:v22+multi4channels
+          - title: Multichannel View
+            value: multichannelview+multichannelview:latest+multichannelview
           - title: Organizr
             value: organizr+organizr:latest
           - title: Plex-for-Channels
@@ -2675,6 +2850,8 @@ dashboards:
         - title: Docker-Compose Examples for CDVR & Related Extensions
         - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
+        - title: Create a Channels-App-Remote Stack in Portainer
+        - title: Create a Channels-App-Remote-Plus Stack in Portainer
         - title: Create a Channels DVR Stack in Portainer
         - title: Create a ChannelWatch Stack in Portainer
         - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
@@ -2683,6 +2860,8 @@ dashboards:
         - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a MediaInfo Stack in Portainer
         - title: Create an mlbserver Stack in Portainer + CDVR Custom Channels
+        - title: Create a Multi4Channels Stack in Portainer + CDVR Custom Channel
+        - title: Create a Multichannel View Stack in Portainer + CDVR Custom Channel
         - title: Create an OliveTin Stack in Portainer
         - title: Create an Organizr Stack in Portainer
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels

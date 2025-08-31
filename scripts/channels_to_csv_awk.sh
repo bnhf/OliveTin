@@ -2,9 +2,11 @@
 
 set -x
 
-dvr=$(echo $1 | sed 's/:/-/')
+dvr=$1
+channelsHost=$(echo $dvr | awk -F: '{print $1}')
+channelsPort=$(echo $dvr | awk -F: '{print $2}')
 stationID=$2
-[ -f "/config/"$dvr"_channel_list_latest.csv" ] || /config/channels_to_csv.sh $1
+[ -f "/config/"$channelsHost"-"$channelsPort"_channel_list_latest.csv" ] || /config/channels_to_csv.sh $dvr
 
 gawk -F',' -v pattern="$stationID" '
     NR == 1 {
@@ -27,4 +29,4 @@ gawk -F',' -v pattern="$stationID" '
                 print "-------------------"  # Separator between matches
             }
         }
-    }' /config/"$dvr"_channel_list_latest.csv
+    }' /config/"$channelsHost"-"$channelsPort"_channel_list_latest.csv

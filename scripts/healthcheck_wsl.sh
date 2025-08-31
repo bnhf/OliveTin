@@ -89,8 +89,7 @@ wslHealthcheck() {
   domains=$(cat $tmpFile)
   
   for domain in ${domains[@]}; do
-    echo -e "\nYour Windows PC's DNS server resolution for $domain:\n" | sed 's/tail.*\.ts\.net/tail[Redacted].ts.net/' \
-                                                                       >> "$logFile"
+    echo -e "\nYour Windows PC's DNS server resolution for $domain:\n" >> "$logFile"
     cmd.exe /c nslookup "$channelsHost.$domain" | sed 's/tail.*\.ts\.net/tail[Redacted].ts.net/' \
                                                 | sed '/Name/{n;s/^Address:  100\..*/Address:  100.[Redacted]/;}' \
                                                 2>&1 >> "$logFile"

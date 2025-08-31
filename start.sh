@@ -1,6 +1,11 @@
-#! /bin/bash
+#!/bin/bash
 # start.sh
-# 2025.04.21
+# 2025.07.21
+
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
+set -x
 
 checkYamls() {
   local yamls=($(cd /tmp && ls *.yaml *.env *.m3u *.csv))
@@ -145,6 +150,7 @@ main() {
   createMsmtprc
   channelsDvrServers
   mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
+  #mkdir -p /config/custom-webui/icons && cp /tmp/*.png /config/custom-webui/icons
   #/usr/bin/OliveTin
   OliveTin
 }

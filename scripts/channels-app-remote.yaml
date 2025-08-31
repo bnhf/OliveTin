@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  dvr-remote:
+    # 2025.06.22
+    # GitHub home for this project: https://github.com/nuken/channels-app-remote.
+    # Docker container home for this project with setup instructions: https://hub.docker.com/r/rcvaughn2/channels-app-remote.
+    image: rcvaughn2/channels-app-remote:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
+    container_name: dvr-remote
+    ports:
+      - ${HOST_PORT:-5000}:5000 # The container port number (to the right of the colon) needs to be left as is. Set the environment variable to the same, or change it if there's a conflict.
+    environment:
+      - CHANNELS_APP_CLIENTS=${CHANNELS_APP_CLIENTS} # A comma separated list of Channels clients in the form "iPad:192.168.1.2,Apple TV:192.168.1.3"
+    restart: unless-stopped

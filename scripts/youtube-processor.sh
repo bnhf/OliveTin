@@ -1,8 +1,8 @@
 #!/bin/bash
 # youtube-processor.sh
-#2025.01.30
+# 2025.05.05
 
-set -x
+#set -x
 
 dvr=$1
 channelsHost=$(echo "$dvr" | awk -F: '{print $1}')

@@ -1,7 +1,10 @@
 #!/bin/bash
 # healthcheck.sh
-# 2025.03.22
+# 2025.07.08
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr=$1
@@ -18,6 +21,7 @@ containerHealthcheck() {
 
   olivetinVersion=$(grep "pageTitle:" /config/config.yaml | awk '{print $3}') && echo -e "OliveTin Container Version $olivetinVersion" >> $logFile
   echo -e "OliveTin Docker Compose Version $OLIVETIN_COMPOSE\n" >> $logFile
+  [[ $EZ_START ]] && echo -e "Warning the EZ_START env var is still set. This needs to be removed for production use!" >> $logFile
   
   echo -e "----------------------------------------\n" >> $logFile
 
@@ -31,30 +35,43 @@ containerHealthcheck() {
   echo -e "Checking that your selected Channels DVR server's data files (/mnt/$channelsHost-$channelsPort) are accessible:" >> $logFile
   echo -e "Folders with the names Database, Images, Imports, Logs, Movies, Streaming and TV should be visible...\n" >> $logFile
   ls -la /mnt/$channelsHost-$channelsPort  >> $logFile
+  
+  olivetinDockerJSON=$(docker inspect --format '{{ json .Mounts }}' olivetin | jq)
+  dvrShareInspect=$(echo $olivetinDockerJSON | jq -r '.[] | select(.Destination == "/mnt/'"$channelsHost"'-'"$channelsPort"'") | .Source')
+    echo -e "\nDocker reports your current DVR_SHARE setting as..." >> $logFile
+    echo "$dvrShareInspect" >> $logFile
+    
   echo -e "\nIf the listed folders are NOT visible, AND you have your Channels DVR and Docker on the same system:\n" >> $logFile
+
   echo -e "Channels reports this path as..." >> $logFile
   dvrShare=$(curl -s http://$dvr/dvr | jq -r '.path' | tee -a $logFile)
+  
   #dvrShare=/home/test && echo "$dvrShare" >> $logFile
   [[ $dvrShare == *\\* ]] && windowsOS=true || windowsOS=""
-  [[ $windowsOS ]] && dvrShare=$(echo "$dvrShare" | sed 's|\\|/|g') \
-    && echo -e "\nWhen using a Windows path in Portainer, change the backslashes to slashes like this...\n$dvrShare\n" >> $logFile
+  [[ $windowsOS ]] && dvrShare=$(echo "$dvrShare" | sed 's|\\|/|g') #\
+    #&& echo -e "\nWhen using a Windows path in Portainer, change the backslashes to slashes like this...\n$dvrShare\n" >> $logFile
   [[ $windowsOS ]] && dvrShare=$(echo "$dvrShare" | sed -E 's|^([A-Za-z]):|/mnt/\L\1|') \
-    && echo -e "When using WSL with a Linux distro and Docker Desktop, it's also possible to use...\n$dvrShare" >> $logFile
+    && echo -e "\nWhen using WSL with a Linux distro and Docker Desktop, it's recommended to use...\n$dvrShare" >> $logFile
 
   echo -e "\n----------------------------------------\n" >> $logFile
 
   echo -e "Checking that your selected Channels DVR server's log files (/mnt/"$channelsHost"-"$channelsPort"_logs) are accessible:" >> $logFile
   echo -e "Folders with the names data and latest should be visible...\n" >> $logFile
   ls -la /mnt/"$channelsHost"-"$channelsPort"_logs  >> $logFile
+
+  logsShareInspect=$(echo $olivetinDockerJSON | jq -r '.[] | select(.Destination == "/mnt/'"$channelsHost"'-'"$channelsPort"'_logs") | .Source')
+    echo -e "\nDocker reports your current LOGS_SHARE setting as..." >> $logFile
+    echo "$logsShareInspect" >> $logFile
+
   echo -e "\nIf the listed folders are NOT visible, AND you have your Channels DVR and Docker on the same system:\n" >> $logFile
   echo -e "Channels reports this path as..." >> $logFile
-  logsShare=$(curl -s http://$dvr/log?n=100000 | grep -m 1 "Starting Channels DVR" | awk '{print $NF}' | awk '{sub(/[\\/]?data$/, ""); print}' | tee -a $logFile)
+  logsShare=$(curl -s http://$dvr/log?n=100000 | grep -m 1 "Starting Channels DVR" | awk -F ' in ' '{print $2}' | awk '{sub(/[\\/]?data$/, ""); print}' | tee -a $logFile)
   #logsShare=/home/test && echo "$logsShare" >> $logFile
   [[ $logsShare == *\\* ]] && windowsOS=true || windowsOS=""
-  [[ $windowsOS ]] && logsShare=$(echo "$logsShare" | sed 's|\\|/|g') \
-    && echo -e "\nWhen using a Windows path in Portainer, change the backslashes to slashes like this...\n$logsShare\n" >> $logFile
+  [[ $windowsOS ]] && logsShare=$(echo "$logsShare" | sed 's|\\|/|g') #\
+    #&& echo -e "\nWhen using a Windows path in Portainer, change the backslashes to slashes like this...\n$logsShare\n" >> $logFile
   [[ $windowsOS ]] && logsShare=$(echo "$logsShare" | sed -E 's|^([A-Za-z]):|/mnt/\L\1|') \
-    && echo -e "When using WSL with a Linux distro and Docker Desktop, it's also possible to use...\n$logsShare" >> $logFile
+    && echo -e "\nWhen using WSL with a Linux distro and Docker Desktop, it's recommended to use...\n$logsShare" >> $logFile
 
   echo -e "\n----------------------------------------\n" >> $logFile
 

@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  multi4channels:
+    # 2025.06.29
+    # GitHub home for this project with setup instructions: https://github.com/rice9797/multi4channels.
+    # Docker container home for this project: https://github.com/rice9797/multi4channels/pkgs/container/multi4channels.
+    image: ghcr.io/rice9797/multi4channels:${TAG}
+    container_name: multi4channels
+    #devices:
+      #- /dev/dri:/dev/dri
+    ports:
+      - ${HOST_PORT}:${WEB_PAGE_PORT} # Use the same WebUI port number the container is using, or optionally change it if the port is already in use on your host.
+    environment:
+      - CDVR_HOST=${CDVR_HOST} # Hostname/IP of Channels DVR server.
+      - CDVR_PORT=${CDVR_PORT} # Port of Channels DVR server.
+      - CDVR_CHNLNUM=${CDVR_CHNLNUM} # Channel number to monitor for activity.
+      - OUTPUT_FPS=${OUTPUT_FPS} # Output frame rate for the mosaic stream.
+      - RTP_HOST=${RTP_HOST} # Destination host for RTP stream output (same as CDVR_HOST in bridge mode).
+      - RTP_PORT=${RTP_PORT} # Destination port for RTP stream output
+      - WEB_PAGE_PORT=${WEB_PAGE_PORT} # Port for web UI
+    volumes:
+      - multi4channels:/app/data # Directory for favorites.json
+    restart: unless-stopped
+volumes:
+  multi4channels:
+    name: ${HOST_VOLUME}

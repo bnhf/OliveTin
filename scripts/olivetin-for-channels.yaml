@@ -1,7 +1,6 @@
-version: '3.9'
 services:
   olivetin: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
-    # 2025.03.27
+    # 2025.08.25
     # GitHub home for this project: https://github.com/bnhf/OliveTin.
     # Docker container home for this project with setup instructions: https://hub.docker.com/r/bnhf/olivetin.
     image: bnhf/olivetin:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
@@ -11,9 +10,9 @@ services:
     ports:
       - ${HOST_PORT:-1337}:1337
     environment:
-      - OLIVETIN_COMPOSE=2025.03.26${EZ_START} # Do not change this value.
+      - OLIVETIN_COMPOSE=2025.08.25${EZ_START} # Do not change this value.
       - CHANNELS_DVR=${CHANNELS_DVR_HOST}:${CHANNELS_DVR_PORT:-8089} # Add your Channels DVR server in the form CHANNELS_DVR_HOST=<hostname or ip> and CHANNELS_DVR_PORT=<port>.
-      - ${CHANNELS_DVR2_HOST:+CHANNELS_DVR_ALTERNATES=${CHANNELS_DVR2_HOST}:${CHANNELS_DVR2_PORT}} ${CHANNELS_DVR3_HOST:+${CHANNELS_DVR3_HOST}:${CHANNELS_DVR3_PORT}} # Space separated list of alternate Channels DVR servers to choose from in the form hostname:port or ip:port.
+      - CHANNELS_DVR_ALTERNATES=${CHANNELS_DVR2_HOST:+${CHANNELS_DVR2_HOST}:${CHANNELS_DVR2_PORT}}${CHANNELS_DVR3_HOST:+ ${CHANNELS_DVR3_HOST}:${CHANNELS_DVR3_PORT}} # Space separated list of alternate Channels DVR servers to choose from in the form hostname:port or ip:port.
       - CHANNELS_CLIENTS=${CHANNELS_CLIENTS} # Space separated list of Channels DVR clients you'd like notifications sent to in the form hostname or IP.
       - ALERT_SMTP_SERVER=${ALERT_SMTP_SERVER} # SMTP server to use for sending alert e-mails. smtp.gmail.com:587 for example.
       - ALERT_EMAIL_FROM=${ALERT_EMAIL_FROM} # Sender address for alert e-mails.
@@ -28,7 +27,7 @@ services:
       - PORTAINER_ENV=${PORTAINER_ENV:-2} # Set this is if you're using an alternate Portainer Environment for some reason. 2 is the default.
       - PERSISTENT_LOGS=${PERSISTENT_LOGS:-false} # For supported Actions, log files are retained on an ongoing basis. false is the default.
     volumes:
-      - ${HOST_DIR:-/unused}${HOST_DIR:+/olivetin:/config} # Add the parent directory on your Docker you'd like to use.
+      - ${HOST_DIR:-/unused}${HOST_DIR:+/olivetin:/config} # Add the parent directory on your Docker host you'd like to use.
       - ${DVR_SHARE:-/unused}${DVR_SHARE:+:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR network share.
       - ${LOGS_SHARE:-/unused}${LOGS_SHARE:+:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_logs} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your Channels DVR logs network share.
       - ${TUBEARCHIVIST_SHARE:-/unused}${TUBEARCHIVIST_SHARE:+:/mnt/${CHANNELS_DVR_HOST}-${CHANNELS_DVR_PORT}_ta} # This can either be a Docker volume or a host directory that's connected via Samba or NFS to your TubeArchivist videos network share.

@@ -1,4 +1,6 @@
 #!/bin/bash
+# kisterupdater.sh
+# 2025.05.05
 
 #set -x
 
@@ -8,6 +10,7 @@ channelsPort=$(echo $dvr | awk -F: '{print $2}')
 runInterval="$2"
   [[ "$runInterval" == "0" ]] && runInterval=""
 logFile=/config/"$channelsHost"-"$channelsPort"_kisterupdater_latest.log
+  [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
 channelSource="$3"
 m3uName="$4"
 m3uFile=/config/data/"$channelsHost"-"$channelsPort"/"$m3uName"
@@ -52,7 +55,7 @@ m3uUpdates() {
     done < "$m3uFile"
     cp $m3uTmp $m3uFile
     echo -e "\nRefreshing $channelSource with the latest Manifest URL values..."
-    curl -XPOST http://"$dvr"/providers/m3u/sources/"$channelSource"/refresh
+    curl -s -XPOST http://"$dvr"/providers/m3u/sources/"$channelSource"/refresh
     sleep $runInterval
   done
 }
