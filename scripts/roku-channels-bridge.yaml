@@ -1,0 +1,24 @@
+services:
+  roku-channels-bridge:
+    # 2025.09.02
+    # GitHub home for this project: https://github.com/nuken/roku-bridge
+    # Docker Hub home for this project: https://hub.docker.com/r/rcvaughn2/roku-ecp-tuner
+    image: rcvaughn2/roku-ecp-tuner:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
+    container_name: roku-channels-bridge
+    #devices:
+      #- /dev/dri:/dev/dri
+    ports:
+      - ${HOST_PORT:-5006}:5000 # Use the same port number the container is using, or optionally change it if the port is already in use on your host
+    environment:
+      - ENCODING_MODE=${ENCODING_MODE:-proxy} # Set a global, default stream handling mode
+      - AUDIO_BITRATE=${AUDIO_BITRATE:-192k} # Set audio quality for reencode mode (e.g., -e AUDIO_BITRATE=192k).
+      - AUDIO_CHANNELS=${AUDIO_CHANNELS:-5.1} # Set the number of audio channels (e.g., -e AUDIO_CHANNELS=5.1).
+      - ENABLE_DEBUG_LOGGING=${ENABLE_DEBUG_LOGGING:-false} # Set audio quality for reencode mode (e.g., -e AUDIO_BITRATE=192k).
+    volumes:
+      - roku-bridge-config:/app/config
+    restart: unless-stopped
+volumes:
+  roku-bridge-config:
+    name: ${HOST_VOLUME} # This project will store its data in /var/lib/docker/volumes/${HOST_VOLUME}. <project-name_config> is a good name choice.
+
+  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

@@ -1,6 +1,6 @@
 #!/bin/bash
 # youtube-processor.sh
-# 2025.05.05
+# 2025.08.31
 
 #set -x
 
@@ -17,6 +17,7 @@ video_directory=$6
 channels_directory=$7
 logFile=/config/"$channelsHost"-"$channelsPort"_youtube-processor_latest.log
 configTubeArchivist=/config/"$channelsHost"-"$channelsPort"_data/config.txt
+  mkdir -p /config/"$channelsHost"-"$channelsPort"_data
 
 createConfig() {
   cat << EOF > $configTubeArchivist

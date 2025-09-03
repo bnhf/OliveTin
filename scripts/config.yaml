@@ -1424,6 +1424,8 @@ actions:
             value: pluto
           - title: Pluto-for-Channels (joagomez)
             value: pluto-for-channels
+          - title: Roku-Channels-Bridge
+            value: roku-channels-bridge
           - title: SamsungTVPlus-for-Channels
             value: samsung-tvplus-for-channels
           - title: Stirr-for-Channels
@@ -2445,6 +2447,67 @@ actions:
         default: 9443
     timeout: 60
 
+  - title: Create a Roku-Channels-Bridge Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/roku-channels-bridge.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ ENCODING_MODE }}" "{{ AUDIO_BITRATE }}" "{{ AUDIO_CHANNELS }}" "{{ ENABLE_DEBUG_LOGGING }}" "{{ HOST_VOLUME }}" "{{ DEVICES }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #roku-channels-bridge dvr description
+        default: none #roku-channels-bridge dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5006
+      - name: ENCODING_MODE
+        description: Set a global, default stream handling mode (proxy, remux, or reencode).
+        choices:
+          - title: proxy
+            value: proxy
+          - title: remux
+            value: remux
+          - title: reencode
+            value: reencode
+        default: proxy
+      - name: AUDIO_BITRATE
+        type: very_dangerous_raw_string
+        description: Set audio quality for reencode mode.     
+        default: 192k
+      - name: AUDIO_CHANNELS
+        description: Set the number of audio channels (5.1 or 7.1).
+        choices:
+          - title: 5.1
+            value: 5.1
+          - title: 7.1
+            value: 7.1
+        default: 5.1
+      - name: ENABLE_DEBUG_LOGGING
+        description: Set to true for detailed logs.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false"
+      - name: HOST_VOLUME
+        type: very_dangerous_raw_string
+        description: The filename you'd like Docker to use for the volume.      
+        default: roku-channels-bridge
+      - name: DEVICES
+        description: If your Docker host supports Intel Quick Sync for transcoding, set to "/dev/dri", otherwise leave as "none".
+        choices:
+          - title: /dev/dri
+            value: "true"
+          - title: none
+            value: "#"
+        default: "#"
+    timeout: 40
+
   - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/samsung-tvplus-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ REGIONS }}" "{{ TZ }}" "{{ CDVR_START_CHAN }}"
@@ -2760,6 +2823,8 @@ actions:
             value: pluto+jonmaddox/pluto-for-channels:latest
           - title: Pluto-for-Channels (joagomez)
             value: pluto-for-channels+jgomez177/pluto-for-channels:latest+PlutoTV
+          - title: Roku-Channels-Bridge
+            value: roku-channels-bridge+rcvaughn2/roku-ecp-tuner:latest
           - title: SamsungTVPlus-for-Channels
             value: samsung-tvplus-for-channels+samsung-tvplus-for-channels:latest+SamsungTVPlus
           - title: Stirr-for-Channels
@@ -2867,6 +2932,7 @@ dashboards:
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Install Portainer on your Docker Host
+        - title: Create a Roku-Channels-Bridge Stack in Portainer
         - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stream Link Manager Stack in Portainer
         - title: Create a Threadfin Stack in Portainer
