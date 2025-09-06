@@ -1,0 +1,17 @@
+services:
+  weatherstar4k:
+    # 2025.09.06
+    # GitHub home for this project with setup instructions: https://github.com/netbymatt/ws4kp
+    # Docker container home for this project: https://ghcr.io/netbymatt/ws4kp
+    image: ghcr.io/netbymatt/ws4kp:${TAG}
+    container_name: weatherstar4k
+    hostname: weatherstar4k
+    ports:
+      - ${HOST_PORT}:8080
+    environment:
+      - WSQS_settings-wide-checkbox=${WIDE:-true}
+      - WSQS_settings-kiosk-checkbox=${KIOSK:-true}
+      - TZ=${TZ}
+    restart: unless-stopped
+
+  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

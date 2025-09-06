@@ -750,8 +750,8 @@ actions:
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #/logfilter dvr description
-        default: none #/logfilter dvr default
+        description: Channels DVR server to use. #logfilter dvr description
+        default: none #logfilter dvr default
       - name: lines
         type: int
         default: 100 #logfilter lines default
@@ -979,7 +979,7 @@ actions:
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #adbalerts dvr description
+        description: Channels DVR server to use. #adbtuneralerts dvr description
         default: none #adbtuneralerts dvr default
       - name: frequency
         type: ascii
@@ -1013,7 +1013,7 @@ actions:
     arguments:
       - name: dvr
         type: very_dangerous_raw_string
-        description: Channels DVR server to use. #stalexml dvr description
+        description: Channels DVR server to use. #channelwatch dvr description
         default: none #channelwatch dvr default
       - name: log_level
         type: int
@@ -2775,6 +2775,37 @@ actions:
         default: "true"
     timeout: 40
 
+  - title: Create a WeatherStar 4000+ Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/weatherstar4k.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ TZ }}" "{{ CDVR_START_CHAN }}" "{{ CC4C_HOST_PORT }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #weatherstar4k dvr description
+        default: none #weatherstar4k dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8080
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+      - name: CC4C_HOST_PORT
+        type: very_dangerous_raw_string
+        description: Specify the IP or Hostname of your cc4c installation with the port number, in the form ip:port or hostname:port.
+        default: cc4c:5589      
+    timeout: 40
+
   - title: Delete a Project One-Click Channels DVR Extension
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/one-click_delete.sh "{{ dvr }}" "{{ project }}"
@@ -2847,6 +2878,8 @@ actions:
             value: vlc-bridge-uk+vlc-bridge-uk:latest
           - title: Watchtower (for bulk container updating)
             value: watchtower+watchtower:latest
+          - title: WeatherStar 4000+
+            value: weatherstar4k+ghcr.io/netbymatt/ws4kp:latest+WeatherStar4K
     timeout: 40
 
   - title: Create a YouTubeTV M3U or JSON
@@ -2892,6 +2925,18 @@ actions:
             value: com.amazon.firetv.youtube.tv
         default: 
     timeout: 40
+
+  - title: Re-Apply CDVR Server Substitutions
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/serversubstitutions.sh
+    popupOnStart: execution-dialog-stdout-only
+    timeout: 20
+
+  - title: Run sed -i Tests
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/sed-i-test.sh
+    popupOnStart: execution-dialog-stdout-only
+    timeout: 20
 
 dashboards:
   - title: Comskip Related
@@ -2941,6 +2986,7 @@ dashboards:
         - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
         - title: Create a Watchtower Stack in Portainer
+        - title: Create a WeatherStar 4000+ Stack in Portainer + CDVR Custom Channels
         - title: Delete a Project One-Click Channels DVR Extension
         - title: Portainer Token Creation
         - title: Portainer Volume Creation for SMB Shares
@@ -2956,3 +3002,10 @@ dashboards:
         - title: ChannelWatch Real-Time Alerts for CDVR
         - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
+  - title: Experimental
+    contents:
+      - title: Experimental
+        type: fieldset
+        contents:
+        - title: Re-Apply CDVR Server Substitutions
+        - title: Run sed -i Tests

@@ -1,11 +1,13 @@
 #!/bin/bash
 # start.sh
-# 2025.07.21
+# 2025.09.04
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
 BASH_XTRACEFD=3
 set -x
+
+configTemp="/tmp/config.yaml"
 
 checkYamls() {
   local yamls=($(cd /tmp && ls *.yaml *.env *.m3u *.csv))
@@ -102,16 +104,16 @@ loadScriptArguments() {
 }
 
 substituteDropdown() {
-  sed -i '/- name: dvr/,/dvr default/c\      - name: dvr\n        description: Channels DVR server to use.\n        choices:\n          - title: '"$CHANNELS_DVR"'\n            value: '"$CHANNELS_DVR"'\n          #lastchoice\n        default: '"$CHANNELS_DVR"' #dvr default' /config/config.yaml
+  sed -i '/- name: dvr/,/dvr default/c\      - name: dvr\n        description: Channels DVR server to use.\n        choices:\n          - title: '"$CHANNELS_DVR"'\n            value: '"$CHANNELS_DVR"'\n          #lastchoice\n        default: '"$CHANNELS_DVR"' #dvr default' $configTemp
 
   dvrs=($CHANNELS_DVR_ALTERNATES)
   for dvr in "${dvrs[@]}"; do
-    sed -i 's/#lastchoice/- title: '"$dvr"'\n            value: '"$dvr"'\n          #lastchoice/g' /config/config.yaml
+    sed -i 's/#lastchoice/- title: '"$dvr"'\n            value: '"$dvr"'\n          #lastchoice/g' $configTemp
   done
 }
 
 channelsDvrServers() {
-  sed -i '/default: .* dvr default/s/default: .* #/default: '"$CHANNELS_DVR"' #/g' /config/config.yaml
+  sed -i '/default: .* dvr default/s/default: .* #/default: '"$CHANNELS_DVR"' #/g' $configTemp
   [[ -n $CHANNELS_DVR_ALTERNATES ]] \
   && substituteDropdown
 }
@@ -141,6 +143,7 @@ echo -e "# Set default values for all following accounts.\n \
 
 main() {
   cd ~
+  channelsDvrServers
   checkYamls  
   checkScripts
   #checkSubs
@@ -148,7 +151,6 @@ main() {
   killZombieContainers
   loadScriptArguments
   createMsmtprc
-  channelsDvrServers
   mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
   #mkdir -p /config/custom-webui/icons && cp /tmp/*.png /config/custom-webui/icons
   #/usr/bin/OliveTin
