@@ -1,10 +1,9 @@
-version: '3.9'
 services:
-  # 2025.01.22
-  # GitHub home for this project with setup instructions: https://github.com/m0ngr31/EPlusTV
-  # Docker Hub home for this project: https://hub.docker.com/r/m0ngr31/eplustv
+  # 2025.09.07
+  # GitHub home for this project with setup instructions: https://github.com/tonywagner/EPlusTV-NEW
+  # Docker Hub home for this project: https://hub.docker.com/r/tonywagner/eplustv
   eplustv:
-    image: m0ngr31/eplustv:${TAG}
+    image: tonywagner/eplustv:${TAG}
     container_name: eplustv
     ports:
       - ${HOST_PORT}:${PORT} # For use with Portainer this port is being mapped to 8185, as Portainer uses port 8000
