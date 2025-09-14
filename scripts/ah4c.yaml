@@ -1,14 +1,16 @@
-version: '3.9'
 services:
-  ah4c:
-    image: bnhf/ah4c:${TAG}
-    container_name: ah4c
-    hostname: ah4c
-    dns_search: ${DOMAIN} # Specify the name of your LAN's domain, usually local or localdomain
+  ah4c: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2025.09.13
+    # GitHub home for this project: https://github.com/bnhf/ah4c.
+    # Docker container home for this project with setup instructions: https://hub.docker.com/r/bnhf/ah4c.
+    image: bnhf/ah4c:${TAG:-latest}
+    container_name: ${CONTAINER_NAME:-ah4c}
+    hostname: ${HOSTNAME:-ah4c}
+    dns_search: ${DOMAIN:-localdomain} # Specify the name of your LAN's domain, usually local or localdomain
     ports:
-      - 5037:5037 # Port used by adb-server
-      - 7654:7654 # Port used by this ah4c proxy
-      - 7655:8000 # Port used by ws-scrcpy
+      - ${ADBS_PORT:-5037}:5037 # Port used by adb-server
+      - ${HOST_PORT:-7654}:7654 # Port used by this ah4c proxy
+      - ${SCRC_PORT:-7655}:8000 # Port used by ws-scrcpy
     environment:
       - IPADDRESS=${IPADDRESS} # Hostname or IP address of this ah4c extension to be used in M3U file (also add port number if not in M3U)
       - NUMBER_TUNERS=${NUMBER_TUNERS} # Number of tuners you'd like defined 1, 2, 3 or 4 supported
@@ -16,10 +18,20 @@ services:
       - TUNER2_IP=${TUNER2_IP} # Streaming device #2 with adb port in the form hostname:port or ip:port
       - TUNER3_IP=${TUNER3_IP} # Streaming device #3 with adb port in the form hostname:port or ip:port
       - TUNER4_IP=${TUNER4_IP} # Streaming device #4 with adb port in the form hostname:port or ip:port
+      - TUNER5_IP=${TUNER5_IP} # Streaming device #5 with adb port in the form hostname:port or ip:port
+      - TUNER6_IP=${TUNER6_IP} # Streaming device #6 with adb port in the form hostname:port or ip:port
+      - TUNER7_IP=${TUNER7_IP} # Streaming device #7 with adb port in the form hostname:port or ip:port
+      - TUNER8_IP=${TUNER8_IP} # Streaming device #8 with adb port in the form hostname:port or ip:port
+      - TUNER9_IP=${TUNER9_IP} # Streaming device #9 with adb port in the form hostname:port or ip:port
       - ENCODER1_URL=${ENCODER1_URL} # Full URL for tuner #1 in the form http://hostname/stream or http://ip/stream
       - ENCODER2_URL=${ENCODER2_URL} # Full URL for tuner #2 in the form http://hostname/stream or http://ip/stream
       - ENCODER3_URL=${ENCODER3_URL} # Full URL for tuner #3 in the form http://hostname/stream or http://ip/stream
       - ENCODER4_URL=${ENCODER4_URL} # Full URL for tuner #4 in the form http://hostname/stream or http://ip/stream
+      - ENCODER5_URL=${ENCODER5_URL} # Full URL for tuner #5 in the form http://hostname/stream or http://ip/stream
+      - ENCODER6_URL=${ENCODER6_URL} # Full URL for tuner #6 in the form http://hostname/stream or http://ip/stream
+      - ENCODER7_URL=${ENCODER7_URL} # Full URL for tuner #7 in the form http://hostname/stream or http://ip/stream
+      - ENCODER8_URL=${ENCODER8_URL} # Full URL for tuner #8 in the form http://hostname/stream or http://ip/stream
+      - ENCODER9_URL=${ENCODER9_URL} # Full URL for tuner #9 in the form http://hostname/stream or http://ip/stream
       - STREAMER_APP=${STREAMER_APP} # Streaming device name and streaming app you're using in the form scripts/streamer/app (use lowercase with slashes between as shown)
       - CHANNELSIP=${CHANNELSIP} # Hostname or IP address of the Channels DVR server itself
       - ALERT_SMTP_SERVER=${ALERT_SMTP_SERVER} # The domainname:port of the SMTP server you'll be using like smtp.gmail.com:587. This is for sending ah4c alerts if tuning fails.
@@ -29,14 +41,21 @@ services:
       - ALERT_EMAIL_TO=${ALERT_EMAIL_TO} # The e-mail address you'd like your alert e-mails sent to.
       #- ALERT_WEBHOOK_URL=""
       - LIVETV_ATTEMPTS=${LIVETV_ATTEMPTS} # For FireTV Live Guide tuning only, set maximum number of attempts at finding the desired channel
-      - CREATE_M3US=${CREATE_M3US} # Set to true to create device-specific M3Us for use with Amazon Prime Premium channels -- requires a FireTV device
-      - UPDATE_SCRIPTS=${UPDATE_SCRIPTS} # Set to true if you'd like the sample scripts and STREAMER_APP scripts updated whether they exist of not
-      - UPDATE_M3US=${UPDATE_M3US} # Set to true if you'd like the sample m3us updated whether they exist of not
+      - CREATE_M3US=${CREATE_M3US:-false} # Set to true to create device-specific M3Us for use with Amazon Prime Premium channels -- requires a FireTV device
+      - UPDATE_SCRIPTS=${UPDATE_SCRIPTS:-true} # Set to true if you'd like the sample scripts and STREAMER_APP scripts updated whether they exist of not
+      - UPDATE_M3US=${UPDATE_M3US:-true} # Set to true if you'd like the sample m3us updated whether they exist of not
       - TZ=${TZ} # Your local timezone in Linux "tz" format
+      - SPEED_MODE=${SPEED_MODE:-false} # Set to false if you'd like the target streaming app to be closed after each tuning cycle (limited script support).
+      - KEEP_WATCHING=${KEEP_WATCHING:-235m} # In supported scripts, set the delay before resending a tuning deeplink to prevent "Are you still watching?" type messages. Examples: Use 4h for 4 hours or 240m for 240 minutes.
+      - AUTOCROP_CHANNELS=${AUTOCROP_CHANNELS} # Space separated list of channels (by number) with black borders on 4 sides to autocrop while maintaining aspect ratio. Requires LinkPi Encoder! 
+      - LINKPI_HOSTNAME=${LINKPI_HOSTNAME} # Hostname or IP address of your LinkPi encoder. For use with AUTOCROP_CHANNELS.
+      - LINKPI_USERNAME=${LINKPI_USERNAME} # LinkPi username. For use with AUTOCROP_CHANNELS.
+      - LINKPI_PASSWORD=${LINKPI_PASSWORD} # LinkPi password. For use with AUTOCROP_CHANNELS.
+      - USER_SCRIPT=${USER_SCRIPT} # A custom user script to be run at container start. If placed in /HOST_DIR/olivetin, only the script name is required, like ./userscript.sh
     volumes:
-      - ${HOST_DIR}/ah4c/scripts:/opt/scripts # pre/stop/bmitune.sh scripts will be stored in this bound host directory under streamer/app
-      - ${HOST_DIR}/ah4c/m3u:/opt/m3u # m3u files will be stored here and hosted at http://<hostname or ip>:7654/m3u for use in Channels DVR - Custom Channels settings
-      - ${HOST_DIR}/ah4c/adb:/root/.android # Persistent data directory for adb keys
+      - ${HOST_DIR:-/data}/ah4c/scripts:/opt/scripts # pre/stop/bmitune.sh scripts will be stored in this bound host directory under streamer/app
+      - ${HOST_DIR:-/data}/ah4c/m3u:/opt/m3u # m3u files will be stored here and hosted at http://<hostname or ip>:7654/m3u for use in Channels DVR - Custom Channels settings
+      - ${HOST_DIR:-/data}/ah4c/adb:/root/.android # Persistent data directory for adb keys
     restart: unless-stopped
 
     # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

@@ -1,6 +1,6 @@
 #!/bin/bash
 # channels-dvr.sh
-# 2025.04.01
+# 2025.09.12
 
 set -x
 
@@ -33,7 +33,7 @@ envVars=(
 )
 
 synologyDirs=(
-"$5/channels-dvr$cdvContainer"
+"$5/channels-dvr$cdvrContainer"
 )
 
 printf "%s\n" "${envVars[@]}" > $envFile

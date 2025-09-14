@@ -1,6 +1,6 @@
 #!/bin/bash
 # ah4c.sh
-# 2025.04.01
+# 2025.09.13
 
 set -x
 
@@ -10,14 +10,17 @@ extension=${extension%.sh}
 cp /config/$extension.env /tmp
 envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$5" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "${30}" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="${30}"
+[[ "${47}" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="${47}"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
-cdvrM3UName="${31}"
+cdvrM3UName="${48}"
 cdvrM3UNameNoExt="${cdvrM3UName%.m3u}"
 dirsFile="/tmp/$extension.dirs"
+ah4cContainer="${49}" && [[ "$ah4cContainer" == "#" ]] && ah4cContainer=""
 
 envVars=(
 "TAG=$2"
+"CONTAINER_NAME=$extension$ah4cContainer"
+"HOSTNAME=$extension$ah4cContainer"
 "DOMAIN=$3"
 "ADBS_PORT=$4"
 "HOST_PORT=$5"
@@ -32,33 +35,51 @@ envVars=(
 "ENCODER3_URL=${14}"
 "TUNER4_IP=${15}"
 "ENCODER4_URL=${16}"
-"STREAMER_APP=${17}"
-"CHANNELSIP=${18}"
-"ALERT_SMTP_SERVER=${19}"
-"ALERT_AUTH_SERVER=${20}"
-"ALERT_EMAIL_FROM=${21}"
-"ALERT_EMAIL_PASS=${22}"
-"ALERT_EMAIL_TO=${23}"
-"LIVETV_ATTEMPTS=${24}"
-"CREATE_M3US=${25}"
-"UPDATE_SCRIPTS=${26}"
-"UPDATE_M3US=${27}"
-"TZ=${28}"
-"HOST_DIR=${29}"
-"CDVR_STARTING_CHANNEL=${30}"
-"CDVR_M3U_NAME=${31}"
+"TUNER5_IP=${17}"
+"ENCODER5_URL=${18}"
+"TUNER6_IP=${19}"
+"ENCODER6_URL=${20}"
+"TUNER7_IP=${21}"
+"ENCODER7_URL=${22}"
+"TUNER8_IP=${23}"
+"ENCODER8_URL=${24}"
+"TUNER9_IP=${25}"
+"ENCODER9_URL=${26}"
+"STREAMER_APP=${27}"
+"CHANNELSIP=${28}"
+"ALERT_SMTP_SERVER=${29}"
+"ALERT_AUTH_SERVER=${30}"
+"ALERT_EMAIL_FROM=${31}"
+"ALERT_EMAIL_PASS=${32}"
+"ALERT_EMAIL_TO=${33}"
+"LIVETV_ATTEMPTS=${34}"
+"CREATE_M3US=${35}"
+"UPDATE_SCRIPTS=${36}"
+"UPDATE_M3US=${37}"
+"TZ=${38}"
+"SPEED_MODE${39}"
+"KEEP_WATCHING${40}"
+"AUTOCROP_CHANNELS=${41}"
+"LINKPI_HOSTNAME=${42}"
+"LINKPI_USERNAME=${43}"
+"LINKPI_PASSWORD=${44}"
+"USER_SCRIPT=${45}"
+"HOST_DIR=${46}"
+"CDVR_STARTING_CHANNEL=${47}"
+"CDVR_M3U_NAME=${48}"
+"AH4C_CONTAINER=${49}"
 )
 
 synologyDirs=(
-"${29}/ah4c/scripts"
-"${29}/ah4c/m3u"
-"${29}/ah4c/adb"
+"${46}/ah4c$ah4cContainer/scripts"
+"${46}/ah4c$ah4cContainer/m3u"
+"${46}/ah4c$ah4cContainer/adb"
 )
 
 customChannels() {
 cat <<EOF
 {
-  "name": "ah4c - $cdvrM3UNameNoExt",
+  "name": "ah4c$ah4cContainer - $cdvrM3UNameNoExt",
   "type": "MPEG-TS",
   "source": "URL",
   "url": "http://$extensionURL/m3u/$cdvrM3UName",
@@ -86,6 +107,10 @@ sed -i '/=#/d' $envFile
 
 customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
 
-sleep 8
+while true; do
+  curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
+  [[ $extensionUp ]] && break || sleep 5
+done
 
-curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/ah4c-$cdvrM3UNameNoExt
+echo -e "\nJSON response from $dvr:"
+curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/ah4c$ah4cContainer-$cdvrM3UNameNoExt

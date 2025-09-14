@@ -1,0 +1,18 @@
+services:
+  tv-logo-manager:
+    # 2025.09.13
+    # GitHub home for this project with setup instructions: https://github.com/nuken/tv-logo-manager
+    # Docker container home for this project: https://hub.docker.com/r/rcvaughn2/tv-logo-manager
+    image: rcvaughn2/tv-logo-manager:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
+    container_name: tv-logo-manager
+    hostname: tv-logo-manager
+    ports:
+      - ${HOST_PORT:-8084}:8084 # Use the same WebUI port number the container is using, or optionally change it if the port is already in use on your host.
+    environment:
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME} # Cloudinary Cloud name.
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY} # Cloudinary Cloud API key.
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET} # Cloudinary Cloud API secret.
+      - TZ=${TZ} # Add your local timezone in standard linux format. E.G. US/Eastern, US/Central, US/Mountain, US/Pacific, etc.
+    volumes:
+      - ${HOST_DIR:-/data}/tv-logo-manager:/app/data  # Add the parent directory on your Docker host you'd like to use.
+    restart: unless-stopped

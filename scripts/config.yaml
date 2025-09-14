@@ -1482,7 +1482,7 @@ actions:
 
   - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/ah4c.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ ADBS_PORT }}" "{{ HOST_PORT }}" "{{ SCRC_PORT }}" "{{ IPADDRESS }}" "{{ NUMBER_TUNERS }}" "{{ TUNER1_IP }}" "{{ ENCODER1_URL }}" "{{ TUNER2_IP }}" "{{ ENCODER2_URL }}" "{{ TUNER3_IP }}" "{{ ENCODER3_URL }}" "{{ TUNER4_IP }}" "{{ ENCODER4_URL }}" "{{ STREAMER_APP }}" "{{ CHANNELSIP }}" "{{ ALERT_SMTP_SERVER }}" "{{ ALERT_AUTH_SERVER }}" "{{ ALERT_EMAIL_FROM }}" "{{ ALERT_EMAIL_PASS }}" "{{ ALERT_EMAIL_TO }}" "{{ LIVETV_ATTEMPTS }}" "{{ CREATE_M3US }}" "{{ UPDATE_SCRIPTS }}" "{{ UPDATE_M3US }}" "{{ TZ }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}" "{{ CDVR_M3U_NAME}}"
+    shell: /config/ah4c.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ ADBS_PORT }}" "{{ HOST_PORT }}" "{{ SCRC_PORT }}" "{{ IPADDRESS }}" "{{ NUMBER_TUNERS }}" "{{ TUNER1_IP }}" "{{ ENCODER1_URL }}" "{{ TUNER2_IP }}" "{{ ENCODER2_URL }}" "{{ TUNER3_IP }}" "{{ ENCODER3_URL }}" "{{ TUNER4_IP }}" "{{ ENCODER4_URL }}" "{{ TUNER5_IP }}" "{{ ENCODER5_URL }}" "{{ TUNER6_IP }}" "{{ ENCODER6_URL }}" "{{ TUNER7_IP }}" "{{ ENCODER7_URL }}" "{{ TUNER8_IP }}" "{{ ENCODER8_URL }}" "{{ TUNER9_IP }}" "{{ ENCODER9_URL }}" "{{ STREAMER_APP }}" "{{ CHANNELSIP }}" "{{ ALERT_SMTP_SERVER }}" "{{ ALERT_AUTH_SERVER }}" "{{ ALERT_EMAIL_FROM }}" "{{ ALERT_EMAIL_PASS }}" "{{ ALERT_EMAIL_TO }}" "{{ LIVETV_ATTEMPTS }}" "{{ CREATE_M3US }}" "{{ UPDATE_SCRIPTS }}" "{{ UPDATE_M3US }}" "{{ TZ }}" "{{ SPEED_MODE }}" "{{ KEEP_WATCHING }}" "{{ AUTOCROP_CHANNELS }}" "{{ LINKPI_HOSTNAME }}" "{{ LINKPI_USERNAME }}" "{{ LINKPI_PASSWORD }}" "{{ USER_SCRIPT }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}" "{{ CDVR_M3U_NAME}}" "{{ AH4C_CONTAINER }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1549,6 +1549,46 @@ actions:
         type: very_dangerous_raw_string
         description: "Full URL for tuner #4 in the form http://hostname/stream or http://ip/stream. Use # for none."
         default: "#"
+      - name: TUNER5_IP
+        type: very_dangerous_raw_string
+        description: "Streaming device #3 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: "#"
+      - name: ENCODER5_URL
+        type: very_dangerous_raw_string
+        description: "Full URL for tuner #3 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: "#"
+      - name: TUNER6_IP
+        type: very_dangerous_raw_string
+        description: "Streaming device #4 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: "#"
+      - name: ENCODER6_URL
+        type: very_dangerous_raw_string
+        description: "Full URL for tuner #4 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: "#"
+      - name: TUNER7_IP
+        type: very_dangerous_raw_string
+        description: "Streaming device #4 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: "#"
+      - name: ENCODER7_URL
+        type: very_dangerous_raw_string
+        description: "Full URL for tuner #4 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: "#"
+      - name: TUNER8_IP
+        type: very_dangerous_raw_string
+        description: "Streaming device #3 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: "#"
+      - name: ENCODER8_URL
+        type: very_dangerous_raw_string
+        description: "Full URL for tuner #3 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: "#"
+      - name: TUNER9_IP
+        type: very_dangerous_raw_string
+        description: "Streaming device #4 with adb port in the form hostname:port or ip:port. Use # for none."
+        default: "#"
+      - name: ENCODER9_URL
+        type: very_dangerous_raw_string
+        description: "Full URL for tuner #4 in the form http://hostname/stream or http://ip/stream. Use # for none."
+        default: "#"
       - name: STREAMER_APP
         type: very_dangerous_raw_string
         description: Streaming device name and streaming app you're using in the form scripts/streamer/app.
@@ -1556,7 +1596,7 @@ actions:
       - name: CHANNELSIP
         type: very_dangerous_raw_string
         description: Hostname or IP address of the Channels DVR server itself.
-        default: media-server6
+        default: media-server8
       - name: ALERT_SMTP_SERVER
         type: very_dangerous_raw_string
         description: "The domainname:port of the SMTP server you'll be using. This is for sending ah4c alerts if tuning fails. Use # for none."
@@ -1578,9 +1618,8 @@ actions:
         description: "The e-mail address you'd like your alert e-mails sent to. Use # for none."
         default: xxxxxxxxxx@gmail.com
       - name: LIVETV_ATTEMPTS
-        type: int
+        type: very_dangerous_raw_string
         description: For FireTV Live Guide tuning only, set maximum number of attempts at finding the desired channel.
-        default: 45
       - name: CREATE_M3US
         type: ascii
         description: Set to true to create device-specific M3Us for use with Amazon Prime Premium channels -- requires a FireTV device.
@@ -1597,6 +1636,29 @@ actions:
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
         default: US/Mountain
+      - name: SPEED_MODE
+        type: ascii
+        description: Set to false if you'd like the target streaming app to be closed after each tuning cycle (limited script support).
+        default: "false"
+      - name: KEEP_WATCHING
+        type: ascii
+        description: In supported scripts, set the delay before resending a tuning deeplink to prevent "Are you still watching?" type messages. Examples- Use 4h for 4 hours or 240m for 240 minutes.
+        default: 4h
+      - name: AUTOCROP_CHANNELS
+        type: very_dangerous_raw_string
+        description: Space separated list of channels (by number) with black borders on 4 sides to autocrop while maintaining aspect ratio. Requires LinkPi Encoder!
+      - name: LINKPI_HOSTNAME
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of your LinkPi encoder. For use with AUTOCROP_CHANNELS.
+      - name: LINKPI_USERNAME
+        type: very_dangerous_raw_string
+        description: LinkPi username. For use with AUTOCROP_CHANNELS.
+      - name: LINKPI_PASSWORD
+        type: very_dangerous_raw_string
+        description: LinkPi password. For use with AUTOCROP_CHANNELS.
+      - name: USER_SCRIPT
+        type: very_dangerous_raw_string
+        description: A custom user script to be run at container start. If placed in /HOST_DIR/olivetin, only the script name is required, like ./userscript.sh
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directories will be ah4c/scripts, ah4c/m3us, ah4c/adb.
@@ -1609,6 +1671,32 @@ actions:
         type: very_dangerous_raw_string
         description: Name of the M3U file you'd like to use for CDVR Custom Channels. Examples include directv.m3u, dtvstream.m3u, livetv.m3u.
         default: directv.m3u
+      - name: AH4C_CONTAINER
+        description: If you have multiple ah4c containers running on a single Docker host, this number will be appended to stack, container and path names. Leave as "#" for none.
+        choices:
+          - title: "#"
+            value: "#"
+          - title: 1
+            value: 1
+          - title: 2
+            value: 2
+          - title: 3
+            value: 3
+          - title: 4
+            value: 4
+          - title: 5
+            value: 5
+          - title: 6
+            value: 6
+          - title: 7
+            value: 7
+          - title: 8
+            value: 8
+          - title: 9
+            value: 9
+          - title: 0
+            value: 0
+        default: "#"
     timeout: 40
 
   - title: Create a Channels-App-Remote Stack in Portainer
@@ -2698,6 +2786,38 @@ actions:
         default: "#"
     timeout: 40
 
+  - title: Create a TV-Logo-Manager Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/tv-logo-manager.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ CLOUD_NAME }}" "{{ API_KEY }}" "{{ API_SECRET }}" "{{ TZ }}" "{{ HOST_DIR }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8084
+      - name: CLOUD_NAME
+        type: very_dangerous_raw_string
+        description: Cloudinary Cloud name.      
+      - name: API_KEY
+        type: very_dangerous_raw_string
+        description: Cloudinary Cloud API key.
+      - name: API_SECRET
+        type: very_dangerous_raw_string
+        description: Cloudinary Cloud API secret.      
+      - name: TZ
+        type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
+        description: Your local timezone in Linux "tz" format. Continent/City or Country/Timezone.
+        default: US/Mountain
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directories will be threadfin/conf, threadfin/temp.
+        default: /data
+    timeout: 40
+
   - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/vlc-bridge-fubo.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ FUBO_USER }}" "{{ FUBO_PASS }}" "{{ HOST_VOLUME }}" "{{ CDVR_START_CHAN }}"
@@ -2870,6 +2990,8 @@ actions:
             value: tubearchivist+tubearchivist:latest
           - title: Tubi-for-Channels
             value: tubi-for-channels+tubi-for-channels:latest+TubiTV+TubiTV-NoEPG
+          - title: TV-Logo-Manager
+            value: tv-logo-manager+tv-logo-manager:latest
           - title: VLC-Bridge-PBS
             value: vlc-bridge-pbs+vlc-bridge-pbs:latest+PBS
           - title: VLC-Bridge-Fubo
@@ -2983,6 +3105,7 @@ dashboards:
         - title: Create a Threadfin Stack in Portainer
         - title: Create a TubeArchivist Stack in Portainer
         - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a TV-Logo-Manager Stack in Portainer
         - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
         - title: Create a Watchtower Stack in Portainer

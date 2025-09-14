@@ -1,7 +1,10 @@
 #!/bin/bash
 # one-click_delete.sh
-# 2025.04.01
+# 2025.09.13
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr="$1"
@@ -12,6 +15,10 @@ portainerToken="$PORTAINER_TOKEN"
 containerName=$(echo "$2" | awk -F'+' '{print $2}')
 source1Name=$(echo "$2" | awk -F'+' '{print $3}')
   [[ $source1Name == none ]] && source1Name=""
+[[ $source1Name =~ ^ah4c[0-9]*$ ]] && \
+  dashM3U="$(curl -s "http://$dvr/devices" | jq -r --arg source "$source1Name" \
+    '[..|objects|select(.Lineup?=="X-M3U")|.DeviceID|ltrimstr("M3U-")|select(startswith($source+"-"))|sub("^"+$source;"")][0]//empty')" \
+  && [[ -n "$dashM3U" ]] && source1Name="${source1Name}${dashM3U}"
 source2Name=$(echo "$2" | awk -F'+' '{print $4}')
   [[ $source2Name == none ]] && source2Name=""
 [[ -n $PORTAINER_PORT ]] && portainerPort="$PORTAINER_PORT" || portainerPort="9443"

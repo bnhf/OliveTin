@@ -1,7 +1,10 @@
 #!/bin/bash
 # portainerstack.sh
-# 2025.04.03
+# 2025.09.12
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 stackName="$1"
@@ -24,7 +27,7 @@ volumeExternal=$(grep 'VOL_EXTERNAL=' $envFile | grep -v '#' | awk -F'=' '{print
 volumeName=$(grep 'VOL_NAME=' $envFile | grep -v '#' | awk -F'=' '{print $2}')
 networkMode=$(grep 'NETWORK_MODE=' $envFile | grep -v '#' | awk -F'=' '{print $2}')
 transcoderDevice=$(grep 'DEVICES=' $envFile | grep -v '#' | awk -F'=' '{print $2}')
-stackNumber=$(grep 'CDVR_CONTAINER=' $envFile | grep -v '#' | awk -F'=' '{print $2}')
+stackNumber=$(grep '_CONTAINER=' $envFile | grep -v '#' | awk -F'=' '{print $2}')
 
 if [[ -n $dockerVolume ]]; then
   sed -i 's/#volumes:/volumes:/' $stackFile
@@ -45,8 +48,8 @@ if [[ -n $transcoderDevice ]]; then
 fi
 
 if [[ -n $stackNumber ]]; then
-  sed -i "s/container_name: channels-dvr/container_name: channels-dvr$stackNumber/" $stackFile
-  sed -i "s/- \${HOST_DIR}\/channels-dvr/- \${HOST_DIR}\/channels-dvr$stackNumber/" $stackFile
+  sed -i "s/container_name: $stackName/container_name: $stackName$stackNumber/" $stackFile
+  sed -i "s/- \${HOST_DIR}\/$stackName/- \${HOST_DIR}\/$stackName$stackNumber/" $stackFile
   stackName="$stackName$stackNumber"
 fi
 
@@ -84,7 +87,7 @@ EOF
 )
 
 echo "JSON response from $portainerURL:"
-portainerResponse=$(curl -k -X POST -H "Content-Type: application/json" -H "X-API-Key: ${portainerToken}" -d "$stackJSON" "$portainerURL")
+portainerResponse=$(curl -s -k -X POST -H "Content-Type: application/json" -H "X-API-Key: ${portainerToken}" -d "$stackJSON" "$portainerURL")
 
 [[ -z $portainerResponse ]] && exit 1
 
