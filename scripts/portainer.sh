@@ -1,7 +1,10 @@
 #!/bin/bash
 # portainer.sh
-# 2025.07.09
+# 2025.09.21
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 [[ -z $PORTAINER_HOST ]] && portainerHost="${CHANNELS_DVR%%:*}" || portainerHost="$PORTAINER_HOST"

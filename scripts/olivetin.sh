@@ -1,6 +1,6 @@
 #!/bin/bash
 # olivetin.sh
-# 2025.07.08
+# 2025.09.19
 
 exec > >(tee /config/olivetin-for-channels.env)
 
@@ -49,7 +49,7 @@ echo "TZ=${14:-$localTimezone}"
 
 echo "HOST_DIR=${15}"
 
-olivetinDockerJSON=$(docker inspect --format '{{ json .Mounts }}' olivetin | jq)
+olivetinDockerJSON=$(docker inspect --format '{{ json .Mounts }}' olivetin 2>/dev/null | jq)
 
 volumeCheck() {
   local variableName="$1"

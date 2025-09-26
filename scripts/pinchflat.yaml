@@ -1,0 +1,16 @@
+services:
+  pinchflat:
+    # 2025.09.26
+    # GitHub home for this project with setup instructions: https://github.com/kieraneglin/pinchflat
+    # Docker container home for this project: https://github.com/kieraneglin/pinchflat/pkgs/container/pinchflat
+    image: ghcr.io/kieraneglin/pinchflat:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
+    container_name: pinchflat
+    environment:
+      - TZ=${TZ} # Add your local timezone in standard linux format.
+    ports:
+      - ${HOST_PORT:-8945}:8945 # Use the recommended port number, or optionally change it if the port is already in use.
+    volumes:
+      - ${HOST_DIR:-/data}/pinchflat:/config # Add the parent directory on your Docker host you'd like to use.
+      - ${VIDEOS_SHARE}:/downloads # This can either be a host directory or a Docker volume that's connected via Samba or NFS to your videos network share.
+
+# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

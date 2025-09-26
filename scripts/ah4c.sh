@@ -1,6 +1,6 @@
 #!/bin/bash
 # ah4c.sh
-# 2025.09.13
+# 2025.09.22
 
 set -x
 
@@ -57,8 +57,8 @@ envVars=(
 "UPDATE_SCRIPTS=${36}"
 "UPDATE_M3US=${37}"
 "TZ=${38}"
-"SPEED_MODE${39}"
-"KEEP_WATCHING${40}"
+"SPEED_MODE=${39}"
+"KEEP_WATCHING=${40}"
 "AUTOCROP_CHANNELS=${41}"
 "LINKPI_HOSTNAME=${42}"
 "LINKPI_USERNAME=${43}"

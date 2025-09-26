@@ -1,6 +1,6 @@
 services:
   olivetin: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
-    # 2025.08.25
+    # 2025.09.15
     # GitHub home for this project: https://github.com/bnhf/OliveTin.
     # Docker container home for this project with setup instructions: https://hub.docker.com/r/bnhf/olivetin.
     image: bnhf/olivetin:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
@@ -25,6 +25,7 @@ services:
       - PORTAINER_HOST=${PORTAINER_HOST:-$CHANNELS_DVR_HOST} # Hostname or IP of the Docker host you're running Portainer on.
       - PORTAINER_PORT=${PORTAINER_PORT:-9443} # https port you're running Portainer on. 9443 is the default.
       - PORTAINER_ENV=${PORTAINER_ENV:-2} # Set this is if you're using an alternate Portainer Environment for some reason. 2 is the default.
+      - PORTAINER_NAME=${PORTAINER_NAME:-local} # If you'd like to use a Portainer Environment other than "local", set this value to the environment's name (case sensitive).
       - PERSISTENT_LOGS=${PERSISTENT_LOGS:-false} # For supported Actions, log files are retained on an ongoing basis. false is the default.
     volumes:
       - ${HOST_DIR:-/unused}${HOST_DIR:+/olivetin:/config} # Add the parent directory on your Docker host you'd like to use.

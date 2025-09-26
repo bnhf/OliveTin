@@ -1424,6 +1424,8 @@ actions:
             value: pluto
           - title: Pluto-for-Channels (joagomez)
             value: pluto-for-channels
+          - title: Pluto-for-Channels (bobby_vaughn)
+            value: pluto-for-channels2
           - title: Roku-Channels-Bridge
             value: roku-channels-bridge
           - title: SamsungTVPlus-for-Channels
@@ -1448,6 +1450,33 @@ actions:
             value: vlc-bridge-uk
           - title: Watchtower (for bulk container updating)
             value: watchtower
+
+  - title: Project One-Click Actions Debug Log Viewer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/debuglogs.sh "{{ action }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: action
+        description: Name of the Project One-Click Action for which you'd like to view the latest debug log.
+        choices:
+          - title: Portainer Stack Creator
+            value: portainerstack
+          - title: Create a Channels-App-Remote-Plus Stack in Portainer
+            value: channels-app-remote-plus
+          - title: Create a FileBot Stack in Portainer
+            value: filebot
+          - title: Create a MediaInfo Stack in Portainer
+            value: mediainfo
+          - title: Create an OliveTin Stack
+            value: olivetin-for-channels
+          - title: Create a Pinchflat Stack in Portainer
+            value: pinchflat
+          - title: Create a Pluto-for-Channels2 Stack
+            value: pluto-for-channels2
+          - title: Create a YouTub3r Stack in Portainer
+            value: youtub3r
+          - title: Install Portainer
+            value: portainer
 
   - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -1841,7 +1870,7 @@ actions:
 
   - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
-    shell: /config/cc4c.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ CC4C_PORT }}" "{{ HOST_VNC_PORT }}" "{{ VIDEO_BITRATE }}" "{{ AUDIO_BITRATE }}" "{{ FRAMERATE }}" "{{ VIDEO_WIDTH }}" "{{ VIDEO_HEIGHT }}" "{{ VIDEO_CODEC }}" "{{ AUDIO_CODEC }}" "{{ TZ }}" "{{ HOST_VOLUME }}" "{{ DEVICES }}" "{{ CDVR_START_CHAN }}" "{{ M3U_TEXT }}"
+    shell: /config/cc4c.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ CC4C_PORT }}" "{{ HOST_VNC_PORT }}" "{{ VIDEO_BITRATE }}" "{{ AUDIO_BITRATE }}" "{{ FRAMERATE }}" "{{ VIDEO_WIDTH }}" "{{ VIDEO_HEIGHT }}" "{{ VIDEO_CODEC }}" "{{ AUDIO_CODEC }}" "{{ TZ }}" "{{ DEVICES }}" "{{ CDVR_START_CHAN }}" "{{ M3U_TEXT }}"
     popupOnStart: execution-dialog-stdout-only
     arguments:
       - name: dvr
@@ -1908,10 +1937,6 @@ actions:
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
         default: US/Mountain
-      - name: HOST_VOLUME
-        type: very_dangerous_raw_string
-        description: The filename you'd like Docker to use for the volume containing your persistent Chrome data.
-        default: cc4c_chromedata
       - name: DEVICES
         description: If your Docker host supports Intel Quick Sync for transcoding, set to "/dev/dri", otherwise leave as "none".
         choices:
@@ -2441,6 +2466,33 @@ actions:
         default: /data
     timeout: 40
 
+  - title: Create a Pinchflat Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/pinchflat.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ TZ }}" "{{ HOST_DIR }}" "{{ VIDEOS_SHARE }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8945
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directory will be pinchflat.
+        default: /data
+      - name: VIDEOS_SHARE
+        type: very_dangerous_raw_string
+        description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
+        default: /mnt/videos
+    timeout: 40
+
   - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/plex-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ PORT }}" "{{ REGIONS }}" "{{ MJH_COMPATIBILITY }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}"
@@ -2507,6 +2559,39 @@ actions:
         type: int
         description: Change the port this container uses internally.      
         default: 7777
+      - name: PLUTO_CODE
+        type: very_dangerous_raw_string
+        description: What country streams will be hosted. Multiple can be hosted using comma separation. (local,us_west,us_east,ca,uk)
+        default: local
+      - name: CDVR_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create a Pluto-for-Channels2 Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/pluto-for-channels2.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" '{{ PLUTO_USERNAME }}' '{{ PLUTO_PASSWORD }}' "{{ PLUTO_CODE }}" "{{ CDVR_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #pluto-for-channels2 dvr description
+        default: none #pluto-for-channels2 dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: main
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 7780
+      - name: PLUTO_USERNAME
+        type: very_dangerous_raw_string
+        description: Your Pluto TV username. Do NOT use single or double quotes, OliveTin will handle that for you.
+      - name: PLUTO_PASSWORD
+        type: very_dangerous_raw_string
+        description: Your Pluto TV password. Do NOT use single or double quotes, OliveTin will handle that for you. 
       - name: PLUTO_CODE
         type: very_dangerous_raw_string
         description: What country streams will be hosted. Multiple can be hosted using comma separation. (local,us_west,us_east,ca,uk)
@@ -2926,6 +3011,29 @@ actions:
         default: cc4c:5589      
     timeout: 40
 
+  - title: Create an Youtub3r Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/youtub3r.sh "{{ dvr }}" "{{ TAG }}" "{{ WAIT_IN_SECONDS }}" "{{ YOUTUBE_SHARE }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #youtub3r dvr description
+        default: none #youtub3r dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: WAIT_IN_SECONDS
+        type: int
+        description: Number of seconds between scans. Default=60.
+        default: 60
+      - name: YOUTUBE_SHARE
+        type: very_dangerous_raw_string
+        description: Parent directory where your YouTube videos are stored.
+        default: /mnt/videos
+    timeout: 40
+
   - title: Delete a Project One-Click Channels DVR Extension
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/one-click_delete.sh "{{ dvr }}" "{{ project }}"
@@ -2968,12 +3076,16 @@ actions:
             value: multichannelview+multichannelview:latest+multichannelview
           - title: Organizr
             value: organizr+organizr:latest
+          - title: Pinchflat
+            value: pinchflat+pinchflat:latest
           - title: Plex-for-Channels
             value: plex-for-channels+plex-for-channels:latest+PlexTV+PlexTV-NoEPG
           - title: Pluto-for-Channels (jonmaddox)
             value: pluto+jonmaddox/pluto-for-channels:latest
           - title: Pluto-for-Channels (joagomez)
             value: pluto-for-channels+jgomez177/pluto-for-channels:latest+PlutoTV
+          - title: Pluto-for-Channels2 (bobby_vaughn)
+            value: pluto-for-channels2+rcvaughn2/pluto-for-channels:main+PlutoTV2
           - title: Roku-Channels-Bridge
             value: roku-channels-bridge+rcvaughn2/roku-ecp-tuner:latest
           - title: SamsungTVPlus-for-Channels
@@ -3002,6 +3114,8 @@ actions:
             value: watchtower+watchtower:latest
           - title: WeatherStar 4000+
             value: weatherstar4k+ghcr.io/netbymatt/ws4kp:latest+WeatherStar4K
+          - title: Youtub3r
+            value: youtub3r+youtub3r:latest
     timeout: 40
 
   - title: Create a YouTubeTV M3U or JSON
@@ -3080,6 +3194,7 @@ dashboards:
         type: fieldset
         contents:
         - title: Docker-Compose Examples for CDVR & Related Extensions
+        - title: Project One-Click Actions Debug Log Viewer
         - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
         - title: Create a Channels-App-Remote Stack in Portainer
@@ -3096,8 +3211,10 @@ dashboards:
         - title: Create a Multichannel View Stack in Portainer + CDVR Custom Channel
         - title: Create an OliveTin Stack in Portainer
         - title: Create an Organizr Stack in Portainer
+        - title: Create a Pinchflat Stack in Portainer
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Pluto-for-Channels2 Stack in Portainer + CDVR Custom Channels
         - title: Install Portainer on your Docker Host
         - title: Create a Roku-Channels-Bridge Stack in Portainer
         - title: Create a Samsung-TVPlus-for-Channels Stack in Portainer + CDVR Custom Channels
@@ -3110,6 +3227,7 @@ dashboards:
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
         - title: Create a Watchtower Stack in Portainer
         - title: Create a WeatherStar 4000+ Stack in Portainer + CDVR Custom Channels
+        - title: Create an Youtub3r Stack in Portainer
         - title: Delete a Project One-Click Channels DVR Extension
         - title: Portainer Token Creation
         - title: Portainer Volume Creation for SMB Shares

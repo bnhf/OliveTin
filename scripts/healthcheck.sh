@@ -1,6 +1,6 @@
 #!/bin/bash
 # healthcheck.sh
-# 2025.07.08
+# 2025.09.15
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -77,10 +77,11 @@ containerHealthcheck() {
 
   echo -e "Checking if your Portainer token is working on ports 9000 and/or 9443:\n" >> $logFile
   [[ -z $PORTAINER_PORT ]] && portainerPort=9443 || portainerPort=$PORTAINER_PORT
+  portainerName="${PORTAINER_NAME:-local}"
   echo "Portainer http response on port 9000 reports version $(curl -s -k --max-time 3 -H "Authorization: Bearer ${PORTAINER_TOKEN}" http://$PORTAINER_HOST:9000/api/status | jq -r '.Version')" >> $logFile
-  echo "Portainer Environment ID for local is $(curl -s -k -X GET --max-time 3 -H "X-API-Key: $PORTAINER_TOKEN" "http://$PORTAINER_HOST:9000/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')" >> $logFile
+  echo "Portainer Environment ID for $portainerName is $(curl -s -k -X GET --max-time 3 -H "X-API-Key: $PORTAINER_TOKEN" "http://$PORTAINER_HOST:9000/api/endpoints" | jq --arg portainerName "$portainerName" '.[] | select(.Name==$portainerName) | .Id')" >> $logFile
   echo "Portainer https response on port $portainerPort reports version $(curl -s -k --max-time 3 -H "Authorization: Bearer ${PORTAINER_TOKEN}" https://$PORTAINER_HOST:$portainerPort/api/status | jq -r '.Version')" >> $logFile
-  echo "Portainer Environment ID for local is $(curl -s -k -X GET --max-time 3 -H "X-API-Key: $PORTAINER_TOKEN" "https://$PORTAINER_HOST:$portainerPort/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')" >> $logFile
+  echo "Portainer Environment ID for $portainerName is $(curl -s -k -X GET --max-time 3 -H "X-API-Key: $PORTAINER_TOKEN" "https://$PORTAINER_HOST:$portainerPort/api/endpoints" | jq --arg portainerName "$portainerName" '.[] | select(.Name==$portainerName) | .Id')" >> $logFile
 
   echo -e "\n----------------------------------------\n" >> $logFile
 

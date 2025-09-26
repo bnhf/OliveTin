@@ -1,7 +1,8 @@
 #!/bin/bash
-# mediainfo.sh
-# 2025.07.13
+# youtub3r.sh
+# 2025.09.26
 
+dvr="$1"
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
 BASH_XTRACEFD=3
@@ -14,21 +15,18 @@ envFile="/tmp/$extension.env"
 dirsFile="/tmp/$extension.dirs"
 
 envVars=(
-"TAG=$1"
-"HOST_PORT=$2"
-"DARK_MODE=$3"
-"HOST_DIR=$4"
-"DVR_SHARE=$5"
-"VOL_EXTERNAL=$6"
-"VOL_NAME=$7"
+"TAG=$2"
+"SERVER_HOST=$dvr"
+"WAIT_IN_SECONDS=$3"
+"YOUTUBE_SHARE=$4"
 )
 
-synologyDirs=(
-"$4/mediainfo"
-)
+#synologyDirs=(
+#"$4/pinchflat"
+#)
 
 printf "%s\n" "${envVars[@]}" > $envFile
-printf "%s\n" "${synologyDirs[@]}" > $dirsFile
+#printf "%s\n" "${synologyDirs[@]}" > $dirsFile
 
 sed -i '/=#/d' $envFile
 

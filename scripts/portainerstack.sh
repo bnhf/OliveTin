@@ -1,6 +1,6 @@
 #!/bin/bash
 # portainerstack.sh
-# 2025.09.12
+# 2025.09.15
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -12,8 +12,9 @@ portainerHost="${2:-$PORTAINER_HOST}"
 portainerToken="${3:-$PORTAINER_TOKEN}"
 [[ -n $PORTAINER_PORT ]] && portainerPort="${4:-$PORTAINER_PORT}" || portainerPort="9443"
 yamlCopied="$5"
-portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "http://$portainerHost:9000/api/endpoints" | jq '.[] | select(.Name=="local") | .Id') \
-  && [[ -z $portainerEnv ]] && portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "https://$portainerHost:$portainerPort/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')
+portainerName=${PORTAINER_NAME:-local}
+portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "http://$portainerHost:9000/api/endpoints" | jq --arg portainerName "$portainerName" '.[] | select(.Name==$portainerName) | .Id') \
+  && [[ -z $portainerEnv ]] && portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "https://$portainerHost:$portainerPort/api/endpoints" | jq --arg portainerName "$portainerName" '.[] | select(.Name==$portainerName) | .Id')
 curl -s -o /dev/null http://$portainerHost:9000 \
   && portainerURL="http://$portainerHost:9000/api/stacks/create/standalone/string?endpointId=$portainerEnv" \
   || portainerURL="https://$portainerHost:$portainerPort/api/stacks/create/standalone/string?endpointId=$portainerEnv"

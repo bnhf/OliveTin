@@ -1,6 +1,6 @@
 #!/bin/bash
 # one-click_delete.sh
-# 2025.09.13
+# 2025.09.15
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -22,9 +22,9 @@ source1Name=$(echo "$2" | awk -F'+' '{print $3}')
 source2Name=$(echo "$2" | awk -F'+' '{print $4}')
   [[ $source2Name == none ]] && source2Name=""
 [[ -n $PORTAINER_PORT ]] && portainerPort="$PORTAINER_PORT" || portainerPort="9443"
-#[[ -n $PORTAINER_ENV ]] && portainerEnv="$PORTAINER_ENV" || portainerEnv="2"
-portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "http://$portainerHost:9000/api/endpoints" | jq '.[] | select(.Name=="local") | .Id') \
-  && [[ -z $portainerEnv ]] && portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "https://$portainerHost:$portainerPort/api/endpoints" | jq '.[] | select(.Name=="local") | .Id')
+portainerName=${PORTAINER_NAME:-local}
+portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "http://$portainerHost:9000/api/endpoints" | jq --arg portainerName "$portainerName" '.[] | select(.Name==$portainerName) | .Id') \
+  && [[ -z $portainerEnv ]] && portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "https://$portainerHost:$portainerPort/api/endpoints" | jq --arg portainerName "$portainerName" '.[] | select(.Name==$portainerName) | .Id')
 curl -s -o /dev/null http://$portainerHost:9000 \
   && portainerURL="http://$portainerHost:9000/api" \
   || portainerURL="https://$portainerHost:$portainerPort/api"

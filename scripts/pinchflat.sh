@@ -1,6 +1,6 @@
 #!/bin/bash
-# mediainfo.sh
-# 2025.07.13
+# pinchflat.sh
+# 2025.09.26
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -16,15 +16,13 @@ dirsFile="/tmp/$extension.dirs"
 envVars=(
 "TAG=$1"
 "HOST_PORT=$2"
-"DARK_MODE=$3"
+"TZ=$3"
 "HOST_DIR=$4"
-"DVR_SHARE=$5"
-"VOL_EXTERNAL=$6"
-"VOL_NAME=$7"
+"VIDEOS_SHARE=$5"
 )
 
 synologyDirs=(
-"$4/mediainfo"
+"$4/pinchflat"
 )
 
 printf "%s\n" "${envVars[@]}" > $envFile

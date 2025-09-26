@@ -1,11 +1,12 @@
 version: '3.9'
 services:
   cc4c:
-    # 2025.04.13
+    # 2025.04.20
     # GitHub home for this project: https://github.com/bnhf/chrome-capture-for-channels.
     # Docker container home for this project with setup instructions: https://hub.docker.com/r/bnhf/cc4c.
     image: bnhf/cc4c:${TAG:-latest}
     container_name: cc4c
+    shm_size: '1gb'
     #devices:
       #- /dev/dri:/dev/dri # Uncomment for Intel Quick Sync (GPU) access
     ports:
@@ -22,10 +23,18 @@ services:
       - AUDIO_CODEC=${AUDIO_CODEC:-aac} # Audio codec (e.g., aac, opus)  [string] [default: "aac"]
       - TZ=${TZ} # Your local timezone in Linux "tz" format.
     volumes:
-      - cc4c:/home/chrome/chromedata # Creates a persistent Docker Volume in /var/lib/docker/volumes for Chrome data.
+      - cookies:/home/chrome/chromedata/Default/Cookies # Creates a persistent Docker Volume in /var/lib/docker/volumes for Chrome cookie data.
+      - logins:/home/chrome/chromedata/Default/Login Data # Creates a persistent Docker Volume in /var/lib/docker/volumes for Chrome user login data.
+      - localstorage:/home/chrome/chromedata/Default/Local Storage # Creates a persistent Docker Volume in /var/lib/docker/volumes for Chrome user local data.
+      - prefs:/home/chrome/chromedata/Default/Preferences # Creates a persistent Docker Volume in /var/lib/docker/volumes for Chrome user preferences data.
+      - secure:/home/chrome/chromedata/Default/Secure Preferences # Creates a persistent Docker Volume in /var/lib/docker/volumes for Chrome user secure data.
     restart: unless-stopped
+    
 volumes:
-  cc4c:
-    name: ${HOST_VOLUME}
+  cookies:
+  logins:
+  localstorage:
+  prefs:
+  secure:
 
   # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode

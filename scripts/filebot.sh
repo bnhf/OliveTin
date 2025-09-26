@@ -1,7 +1,10 @@
 #!/bin/bash
 # filebot.sh
-# 2025.04.01
+# 2025.07.13
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 extension=$(basename "$0")
