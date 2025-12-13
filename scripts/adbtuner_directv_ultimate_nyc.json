@@ -1,0 +1,3332 @@
+[
+    {
+        "provider_name": "DirecTV",
+        "number": 2,
+        "name": "CBS-WCBS",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WCBS/215692d2-9580-f630-3975-1e8caa1ae6f9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "16689",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4,
+        "name": "NBC-WNBC",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNBC/6beef71a-4049-7cae-8048-91a8214f854a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "20459",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 5,
+        "name": "FOX-WNYW",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNYW/71ef2762-858e-dca7-c17e-23619662e177",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "20360",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 7,
+        "name": "ABC-WABC",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WABC/fac8c0ee-2f5e-1529-7233-5dc2858ec0aa",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "20453",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 9,
+        "name": "MNT-WWOR",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WWOR/be775c59-6533-fcaf-ebf1-e8138643fae5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "26566",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 11,
+        "name": "CW-WPIX",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WPIX/f622a371-c0b0-ef62-c4e3-3ec096a66469",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "20373",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 13,
+        "name": "PBS-WNET",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNET/ff03425b-f2da-c1a0-155d-da5f9d5b2bdd",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "26182",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 41,
+        "name": "Univision-WXTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WXTV/14095fc4-68f1-9c4c-b154-5a99641fa58e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "35361",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 47,
+        "name": "TMO-WNJU",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNJU/b95bcbcf-2c33-de5f-18fa-555724163509",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "54437",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 49,
+        "name": "PBS-WEDW",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WEDW/3e976085-de26-49bf-159f-31fa421cc0b5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "53126",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 50,
+        "name": "PBS-WNJN",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNJN/d90ab03e-8459-2e18-c5e1-d5db27767d39",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "29139",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 55,
+        "name": "WLNY",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WLNY/1a4836da-4b55-e73b-9bc7-3a65b3293a38",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "31225",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 77,
+        "name": "MeTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/METV/83321f4e-2ac2-9dc4-a1fd-7b0a0f8c1e5f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "122696",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 80,
+        "name": "Cozi TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/COZI/9fd00aad-1cc7-cf23-ba3e-bae853bd6165",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "89994",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 81,
+        "name": "GRIT",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GRIT/3097b4cc-3b54-14e3-c801-796f2316040f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "89922",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 82,
+        "name": "BounceTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/Bounce/19a0169f-323e-b251-99e0-56b7209b4dca",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "73067",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 83,
+        "name": "GET",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GET/23f0fc84-d285-c4a1-a4c9-dfb383ed77db",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "82563",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 84,
+        "name": "Start TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/START/cf747516-29fa-41b9-9aa9-2dec5b7774cb",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "109454",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 85,
+        "name": "True CRMZ",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CRMES/acd62fd6-146a-4f45-baa7-f1a44ef64ba9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "114278",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 86,
+        "name": "MovieSphere Gold",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MVSGLD/6b272ceb-e01c-4c9a-b464-9e169f766fdb",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "185303",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 202,
+        "name": "CNN",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CNNHD/d3603aea-f5d8-e789-786c-43c5e8799428",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58646",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 204,
+        "name": "HLN",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HLNHD/6d1f5d8a-9616-b2aa-fd67-190f5f108591",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "64549",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 206,
+        "name": "ESPN",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ESPNHD/dede9246-d012-a0b5-3a0d-47e1dab9aad8",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "32645",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 207,
+        "name": "ESPNews",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ESNHD/12a35cc1-19d8-d1c1-1fac-4ca6b264dbed",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59976",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 208,
+        "name": "ESPNU",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ESPNUHD/9ecd95cc-35c3-6edf-f374-ba56a30479c0",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60696",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 209,
+        "name": "ESPN2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ESPN2HD/86803936-4000-2af7-19e9-81ba8fa148d8",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "45507",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 212,
+        "name": "NFL Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NFLHD/b7effab4-2677-a11a-6505-d5e1ef60f465",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "45399",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 213,
+        "name": "MLB Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MLBNHD/a65b11b9-e803-3bc8-1efc-49c5dd66d689",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "62081",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 214,
+        "name": "RACER Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RACER/351b0623-e45c-790e-a36f-afb5a842cd04",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "61036",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 215,
+        "name": "NHL Network Alternate",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NHLaHD/b8d61127-65a5-4635-b12d-a95dcb7b1b35",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "95225",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 215,
+        "name": "NHL Network HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NHLHD/f70c4f77-652e-bfc0-6f4d-65f32fc3f2ba",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58690",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 216,
+        "name": "NBA TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NBAHD/d340c4c5-abad-9bc1-6dbc-3cd499b796a7",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "45526",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 217,
+        "name": "Tennis Channel HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TNNSHD/f0d90008-caa2-97c8-93c3-7ff6a575486f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60316",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 218,
+        "name": "Golf Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GolfHD/2dd56923-6e9f-b6ef-a3d6-d6c0c5aa6ab0",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "61854",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 219,
+        "name": "FOX Sports 1",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FS1HD/5c55c82f-c5cb-2aa5-6376-cc868d5cdc32",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "82547",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 221,
+        "name": "CBS Sports Network HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CBSSNHD/143250f9-2f97-19ea-1070-b1b64a7589be",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59250",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 226,
+        "name": "Shop LC",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SHOPLC/c697423f-24ae-9691-cf3e-b0753f8ad23a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "56032",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 228,
+        "name": "GEM Shopping Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GEM/bb3e2345-4bc8-909e-97d3-e5b2b1eeabc8",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "26643",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 229,
+        "name": "HGTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HGTVHD/deaa46a3-836f-58f3-f897-73a42289a940",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "49788",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 230,
+        "name": "Magnolia Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MAGNHD/25ad7277-733d-16f9-965d-6e80308a64fa",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "67375",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 231,
+        "name": "Food Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/foodHD/7822f08f-c09d-d890-2b46-948766f9f571",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "50747",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 232,
+        "name": "Cooking Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/COOKHD/dcccb5d2-a567-e7a7-a1a2-c12d4b83c0c8",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "68065",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 233,
+        "name": "GSN HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GSNHD/dd504770-d338-5864-8d11-e0ae78330990",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "68827",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 235,
+        "name": "Tastemade",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TASTE/6a0016fd-74ec-7d3e-973f-da042697284d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "107076",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 236,
+        "name": "E!",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/E!HD/b4bd8603-8a28-c738-450b-b43807610760",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "61812",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 237,
+        "name": "Bravo",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BRVOHD/aad256ef-1e09-f926-a05e-2591a809ffff",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58625",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 238,
+        "name": "ReelzChannel HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/REELZHD/c3fbdc9f-44b7-76e3-23e9-cde81c5b3117",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "68385",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 239,
+        "name": "Sundance TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SUNDHD/d94cb013-806e-43f9-c316-31ed9073b3d3",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "71280",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 240,
+        "name": "Home Shopping Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HSNHD/b26807c7-7513-c72e-261c-6270efc1cad4",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "62077",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 241,
+        "name": "Paramount TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PARHD/6924fc10-8306-4009-6495-714764f0dbf6",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59186",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 242,
+        "name": "USA Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/USAHD/28bbbe87-9c3b-5da7-4ad4-9868916b173d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58452",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 244,
+        "name": "Syfy",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SyfyHD/148e9301-574b-e202-9f1d-5eaac40731ac",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58623",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 245,
+        "name": "TNT",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TNTHD/acf51074-6940-81d8-2355-c2eb610e0afc",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "42642",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 246,
+        "name": "truTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/truTVHD/e7971467-59df-3be6-5711-8b9f72b70787",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "64490",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 247,
+        "name": "TBS",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TBSHD/ded1f9a7-a3e2-503d-7129-3e31e5257fae",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58515",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 248,
+        "name": "FX",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FXHD/f1281894-b977-5b3a-596d-5cf3b1b176ca",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58574",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 249,
+        "name": "Comedy Central",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/COMHD/853e2bbe-abda-d6b7-26c9-69fbe2d007ef",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "62420",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 251,
+        "name": "Oxygen True Crime",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/OXGNHD/a7ee26db-54eb-601b-b8df-1a67ad0cff4d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "70522",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 252,
+        "name": "Lifetime",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LIFEHD/bab3ef03-eeac-b5b1-a157-1a98bf4fbbde",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60150",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 253,
+        "name": "Lifetime Movie Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LMNHD/3d967c45-3b9b-f223-db5f-b4d7ef756744",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "55887",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 254,
+        "name": "AMC",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AMCHD/91f974cf-5346-2c4a-47c6-ad3326597a6b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59337",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 256,
+        "name": "TCM",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TCMHD/cca34ba0-ffc4-bcdd-16d1-20469ae2f1c9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "64312",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 258,
+        "name": "FX Movie Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FXM/a56d1955-3f16-b9d1-a531-89755221ccf2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "14988",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 259,
+        "name": "FXX",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FXXHD/79dfae40-37b1-adf0-d95b-97c72f792a02",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "66379",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 260,
+        "name": "WE TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WEHD/af87404f-791a-a30f-c3f9-484abfce0452",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59296",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 261,
+        "name": "Discovery Life",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DLIF/2c3c77b4-8941-7de6-291c-a33ad50f6504",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "16125",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 264,
+        "name": "BBC America",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BBCAHD/aade5336-7457-df09-bcfe-7485240a2f8d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "64492",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 265,
+        "name": "A&E",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/A&EHD/703b7a51-6290-4d92-6826-c52f4e23519f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "51529",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 266,
+        "name": "FYI",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FYIHD/2238cd22-7e7a-89d3-d219-aea6b94d292f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58988",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 267,
+        "name": "EarthX",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/EARTHX/76c132b0-fa3f-ac34-bc39-b0fecdc68e49",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "126128",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 269,
+        "name": "HISTORY",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HISTHD/3d2a7de5-af2e-b845-da1c-17d51e5f156a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "57708",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 271,
+        "name": "VICE",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/VICEHD/5d43cf2a-99f7-f804-499b-4409953e578d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "65732",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 272,
+        "name": "LOGO HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LOGOHD/cdb44de7-e993-8772-28fb-1158b49137aa",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "96971",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 273,
+        "name": "POP HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/POPHD/d7f25adf-9813-5570-bdaa-83d1aef41777",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "68796",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 274,
+        "name": "Ovation HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/OVTVHD/334adfc3-a627-41bd-7724-f313e9101697",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "69061",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 275,
+        "name": "QVC HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/QVCHD/15d2ac39-3429-e4c3-eafa-9bd6f477344d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60222",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 276,
+        "name": "National Geographic Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NGCHD/2b76c29e-325d-a699-9a6c-99bbe6a7c765",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "49438",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 277,
+        "name": "Travel Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TRAVHD/d1fd34a4-4dcc-dd0d-6310-6c25aabf20ff",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59303",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 278,
+        "name": "Discovery",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DSCHD/1755a18d-4cf4-8440-8f4a-bd73849cd9d6",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "56905",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 279,
+        "name": "OWN",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/OWNHD/c88d76e7-6a4c-435c-65f2-5ea6c63a3c9e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "70388",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 280,
+        "name": "TLC",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TLCHD/88bbbc54-9107-45ec-26b0-a79707a87bb2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "57391",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 281,
+        "name": "MotorTrend",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MTHD/649c0044-750a-d41a-9d3d-55229567a62f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "31046",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 282,
+        "name": "Animal Planet",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/APLHD/6b8b578e-eaa0-8086-4803-340763f93d36",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "57394",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 283,
+        "name": "Nat Geo WILD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NGWHD/219e6ef1-a7d1-b89d-fbb8-f190e7832bd2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "67331",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 284,
+        "name": "Science",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SCIHD/c6874cea-e0ae-8bda-80b4-a347b0e09a43",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "57390",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 285,
+        "name": "Investigation Discovery",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/IDHD/29ef0716-ed45-4e47-5185-d4384199b291",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "65342",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 286,
+        "name": "Destination America HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DESTHD/d5ad3ec8-623a-b0ae-9335-a2d09fbc850c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60468",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 287,
+        "name": "American Heroes",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AHCH/61295f1d-b338-1427-befc-e0ec881a9599",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "18284",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 288,
+        "name": "PBS Kids",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PBSK/71932d04-1596-5e58-992b-300394cedca9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "101364",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 289,
+        "name": "Disney Junior HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DSJRHD/74b13512-5e2c-8c70-15d0-d1c8b9fda9b2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "74885",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 290,
+        "name": "Disney Channel HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DISeHD/22f13b87-4c9d-9674-f01d-328925c190e9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59684",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 292,
+        "name": "Disney XD HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DXDHD/d5b8d53c-1409-d612-3436-d7bccebc4e04",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60006",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 293,
+        "name": "Baby First HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BABY/dc98eaf2-8e61-8222-e2a3-54dcb9e3d08a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "50338",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 294,
+        "name": "Discovery Family Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DFCH/524c81fb-5d82-3ad0-c1e2-d8434692cf6b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "67749",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 295,
+        "name": "MeTV Toons",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MeToons/7293acda-56da-4039-ac43-972632b8b7d1",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "159817",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 296,
+        "name": "Cartoon Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CNeHD/2336facb-8e11-c83b-b49f-4e54682104e3",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60048",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 298,
+        "name": "Boomerang",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/Boom/e331455c-dfa0-7d05-2b47-2d22768394b9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "21883",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 299,
+        "name": "Nickelodeon East HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NIKeHD/ed9654e0-a239-473b-2654-f45e655b183c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59432",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 301,
+        "name": "Nick Jr.",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NKJRHD/e1468b46-28cd-bb84-4d8c-fa9b86fa6d6b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "82649",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 302,
+        "name": "Nicktoons",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NKTN/2e8de275-8a57-a07e-2748-45df074e06da",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "30420",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 303,
+        "name": "TeenNick",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TNCK/dacae6da-950d-bc52-9e77-a120799ca097",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59036",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 304,
+        "name": "TV Land",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TVLDHD/b24b7b6f-c840-e216-e73c-7d32d9eecbda",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "73541",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 305,
+        "name": "WNBA on ION 2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNBAION2/00cd2685-f0ee-4e36-b1d9-f08791fbec52",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "1187",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 305,
+        "name": "WNBA on ION 1",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNBAION1/10577518-62a2-4eff-b516-5fe45c3b4eb2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "1185",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 305,
+        "name": "ION East",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/IONEHD/a6740f2c-81c8-f263-90ea-ac83df064f10",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "76894",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 305,
+        "name": "WNBA on ION 3",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WNBAION3/0e58d745-8af4-4c39-b19c-746df60bb642",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "1188",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 307,
+        "name": "NewsNation",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NwsNnHD/870c91a5-e875-37f0-3c4f-d1b41ec6b831",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "91096",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 308,
+        "name": "LooLoo Kids",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LOOLOO/0bcd344e-6915-4011-8e63-fb49dbc3046a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "172126",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 311,
+        "name": "Freeform HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FRFMHD/d3046aab-71b5-2d44-1b53-fcab4c9d7cad",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121949",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 312,
+        "name": "Hallmark Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HALLHD/a2236f35-6af2-3c7f-bf9d-979acaec1251",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "66268",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 313,
+        "name": "Jewelry TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/JTV/7886d5c2-2559-9822-f009-3c72a2f6fb69",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "16604",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 314,
+        "name": "Family Movie Classics",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FMC/57b6cb4b-1a42-2381-901c-16a2813c6492",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "127501",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 315,
+        "name": "QVC2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/QVC2HD/2f0bc776-8b8f-d6a5-2123-a9c940121c63",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "82696",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 318,
+        "name": "QVC3",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/QVC3HD/f02bab27-3ac4-7e0c-7e6d-624804fb7c06",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "102337",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 320,
+        "name": "Scientology Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SCNTV/5fe9e66f-bdb4-dbb1-ace0-504734ce970c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "102490",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 323,
+        "name": "Family Entertainment Television",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FETV/3ef9f466-918c-40c8-a141-280f8d15f623",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "73413",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 326,
+        "name": "Great American Family",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GFAMHD/eaf8f979-a1ee-40e1-9162-77dc4873c9a4",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "82892",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 327,
+        "name": "CMT",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CMTHD/61086ae5-48ce-8085-6d40-1da956771eba",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59440",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 328,
+        "name": "TV One",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TV1/95d012f3-9276-a155-be33-96d29a3bf2e5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "35513",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 329,
+        "name": "BET",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BETHD/1c362f35-5526-952d-b892-b1b8492d3d54",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "63236",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 330,
+        "name": "BET Her",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BHER/2cb67cc0-5cbd-c28e-5cb3-efd2c063ab05",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "14897",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 331,
+        "name": "MTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MTVHD/9ec54b53-8d07-7efc-99a7-349057b95eed",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60964",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 332,
+        "name": "MTV2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MTV2HD/721ab65b-5333-8c23-4a03-3fff869176c9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "75077",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 333,
+        "name": "IFC",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/IFCHD/156dda5e-4d82-707a-ee92-cd9fd017f425",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59444",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 334,
+        "name": "Revolt",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RVLTHD/541dd341-6a6d-19e4-58cf-b1d6469c4c05",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "83098",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 335,
+        "name": "VH1",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/VH1HD/f4d9239f-9378-1beb-9ab3-23c07a0b1473",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60046",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 336,
+        "name": "MTV Classic",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MTVC/2f3603ca-cc66-e8b0-b2da-7c88d527c969",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "22561",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 338,
+        "name": "UP",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/UPTV/ce75e450-1ad3-1794-1b74-351de95ea6ad",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "44940",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 339,
+        "name": "Fuse",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/fuseHD/5ba91416-92dc-84ab-73fb-c7e10f4620e3",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59116",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 340,
+        "name": "AXS TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AXSTV/d0c3c9df-90af-6f4a-5ad0-ab0e0d646dd5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "28506",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 341,
+        "name": "Cleo TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CLEOTV/abb3ce13-34f9-a681-7a07-ccee20166ee1",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "110289",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 342,
+        "name": "theGrio",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GRIOTV/bdc5570f-ff4d-776f-157d-cf398c4d0853",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "132272",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 343,
+        "name": "i24 News",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/i24NEWS/e259b90c-9d27-43d5-b0ab-2d2771a9948a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "102309",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 345,
+        "name": "RFD-TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RFDTV/8653742c-ddfd-32d3-e9c9-8c3489892ff6",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "63717",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 346,
+        "name": "BBC News",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BBCN/2d96572a-55c8-828a-2430-66f99477d46a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "76774",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 347,
+        "name": "The First",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TheFirst/4bdf80f2-d09d-45d5-b98a-86da258f373e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "114934",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 349,
+        "name": "Newsmax TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NEWSMXH/533f3fad-e91d-5cbf-6f80-82db799e4953",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "97163",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 350,
+        "name": "C-SPAN",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CSP1/c167f6c4-9128-4043-d798-50a8df3f29de",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "10161",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 351,
+        "name": "C-SPAN2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CSP2/49943603-c8bb-1a02-9621-15c8e95ecf7c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "10162",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 353,
+        "name": "Bloomberg TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BTVHD/862d91ba-d234-e4bc-1caa-79726755fd67",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "71799",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 354,
+        "name": "Cheddar News",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CHDR/3180919e-9228-678f-baa7-88a09c369a95",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "101103",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 355,
+        "name": "CNBC",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CNBCHD/a2ce2e53-bc11-775d-b070-e3c2d4a62d99",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58780",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 356,
+        "name": "MS Now",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MS NOW/6ea83d29-e16f-7ab5-397e-6efb32bbcba9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "64241",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 357,
+        "name": "CNBC World",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CNBW/5d12e358-4ec1-3905-b5fd-f7fca4700aa6",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "26849",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 358,
+        "name": "CNNi HD East",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CNNiHD/ad9a7dfd-d780-1be2-adf2-a449399254f1",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "83110",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 359,
+        "name": "Fox Business Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FBNHD/b0129946-46f3-f80f-42ea-315f64eeaac0",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58718",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 360,
+        "name": "Fox News Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FNCHD/5f3323ab-7390-8fcc-177f-bf9cc8000bcf",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "60179",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 361,
+        "name": "AccuWeather",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ACCUHD/dc033f1c-cc4a-adb2-fc2e-9188dc2d36ec",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "91994",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 362,
+        "name": "The Weather Channel HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WEAHD/171bd2ee-b0d3-da59-a26a-231e199a438c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58812",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 363,
+        "name": "FOX Weather",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FOXWX/ecd16979-bf5c-6f24-2575-11788b27f387",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "93141",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 369,
+        "name": "Daystar",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DSTRHD/6ee7980c-e134-7e7a-7bd0-ddc88fb558cb",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "87001",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 381,
+        "name": "ASPIRE",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ASPHD/63976b4a-449a-c192-ff84-10c5d0c18fd2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "76126",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 382,
+        "name": "Comedy TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/COMTVH/ca96e2f7-a27a-f202-cb2d-31975539c9e3",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "82470",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 383,
+        "name": "Justice Central HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/JCHD/cf7d17e0-f70e-9775-73a4-bd109035b169",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "78850",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 385,
+        "name": "Heroes & Icons",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/H&I/3e228444-bc03-2b53-fe94-311f35388702",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "120460",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 386,
+        "name": "FM",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FM HD/953bc9f7-4dc5-93b4-8052-2a3ba1cfe4af",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "72094",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 387,
+        "name": "RecipeTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RECIPE/74271fce-8ac1-6eed-e9ab-3a25833e0f85",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "81289",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4004,
+        "name": "NBC News Now",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NBCNNW/b768a920-2942-4655-b869-e5912808deaa",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "114174",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4005,
+        "name": "Today All Day",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TODAY/b4e5ec5e-8479-4514-89c4-85fac278a1ec",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "114138",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4007,
+        "name": "ABC News Live",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ABCNL/98ceb614-f506-4b24-81bd-1d7af542471e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113380",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4008,
+        "name": "ABC Localish",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LOCALSH/2f296390-5b67-48c8-9eff-32d763ae1b05",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "118952",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4009,
+        "name": "Scripps News",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SCNEWST/d9afeb8d-ed9e-af47-36b0-c7f993e64a47",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "120010",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4010,
+        "name": "20/20",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DIS2020/8577d10d-6f28-4021-a475-8b2f5277b709",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "161600",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4021,
+        "name": "Yahoo Finance",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/YAHOOF/adbf117c-1d63-eac6-eaf8-52ac94284631",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113674",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4105,
+        "name": "SportsGrid",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SPOGRID/5d74452d-3569-4c5f-52a5-70aec559f007",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "120919",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4106,
+        "name": "DraftKings",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DKN/6cf48a68-9b16-41c7-b912-f158b7b3897b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138277",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4108,
+        "name": "ESPN8: The Ocho",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ESPN8/d2fe50c4-73f0-415b-942a-1f7979cd5966",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "161567",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4110,
+        "name": "Fuel TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FUELFUB/8a481e27-81a5-ae7d-a069-895a331fab88",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "116115",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4111,
+        "name": "Fox Sports",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FOXFAST/155d2ce8-256f-4f0c-a725-b0465c135dab",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "141469",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4114,
+        "name": "NBA FAST Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NBAFAST/c5ce58ef-2f58-4a51-868f-b908f9f88d9d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "196933",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4116,
+        "name": "GolfPass",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PK24/52b8799b-58ad-4e57-bc91-348c8449a088",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "114142",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4117,
+        "name": "Tennis Channel 2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TNSCH2/995a6592-b8d3-4331-aa7c-8236c5cfe7d4",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "137752",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4118,
+        "name": "Surf Cinema",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SURFER/69aadc5e-4f13-4bf1-bcfb-3a663c38f07b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "152976",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4119,
+        "name": "Red Bull TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/REDBLL/7553c225-8868-43d3-8874-90cafa0cc371",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "142279",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4122,
+        "name": "beIN SPORTS XTRA",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BEINX/79639ffe-a7f7-4200-8eca-05539c786b33",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113143",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4123,
+        "name": "Willow Sports",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WILLOWSP/d6e6da4f-2239-4ebb-b120-9c1d2d37d646",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "164602",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4125,
+        "name": "Women's Sports Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WSN/e2e20701-db3f-88af-8847-375ce73ad2b8",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "124636",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4126,
+        "name": "All Women's Sports",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AWSN/302151ca-ec3d-4af0-8fc0-25c20f47428c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "167374",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4130,
+        "name": "Fight Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FIGHTNS/6eba1d55-1d1a-41e7-a4f7-cf68e18f111a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123170",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4131,
+        "name": "TNA",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/IMPACTW/bc4aa7db-ed8a-493b-8d28-0971951d3c3c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121991",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4132,
+        "name": "Swerve Combat",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SWERVE/bd98ceac-7e30-44d5-8c49-cc391646408a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "122436",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4133,
+        "name": "DAZN Ringside",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DAZNR/0d005767-4d77-4074-9fdb-879405e916a5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "144738",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4140,
+        "name": "PokerGo",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PKGFAST/915a988d-f06e-12c8-7ef3-1fa8bede454d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "124268",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4141,
+        "name": "Pickleball TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PBTV/8b13aaf2-eddd-4a22-9b09-8a600c811ea2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "146769",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4148,
+        "name": "Billiard TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BILSTR/aeb549dd-7657-4b25-9fee-2c036cdc303b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "120469",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4150,
+        "name": "Stadium Stream",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/STADSTR/637fad42-44b3-4f64-b4e1-d623bf26447f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113991",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4151,
+        "name": "ACC Digital Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ACCDN/23335f8e-1b24-401a-a0e9-03131827ebf0",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "124806",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4152,
+        "name": "Big 12",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BIGXII/e850fec6-0fec-4ac0-813e-45a030b1eefe",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "163942",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4170,
+        "name": "WIRED2fish TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/W2FTV/0b515061-de43-40f4-91eb-28d02e4a4119",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "132644",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4172,
+        "name": "Pursuit UP",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PRSTUP/956541c0-e5b1-4b0e-8ff1-7c33be71f191",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "112487",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4175,
+        "name": "Waypoint TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WAYPNT/ebd517c3-0c17-498d-a0a4-19f0ab9fba2a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121424",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4180,
+        "name": "NBC Sports Now",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NBCSPNW/677221c4-6ef5-4df9-be7a-3eae6d497307",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "114140",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4181,
+        "name": "The Jim Rome Show",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/JIMROME/a8c44e05-c444-492d-bc15-6eb67833e4f0",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "162473",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4189,
+        "name": "Sports Illustrated",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SITV/79e6dffd-ff8f-41fc-8f00-16843bc588d5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "132647",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4190,
+        "name": "Players TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PLAYERS/62f051e8-c6d6-b689-e952-27644a8019af",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "116748",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4191,
+        "name": "PowerNation",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PWRNTN/30ab6d01-34fb-e35f-48af-b36707d9cb40",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123515",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4192,
+        "name": "Racing America",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RA/e9fa4976-45fa-fcea-da4c-a2becc56ea07",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "124630",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4193,
+        "name": "Torque by History",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TORQUE/d79e6e89-1c63-43c6-a868-f1b384571bf6",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123423",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4194,
+        "name": "Speedvision",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SPEEDV/e3dba27a-cac1-4b73-b977-c6078e24a172",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "132889",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4200,
+        "name": "Lionsgate Collection",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LGCOLCT/71941139-7289-4189-889c-85ac86dc1101",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "190287",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4209,
+        "name": "HerSphere",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HERSPHR/36a7cbf5-53bc-8dd0-7bd2-1e83efc3353a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "135378",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4218,
+        "name": "Three Stooges",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/STOOGES/4d6daef4-63f8-404f-b60a-849e4ff19a23",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "170345",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4219,
+        "name": "Bob Ross Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BOBRS/b3d135b1-cf35-2eeb-8348-4ffd98c85f55",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "114491",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4221,
+        "name": "Horror by Alter",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ALTR/da8a95fd-dbce-2b8c-85af-df62756536f7",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "124998",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4227,
+        "name": "The Walking Dead Universe",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TWDU/456688d4-45d0-40cf-9763-614959b1224d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "115540",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4228,
+        "name": "50 Cent Action Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/50CENT/53aae7e8-b14a-4f7a-b6f0-09d6b465a36c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "178243",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4229,
+        "name": "El Rey Rebel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ELREYST/8bdb5846-80f2-3a63-7417-4ce193c45964",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "124328",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4230,
+        "name": "Court TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/COURTST/fca7a1e2-cbb5-dd08-7dbd-4198fabef15d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123605",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4250,
+        "name": "Bravo Vault",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BRVVLT/678d73a7-6a83-465b-b577-909e0dbe1125",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138400",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4251,
+        "name": "Real Housewives Vault",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RHLVT/17a13fad-b5ab-4ddb-86c9-b07afce38f65",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138455",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4252,
+        "name": "E! Keeping Up",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/EKEEPUP/34dc8bc4-d8fb-4db4-ac49-96d0e0bcc21d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138393",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4253,
+        "name": "All Reality WeTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WEREAL/195e8347-998c-46df-8073-c3488c89b450",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "115679",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4254,
+        "name": "Confess by Nosey",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NSYCONF/47a34fd7-50f1-4c7f-9cb2-70b251049ef2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "151953",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4255,
+        "name": "Nosey",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/NOSEYP/62e8a5e0-2c60-2c74-1856-9aa1cb32948b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "133657",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4256,
+        "name": "Dance Moms by Lifetime",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DANCM/6ff68577-ae85-4554-99f2-c4fe5c950ab0",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "126369",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4257,
+        "name": "Say Yes To The Dress",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDSYTD/003c9e88-d38a-4523-9f5d-e21f32d6f614",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "149117",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4259,
+        "name": "CUT",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CUT/6233c872-0a33-46cc-a579-bb369f1f2d8b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "178858",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4260,
+        "name": "The Masked Singer",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MASKED/ff300b51-5b71-4aa5-b48d-3b01a5166a9a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "191048",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4261,
+        "name": "America's Got Talent",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AGTFM/5ad61225-cf92-4c08-ad84-4203c39d94eb",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "189132",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4262,
+        "name": "Duck Dynasty",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DUCKDYN/5677757f-7d33-342e-4f8a-c565414e2cae",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "131429",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4263,
+        "name": "Ice Road Truckers",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ICEROAD/94ad1f48-8f6b-e7f8-fe76-d59a9f70aefd",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123426",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4264,
+        "name": "Ax Men",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AXMEN/52b935c1-f5da-699a-f12c-ee11c4f965b1",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123425",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4265,
+        "name": "Rig TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RIGTV/40e4accf-9058-44fe-b9e8-52c33e067617",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "160864",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4268,
+        "name": "Danger TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DANGER/61115cfa-4c6d-4c79-90d7-e62e7052c93b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "120204",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4271,
+        "name": "Cold Case Files",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/COLD/30334a98-90b4-dd3e-28ec-fb2c6689ccb2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "129137",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4272,
+        "name": "Crime 360",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CRM360/5aa81392-22af-431b-3379-20654730f148",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113780",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4273,
+        "name": "Total Crime",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TCUS/fdf99f1f-69b4-45d3-b532-a08f38def5f5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "131220",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4274,
+        "name": "True Crime Now",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TCNEST/a9222905-2b40-4c4c-bc5e-21e685d6ae26",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "135383",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4279,
+        "name": "Car Chase Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CARCHSE/6185c768-0d60-4ee4-9fe3-bf09ca8f37e4",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "182036",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4281,
+        "name": "Crime Scenes",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDCRSCN/41f8d9f1-5210-429d-a594-f905c61c59bc",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138028",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4282,
+        "name": "I (Almost) Got Away With It",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDAWY/901c06ce-8674-4cb0-8647-3f4dc9592cfb",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "154436",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4283,
+        "name": "Living With Evil",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDLWE/64400029-c7b5-4c86-bbd2-136da48192d4",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "170382",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4284,
+        "name": "Love Kills",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDLVKLS/258d73b5-e7b5-42df-92d8-a0f6b1794e5e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "170369",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4287,
+        "name": "Oxygen True Crime Archives",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/OXYTCA/cb5990f8-d329-455a-8aa6-79e08501a8b6",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138585",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4288,
+        "name": "Dateline 24/7",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DAT247/09b070d4-1d26-454d-a7a1-be9cd80ad7e4",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113957",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4301,
+        "name": "Fail Army",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FLARMY/f9a3cac9-385b-e100-25f2-381fb599ea0f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121204",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4302,
+        "name": "Always Funny: Pranks & Fails",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AFVTV/1da940dd-816c-4e78-91d8-d7c471a77802",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "120631",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4303,
+        "name": "Always Funny",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ALWFV/f9501ac5-5f64-4bf7-ba71-93e92d5eedcf",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "134109",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4305,
+        "name": "Comedy Dynamics",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CDYNCL/24efb9da-18f6-4119-63e3-25f7b7a9fb0f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "115447",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4310,
+        "name": "SNL Vault",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PK3/86032e2f-ed1f-4f2f-85a1-4447e5ec7878",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113678",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4321,
+        "name": "Anger Management",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AGRMGT/ea4750ec-88c0-2614-6e48-5c7a1e0c4bab",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "125128",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4322,
+        "name": "Are We There Yet",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/AWTYSTR/d9f37007-5b1d-1b8b-c2da-ca0dacbccf5d",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "120377",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4324,
+        "name": "Portlandia",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PRTLNDA/b9a568c2-5ec8-4250-b937-bb80c6a0400e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "122435",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4328,
+        "name": "INFAST",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/INSUS/39917eff-a7da-623e-55bc-9808e95a0aaf",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "118699",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4329,
+        "name": "INWONDER",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/INWONUS/7fdaa256-b9f3-49a3-b6a9-7d346ee1211f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "129477",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4335,
+        "name": "Buzzr",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BUZZRST/affd33fa-627b-43d7-9123-6d80501cc8d1",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "113452",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4336,
+        "name": "Family Feud (Steve Harvey)",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/XMVFMF/8405f3bb-a303-4137-a475-c888e5eb83b2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "125192",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4337,
+        "name": "Let's Make a Deal",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LMADEAL/346adee2-5fd6-4f45-ade6-a48a75436b70",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "163434",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4338,
+        "name": "The Price is Right: Drew Carey",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TPIRDC/2bc76122-8ab3-46d9-9cd3-3b7688f5b67c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "163435",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4339,
+        "name": "The Price is Right: The Barker Era",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TPIR/faa38971-dd49-4a9d-a927-fb088d7ef42a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "175935",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4340,
+        "name": "Deal Zone",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DEALZON/351adaee-7e8b-d0bc-4ff6-e4fdea86464f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123432",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4341,
+        "name": "Supermarket Sweep",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SMSWEEP/1353cabb-992d-4aa6-9a0a-856c48854154",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121598",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4346,
+        "name": "Dog Whisperer",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DOGWH/763575a1-3a58-bee6-4857-83152247068c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "147688",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4352,
+        "name": "Million Dollar Listing Vault",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MDLV/2b1500c5-1699-4c48-ba15-e9ebb7c18b3b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "164081",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4356,
+        "name": "Drool",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DROOL/e3cf52b0-1667-46f7-8f0d-2366742810ea",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "160302",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4357,
+        "name": "America's Test Kitchen",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TSTKCHN/18b2d611-1f8a-4959-8acc-0fc48a591b2b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "115365",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4358,
+        "name": "Tastemade Travel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TMTRAVEL/6e6081ac-415e-1e3e-5b0b-939ff4558368",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121718",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4359,
+        "name": "Tastemade Home",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TMHOME/900ddb32-a2e9-fa38-327f-266af6b3ca8b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "125187",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4361,
+        "name": "Jamie Oliver",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/JOLIVER/77d041f6-bb8a-4003-8699-a25831c47d83",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "176039",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4363,
+        "name": "Tiny House Nation",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TINY/5f7a1a3f-5bf9-54b5-eda8-7d6aee1d7e5c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "118456",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4365,
+        "name": "The Design Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TDN/35703c79-93c8-a679-8282-ff6f0822d1d7",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "118087",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4366,
+        "name": "RVTV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/RVTVSTR/18f466e0-e3e7-4431-970f-a2bf7cc0176a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "164367",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4367,
+        "name": "AT HOME with family handyman",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ATHFHM/228ddde9-918a-2002-c1ae-bc9fd727541c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "127174",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4368,
+        "name": "Great American Adventures",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GADV/c2c70e40-45c4-4dc2-9cbd-4fb0534ae275",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "129134",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4370,
+        "name": "MeatEater",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MEATR/c0c13c65-6794-c180-d49c-191d4d4b29b2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "149441",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4372,
+        "name": "Gusto TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GUSTOTV/a4b4a389-42c8-4be6-8d01-31f6c4f318e0",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "111140",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4378,
+        "name": "Sweet Escapes",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDSWE/a69d935f-a0b5-4d14-80f5-51574911b96e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138027",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4379,
+        "name": "Bizarre Foods with Andrew Zimmern",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDBFAZ/21f2e190-cf1a-43e6-9d58-39c8a976671c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "169593",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4380,
+        "name": "Beach Day",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDBCD/69830b96-ff93-4413-9554-5ab0555ec059",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "180082",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4388,
+        "name": "GoTraveler",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GOTRAV/d2b40a56-a108-4bb2-8cda-28ae08ad0718",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "124225",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4401,
+        "name": "FOX Soul",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FOXSOUL/8d634c15-ddbf-8231-1912-9ac32ab4a62b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "119212",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 402,
+        "name": "Univision East HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/UNIeHD/91e8d5f2-ef1b-d3c5-17e7-cb3da2da015b",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "68049",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 404,
+        "name": "Galavision",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/GALAHD/f2cc0b38-5662-8586-4358-4e6746e76bb2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "68367",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4404,
+        "name": "Ebony TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/EBYTV/bd572399-bf07-7b4e-39f5-92b97ba92ecc",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "146144",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 408,
+        "name": "UniMas West HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/UMasHD/3b2dc438-4244-ecf9-a2f6-f967c524712c",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "68040",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 410,
+        "name": "UNIVERSO",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/UVSOHD/d51f7b37-e63c-5d6d-3222-c237108f1d28",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "91588",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4416,
+        "name": "Dove TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DOVXM/ca52a885-706a-aa11-d31e-52dbfa61ba54",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "110480",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4418,
+        "name": "Joel Osteen",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/JOEL/d5b3d5aa-e900-4d74-b531-38271e916999",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "156961",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 419,
+        "name": "CNN en Espanol",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CNNE/c182a372-8572-ac9f-cfcc-92ad1224ea87",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "17054",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4421,
+        "name": "Pureflix TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PFTV/b1a6d17c-8ea1-4fd9-b538-7b073f564c70",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "149039",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4449,
+        "name": "Yu-Gi-Oh!",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/YUGIOH/f0b0a1cc-5257-4401-8dcd-75f00678b420",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "155772",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 464,
+        "name": "TUDN",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TUDNHD/4e32e1d2-6ed0-e6fb-b3a0-f4c409ee7799",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "77033",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4470,
+        "name": "Love Nature",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LNUSP/608db494-74ae-63bb-7b98-fff85bd1f6c3",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "157909",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4473,
+        "name": "Earth Touch",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/EARTHTV/35c6ab1d-7a0e-45b6-ac2f-4b1432ead2ae",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "159242",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4476,
+        "name": "Cosmic Frontiers",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CSFRNT/5ac49b16-917a-49fc-98db-4da3dacb32be",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "135380",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4477,
+        "name": "Mythbusters",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDMYTHB/19b4c411-ff39-4a5d-96cd-1a131d468aad",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "180083",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4480,
+        "name": "Modern Marvels",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MODMARV/a6c3900f-1c46-a1de-8a73-d7f0156dc1d7",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123433",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4481,
+        "name": "Curiosity Now",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/CURINOW/fbba6327-6393-4ddf-89b1-8d3a647406e2",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123667",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4482,
+        "name": "MagellanTV Wildest",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MGWILD/82a0350e-5ee8-48fb-a0ec-a77a627b1267",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "119209",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4484,
+        "name": "Military Heroes",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MILITRY/7bec5559-8a6f-41c2-a20e-ebc6f08ce253",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "126439",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4485,
+        "name": "Declassified",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DECLASS/f86e2408-155f-4f8e-8ee3-911cbd44a824",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "130514",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4486,
+        "name": "History & Warfare",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HSTWRF/30d05dca-fbe8-436f-9000-558e2176f42e",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "135379",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4487,
+        "name": "How To",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDHOWTO/7ebdc1da-4f7a-4759-8d5c-ecd88fce57bf",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138031",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4490,
+        "name": "Alien Nation by DUST",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DUST/ec31ae21-6876-da59-e7e9-11aff3deb2c9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "112881",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4491,
+        "name": "UnXplained Zone",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/UNXPLND/e273fbe5-4fb6-1a98-b5d2-2ff67c957f89",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "123431",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4493,
+        "name": "Ghosts are Real",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDGHO/f0e1d116-981b-4ff8-8f17-35359bfb2c5f",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138030",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4494,
+        "name": "Mysterious Worlds",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WBDMYS/a35cfee1-834d-49cb-b0be-2872430dc6b7",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "138032",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4501,
+        "name": "MovieSphere",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MOVSPH/f5f22b85-28be-1fee-3eaa-3ff3afa2bfb9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "158131",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4504,
+        "name": "Holiday Movie Favorites by Lifetime",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/LFTMOV/eb4161d4-79a0-23c6-8b4a-98101491311a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121308",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4520,
+        "name": "Tribeca Festival+",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/TRIFDTV/b06de443-3a27-4d68-ae1d-3b602fef48b4",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "183204",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4540,
+        "name": "Documentary+",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/DOCPLUS/e4b94113-a7bd-4ce8-80e2-199ad7a4c0d8",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "129672",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4551,
+        "name": "INSP Western Bound",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/WSTBND/cc4d03e3-5f72-41f4-9e99-5897edd5ee05",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "127279",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4720,
+        "name": "Somos Novelas",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SOMOSN/65f85519-70ad-12bc-85fe-17893c41ea17",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "158862",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 4721,
+        "name": "The Pet Collective",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PETCOLL/6a699b8f-3d82-d8ce-eeb4-44bf4d4e3dd5",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "121165",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 535,
+        "name": "STARZ Encore East",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SENCHD/b9ddc1ac-7daf-5f96-9817-5c2c142bfbb7",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "36225",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 536,
+        "name": "STARZ ENCORE West",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SENw/97d47e36-15d9-6ea9-596b-de55223b9689",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "17125",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 537,
+        "name": "STARZ ENCORE Classic",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SECL/18b2939c-782e-e13d-e764-297f9edd0238",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "14764",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 538,
+        "name": "STARZ ENCORE Westerns",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SEWS/7a0cf3c9-df1a-d67f-2cfd-c31c23d42773",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "102906",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 539,
+        "name": "STARZ ENCORE Suspense",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SESU/71fa3714-c586-f978-bc41-a9abbf696c7a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "14766",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 540,
+        "name": "STARZ ENCORE Black",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SEBK/5c48e0e5-2d7d-e713-9165-5dcb43014173",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "14870",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 541,
+        "name": "STARZ Encore Action HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SEACHD/d2d065bf-aac0-7ed9-bdc5-35a713bccca8",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "72015",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 542,
+        "name": "STARZ ENCORE Family",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SEFM/1dd535f5-7229-7230-2ae5-44f0b5da59d9",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "102903",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 566,
+        "name": "HDNET MOVIES",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/HDNM/427146c7-ba72-f092-5c39-a973864c1429",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "33668",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 570,
+        "name": "Smithsonian Channel HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SMTHHD/1653bae3-dad0-8d4f-7524-8090a1a46e86",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58532",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 573,
+        "name": "Shorts TV HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SHRTTV/24c133b3-ae88-b1b2-efdb-357127a9d1d7",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "67454",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 602,
+        "name": "FanDuel TV",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FDTV/cbad9aaa-dacc-3f9a-e799-5cbd192a6744",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "21345",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 604,
+        "name": "Pursuit Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/PRST/aefee661-f332-a0e1-9232-17775d8eb624",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "84542",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 605,
+        "name": "Sportsman Channel",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SPMNHD/c0e8a1c8-61fb-6d94-7023-bd57672fea7a",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "33930",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 610,
+        "name": "Big Ten Network Overflow 2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BTN2OF/af4aef45-be0c-5502-4214-e68af9b455bb",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "61135",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 610,
+        "name": "Big Ten",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BIG10HD/6e59cfb6-e9cf-f265-1fc3-d8fb0085b829",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "58321",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 610,
+        "name": "Big Ten Network Overflow 4",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BTN4OF/ded51864-a30a-7707-555c-6cc21dc13a63",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "71200",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 610,
+        "name": "Big Ten Network Overflow 3",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/BTN3OF/40b3c33e-c89a-3acf-de5c-316c9a26c2fd",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "71198",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 611,
+        "name": "SEC Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SECHD/59806c1a-3da5-504b-ad47-fd7c44397445",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "89714",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 612,
+        "name": "ACC Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/ACCNHD/a39b5a6b-fcba-4d31-53be-12190003e171",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "111871",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 618,
+        "name": "FOX Sports 2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/FS2HD/996701b2-525f-4b9e-ba56-222e80ff45ac",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "59305",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 631,
+        "name": "Yankees Entertainment & Sports Network",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/YES2HD/7db11346-b5fe-86b2-6896-b0aa43bec077",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "82128",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 631,
+        "name": "Yes Network HD",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/YESHDNY/e9816824-337f-1aee-29bd-418606d9d397",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "46275",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 634,
+        "name": "MSG",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MSGHD/3930c3ca-4384-499e-c509-b4c83ba54398",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "35402",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 635,
+        "name": "MSG ALT-3",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MSGALT-3/c1bbf6e4-6716-c336-ec60-887acda607ab",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "17798",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 635,
+        "name": "MSG ALT-2",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MSGALT-2/f6d0227f-8edd-7fab-a745-e7dc7aff2806",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "70283",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 635,
+        "name": "MSG ALT-1",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MSGALT-1/1b065a3f-da5a-159f-f023-5e8140e61c96",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "65437",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 635,
+        "name": "MSG Sportsnet HD 635",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/MSGSNHD/6dddc5f5-5324-d365-45dc-22e14f61dd17",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "35383",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    },
+    {
+        "provider_name": "DirecTV",
+        "number": 639,
+        "name": "SportsNet New York HD 639",
+        "url": "dtvnow://deeplink.directvnow.com/play/channel/SNYHD/e83be964-2e26-5544-94f7-def2fe3f7dba",
+        "package_name": "com.att.tv",
+        "tvc_guide_stationid": "50038",
+        "guide_offset_hours": 0,
+        "configuration_uuid": "bb353259-17e0-4b38-a328-8629fb1ec2ca"
+    }
+]

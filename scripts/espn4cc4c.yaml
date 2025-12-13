@@ -1,0 +1,54 @@
+services:
+  espn4cc4c:
+    # 2025.11.23
+    # GitHub home for this project with setup instructions: https://github.com/kineticman/ESPN4CC4C
+    # Docker container home for this project: https://github.com/kineticman/ESPN4CC4C/pkgs/container/espn4cc4c
+    image: ghcr.io/kineticman/espn4cc4c:${TAG:-latest}
+    container_name: espn4cc4c
+    dns_search: ${DOMAIN:-localdomain} # For Tailscale users using Magic DNS, add your Tailnet (tailxxxxx.ts.net) to use hostnames for remote nodes, otherwise use your local domain name.
+    init: true
+    ports:
+      - ${PORT:-8094}:${PORT:-8094}
+    environment:
+      - TZ=${TZ:-America/New_York}
+      - VC_RESOLVER_BASE_URL=${VC_RESOLVER_BASE_URL:-http://192.168.86.72:8094}
+      - CC_HOST=${CC_HOST:-192.168.86.72}
+      - CC_PORT=${CC_PORT:-5589}
+      - CH4C_HOST=${CH4C_HOST:-127.0.0.1}
+      - CH4C_PORT=${CH4C_PORT:-2442}
+      - PORT=${PORT:-8094}
+      - APP_MODULE=${APP_MODULE:-bin.vc_resolver:app}
+      - VALID_HOURS=${VALID_HOURS:-72}
+      - LANES=${LANES:-40}
+      - ALIGN=${ALIGN:-30}
+      - MIN_GAP_MINS=${MIN_GAP_MINS:-30}
+      - M3U_GROUP_TITLE=${M3U_GROUP_TITLE:-ESPN+ VC}
+      - VC_M3U_PATH=${VC_M3U_PATH:-/app/out/playlist.m3u}
+      - WATCH_API_KEY=${WATCH_API_KEY:-0dbf88e8-cc6d-41da-aa83-18b5c630bc5c}
+      - FILTER_ENABLED_NETWORKS=${FILTER_ENABLED_NETWORKS:-*}
+      - FILTER_EXCLUDE_NETWORKS=${FILTER_EXCLUDE_NETWORKS:-}
+      - FILTER_ENABLED_SPORTS=${FILTER_ENABLED_SPORTS:-*}
+      - FILTER_EXCLUDE_SPORTS=${FILTER_EXCLUDE_SPORTS:-}
+      - FILTER_ENABLED_LEAGUES=${FILTER_ENABLED_LEAGUES:-*}
+      - FILTER_EXCLUDE_LEAGUES=${FILTER_EXCLUDE_LEAGUES:-}
+      - FILTER_ENABLED_EVENT_TYPES=${FILTER_ENABLED_EVENT_TYPES:-*}
+      - FILTER_EXCLUDE_EVENT_TYPES=${FILTER_EXCLUDE_EVENT_TYPES:-}
+      - FILTER_ENABLED_LANGUAGES=${FILTER_ENABLED_LANGUAGES:-*}
+      - FILTER_EXCLUDE_LANGUAGES=${FILTER_EXCLUDE_LANGUAGES:-}
+      - FILTER_REQUIRE_ESPN_PLUS=${FILTER_REQUIRE_ESPN_PLUS:-}
+      - FILTER_EXCLUDE_PPV=${FILTER_EXCLUDE_PPV:-false}
+      - FILTER_EXCLUDE_REAIR=${FILTER_EXCLUDE_REAIR:-false}
+      - FILTER_EXCLUDE_NO_SPORT=${FILTER_EXCLUDE_NO_SPORT:-false}
+      - FILTER_CASE_INSENSITIVE=${FILTER_CASE_INSENSITIVE:-true}
+      - FILTER_PARTIAL_LEAGUE_MATCH=${FILTER_PARTIAL_LEAGUE_MATCH:-true}
+    volumes:
+      - ${HOST_DIR:-.}/data:/app/data
+      - ${HOST_DIR:-.}/out:/app/out
+      - ${HOST_DIR:-.}/logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8094/health"]
+      interval: 2m
+      timeout: 5s
+      retries: 2
+      start_period: 60s
+    restart: unless-stopped

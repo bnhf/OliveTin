@@ -1,0 +1,561 @@
+[
+  {
+    "ChannelName": "ACC",
+    "StationID": "111871",
+    "item_id": "d3d1428e9fea47eab11a4f35f0bda64e"
+  },
+  {
+    "ChannelName": "Action Plus",
+    "StationID": "142414",
+    "item_id": "796e1f95ac304df0be73250abe3a6b55"
+  },
+  {
+    "ChannelName": "AETV",
+    "StationID": "10035",
+    "item_id": "be5a3bce259a4c13947f4b4fbae5e005"
+  },
+  {
+    "ChannelName": "AETVHD",
+    "StationID": "51529",
+    "item_id": "8ac3a961c5b0d48ebdd6c90b52cfec46"
+  },
+  {
+    "ChannelName": "AMC Thrillers",
+    "StationID": "115678",
+    "item_id": "d1f271e489f7474d9428e60101834536"
+  },
+  {
+    "ChannelName": "AMCHD",
+    "StationID": "59337",
+    "item_id": "21d18937ced74ecfbba333476d6f4270"
+  },
+  {
+    "ChannelName": "AXSTV",
+    "StationID": "28506",
+    "item_id": "fa61fd21b701452c92fd37a70770f460"
+  },
+  {
+    "ChannelName": "BBCAHD",
+    "StationID": "64492",
+    "item_id": "2a915617329d4e87b5a83b68c39b9229"
+  },
+  {
+    "ChannelName": "BEIN1HD",
+    "StationID": "76950",
+    "item_id": "9125fbd1c6cd4c93b01387201878f063"
+  },
+  {
+    "ChannelName": "BETHD",
+    "StationID": "63236",
+    "item_id": "6197aeac25ae4d0f92b06b411fc021a6"
+  },
+  {
+    "ChannelName": "BIG10HD",
+    "StationID": "58321",
+    "item_id": "0984387944df47b58a687d60babc2c43"
+  },
+  {
+    "ChannelName": "BLOOM",
+    "StationID": "14755",
+    "item_id": "0fc839fc6cf44ca78a5c3e33691addc2"
+  },
+  {
+    "ChannelName": "BOOM",
+    "StationID": "21883",
+    "item_id": "83a743bf04f04e109f714c2992a9c8ce"
+  },
+  {
+    "ChannelName": "Bravo",
+    "StationID": "58625",
+    "item_id": "76fef014faccdafbbca947aca264d9bf"
+  },
+  {
+    "ChannelName": "BRAVO",
+    "StationID": "58625",
+    "item_id": "287f100993794e62a24fa8e8fbcca906"
+  },
+  {
+    "ChannelName": "CARTOON",
+    "StationID": "60048",
+    "item_id": "ab508c097c5b41cbb0626dcc3fc9470a"
+  },
+  {
+    "ChannelName": "CHARGE",
+    "StationID": "102148",
+    "item_id": "a0fd1a33fa5840dfb466dc85db4b132d"
+  },
+  {
+    "ChannelName": "Cinelife",
+    "StationID": "122969",
+    "item_id": "cf822a414bce438ba5cec5d6ce39a445"
+  },
+  {
+    "ChannelName": "Circle",
+    "StationID": "113430",
+    "item_id": "d962667dae5f49cc8b01607d7fbcca7a"
+  },
+  {
+    "ChannelName": "CNNHD",
+    "StationID": "58646",
+    "item_id": "eb6c608319dc4328a9aa5bea1307cbaf"
+  },
+  {
+    "ChannelName": "Comedy Central",
+    "StationID": "10149",
+    "item_id": "7a0ff80be0c14f4da6b6cc510b9be57b"
+  },
+  {
+    "ChannelName": "Comedy Central",
+    "StationID": "10149",
+    "item_id": "29938328f60d447299ec48511a09ebab"
+  },
+  {
+    "ChannelName": "Comet",
+    "StationID": "97051",
+    "item_id": "6ee46b954518414f88b9375c2cab191b"
+  },
+  {
+    "ChannelName": "DEST",
+    "StationID": "16617",
+    "item_id": "ef750f82664945c982b69c24c92ae7b7"
+  },
+  {
+    "ChannelName": "Discovery",
+    "StationID": "56905",
+    "item_id": "73653704f85b4bde9855ef29a6d3196e"
+  },
+  {
+    "ChannelName": "DISNHD",
+    "StationID": "59684",
+    "item_id": "0e183596617d4425b9026cbf9603984b"
+  },
+  {
+    "ChannelName": "E!",
+    "StationID": "61812",
+    "item_id": "eb6e6c19dbaa498cbe5acfc45d3f0ea7"
+  },
+  {
+    "ChannelName": "ESPN2HD",
+    "StationID": "45507",
+    "item_id": "2ad976f9aa4b4796a52ae3d64b50db9c"
+  },
+  {
+    "ChannelName": "ESPNHD",
+    "StationID": "32645",
+    "item_id": "ca0cad8dbb4a4e68962810d8a6aa8b6a"
+  },
+  {
+    "ChannelName": "ESPNUHD",
+    "StationID": "60696",
+    "item_id": "b716a5f8c9d34028973c560dda470329"
+  },
+  {
+    "ChannelName": "ESPNWHD",
+    "StationID": "59976",
+    "item_id": "5664957697054ba0a3937a1af221bd1a"
+  },
+  {
+    "ChannelName": "Film Detective",
+    "StationID": "112484",
+    "item_id": "672a8609cc1944b8a6969bef975798c1"
+  },
+  {
+    "ChannelName": "Filmrise Action",
+    "StationID": "117356",
+    "item_id": "9ecaf6ecceab4ddf9dd3bf8f49526731"
+  },
+  {
+    "ChannelName": "Filmrise Drama",
+    "StationID": "163841",
+    "item_id": "f2865624d5f9404ea9e1ea469d430bc7"
+  },
+  {
+    "ChannelName": "Filmrise Free Movies",
+    "StationID": "117355",
+    "item_id": "fdcf7232807745b1b927ed7503f5026c"
+  },
+  {
+    "ChannelName": "Filmrise Music",
+    "StationID": "149158",
+    "item_id": "fe886f6ebfba45929fa34463893f89f8"
+  },
+  {
+    "ChannelName": "FNCHD",
+    "StationID": "60179",
+    "item_id": "e78cd8c7cca443cba7a70c6008c0291f"
+  },
+  {
+    "ChannelName": "Food Network",
+    "StationID": "50747",
+    "item_id": "4c8d7953714d4fa88a4d541d07fd031b"
+  },
+  {
+    "ChannelName": "FREEFRM",
+    "StationID": "10093",
+    "item_id": "e4096cf09e774670beea3fd7c5887e09"
+  },
+  {
+    "ChannelName": "FS1HD",
+    "StationID": "82547",
+    "item_id": "0c6964d26bcd450cb7d8c8af10b9da20"
+  },
+  {
+    "ChannelName": "FS2HD",
+    "StationID": "59305",
+    "item_id": "2173abf2ce324fe6837c8ab10c4a22cd"
+  },
+  {
+    "ChannelName": "FUSE",
+    "StationID": "59116",
+    "item_id": "fba55399460f4a7b8d3d436793dc0f90"
+  },
+  {
+    "ChannelName": "GET",
+    "StationID": "82563",
+    "item_id": "ab5068729265472a8d34d5a650c465b0"
+  },
+  {
+    "ChannelName": "GOLFHD",
+    "StationID": "61854",
+    "item_id": "e7c98734f996492187bb868ce5655a0e"
+  },
+  {
+    "ChannelName": "HALL",
+    "StationID": "11221",
+    "item_id": "52f5e36d9a194f2294b64d4adebacf5e"
+  },
+  {
+    "ChannelName": "HDNet Movies",
+    "StationID": "33668",
+    "item_id": "95264f7fc1ce4982b3d95d501f83fb24"
+  },
+  {
+    "ChannelName": "HGTV",
+    "StationID": "14902",
+    "item_id": "c763c4c3001f4a04970bca35000c0ded"
+  },
+  {
+    "ChannelName": "History",
+    "StationID": "14771",
+    "item_id": "a0b2c49be7814fa4bf1e381b7f12ce55"
+  },
+  {
+    "ChannelName": "HRICNST",
+    "StationID": "90401",
+    "item_id": "b4e7d03ea22449b093c2bbcc19eac602"
+  },
+  {
+    "ChannelName": "ID",
+    "StationID": "16615",
+    "item_id": "23d8c4d8b9cc4ed19771ab26f45e9867"
+  },
+  {
+    "ChannelName": "IFC",
+    "StationID": "14873",
+    "item_id": "0d9871a58b0e452eab0faf29ef28bc99"
+  },
+  {
+    "ChannelName": "IFC Film Pics",
+    "StationID": "115677",
+    "item_id": "c71ffd68f6244ef3911cda8fdcea1dfb"
+  },
+  {
+    "ChannelName": "IndiePlex HD",
+    "CallSign": "IPLEX",
+    "StationID": "65795",
+    "item_id": "7a17fd0c15754658885b368a0b273565"
+  },
+  {
+    "ChannelName": "LIFEHD",
+    "StationID": "60150",
+    "item_id": "5f079b9fa8c3430fa692deb662d82d8e"
+  },
+  {
+    "ChannelName": "LOCNOW",
+    "StationID": "99988",
+    "item_id": "37fd997d86ff4fdd869184648f7780c7"
+  },
+  {
+    "ChannelName": "LoneStar",
+    "StationID": "115226",
+    "item_id": "421422b8408846d7a4d0b3691c4ada60"
+  },
+  {
+    "ChannelName": "MAGN",
+    "StationID": "18544",
+    "item_id": "18cc490b11d24ee7b13ea6ed0da1ef3b"
+  },
+  {
+    "ChannelName": "Midnight Pulp",
+    "StationID": "119062",
+    "item_id": "030d73976d1d4ef9bec2f13568cc2c7e"
+  },
+  {
+    "ChannelName": "MLBHD",
+    "StationID": "62081",
+    "item_id": "8dc2e07d8d954628a0a80231d18f8667"
+  },
+  {
+    "ChannelName": "MLBNA",
+    "StationID": "62085",
+    "item_id": "7aabf41c62294fb0b35d78c24b802f31"
+  },
+  {
+    "ChannelName": "MLBSZ1",
+    "StationID": "55659",
+    "item_id": "22ecb96246a64361a9d5ab879eae6ec9"
+  },
+  {
+    "ChannelName": "MOTORTREND HD",
+    "StationID": "31046",
+    "item_id": "c7799d13850f4d67b7437e24e72d4f8b"
+  },
+  {
+    "ChannelName": "MoviePlex HD",
+    "StationID": "83075",
+    "item_id": "deba2421b6ff44478320b2c60051f1d7"
+  },
+  {
+    "ChannelName": "MSNow",
+    "StationID": "16300",
+    "item_id": "b708785d33964014896ab636042af863"
+  },
+  {
+    "ChannelName": "NBATV",
+    "StationID": "45526",
+    "item_id": "261371704fd24f8fb9f29e483ba45062"
+  },
+  {
+    "ChannelName": "NFLHD",
+    "StationID": "45399",
+    "item_id": "8a595ee9235f4d7f8b95dd35d268cdd5"
+  },
+  {
+    "ChannelName": "NFLNRZD",
+    "StationID": "65025",
+    "item_id": "7bd920fabfd242018e3e5ea5469b1e88"
+  },
+  {
+    "ChannelName": "NGCHD",
+    "StationID": "49438",
+    "item_id": "0245123bd2154a74b101db99f3e96f11"
+  },
+  {
+    "ChannelName": "NHLHD",
+    "StationID": "58690",
+    "item_id": "1f4b73a273aa4e588a320bae0b0c763b"
+  },
+  {
+    "ChannelName": "NICJR",
+    "StationID": "19211",
+    "item_id": "4b83fba5aba1401d9bb00f1bf9a357b4"
+  },
+  {
+    "ChannelName": "Nost",
+    "StationID": "118608",
+    "item_id": "1dbb7dc60a5c4eebb9d79fd5bbcfde29"
+  },
+  {
+    "ChannelName": "PARHD",
+    "StationID": "59186",
+    "item_id": "6cc72a923bc64041b81ecb3b43d53b56"
+  },
+  {
+    "ChannelName": "REELZ",
+    "StationID": "68385",
+    "item_id": "4d9b4b3bc05b430e84803d9e6f149fb3"
+  },
+  {
+    "ChannelName": "RetroPlex HD",
+    "StationID": "65791",
+    "item_id": "9ad3916eb22d4c169c7713afa5ee0f2b"
+  },
+  {
+    "ChannelName": "SCI",
+    "StationID": "57390",
+    "item_id": "3de2da0657e54dab959ee00b525db505"
+  },
+  {
+    "ChannelName": "SECH",
+    "StationID": "89714",
+    "item_id": "412b4b124e7f425e9a4e2bbaddcbe168"
+  },
+  {
+    "ChannelName": "Shout TV",
+    "StationID": "111132",
+    "item_id": "d82e3e57f3954342acbdeb7bf3420289"
+  },
+  {
+    "ChannelName": "Shout!Movies",
+    "StationID": "176866",
+    "item_id": "b31ff2f55b084c56ba9a003af64c6c2d"
+  },
+  {
+    "ChannelName": "SPARKTV",
+    "StationID": "161702",
+    "item_id": "30723078809e4129865a671e4143a79f"
+  },
+  {
+    "ChannelName": "Starz Cinema HD",
+    "CallSign": "STZC2",
+    "StationID": "67236",
+    "item_id": "0eedb59656d243da914fef990a8db903"
+  },
+  {
+    "ChannelName": "Starz Comedy HD",
+    "StationID": "57569",
+    "item_id": "d96b102ac5c54967bf56b8b57e20c84e"
+  },
+  {
+    "ChannelName": "Starz Edge HD",
+    "StationID": "57573",
+    "item_id": "1535e572f07348159d8924d58200690e"
+  },
+  {
+    "ChannelName": "Starz Encore Action HD",
+    "CallSign": "ENCOREA",
+    "StationID": "72015",
+    "item_id": "8aed8223a6104b53b24f03555fc933a9"
+  },
+  {
+    "ChannelName": "Starz Encore Black",
+    "StationID": "14870",
+    "item_id": "1ec67d324b564a528f6901ed8e09334e"
+  },
+  {
+    "ChannelName": "Starz Encore Classic",
+    "CallSign": "ENCOREC",
+    "StationID": "14764",
+    "item_id": "2230d31d16d541c08e654d4a11863d2c"
+  },
+  {
+    "ChannelName": "Starz Encore Family",
+    "CallSign": "ENCOREF",
+    "StationID": "102903",
+    "item_id": "22076462a8124832967e30e0f9f92213"
+  },
+  {
+    "ChannelName": "Starz Encore HD",
+    "CallSign": "ENCORE",
+    "StationID": "36225",
+    "item_id": "ed5d0f85928f45249f8a67c9746a80b7"
+  },
+  {
+    "ChannelName": "Starz Encore Suspense",
+    "StationID": "14766",
+    "item_id": "04e4a4f1e0ec4dfba961414197e57d7f"
+  },
+  {
+    "ChannelName": "Starz Encore West",
+    "CallSign": "ENCOREP",
+    "StationID": "17125",
+    "item_id": "a0515fde0c074dc389981e8881874aae"
+  },
+  {
+    "ChannelName": "Starz Encore Westerns",
+    "CallSign": "ENCOREW",
+    "StationID": "102906",
+    "item_id": "73ab11e5664241a9811e7e22602bfda9"
+  },
+  {
+    "ChannelName": "Starz HD",
+    "StationID": "34941",
+    "item_id": "1a3c345b84b149918e0bad8f797df70a"
+  },
+  {
+    "ChannelName": "Starz HD West",
+    "StationID": "34949",
+    "item_id": "8a84458592844ff5849712ef7766fb4e"
+  },
+  {
+    "ChannelName": "Starz in Black HD",
+    "CallSign": "STZB",
+    "StationID": "67235",
+    "item_id": "23a6ea3c163a47f390f73900ccc76bc1"
+  },
+  {
+    "ChannelName": "Starz Kids & Family HD",
+    "StationID": "57581",
+    "item_id": "148a1e391db94edf96bf25e25beb307d"
+  },
+  {
+    "ChannelName": "STASH THE CLASSICS",
+    "StationID": "136414",
+    "item_id": "3eabd5f7867c4d9baba2936ccc986af6"
+  },
+  {
+    "ChannelName": "STRTD",
+    "StationID": "122695",
+    "item_id": "cf7667c836554daa85f8f1dc7e5b3f3d"
+  },
+  {
+    "ChannelName": "SUNDANCE",
+    "StationID": "16108",
+    "item_id": "59becba981be4d59b30e99129854a9d6"
+  },
+  {
+    "ChannelName": "SYFYHD",
+    "StationID": "58623",
+    "item_id": "385c71f4210f457eb393041e36ed50b2"
+  },
+  {
+    "ChannelName": "TCMHD",
+    "StationID": "64312",
+    "item_id": "19b8b7733b4943e79ac9d3bc6a7e6427"
+  },
+  {
+    "ChannelName": "TENISHD",
+    "StationID": "60316",
+    "item_id": "3d94848a5be145d98cd07107a0f33aed"
+  },
+  {
+    "ChannelName": "TLCHD",
+    "StationID": "57391",
+    "item_id": "793b8cc7bdca43d9acb91432e1ccd24d"
+  },
+  {
+    "ChannelName": "TNTHD",
+    "StationID": "42642",
+    "item_id": "d74f03db90624c769e0c6d4c9745660d"
+  },
+  {
+    "ChannelName": "TOON",
+    "StationID": "12131",
+    "item_id": "eb80d6db891f45fabbfcedf5e4206f61"
+  },
+  {
+    "ChannelName": "TRAVHD",
+    "StationID": "59303",
+    "item_id": "48fed0bf95ed4756ad5515e5c59bb64b"
+  },
+  {
+    "ChannelName": "truTV",
+    "StationID": "64490",
+    "item_id": "68fb55b6e7e84cccaa24f4ef48006dde"
+  },
+  {
+    "ChannelName": "TRUTV",
+    "StationID": "10153",
+    "item_id": "1ed623f9dc97498cbe332bd5216a87c1"
+  },
+  {
+    "ChannelName": "USAHD",
+    "StationID": "58452",
+    "item_id": "35b320ac77ce4a2fbaf685e401933dc1"
+  },
+  {
+    "ChannelName": "VICEHD",
+    "StationID": "65732",
+    "item_id": "7c17236f677446ec967b12002e713939"
+  },
+  {
+    "ChannelName": "We",
+    "StationID": "16409",
+    "item_id": "af992867e751446da4f8eab335c4beea"
+  },
+  {
+    "ChannelName": "WTVJ",
+    "StationID": "10991",
+    "item_id": "4db1d24ace55499893fc611683c2a88f"
+  }
+]

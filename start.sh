@@ -1,6 +1,6 @@
 #!/bin/bash
 # start.sh
-# 2025.09.04
+# 2025.12.08
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -10,7 +10,7 @@ set -x
 configTemp="/tmp/config.yaml"
 
 checkYamls() {
-  local yamls=($(cd /tmp && ls *.yaml *.env *.m3u *.csv))
+  local yamls=($(cd /tmp && ls *.yaml *.env *.m3u *.csv *.json))
   
   for yaml in "${yamls[@]}"; do
     if [ ! -f /config/$yaml ] && [ -f /tmp/$yaml ] || [[ $UPDATE_YAMLS == "true" ]]; then

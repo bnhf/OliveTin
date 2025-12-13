@@ -1,4 +1,4 @@
-#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') --build-arg DOCKER_RELEASE=$(curl https://api.github.com/repos/moby/moby/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/') -f Dockerfile.debian -t bnhf/olivetin:latest -t bnhf/olivetin:2023.12.26 . --push --no-cache
+#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') --build-arg DOCKER_RELEASE=$(curl -s https://api.github.com/repos/moby/moby/releases/latest  | jq -r '.tag_name | sub("^.*v"; "")') -f Dockerfile.debian -t bnhf/olivetin:latest -t bnhf/olivetin:2025.11.23 . --push --no-cache
 FROM python:slim-bullseye
 
 ARG OS=linux

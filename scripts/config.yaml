@@ -1461,6 +1461,8 @@ actions:
         choices:
           - title: Portainer Stack Creator
             value: portainerstack
+          - title: Create an ADBTuner DirecTV JSON
+            value: adbtuner_directv_grabber
           - title: Create a Channels-App-Remote-Plus Stack in Portainer
             value: channels-app-remote-plus
           - title: Create a FileBot Stack in Portainer
@@ -1508,6 +1510,110 @@ actions:
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
         default: "#"
     timeout: 40
+
+  - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: |
+      cat <<'CUSTOM_JSON_EOF' >/tmp/custom_config.json
+      {{ CUSTOM_CONFIG }}
+      CUSTOM_JSON_EOF
+      {{ CURL_COMMAND }} 2>/dev/null | /config/adbtuner_directv_grabber.sh '{{ dvr }}' '{{ ADBTUNER_HOST }}' '{{ ADBTUNER_PORT }}' '/tmp/custom_config.json' '{{ DIRECTV_REMOVE }}' '{{ DTV_START_CHAN }}' '{{ DTV_CLIENT }}'
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #adbtuner_directv_grabber dvr description
+        default: none #adbtuner_directv_grabber dvr default
+      - name: ADBTUNER_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running ADBTuner.
+        default: htpc6
+      - name: ADBTUNER_PORT
+        type: int
+        description: Port number ADBTuner is available on.
+        default: 5592
+      - name: CURL_COMMAND
+        type: very_dangerous_raw_string
+        description: "Paste in your custom curl command to grab your specific DirecTV channel lineup. Details on capturing this curl command can be found here: https://community.getchannels.com/t/adbtuner-create-channels-custom-config-and-cdvr-custom-channels-for-directv/45217?u=bnhf"
+      - name: CUSTOM_CONFIG
+        type: very_dangerous_raw_string
+        description: "If you'd like to use an ADBTuner Custom Config, paste it here (including beginning and ending curly braces). A suggested ADBTuner Custom Config for DirecTV can be found here: https://community.getchannels.com/t/adbtuner-create-channels-custom-config-and-cdvr-custom-channels-for-directv/45217/45?u=bnhf"
+      - name: DIRECTV_REMOVE
+        description: Remove any existing ADBTuner virtual channels with a provider name of DirecTV before adding these new channels.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "true"
+      - name: DTV_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override ADBTuner-DirecTV M3U channel numbers, starting with this number. Use # to keep ADBTuner-DirecTV M3U numbering."
+        default: "#"
+      - name: DTV_CLIENT
+        description: The type of streaming method or device that'll be connected to your encoder. Leave as App unless you're using a DTV Osprey Box.
+        choices:
+          - title: App
+            value: "dtvnow://deeplink.directvnow.com/play/channel/"
+          - title: Osprey
+            value: "https://deeplink.directvnow.com/tune/live/channel/"
+        default: "dtvnow://deeplink.directvnow.com/play/channel/"
+    timeout: 60
+
+  - title: Create an ADBTuner Sling JSON and its Channel Lineup
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: |
+      cat <<'CUSTOM_JSON_EOF' >/tmp/custom_config.json
+      {{ CUSTOM_CONFIG }}
+      CUSTOM_JSON_EOF
+      {{ CURL_COMMAND }} 2>/dev/null | gunzip -c | /config/adbtuner_sling_grabber.sh '{{ dvr }}' '{{ ADBTUNER_HOST }}' '{{ ADBTUNER_PORT }}' '/tmp/custom_config.json' '{{ CONFIG_NAME }}' '{{ SLING_REMOVE }}' '{{ SLING_START_CHAN }}'
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #adbtuner_sling_grabber dvr description
+        default: none #adbtuner_sling_grabber dvr default
+      - name: ADBTUNER_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running ADBTuner.
+        default: htpc6
+      - name: ADBTUNER_PORT
+        type: int
+        description: Port number ADBTuner is available on.
+        default: 5592
+      - name: CURL_COMMAND
+        type: very_dangerous_raw_string
+        description: "Paste in your custom curl command to grab your specific Sling channel lineup. Details on capturing this curl command can be found here: https://community.getchannels.com/t/adbtuner-create-channels-custom-config-and-cdvr-custom-channels-for-sling/45259?u=bnhf"
+      - name: CONFIG_NAME
+        description: Choose a standard ADBTuner config, or Custom to add a CUSTOM_CONFIG.
+        choices:
+          - title: "Deep Links (default, recommended)"
+            value: 8ec77d65-30d6-46a3-8045-282571cff8d8
+          - title: "Deep Links - Show Tuning Process"
+            value: 92c0c532-aa12-4d18-abbd-72e4a9cec15c
+          - title: "Deep Links - Compatibility Mode"
+            value: bb353259-17e0-4b38-a328-8629fb1ec2ca
+          - title: "Deep Links - Compatibility Mode - Show Tuning Process"
+            value: c513c18d-19bd-47f0-9bff-4baba2a8c4cd
+          - title: "Custom (Paste the config into the CUSTOM_CONFIG field)"
+            value: custom
+        default: 8ec77d65-30d6-46a3-8045-282571cff8d8
+      - name: CUSTOM_CONFIG
+        type: very_dangerous_raw_string
+        description: If you'd like to use an ADBTuner Custom Config, paste it here (including beginning and ending curly braces).
+      - name: SLING_REMOVE
+        description: Remove any existing ADBTuner virtual channels with a provider name of Sling before adding these new channels.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "true"
+      - name: SLING_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Select a starting ADBTuner - Sling M3U channel number."
+        default: "12000"
+    timeout: 60
 
   - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -2016,6 +2122,136 @@ actions:
         default: eplustv_config
       - type: confirmation
         title: It may take a while for the container to gather initial data, so I'll be patient when checking the Portainer-Log... (Click to confirm)
+    timeout: 40
+
+  - title: Create ESPN4cc4c ADBTuner Lanes + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/espn4adbt.sh "{{ dvr }}" "{{ ADBTUNER_HOST }}" "{{ ADBTUNER_PORT }}" "{{ NUMBER_LANES }}" "{{ ESPN4CC4C_HOST }}" "{{ ESPN4CC4C_PORT }}" "{{ ESPN_REMOVE }}" "{{ ADBT_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #espn4adbt dvr description
+        default: none #espn4adbt dvr default
+      - name: ADBTUNER_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running ADBTuner.
+        default: htpc6
+      - name: ADBTUNER_PORT
+        type: int
+        description: Port number ADBTuner is available on.
+        default: 5592
+      - name: NUMBER_LANES
+        type: int
+        description: Number of virtual channels for espn4cc4c to create in ADBTuner (aka lanes).
+        default: 40
+      - name: ESPN4CC4C_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running ESPN4cc4c.
+        default: htpc6
+      - name: ESPN4CC4C_PORT
+        type: int
+        description: Port number ESPN4cc4c is available on.
+        default: 8094
+      - name: ESPN_REMOVE
+        description: Remove any existing ADBTuner virtual channels with a provider name of ESPN before adding these new lanes.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "true"
+      - name: ADBT_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override ADBTuner M3U channel numbers, starting with this number. Use # to keep ADBTuner M3U numbering."
+        default: "#"
+    timeout: 40
+
+  - title: Create an ESPN4cc4c Stack in Portainer + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/espn4cc4c.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ TZ }}" "{{ VC_RESOLVER_BASE }}" "{{ CC_HOST }}" "{{ CC_PORT }}" "{{ CH4C_HOST }}" "{{ CH4C_PORT }}" "{{ LANES }}" "{{ EXCLUDE_REAIR }}" "{{ HOST_DIR }}" "{{ ESPN4cc4c_SOURCE }}" "{{ CC4C_START_CHAN }}" "{{ ESPN4ch4c_SOURCE}}" "{{ CH4C_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #espn4cc4c dvr description
+        default: none #espn4cc4c dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8094
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: VC_RESOLVER_BASE
+        type: very_dangerous_raw_string
+        description: The base URL to use for this project. http://<hostname or IP>:<port>
+        default: http://htpc6:8094
+      - name: CC_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP for your cc4c installation. Leave as "cc4c" if you're not using cc4c integration.
+        default: cc4c
+      - name: CC_PORT
+        type: very_dangerous_raw_string
+        description: Port number for your cc4c installation (typically 5589). Leave as 5589 unless you've changed it in cc4c.
+        default: 5589
+      - name: CH4C_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP for your ch4c installation. Leave as "ch4c" if you're not using ch4c integration.
+        default: ch4c
+      - name: CH4C_PORT
+        type: very_dangerous_raw_string
+        description: Port number for your ch4c installation (typically 2442). Leave as 2442 unless you've changed it in ch4c.
+        default: 2442
+      - name: LANES
+        type: int
+        description: The number of "lanes" (aka virtual channels) to use for ESPN+ events. Default=40.
+        default: 40
+      - name: EXCLUDE_REAIR
+        description: Re-Airs cannot be viewed using deeplinks in ADBTuner (so, set to true), but can in cc4c (so, set to false). Other filters can be added later in the espn4cc4c stack.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "true"
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data.
+        default: /data/espn4cc4c
+      - name: ESPN4cc4c_SOURCE
+        description: Create a CDVR Custom Channels Source named espn4cc4c using this guide data, with virtual tuning via cc4c.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false"
+      - name: CC4C_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override cc4c M3U channel numbers, starting with this number. Use # to keep cc4c M3U numbering."
+        default: "#"
+      - name: ESPN4ch4c_SOURCE
+        description: Create a CDVR Custom Channels Source named espn4ch4c using this guide data, with virtual tuning via ch4c.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false"
+      - name: CH4C_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override ch4c M3U channel numbers, starting with this number. Use # to keep ch4c M3U numbering."
+        default: "#"
     timeout: 40
 
   - title: Create a FileBot Stack in Portainer
@@ -3060,6 +3296,8 @@ actions:
             value: cc4c+cc4c:latest+cc4c
           - title: EPlusTV
             value: eplustv+eplustv:latest+EPlusTV+EPlusTV-Linear
+          - title: ESPN4cc4c
+            value: espn4cc4c+espn4cc4c:latest+ESPN4cc4c+ESPN4ch4c
           - title: FileBot
             value: filebot+filebot:latest
           - title: FrndlyTV-for-Channels
@@ -3196,6 +3434,8 @@ dashboards:
         - title: Docker-Compose Examples for CDVR & Related Extensions
         - title: Project One-Click Actions Debug Log Viewer
         - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
+        - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
+        - title: Create an ADBTuner Sling JSON and its Channel Lineup
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
         - title: Create a Channels-App-Remote Stack in Portainer
         - title: Create a Channels-App-Remote-Plus Stack in Portainer
@@ -3203,6 +3443,8 @@ dashboards:
         - title: Create a ChannelWatch Stack in Portainer
         - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
         - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
+        - title: Create an ESPN4cc4c Stack in Portainer + CDVR Custom Channels
+        - title: Create ESPN4cc4c ADBTuner Lanes + CDVR Custom Channels
         - title: Create a FileBot Stack in Portainer
         - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a MediaInfo Stack in Portainer
