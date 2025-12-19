@@ -1,6 +1,6 @@
 #!/bin/bash
 # start.sh
-# 2025.12.08
+# 2025.12.15
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -118,6 +118,10 @@ channelsDvrServers() {
   && substituteDropdown
 }
 
+portainerHostServers() {
+  sed -i '/default: .*PORTAINER_HOST default/s/default: .* #/default: '"$PORTAINER_HOST"' #/g' $configTemp
+}
+
 createMsmtprc() {
   smtpHost=$(echo "$ALERT_SMTP_SERVER" | awk -F: '{print $1}')
   smtpPort=$(echo "$ALERT_SMTP_SERVER" | awk -F: '{print $2}')
@@ -144,6 +148,7 @@ echo -e "# Set default values for all following accounts.\n \
 main() {
   cd ~
   channelsDvrServers
+  [[ -n $PORTAINER_HOST ]] && portainerHostServers
   checkYamls  
   checkScripts
   #checkSubs

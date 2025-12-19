@@ -1463,10 +1463,14 @@ actions:
             value: portainerstack
           - title: Create an ADBTuner DirecTV JSON
             value: adbtuner_directv_grabber
+          - title: Create an ADBTuner Sling JSON
+            value: adbtuner_sling_grabber
           - title: Create a Channels-App-Remote-Plus Stack in Portainer
             value: channels-app-remote-plus
           - title: Create a FileBot Stack in Portainer
             value: filebot
+          - title: Create Fruit ADBTuner Lanes
+            value: fruitadbt
           - title: Create a MediaInfo Stack in Portainer
             value: mediainfo
           - title: Create an OliveTin Stack
@@ -1527,7 +1531,7 @@ actions:
       - name: ADBTUNER_HOST
         type: very_dangerous_raw_string
         description: Hostname or IP address of host running ADBTuner.
-        default: htpc6
+        default: htpc6 #PORTAINER_HOST default
       - name: ADBTUNER_PORT
         type: int
         description: Port number ADBTuner is available on.
@@ -1576,7 +1580,7 @@ actions:
       - name: ADBTUNER_HOST
         type: very_dangerous_raw_string
         description: Hostname or IP address of host running ADBTuner.
-        default: htpc6
+        default: htpc6 #PORTAINER_HOST default
       - name: ADBTUNER_PORT
         type: int
         description: Port number ADBTuner is available on.
@@ -2136,7 +2140,7 @@ actions:
       - name: ADBTUNER_HOST
         type: very_dangerous_raw_string
         description: Hostname or IP address of host running ADBTuner.
-        default: htpc6
+        default: htpc6 #PORTAINER_HOST default
       - name: ADBTUNER_PORT
         type: int
         description: Port number ADBTuner is available on.
@@ -2148,7 +2152,7 @@ actions:
       - name: ESPN4CC4C_HOST
         type: very_dangerous_raw_string
         description: Hostname or IP address of host running ESPN4cc4c.
-        default: htpc6
+        default: htpc6 #PORTAINER_HOST default
       - name: ESPN4CC4C_PORT
         type: int
         description: Port number ESPN4cc4c is available on.
@@ -2332,6 +2336,127 @@ actions:
           - title: Premium Plan (four streams)
             value: 4
         default: 2
+    timeout: 40
+
+  - title: Create a FruitDeepLinks Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/fruitdeeplinks.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ TZ }}" "{{ SERVER_URL }}" "{{ FRUIT_LANES }}" "{{ HOST_DIR }}" "{{ FRUIT_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #fruitdeeplinks dvr description
+        default: none #fruitdeeplinks dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 6655
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: US/Mountain
+      - name: SERVER_URL
+        type: very_dangerous_raw_string
+        description: The FruitDeepLinks base URL for this project. http://<hostname or IP>:<port>.
+        default: http://htpc6:6655
+      - name: FRUIT_LANES
+        type: int
+        description: The number of "lanes" (aka virtual channels) to use for FRUIT events. Default=50.
+        default: 50
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data.
+        default: /data
+      - name: FRUIT_START_CHAN
+        type: int
+        description: The starting channel number to use in your CDVR Custom Channels Source.
+        default: 14001
+    timeout: 40
+
+  - title: Create Fruit ADBTuner Lanes + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: |
+      cat <<'CUSTOM_JSON_EOF' >/tmp/custom_config.json
+      {{ CUSTOM_CONFIG }}
+      CUSTOM_JSON_EOF
+      /config/fruitadbt.sh "{{ dvr }}" "{{ ADBTUNER_HOST }}" "{{ ADBTUNER_PORT }}" "{{ NUMBER_LANES }}" "{{ FRUIT_HOST }}" "{{ FRUIT_PORT }}" "{{ FRUIT_PROVIDER }}" "{{ CONFIG_NAME }}" '/tmp/custom_config.json' "{{ FRUIT_REMOVE }}" "{{ ADBT_START_CHAN }}"
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #fruitadbt dvr description
+        default: none #fruitadbt dvr default
+      - name: ADBTUNER_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running ADBTuner.
+        default: htpc6 #PORTAINER_HOST default
+      - name: ADBTUNER_PORT
+        type: int
+        description: Port number ADBTuner is available on.
+        default: 5592
+      - name: NUMBER_LANES
+        type: int
+        description: Number of virtual channels, for a given FruitDeepLinks provider, to create in ADBTuner (aka lanes). If you'd like remove lanes only, set this to 0 and select the provider in FRUIT_REMOVE.
+        default: 50
+      - name: FRUIT_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running FruitDeepLinks.
+        default: htpc6 #PORTAINER_HOST default
+      - name: FRUIT_PORT
+        type: int
+        description: Port number FruitDeepLinks is available on.
+        default: 6655
+      - name: FRUIT_PROVIDER
+        description: The name of the Android app you'd like to use for this set of FruitDeepLinks lanes. It's important to have already enabled this provider and done a "Skip Scrape" so that the provider-specific M3U and XML will be available.
+        choices:
+          - title: ESPN
+            value: ESPN~sportscenter~com.espn.gtv~com.espn.score_center
+          - title: Prime Video
+            value: Prime Video~aiv~com.amazon.firebat~com.amazon.avod.thirdpartyclient
+          - title: Paramount+
+            value: Paramount+~pplus~com.cbs.ott~com.cbs.app
+        default: ESPN~sportscenter~com.espn.gtv~com.espn.score_center
+      - name: CONFIG_NAME
+        description: Choose a standard ADBTuner config, or Custom to add a CUSTOM_CONFIG.
+        choices:
+          - title: "Deep Links (default, recommended)"
+            value: 8ec77d65-30d6-46a3-8045-282571cff8d8
+          - title: "Deep Links - Show Tuning Process"
+            value: 92c0c532-aa12-4d18-abbd-72e4a9cec15c
+          - title: "Deep Links - Compatibility Mode"
+            value: bb353259-17e0-4b38-a328-8629fb1ec2ca
+          - title: "Deep Links - Compatibility Mode - Show Tuning Process"
+            value: c513c18d-19bd-47f0-9bff-4baba2a8c4cd
+          - title: "Custom (Paste the config into the CUSTOM_CONFIG field)"
+            value: custom
+        default: 8ec77d65-30d6-46a3-8045-282571cff8d8
+      - name: CUSTOM_CONFIG
+        type: very_dangerous_raw_string
+        description: If you'd like to use an ADBTuner Custom Config, paste it here (including beginning and ending curly braces).
+      - name: FRUIT_REMOVE
+        description: Remove any existing ADBTuner virtual channels with the selected provider name before adding these new lanes. Recommended!
+        choices:
+          - title: ESPN (sportscenter)
+            value: sportscenter
+          - title: Prime Video (aiv)
+            value: aiv
+          - title: Paramount+ (pplus)
+            value: pplus
+          - title: none
+            value: none
+        default: none
+      - name: ADBT_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override ADBTuner M3U channel numbers, starting with this number. Use # to keep ADBTuner M3U numbering."
+        default: "#"
     timeout: 40
 
   - title: Create a MediaInfo Stack in Portainer
@@ -3447,6 +3572,8 @@ dashboards:
         - title: Create ESPN4cc4c ADBTuner Lanes + CDVR Custom Channels
         - title: Create a FileBot Stack in Portainer
         - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a FruitDeepLinks Stack in Portainer
+        - title: Create Fruit ADBTuner Lanes + CDVR Custom Channels
         - title: Create a MediaInfo Stack in Portainer
         - title: Create an mlbserver Stack in Portainer + CDVR Custom Channels
         - title: Create a Multi4Channels Stack in Portainer + CDVR Custom Channel

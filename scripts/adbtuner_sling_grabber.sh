@@ -1,6 +1,6 @@
 #!/bin/bash
 # adbtuner_sling_grabber.sh
-# 2025.12.12
+# 2025.12.15
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -149,7 +149,7 @@ createSlingConfig() {
     echo "[INFO] Configuration created successfully (HTTP ${httpReturnCode})."
   else
     echo "[ERROR] Failed to create configuration (HTTP ${httpReturnCode}). Response:"
-    cat /tmp/directv_config_post_response.json
+    cat /tmp/sling_config_post_response.json
     echo
     return 1
   fi
