@@ -1,6 +1,12 @@
 #!/bin/bash
+# fix_thumbnails.sh
+# 2026.01.18
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 dvr=$1
 channelsHost=$(echo $dvr | awk -F: '{print $1}')
@@ -12,7 +18,7 @@ runFile=/tmp/"$channelsHost"-"$channelsPort"_fix_thumbnails.run
 
 while true; do
   [[ $runInterval == "once" ]] && echo "Retrieving YouTube video_groups for $dvr..." >> "$logFile"
-  videoGroups=$(curl http://$dvr/api/v1/video_groups)
+  videoGroups=$(curl -s http://$dvr/api/v1/video_groups)
   videoGroups=$(echo "$videoGroups" | jq -r '.[] | .id' | tr '\n' ' ')  
   ids=($videoGroups)
   
@@ -26,7 +32,7 @@ while true; do
     && exit 0
 
   [[ -n $healthchecksIO ]] \
-    && curl -m 10 --retry 5 $healthchecksIO
+    && curl -s -m 10 --retry 5 $healthchecksIO
 
   [[ $runInterval != "once" ]] \
     && touch $runFile \

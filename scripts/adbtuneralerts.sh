@@ -1,6 +1,6 @@
 #!/bin/bash
 # adbtuneralerts.sh
-# 2025.05.05
+# 2026.01.07
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -12,8 +12,8 @@ channelsHost=$(echo "$dvr" | awk -F: '{print $1}')
 channelsPort=$(echo "$dvr" | awk -F: '{print $2}')
 foregroundScript=adbtuneralerts
 runningScriptPID=$(ps -ef | grep "[a]dbtuneralerter.sh $dvr" | awk '{print $2}')
-greenIcon=\"icons\/channels.png\"
-#greenIcon=\"custom-webui\/icons\/channels.png\"
+#greenIcon=\"icons\/channels.png\"
+greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$foregroundScript"_latest.log
   [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile

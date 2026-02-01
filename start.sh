@@ -1,6 +1,6 @@
 #!/bin/bash
 # start.sh
-# 2025.12.15
+# 2026.01.24
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -145,6 +145,66 @@ echo -e "# Set default values for all following accounts.\n \
   account default : app\n" > /root/.msmtprc
 }
 
+substituteVars() {
+  imagesPlusPorts=(
+    "adbtuner:5592"
+    "ah4c:7654"
+    "eplustv:8000"
+    "espn4cc4c:8094"
+    "frndlytv-for-channels:80"
+    "fruitdeeplinks:6655"
+    "mlbserver:9999"
+    "multi4channels:9799"
+    "multichannelview:5001"
+    "olivetin:1337"
+    "plex-for-channels:7777"
+    "pluto-for-channels:7777"
+    "portainer-ce:9000"
+    "channels-remote-plus:5000"
+    "roku-ecp-tuner:5000"
+    "samsung-tvplus-for-channels:80"
+    "stream-link-manager-for-channels:5000"
+    "tubi-for-channels:7777"
+    "tv-logo-manager:8084"
+    "vlc-bridge-fubo:7777"
+    "vlc-bridge-pbs:7777"
+    "vlc-bridge-uk:7777"
+  )
+
+  dockerPs="$(docker ps --format "{{.Image}}\t{{.Ports}}")"
+
+  for imagePlusPort in "${imagesPlusPorts[@]}"; do
+    containerPort="${imagePlusPort##*:}"
+    imageName="${imagePlusPort%%:*}"
+    imageNameUnderbars="${imageName//-/_}"
+    imageNameUnderbarsCaps="${imageNameUnderbars^^}"
+
+    hostPort="$(
+      printf '%s\n' "$dockerPs" \
+        | grep -F "$imageName" \
+        | head -n1 \
+        | awk -F"->${containerPort}/" '{print $1}' \
+        | awk -F: '{print $NF}'
+    )"
+
+    [[ -n "$hostPort" ]] \
+      && envVars+=("${imageNameUnderbarsCaps}_FOUND=true") || envVars+=("${imageNameUnderbarsCaps}_FOUND=false")
+    envVars+=("${imageNameUnderbarsCaps}_PORT=${hostPort:-$containerPort}")
+  done
+
+  allowedVars="$(
+  printf '%s\n' "${envVars[@]}" \
+    | awk -F= '{print "${" $1 "}"}' \
+    | tr '\n' ' '
+  )"
+
+  allowedVars+=" \${CHANNELS_DVR} \${PORTAINER_HOST}"
+
+  env "${envVars[@]}" envsubst "${allowedVars}" < /tmp/tm_extensions-dropdown.user.js > /config/data/extensions-dropdown.user.js
+  envsubst '${CHANNELS_DVR} ${CHANNELS_DVR_ALTERNATES} ${PORTAINER_HOST}' < /tmp/tm_olivetin-dropdown.user.js > /config/data/olivetin-dropdown.user.js
+  envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_manage-lineup-helper.user.js > /config/data/manage-lineup-helper.user.js
+}
+
 main() {
   cd ~
   channelsDvrServers
@@ -156,8 +216,14 @@ main() {
   killZombieContainers
   loadScriptArguments
   createMsmtprc
-  mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
-  #mkdir -p /config/custom-webui/icons && cp /tmp/*.png /config/custom-webui/icons
+  #substituteVars
+  envsubst '${PORTAINER_HOST}' < /tmp/tm_extensions-dropdown.user.js > /config/data/extensions-dropdown.user.js
+  envsubst '${CHANNELS_DVR} ${CHANNELS_DVR_ALTERNATES} ${PORTAINER_HOST}' < /tmp/tm_olivetin-dropdown.user.js > /config/data/olivetin-dropdown.user.js
+  envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_manage-lineup-helper.user.js > /config/data/manage-lineup-helper.user.js
+  #mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
+  [[ "$UPDATE_SCRIPTS" == "true" ]] \
+    && cp -a /tmp/custom-webui/. /config/custom-webui/ \
+    || cp -an /tmp/custom-webui/. /config/custom-webui/
   #/usr/bin/OliveTin
   OliveTin
 }

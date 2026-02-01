@@ -1,7 +1,10 @@
 #!/bin/bash
 # fruitdeeplinks.sh
-# 2025.12.18
+# 2025.12.22
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr="$1"
@@ -20,11 +23,17 @@ envVars=(
 "FRUIT_HOST_PORT=$4"
 "TZ=$5"
 "SERVER_URL=$6"
+"CC_SERVER=$7"
+"CC_PORT=$8"
 "CHANNELS_DVR_IP=$channelsDVRHost"
+"CDVR_SERVER_PORT=$channelsDVRPort"
 "CHANNELS_SOURCE_NAME=FruitDeepLinks"
-"FRUIT_LANES=$7"
-"HOST_DIR=$8"
-"FRUIT_LANE_START_CH=$9"
+"FRUIT_LANES=$9"
+"CHANNELS_DVR_PATH=${10}"
+"AUTO_REFRESH_ENABLED=${11}"
+"AUTO_REFRESH_TIME=${12}"
+"HOST_DIR=${13}"
+"FRUIT_LANE_START_CH=${14}"
 )
 
 printf "%s\n" "${envVars[@]}" > $envFile
@@ -33,4 +42,4 @@ sed -i '/=#/d' $envFile
 
 /config/portainerstack.sh $extension
 
-[[ $? == 1 ]] && exit 1
+[[ $? == 1 ]] && exit 1 || true

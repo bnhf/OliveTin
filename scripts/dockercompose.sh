@@ -1,4 +1,6 @@
 #!/bin/bash
+# dockercompose.sh
+# 2026.01.18
 
 dockerCompose=$1
 

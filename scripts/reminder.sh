@@ -1,8 +1,12 @@
 #!/bin/bash
 # reminder.sh
-# 2025.03.05
+# 2026.01.18
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 dvr="$1"
 channelsHost=$(echo $dvr | awk -F: '{print $1}')
@@ -67,7 +71,7 @@ eventReminder() {
 channelChanger() {
   sleep $(($channelChangeTime - $(date +%s)))
   curl -s -X POST http://$channelChangeClient:57000/api/play/channel/$channelChangeNumber \
-    && curl -v --header "Content-Type: application/json" http://$channelChangeClient:57000/api/notify -d '{"title": "Requested", "message": "Channel change to '"$channelChangeNumber"'", "timeout": 120}' \
+    && curl -s -v --header "Content-Type: application/json" http://$channelChangeClient:57000/api/notify -d '{"title": "Requested", "message": "Channel change to '"$channelChangeNumber"'", "timeout": 120}' \
     && echo "$(date +"%Y-%m-%d %H:%M:%S") - Channel changed to $channelChangeNumber on $channelChangeClient" >> $logFile
 }
 

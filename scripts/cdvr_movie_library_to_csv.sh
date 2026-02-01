@@ -1,5 +1,10 @@
 #!/bin/bash
+# cdvr_movie_library_to_csv.sh
+# 2026.01.25
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 dvr=$(echo $1 | sed 's/:/-/')

@@ -1,0 +1,27 @@
+{
+    "name": "FruitDeepLinks - Peacock v2.0 (FireTV and AndroidTV)",
+    "author": "bnhf",
+    "version": "2.0",
+    "description": "Peacock for FruitDeepLinks. Compatible with FireTV and AndroidTV devices.",
+    "uuid": "7a0a4dc6-4f88-42f7-b545-2fbaadc24197",
+    "global_options": {
+        "wait_for_video_playback_detection": false,
+        "use_fixed_delay": true,
+        "fixed_delay_seconds": 5,
+        "check_for_and_clear_whos_watching_prompts": false,
+        "wait_after_post_playback_start_commands_seconds": 0
+    },
+    "pre_tune_commands": [
+        "input keyevent KEYCODE_MEDIA_STOP"
+    ],
+    "tune_commands": [
+        "am start -n $(dumpsys package '||TARGET_PACKAGE_NAME||' 2>/dev/null | awk '/sportscenter:/{getline; print $2; exit}') -d '||TARGET_URL_OR_IDENTIFIER||'"
+    ],
+    "post_playback_start_commands": [],
+    "post_tune_commands": [
+        "input keyevent KEYCODE_MEDIA_STOP",
+        "input keyevent KEYCODE_MEDIA_PAUSE",
+        "input keyevent KEYCODE_HOME"
+    ],
+    "timed_keep_active_commands": []
+}

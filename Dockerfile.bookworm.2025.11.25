@@ -1,0 +1,77 @@
+#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl -s https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') --build-arg DOCKER_RELEASE=$(curl -s https://api.github.com/repos/moby/moby/releases/latest  | jq -r '.tag_name | sub("^.*v"; "")') -f Dockerfile.debian.2025.11.25 -t bnhf/olivetin:test.2025.11.25 . --push --no-cache
+FROM python:3.13-slim-bookworm
+
+ARG OS=linux
+ARG PYTHON=3.13
+#ARG OT_RELEASE=2023.03.25
+ARG OT_RELEASE=2026.01.06
+#ARG OT_URL=https://github.com/OliveTin/OliveTin/releases/download
+ARG OT_URL=https://github.com/bnhf/OliveTin/releases/download
+#ARG CDVR_RELEASE=2023.11.13.2159
+ARG CDVR_RELEASE
+ARG CDVR_URL=https://channels-dvr.s3.amazonaws.com
+ARG EDLSTRIP_FIX=/usr/local/lib/python${PYTHON}/site-packages/edlstrip/__init__.py
+ARG DOCKER_RELEASE
+ARG DOCKER_URL=https://download.docker.com/${OS}/static/stable
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt update \
+    && apt install -y --no-install-recommends \
+       wget \
+       curl \
+	     iputils-ping \
+	     openssh-client \
+       nano \
+       gawk \
+       uuid-runtime \
+       msmtp \
+       apache2-utils \
+       miller \
+       gettext-base
+
+RUN if [[ $(uname -m) == "x86_64" ]]; then \
+      wget -O /tmp/OliveTin.deb ${OT_URL}/${OT_RELEASE}/OliveTin_${OS}_amd64.deb; \
+      wget -O /usr/bin/ffmpeg ${CDVR_URL}/${CDVR_RELEASE}/ffmpeg-${OS}-x86_64; \
+      wget -O /usr/bin/ffprobe ${CDVR_URL}/${CDVR_RELEASE}/ffprobe-${OS}-x86_64; \
+      curl -fsSL ${DOCKER_URL}/x86_64/docker-${DOCKER_RELEASE}.tgz | tar -xz -C /usr/local/bin --strip-components=1 docker/docker; \
+    else \
+      wget -O /tmp/OliveTin.deb ${OT_URL}/${OT_RELEASE}/OliveTin_${OS}_arm64.deb; \
+      wget -O /usr/bin/ffmpeg ${CDVR_URL}/${CDVR_RELEASE}/ffmpeg-${OS}-arm64; \
+      wget -O /usr/bin/ffprobe ${CDVR_URL}/${CDVR_RELEASE}/ffprobe-${OS}-arm64; \
+      curl -fsSL ${DOCKER_URL}/aarch64/docker-${DOCKER_RELEASE}.tgz | tar -xz -C /usr/local/bin --strip-components=1 docker/docker; \
+    fi \
+    && chmod +x /usr/bin/ff*
+
+COPY scripts /tmp
+COPY start.sh /
+#COPY webui/icons /tmp
+COPY custom-webui /tmp/custom-webui
+
+RUN mkdir -p /config /var/www/olivetin \
+    && apt install -y --no-install-recommends \
+       /tmp/OliveTin.deb \
+       jq \
+       procps \
+       ruby \
+       #ffmpeg \
+       #ccextractor \
+    && gem install httparty \
+    && pip3 install -r /tmp/ical_2_xmltv.txt \
+    && pip3 install edlstrip click apprise \
+    && sed -i "/import tempfile/a import re" ${EDLSTRIP_FIX} \
+    && sed -i "s/^\s*length = float(result\.stdout)$/    try:\n \
+        length = float(result.stdout)\n    except:\n \
+        result.stdout = result.stdout.decode('utf-8')\n \
+        errorMessage = re.search(r\"\\d+\\.\\d+\", result.stdout)\n \
+        length = float(errorMessage.group())/" ${EDLSTRIP_FIX} \
+    && /tmp/updateyamldate.sh
+
+EXPOSE 1337/tcp
+
+ENV OLIVETIN_UNSAFE_SHELL_TYPES=ALLOW_ALL \
+    OLIVETIN_TERMINAL_SCROLLBACK=10000 \
+    OLIVETIN_TERMINAL_COLS=200 \
+    OLIVETIN_TERMINAL_ROWS=40
+
+ENTRYPOINT [ "/start.sh" ]

@@ -1,8 +1,12 @@
 #!/bin/bash
 # tubi-for-channels.sh
-# 2025.04.01
+# 2026.01.17
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 dvr="$1"
 extension=$(basename "$0")
@@ -82,5 +86,6 @@ while true; do
   [[ $extensionUp ]] && break || sleep 5
 done
 
-curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/TubiTV; echo
-curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON2" http://$dvr/providers/m3u/sources/TubiTV-NoEPG
+greenEcho "\nJSON response from $dvr:"
+curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/TubiTV; echo
+curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON2" http://$dvr/providers/m3u/sources/TubiTV-NoEPG

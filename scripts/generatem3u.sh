@@ -1,8 +1,11 @@
 #!/bin/bash
 # generatem3u.sh
-# 2025.04.06
+# 2026.01.06
 
-#set -x
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
+set -x
 
 dvr=$1
 channelsHost=$(echo $dvr | awk -F: '{print $1}')
@@ -50,7 +53,7 @@ buildStreamURL() {
 outputM3U() {
   echo -e "M3U used: $m3uURL\nCopy & Paste M3U from here or use: $m3uFile\nOptional access by URL at http://<host:port>/"$channelsHost"-"$channelsPort"/$source.m3u\n" > $logFile
   [[ -n $duration ]] && echo -e "Optional guide data URL: http://$dvr/devices/$source/guide/xmltv?duration=$duration\n"
-  curl $m3uURL > $m3uFile
+  curl -s $m3uURL > $m3uFile
   cat $m3uFile >> $logFile
   cat $logFile
 }

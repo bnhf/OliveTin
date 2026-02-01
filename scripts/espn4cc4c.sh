@@ -1,8 +1,12 @@
 #!/bin/bash
 # espn4cc4c.sh
-# 2025.11.24
+# 2026.01.17
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 dvr="$1"
 extension=$(basename "$0")
@@ -89,10 +93,10 @@ while true; do
   [[ $extensionUp ]] && break || sleep 5
 done
 
-[[ $cc4cSource ]] && echo -e "\nJSON response from $dvr:" \
-  && curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/ESPN4cc4c \
+[[ $cc4cSource ]] && greenEcho "\nJSON response from $dvr:" \
+  && curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/ESPN4cc4c \
   || true
 
-[[ $ch4cSource ]] && echo -e "\nJSON response from $dvr:" \
-  && curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON2" http://$dvr/providers/m3u/sources/ESPN4ch4c \
+[[ $ch4cSource ]] && greenEcho "\nJSON response from $dvr:" \
+  && curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON2" http://$dvr/providers/m3u/sources/ESPN4ch4c \
   || true

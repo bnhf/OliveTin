@@ -1,6 +1,6 @@
-#/bin/bash
+#!/bin/bash
 # debuglogs.sh
-# 2025.07.08
+# 2026.01.18
 
 actionName="$1"
 [ ! -f /config/$actionName.debug.log ] && echo "No debug log file exists for that Action" && exit 0

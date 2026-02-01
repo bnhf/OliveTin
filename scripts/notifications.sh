@@ -1,6 +1,6 @@
 #!/bin/bash
 # notifications.sh
-# 2025.05.05
+# 2026.01.18
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -18,7 +18,7 @@ clients=($CHANNELS_CLIENTS)
   for client in "${clients[@]}"; do
     echo "Sending $messageTitle:$messageContent to $client"
     #curl -v --header "Content-Type: application/json" http://$client:57000/api/notify -d '{"title": '"$messageTitle"', "message": '"$messageContent"'}'
-    curl -v --header "Content-Type: application/json" http://$client:57000/api/notify -d '{"title": '"$messageTitle"', "message": '"$messageContent"', "timeout": '"$messageTimeout"'}'
+    curl -s -v --header "Content-Type: application/json" http://$client:57000/api/notify -d '{"title": '"$messageTitle"', "message": '"$messageContent"', "timeout": '"$messageTimeout"'}'
     echo -e "\n"
   done
   #sleep 5

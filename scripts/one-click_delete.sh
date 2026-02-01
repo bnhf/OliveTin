@@ -1,11 +1,16 @@
 #!/bin/bash
 # one-click_delete.sh
-# 2025.09.15
+# 2026.01.24
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
 BASH_XTRACEFD=3
 set -x
+blueSpinner() { local t=$1 i=0 s='|/-\'; while (( i < t*5 )); do printf "\r\033[34m%c\033[0m" "${s:i++%4:1}"; sleep 0.2; done; printf "\r \r"; }
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
+configFile=/config/config.yaml
+configTemp=/tmp/config.yaml
 
 dvr="$1"
 stackName=$(echo "$2" | awk -F'+' '{print $1}')
@@ -29,24 +34,33 @@ curl -s -o /dev/null http://$portainerHost:9000 \
   && portainerURL="http://$portainerHost:9000/api" \
   || portainerURL="https://$portainerHost:$portainerPort/api"
 
-[[ -n $source1Name ]] && echo "Deleting CDVR Custom Channels Source - $source1Name..." \
+[[ -n $source1Name ]] && greenEcho "Deleting CDVR Custom Channels Source - $source1Name..." \
   && curl -s -X DELETE http://$dvr/providers/m3u/sources/$source1Name
 
-[[ -n $source2Name ]] && echo -e "\n\nDeleting CDVR Custom Channels Source - $source2Name..." \
-  && curl -X DELETE http://$dvr/providers/m3u/sources/$source2Name
+[[ -n $source2Name ]] && greenEcho "\n\nDeleting CDVR Custom Channels Source - $source2Name..." \
+  && curl -s -X DELETE http://$dvr/providers/m3u/sources/$source2Name
 
 stackID=$(curl -s -k -X GET -H "X-API-Key: $portainerToken" "$portainerURL"/stacks | jq -r --arg name "$stackName" '.[] | select(.Name == $name) | .Id') \
-  && echo -e "\n\nPortainer reports the stack ID for $stackName as $stackID..."
+  && greenEcho "\n\nPortainer reports the stack ID for $stackName as:" "$stackID"
 
-echo -e "\nStopping Portainer Stack ID $stackID..." \
-  && curl -s -k -X POST -H "X-API-Key: $portainerToken" "$portainerURL"/stacks/"$stackID"/stop?endpointId="$portainerEnv" \
-  && sleep 20
+greenEcho "\nStopping Portainer Stack ID $stackID:" \
+  $(curl -s -k -X POST -H "X-API-Key: $portainerToken" "$portainerURL"/stacks/"$stackID"/stop?endpointId="$portainerEnv" | jq -r '.Name') \
+  && blueSpinner 20
 
-echo -e "\nDeleting Portainer Stack ID $stackID..." \
-  && curl -s -k -X DELETE -H "X-API-Key: $portainerToken" "$portainerURL"/stacks/"$stackID"?endpointId="$portainerEnv"
+greenEcho "\nDeleting Portainer Stack ID $stackID..." \
+  && curl -s -k -X DELETE -H "X-API-Key: $portainerToken" "$portainerURL"/stacks/"$stackID"?endpointId="$portainerEnv" | jq .
 
 imageID=$(curl -s -k -X GET -H "X-API-Key: $portainerToken" "$portainerURL/endpoints/$portainerEnv/docker/images/json" | jq -r --arg name "$containerName" '.[] | select(any(.RepoTags[]; contains($name))) | .Id') \
-  && echo -e "\nPortainer reports the image ID for $stackName as $imageID..."
+  && greenEcho "\nPortainer reports the image ID for $stackName as:" "\n$imageID"
 
-echo -e "\nDeleting Portainer Stack ID $imageID..." \
-  && curl -s -k -X DELETE -H "X-API-Key: $portainerToken" "$portainerURL"/endpoints/$portainerEnv/docker/images/$imageID
+greenEcho "\nDeleting Portainer Image ID $imageID..." \
+  && curl -s -k -X DELETE -H "X-API-Key: $portainerToken" "$portainerURL/endpoints/$portainerEnv/docker/images/$imageID" \
+  | jq -r '
+      ([.[] | .Untagged? | select(. != null and . != "")] | first // empty),
+      ([.[] | .Deleted?  | select(. != null and . != "")] | first // empty)
+    '
+
+updateIcon() { sed "/#${stackName} icon/s|img src = .* width|img src = $purpleIcon width|" "$configFile" > "$configTemp" && cp "$configTemp" /config; }
+[[ -n $imageID ]] && updateIcon
+
+greenEcho "\nOne-Click Deletion of $stackName Completed!"

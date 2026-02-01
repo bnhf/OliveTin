@@ -1,8 +1,12 @@
 #!/bin/bash
 # portainertoken.sh
-# 2025.03.25
+# 2026.01.18
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 portainerHost="$1"
 portainerAdminPassword="$2"

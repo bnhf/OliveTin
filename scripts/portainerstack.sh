@@ -1,16 +1,18 @@
 #!/bin/bash
 # portainerstack.sh
-# 2025.09.15
+# 2026.01.24
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
 BASH_XTRACEFD=3
 set -x
+blueSpinner() { local t=$1 i=0 s='|/-\'; while (( i < t*5 )); do printf "\r\033[34m%c\033[0m" "${s:i++%4:1}"; sleep 0.2; done; printf "\r \r"; }
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 stackName="$1"
 portainerHost="${2:-$PORTAINER_HOST}"
 portainerToken="${3:-$PORTAINER_TOKEN}"
-[[ -n $PORTAINER_PORT ]] && portainerPort="${4:-$PORTAINER_PORT}" || portainerPort="9443"
+[[ -z $PORTAINER_PORT ]] && portainerPort="${4:-9443}" || portainerPort="${PORTAINER_PORT}"
 yamlCopied="$5"
 portainerName=${PORTAINER_NAME:-local}
 portainerEnv=$(curl -s -k -H "X-API-Key: $portainerToken" "http://$portainerHost:9000/api/endpoints" | jq --arg portainerName "$portainerName" '.[] | select(.Name==$portainerName) | .Id') \
@@ -22,6 +24,10 @@ curl -s -o /dev/null http://$portainerHost:9000 \
 stackFile="/tmp/$stackName.yaml"
 envFile="/tmp/$stackName.env"
 dirsFile="/tmp/$stackName.dirs"
+greenIcon=\"custom-webui\/icons\/channels.png\"
+configFile=/config/config.yaml
+configTemp=/tmp/config.yaml
+updateIcon() { sed "/#${stackName} icon/s|img src = .* width|img src = $greenIcon width|" "$configFile" > "$configTemp" && cp "$configTemp" /config; }
 
 dockerVolume=$(grep 'DVR_SHARE=' $envFile | grep -v '/' | awk -F'=' '{print $2}')
 volumeExternal=$(grep 'VOL_EXTERNAL=' $envFile | grep -v '#' | awk -F'=' '{print $2}')
@@ -87,10 +93,10 @@ stackJSON=$(cat <<EOF
 EOF
 )
 
-echo "JSON response from $portainerURL:"
+greenEcho "JSON response from $portainerURL:"
 portainerResponse=$(curl -s -k -X POST -H "Content-Type: application/json" -H "X-API-Key: ${portainerToken}" -d "$stackJSON" "$portainerURL")
 
 [[ -z $portainerResponse ]] && exit 1
 
-echo $portainerResponse
-echo "$portainerResponse" | jq -e '.Id != null' && exit 0 || exit 1
+echo $portainerResponse | jq
+echo "$portainerResponse" | jq -e '.Id != null' && updateIcon && exit 0 || exit 1

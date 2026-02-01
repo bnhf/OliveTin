@@ -1,6 +1,6 @@
 #!/bin/bash
 # remind.sh
-# 2025.05.05
+# 2026.01.07
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -15,8 +15,8 @@ backgroundScript=reminder
 firstChar=${backgroundScript:0:1}
 runningScriptPID=$(ps -ef | grep "[$firstChar]${backgroundScript:1}.* $dvr" | awk '{print $2}')
 [[ -n $runningScriptPID ]] && runningSleepPID=$(ps --ppid $runningScriptPID | grep sleep | awk '{print $1}')
-greenIcon=\"icons\/channels.png\"
-#greenIcon=\"custom-webui\/icons\/channels.png\"
+#greenIcon=\"icons\/channels.png\"
+greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$backgroundScript"_latest.log
   [[ -f $logFile ]] && rm $logFile

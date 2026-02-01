@@ -1,11 +1,10 @@
-version: '3.9'
 services:
   watchtower:
-    image: containrrr/watchtower:${TAG}
+    image: nickfedor/watchtower:${TAG:-latest}
     container_name: watchtower
     environment:
-      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      - WATCHTOWER_RUN_ONCE=${WATCHTOWER_RUN_ONCE}
+      - PATH=${PATH:-/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin}
+      - WATCHTOWER_RUN_ONCE=${WATCHTOWER_RUN_ONCE:-true}
     labels:
       - 'com.centurylinklabs.watchtower.enable=true'
     volumes:

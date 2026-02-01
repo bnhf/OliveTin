@@ -1,5 +1,10 @@
-#! /bin/bash
+#!/bin/bash
+# pluto.sh
+# 2026.01.27
 
+script=$(basename "$0" | sed 's/\.sh$//')
+exec 3> /config/$script.debug.log
+BASH_XTRACEFD=3
 set -x
 
 extension=$(basename "$0")

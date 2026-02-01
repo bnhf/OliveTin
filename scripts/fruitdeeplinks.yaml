@@ -1,5 +1,8 @@
 services:
   fruitdeeplinks:
+    # 2025.12.22
+    # GitHub home for this project with setup instructions: https://github.com/kineticman/FruitDeepLinks
+    # Docker container home for this project: https://github.com/kineticman/FruitDeepLinks/pkgs/container/fruitdeeplinks
     image: ghcr.io/kineticman/fruitdeeplinks:${TAG:-latest}
     container_name: fruitdeeplinks
     hostname: fruitdeeplinks
@@ -7,10 +10,12 @@ services:
     ports:
       - ${FRUIT_HOST_PORT:-6655}:6655
     environment:
-      - TZ=${TZ:-America/Chicago}
-      - SERVER_URL=${SERVER_URL:-http://10.0.1.65:6655}
+      - TZ=${TZ:-America/New_York}
+      - SERVER_URL=${SERVER_URL:-http://localhost:6655}
       - FRUIT_HOST_PORT=${FRUIT_HOST_PORT:-6655}
-      - CHANNELS_DVR_IP=${CHANNELS_DVR_IP:-10.0.1.65}
+      - CC_SERVER=${CC_SERVER:-localhost}
+      - CC_PORT=${CC_PORT:-8080}
+      - CHANNELS_DVR_IP=${CHANNELS_DVR_IP:-}
       - CHANNELS_SOURCE_NAME=${CHANNELS_SOURCE_NAME:-fruitdeeplinks}
       - FRUIT_DB_PATH=${FRUIT_DB_PATH:-/app/data/fruit_events.db}
       - OUT_DIR=${OUT_DIR:-/app/out}
@@ -22,6 +27,9 @@ services:
       - FRUIT_PADDING_MINUTES=${FRUIT_PADDING_MINUTES:-45}
       - FRUIT_PLACEHOLDER_BLOCK_MINUTES=${FRUIT_PLACEHOLDER_BLOCK_MINUTES:-60}
       - FRUIT_PLACEHOLDER_EXTRA_DAYS=${FRUIT_PLACEHOLDER_EXTRA_DAYS:-5}
+      - CDVR_DVR_PATH=${CDVR_DVR_PATH:-}
+      - CDVR_SERVER_PORT=${CDVR_SERVER_PORT:-8089}
+      - CDVR_API_PORT=${CDVR_API_PORT:-57000}
       - HEADLESS=${HEADLESS:-true}
       - NO_NETWORK=${NO_NETWORK:-false}
       - AUTO_REFRESH_ENABLED=${AUTO_REFRESH_ENABLED:-true}
@@ -30,6 +38,7 @@ services:
       - ${HOST_DIR:-.}/FruitDeepLinks/data:/app/data
       - ${HOST_DIR:-.}/FruitDeepLinks/out:/app/out
       - ${HOST_DIR:-.}/FruitDeepLinks/logs:/app/logs
+      - ${CDVR_DVR_PATH:-/tmp/fruitdeeplinks-novol}:/mnt/dvr
     restart: unless-stopped
     logging:
       driver: json-file

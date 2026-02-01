@@ -1,0 +1,36 @@
+{
+    "name": "FruitDeepLinks - ESPN+ v2.0 (FireTV and AndroidTV)",
+    "author": "bnhf",
+    "version": "2.0",
+    "description": "Load content via ESPN+ deep link URLs (where supported). Jump to live.",
+    "uuid": "51af5028-092f-4ddc-b4ea-d5e5fca58cac",
+    "global_options": {
+        "wait_for_video_playback_detection": false,
+        "use_fixed_delay": true,
+        "fixed_delay_seconds": 5,
+        "check_for_and_clear_whos_watching_prompts": false,
+        "wait_after_post_playback_start_commands_seconds": 0
+    },
+    "pre_tune_commands": [
+        "input keyevent KEYCODE_MEDIA_STOP"
+    ],
+    "tune_commands": [
+        "am start -n '||TARGET_PACKAGE_NAME||'/com.espn.startup.presentation.StartupActivity -d '||TARGET_URL_OR_IDENTIFIER||'"
+    ],
+    "post_playback_start_commands": [
+        "sleep 20",
+        "input keyevent KEYCODE_DPAD_DOWN",
+        "sleep 1",
+        "input keyevent KEYCODE_DPAD_DOWN",
+        "sleep 1",
+        "input keyevent KEYCODE_DPAD_RIGHT",
+        "sleep 1",
+        "input keyevent KEYCODE_DPAD_CENTER"
+    ],
+    "post_tune_commands": [
+        "input keyevent KEYCODE_MEDIA_STOP",
+        "input keyevent KEYCODE_MEDIA_PAUSE",
+        "input keyevent KEYCODE_HOME"
+    ],
+    "source_file": "/app/.config/user_configurations/51af5028-092f-4ddc-b4ea-d5e5fca58cac.json"
+}

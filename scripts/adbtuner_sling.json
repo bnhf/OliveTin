@@ -209,7 +209,7 @@
     "StationID": "59116",
     "item_id": "fba55399460f4a7b8d3d436793dc0f90"
   },
-  {
+    {
     "ChannelName": "GET",
     "StationID": "82563",
     "item_id": "ab5068729265472a8d34d5a650c465b0"
@@ -266,9 +266,19 @@
     "item_id": "7a17fd0c15754658885b368a0b273565"
   },
   {
+    "ChannelName": "Investigation Discovery",
+    "StationID": "62496",
+    "item_id": "065f55e5000448869547c8d24da0b999"
+  },
+  {
     "ChannelName": "LIFEHD",
     "StationID": "60150",
     "item_id": "5f079b9fa8c3430fa692deb662d82d8e"
+  },
+  {
+    "ChannelName": "Local Now",
+    "StationID": "99988",
+    "item_id": "eb9a3b106bfb44049d208a961608352d"
   },
   {
     "ChannelName": "LOCNOW",
@@ -284,6 +294,11 @@
     "ChannelName": "MAGN",
     "StationID": "18544",
     "item_id": "18cc490b11d24ee7b13ea6ed0da1ef3b"
+  },
+  {
+    "ChannelName": "MGM+ Drive In",
+    "StationID": "68409",
+    "item_id": "1594693b9724433086fb3f55d3f2e5a8"
   },
   {
     "ChannelName": "Midnight Pulp",
@@ -354,6 +369,11 @@
     "ChannelName": "Nost",
     "StationID": "118608",
     "item_id": "1dbb7dc60a5c4eebb9d79fd5bbcfde29"
+  },
+  {
+    "ChannelName": "Paramount Network",
+    "StationID": "90944",
+    "item_id": "e8cabe959f194a7b97b1c807dc9b267e"
   },
   {
     "ChannelName": "PARHD",
@@ -537,6 +557,11 @@
     "ChannelName": "TRUTV",
     "StationID": "10153",
     "item_id": "1ed623f9dc97498cbe332bd5216a87c1"
+  },
+  {
+    "ChannelName": "UPtv",
+    "StationID": "44940",
+    "item_id": "829dc2f739614cc7a353b6c59586033b"
   },
   {
     "ChannelName": "USAHD",
