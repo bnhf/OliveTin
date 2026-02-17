@@ -251,6 +251,18 @@ actions:
         choices:
           - title: ADBTuner Device Alerter
             value: adbtuneralerter
+          - title: Backup CDVR Server Database at a Custom Interval
+            value: backupdatabase
+          - title: Delete Channels DVR Recording Log Files
+            value: deletelogs
+          - title: Delete Watched Videos
+            value: deletewatched
+          - title: Fix YouTube Thumbnails
+            value: fix_thumbnails
+          - title: Ping Channels DVR Server
+            value: pingcdvr
+          - title: Keep CDVR Server Updated to Latest Pre-Release
+            value: updateprerelease
 
   - title: Send Message to Defined Channels Clients
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -3255,7 +3267,7 @@ actions:
 
   - title: Create an PrismCast Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #prismcast icon
-    shell: /config/prismcast.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ HOST_VNC_PORT }}" "{{ HOST_NOVNC_PORT }}" "{{ CDVR_START_CHAN }}"
+    shell: /config/prismcast.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ HOST_VNC_PORT }}" "{{ HOST_NOVNC_PORT }}" "{{ HOST_HDHR_PORT }}" "{{ CDVR_START_CHAN }}"
     id: prismcast #project-one-click
     popupOnStart: execution-dialog-stdout-only
     arguments:
@@ -3283,6 +3295,10 @@ actions:
         type: int
         description: Use the recommended port number, or optionally change it if the port is already in use on your host.
         default: 6080
+      - name: HOST_HDHR_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5004
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."

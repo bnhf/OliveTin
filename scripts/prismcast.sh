@@ -1,6 +1,6 @@
 #!/bin/bash
 # prismcast.sh
-# 2026.01.26
+# 2026.02.02
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -15,7 +15,7 @@ extension=${extension%.sh}
 cp /config/$extension.env /tmp
 envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$4" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "$7" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$7"
+[[ "$8" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$8"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 
 envVars=(
@@ -24,11 +24,12 @@ envVars=(
 "HOST_PORT=$4"
 "HOST_VNC_PORT=$5"
 "HOST_NOVNC_PORT=$6"
+"HOST_HDHR_PORT=$7"
 "DISPLAY_NUM=99"
 "SCREEN_WIDTH=1920"
 "SCREEN_HEIGHT=1080"
 "SCREEN_DEPTH=24"
-"CDVR_STARTING_CHANNEL=$7"
+"CDVR_STARTING_CHANNEL=$8"
 )
 
 customChannels() {

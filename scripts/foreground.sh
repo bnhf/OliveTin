@@ -1,6 +1,6 @@
 #!/bin/bash
 # foreground.sh
-# 2026.01.07
+# 2026.02.11
 
 script=$2
 exec 3> /config/$script.debug.log
@@ -24,27 +24,20 @@ backgroundArguments="$dvr $runInterval $healthchecksIO"
 greenIcon=\"custom-webui\/icons\/channels.png\"
 purpleIcon=\"https:\/\/community-assets.getchannels.com\/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png\"
 logFile=/config/"$channelsHost"-"$channelsPort"_"$backgroundScript"_latest.log
+logTemp=/tmp/"$channelsHost"-"$channelsPort"_"$backgroundScript"_foreground.log
+  [[ -f $logTemp ]] && rm $logTemp
 runFile=/tmp/"$channelsHost"-"$channelsPort"_"$backgroundScript".run
-[[ -f $runFile ]] && rm $runFile
-[[ $spinUp ]] && touch $runFile
+  [[ -f $runFile ]] && rm $runFile
+  [[ $spinUp ]] && touch $runFile
 configFile=/config/config.yaml
 configTemp=/tmp/config.yaml
+greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
-#Trap end of script run
 finish() {
-  echo -e "foreground.sh is exiting for $backgroundScript with exit code $?\n" >> "$logFile"
-  nohup /config/finish.sh $configTemp >> $logFile 2>&1 &
-  #cp $configTemp /config
-  backgroundWait=0
-  maxWait=30
-
-  while [ $backgroundWait -lt $maxWait ]; do
-    [[ -f $runFile ]] && break
-    ((backgroundWait++))
-    sleep 1
-  done
-
-   [ -f $logFile ] && cat $logFile
+  echo -e "\nforeground.sh is exiting for $backgroundScript with exit code $?" >> "$logTemp"
+  [ -f $logTemp ] && sed 's/\x1b\[[0-9;]*m//g' $logTemp >> "$logFile"
+  cp $configTemp /config
+  [ -f $logTemp ] && cat $logTemp
 }
 
 trap finish EXIT
@@ -57,7 +50,7 @@ runningScripts() {
     serverPort=$(echo $server | awk -F: '{print $2}')
     activeProcess=$(ps -ef | grep "[$firstChar]${backgroundScript:1}.* $server" | awk '{print $2}')
     if [[ -n $activeProcess ]]; then
-      echo "Background $backgroundScript process running for $server" >> $logFile
+      greenEcho "\nBackground $backgroundScript process running for $server" >> $logTemp
     fi
   done
 }
@@ -66,13 +59,13 @@ scriptRun() {
 case "$runInterval" in
   "once")
     /config/$backgroundScript.sh $dvr $runInterval \
-      && echo "One time run mode used..." >> $logFile \
+      && echo "One time run mode used..." >> $logTemp \
       && exit 0
   ;;
   
   "0")
-    kill $runningScriptPID $runningSleepPID > $logFile \
-      && echo "Killing script/sleep with PIDs $runningScriptPID/$runningSleepPID for $dvr" >> $logFile
+    kill $runningScriptPID $runningSleepPID > $logTemp \
+      && echo "Killing script/sleep with PIDs $runningScriptPID/$runningSleepPID for $dvr" >> $logTemp
     rm /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
     sleep 2
     lastActive=$(ps -e | grep $backgroundScript | awk '{print $1}')
@@ -93,11 +86,15 @@ case "$runInterval" in
 
   *)
     [[ -n $runningScriptPID ]] && kill $runningScriptPID $runningSleepPID \
-      && echo "Killing currently running script/sleep with PIDs $runningScriptPID/$runningSleepPID" \
+      && echo "Killing currently running script/sleep with PIDs $runningScriptPID/$runningSleepPID" >> $logTemp \
       && sed -i "/#${backgroundScript} title/s/(.*) #/($(date +'%d%b%y_%H:%M')) #/" $configTemp \
       && sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $greenIcon width|" $configTemp
 
-    echo "Background script initiated, with $runInterval between runs for $dvr" > $logFile
+    echo "Background script initiated, with $runInterval between runs for $dvr" > $logTemp
+    [[ "$PERSISTENT_LOGS" == "true" ]] \
+      && cat "$logTemp" >> "$logFile" \
+      || cat "$logTemp" > "$logFile"
+    rm $logTemp
     nohup /config/$backgroundScript.sh $backgroundArguments &>/dev/null &
 
     grep -q '(.*) #'"$backgroundScript"'' $configTemp
@@ -106,7 +103,7 @@ case "$runInterval" in
       && sed -i "/#${backgroundScript} icon/s|img src = .* width|img src = $greenIcon width|" $configTemp
             
     sed -i "/#${backgroundScript} interval default/s/default: .* #/default: ${runInterval} #/" $configTemp
-    [[ -n $healthchecksIO ]] && echo "Using healthcheck.io pings to $healthchecksIO to confirm functionality" >> $logFile \
+    [[ -n $healthchecksIO ]] && echo "Using healthcheck.io pings to $healthchecksIO to confirm functionality" >> $logTemp \
       && sed -i "/#${backgroundScript} healthchecks default/s|default: .* #|default: ${healthchecksIO} #|" $configTemp
     #echo "$dvr $backgroundScript $runInterval $healthchecksIO" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
     echo "$foregroundArguments" > /config/"$channelsHost"-"$channelsPort"_"$backgroundScript".running
