@@ -1,6 +1,6 @@
 #!/bin/bash
 # prismcast.sh
-# 2026.02.02
+# 2026.03.16
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -30,6 +30,9 @@ envVars=(
 "SCREEN_HEIGHT=1080"
 "SCREEN_DEPTH=24"
 "CDVR_STARTING_CHANNEL=$8"
+"TZ=$9"
+"DEVICES=${10}"
+"LIBVA_DRIVER_NAME=${11}"
 )
 
 customChannels() {

@@ -1,6 +1,6 @@
 #!/bin/bash
 # start.sh
-# 2026.01.24
+# 2026.03.07
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -203,10 +203,31 @@ substituteVars() {
   env "${envVars[@]}" envsubst "${allowedVars}" < /tmp/tm_extensions-dropdown.user.js > /config/data/extensions-dropdown.user.js
   envsubst '${CHANNELS_DVR} ${CHANNELS_DVR_ALTERNATES} ${PORTAINER_HOST}' < /tmp/tm_olivetin-dropdown.user.js > /config/data/olivetin-dropdown.user.js
   envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_manage-lineup-helper.user.js > /config/data/manage-lineup-helper.user.js
+  envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_sticky-guide-times.user.js > /config/data/sticky-guide-times.user.js
+}
+
+checkDockerApiVersion() {
+  [[ -n "${DOCKER_API_VERSION:-}" ]] \
+    && echo "DOCKER_API_VERSION already set to $DOCKER_API_VERSION; leaving as-is" \
+    && return 0
+
+  serverApi="$(docker version --format '{{.Server.APIVersion}}' 2>/dev/null)"
+  clientApi="$(docker version --format '{{.Client.APIVersion}}' 2>/dev/null)"
+
+  [[ -z "${serverApi:-}" || -z "${clientApi:-}" ]] \
+    && echo "Unable to detect Docker API version (server='${serverApi:-}', client='${clientApi:-}'); leaving as-is" \
+    && return 0
+
+  lowestAPI="$(printf '%s\n%s\n' "$serverApi" "$clientApi" | sort -V | head -n1)"
+  [[ "$lowestAPI" == "$serverApi" && "$serverApi" != "$clientApi" ]] \
+    && export DOCKER_API_VERSION="$serverApi" \
+    && echo "Pinned DOCKER_API_VERSION=$DOCKER_API_VERSION (server $serverApi, client $clientApi)" \
+    || echo "Docker API OK (server $serverApi, client $clientApi); not pinning"
 }
 
 main() {
   cd ~
+  checkDockerApiVersion
   channelsDvrServers
   [[ -n $PORTAINER_HOST ]] && portainerHostServers
   checkYamls  
@@ -220,6 +241,7 @@ main() {
   envsubst '${PORTAINER_HOST}' < /tmp/tm_extensions-dropdown.user.js > /config/data/extensions-dropdown.user.js
   envsubst '${CHANNELS_DVR} ${CHANNELS_DVR_ALTERNATES} ${PORTAINER_HOST}' < /tmp/tm_olivetin-dropdown.user.js > /config/data/olivetin-dropdown.user.js
   envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_manage-lineup-helper.user.js > /config/data/manage-lineup-helper.user.js
+  envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_sticky-guide-times.user.js > /config/data/sticky-guide-times.user.js
   #mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
   [[ "$UPDATE_SCRIPTS" == "true" ]] \
     && cp -a /tmp/custom-webui/. /config/custom-webui/ \

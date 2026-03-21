@@ -1,6 +1,6 @@
 #!/bin/bash
 # listrunningprojects.sh
-# 2026.01.26
+# 2026.03.15
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -19,10 +19,14 @@ substituteIcons() {
   imagesPlusStacks=(
     "adbtuner:adbtuner"
     "ah4c:ah4c"
+    "channels-dvr-collection-manager:channels-collection-manager"
+    "channels-manager:channels-manager"
+    "channels-remote-plus:channels-app-remote-plus"
     "eplustv:eplustv"
     "espn4cc4c:espn4cc4c"
-    "frndlytv-for-channels:frndlytv-for-channels"
     "filebot:filebot"
+    "fastchannels:fastchannels"
+    "frndlytv-for-channels:frndlytv-for-channels"
     "fruitdeeplinks:fruitdeeplinks"
     "mediainfo:mediainfo"
     "mlbserver:mlbserver"
@@ -33,7 +37,6 @@ substituteIcons() {
     "pluto-for-channels:pluto-for-channels"
     "portainer-ce:portainer"
     "prismcast:prismcast"
-    "channels-remote-plus:channels-app-remote-plus"
     "roku-ecp-tuner:roku-tuner-bridge"
     "samsung-tvplus-for-channels:samsung-tvplus-for-channels"
     "stream-link-manager-for-channels:slm"

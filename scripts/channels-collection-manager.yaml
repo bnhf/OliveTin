@@ -1,0 +1,18 @@
+services:
+  channels-collection-manager:
+    # 2026.03.08
+    # GitHub home for this project: https://github.com/curtisfeatures/channels-dvr-collection-manager.
+    # Docker Hub home for this project: https://hub.docker.com/r/curtisfeatures/channels-dvr-collection-manager.
+    image: curtisfeatures/channels-dvr-collection-manager:${TAG:-latest}
+    container_name: channels-collection-manager
+    dns_search: ${DOMAIN:-localdomain}
+    ports:
+      - ${HOST_PORT:-5000}:5000
+    environment:
+      - DVR_URL=${DVR_URL}
+      - DISPATCHARR_URL=${DISPATCHARR_URL:-}
+      - DISPATCHARR_USERNAME=${DISPATCHARR_USERNAME:-}
+      - DISPATCHARR_PASSWORD=${DISPATCHARR_PASSWORD:-}
+    volumes:
+      - ${HOST_DIR:-./config}${HOST_DIR:+/channels-collection-manager}:/config
+    restart: unless-stopped

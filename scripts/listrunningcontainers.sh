@@ -1,6 +1,6 @@
 #!/bin/bash
 # listrunningcontainers.sh
-# 2026.01.26
+# 2026.03.15
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -11,10 +11,13 @@ listRunningContainers() {
   imagesPlusPorts=(
     "adbtuner:5592"
     "ah4c:7654"
+    "channels-dvr-collection-manager:5000"
+    "channels-manager:80"
     "channels-remote-plus:5000"
     "eplustv:8000"
     "espn4cc4c:8094"
     "filebot:5800"
+    "fastchannels:5523"
     "frndlytv-for-channels:80"
     "fruitdeeplinks:6655"
     "mediainfo:5800"
@@ -51,8 +54,9 @@ listRunningContainers() {
         | awk -F: '{print $NF}'
     )"
 
+    outputName="${imageName/channels-dvr-collection-manager/channels-collection-manager}"
     [[ -n "$hostPort" ]] \
-      && runningContainers+="${imageName} "
+      && runningContainers+="${outputName} "
   done
 
   printf '%s\n' "${runningContainers[@]}"

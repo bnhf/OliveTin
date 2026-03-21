@@ -1,0 +1,19 @@
+services:
+  fastchannels:
+    # 2026.03.15
+    # GitHub home for this project with setup instructions: https://github.com/kineticman/FastChannels
+    # Docker container home for this project: https://github.com/kineticman/FastChannels/pkgs/container/fastchannels
+    image: ghcr.io/kineticman/fastchannels:${TAG:-latest}
+    container_name: fastchannels
+    dns_search: ${DOMAIN:-localdomain}
+    ports:
+      - ${HOST_PORT:-5523}:5523
+    environment:
+      - TZ=${TZ:-America/New_York}
+      - FASTCHANNELS_SERVER_URL=${FASTCHANNELS_SERVER_URL:-http://192.168.1.50:5523}
+      - CHANNELS_DVR_SERVER_URL=${CHANNELS_DVR_SERVER_URL:-http://192.168.1.60:8089}
+    volumes:
+      - db_data:/data
+    restart: unless-stopped
+volumes:
+  db_data:

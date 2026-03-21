@@ -1541,10 +1541,16 @@ actions:
             value: ah4c
           - title: cc4c (ChromeCapture-for-Channels)
             value: cc4c
+          - title: Channels-Collection-Manager
+            value: channels-collection-manager
+          - title: Channels-Manager
+            value: channels-manager
           - title: ChannelWatch
             value: channelwatch
           - title: EPlusTV
             value: eplustv
+          - title: FastChannels
+            value: fastchannels
           - title: FileBot
             value: filebot
           - title: free-iptv-channels
@@ -1563,12 +1569,12 @@ actions:
             value: organizr
           - title: Plex-for-Channels
             value: plex-for-channels
-          - title: Pluto-for-Channels (jonmaddox)
-            value: pluto
-          - title: Pluto-for-Channels (joagomez)
+          #- title: Pluto-for-Channels (jonmaddox)
+            #value: pluto
+          - title: Pluto-for-Channels (kineticman)
             value: pluto-for-channels
-          - title: Pluto-for-Channels (bobby_vaughn)
-            value: pluto-for-channels2
+          #- title: Pluto-for-Channels (bobby_vaughn)
+            #value: pluto-for-channels2
           - title: PrismCast
             value: prismcast
           - title: Roku-Channels-Bridge
@@ -1623,12 +1629,18 @@ actions:
             value: channelwatch
           - title: Create a cc4c Stack in Portainer
             value: cc4c
+          - title: Create a Channels-Collection-Manager Stack in Portainer
+            value: channels-collection-manager
+          - title: Create a Channels-Manager Stack in Portainer
+            value: channels-manager
           - title: Create an EPlusTV Stack in Portainer
             value: eplustv
           - title: Create an ESPN4cc4c Stack in Portainer
             value: espn4cc4c
           - title: Create ESPN4cc4c Lanes
             value: espn4adbt
+          - title: Create a FastChannels Stack in Portainer
+            value: fastchannels
           - title: Create a FileBot Stack in Portainer
             value: filebot
           - title: Create a FrndlyTV-for-Channels Stack in Portainer
@@ -1655,8 +1667,8 @@ actions:
             value: plex-for-channels
           - title: Create a Pluto-for-Channels Stack
             value: pluto-for-channels
-          - title: Create a Pluto-for-Channels2 Stack
-            value: pluto-for-channels2
+          #- title: Create a Pluto-for-Channels2 Stack
+            #value: pluto-for-channels2
           - title: Create a PrismCast Stack
             value: prismcast
           - title: Create a Roku-Channels-Bridge Stack in Portainer
@@ -2085,6 +2097,58 @@ actions:
         default: 5000
     timeout: 40
 
+  - title: Create a Channels-Collection-Manager Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #channels-collection-manager icon
+    shell: /config/channels-collection-manager.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ HOST_DIR }}"
+    id: channels-collection-manager #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #channels-collection-manager dvr description
+        default: none #channels-collection-manager dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5000
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directory will be channels-collection-manager.
+        default: /data
+    timeout: 40
+
+  - title: Create a Channels-Manager Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #channels-manager icon
+    shell: /config/channels-manager.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}"
+    id: channels-manager #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #channels-manager dvr description
+        default: none #channels-manager dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 8090
+    timeout: 40
+
   - title: Create a Channels DVR Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #channels-dvr icon
     shell: /config/channels-dvr.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ CHANNELS_PORT }}" "{{ TZ }}" "{{ HOST_DIR }}" "{{ DVR_SHARE }}" "{{ DVR_CONTAINER_DIR }}" "{{ VOL_EXTERNAL }}" "{{ VOL_NAME }}" "{{ NETWORK_MODE }}" "{{ DEVICES }}" "{{ CDVR_CONTAINER }}"
@@ -2482,6 +2546,34 @@ actions:
         default: "#"
     timeout: 40
 
+  - title: Create a FastChannels Stack in Portainer
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #fastchannels icon
+    shell: /config/fastchannels.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ TZ }}"
+    id: fastchannels #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #fastchannels dvr description
+        default: none #fastchannels dvr default
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number, or optionally change it if the port is already in use on your host.
+        default: 5523
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: America/New_York
+    timeout: 40
+
   - title: Create a FileBot Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #filebot icon
     shell: /config/filebot.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ DARK_MODE }}" "{{ HOST_DIR }}" "{{ DVR_SHARE }}" "{{ VOL_EXTERNAL }}" "{{ VOL_NAME }}"
@@ -2668,6 +2760,10 @@ actions:
       - name: FRUIT_PROVIDER
         description: The name of the Android app you'd like to use for this set of FruitDeepLinks lanes. It's important to have already enabled this provider and done a "Skip Scrape" so that the provider-specific M3U and XML will be available.
         choices:
+          - title: Apple MLB
+            value: Apple MLB~apple_mlb~com.apple.atve.amazon.appletv~com.apple.atve.androidtv.appletv
+          - title: Apple MLS
+            value: Apple MLS~apple_mls~com.apple.atve.amazon.appletv~com.apple.atve.androidtv.appletv
           - title: ESPN
             value: ESPN~sportscenter~com.espn.gtv~com.espn.score_center
           - title: HBO Max
@@ -2711,6 +2807,10 @@ actions:
       - name: FRUIT_REMOVE
         description: Remove any existing ADBTuner virtual channels with the selected provider name before adding these new lanes. Recommended!
         choices:
+          - title: Apple MLB (apple_mlb)
+            value: apple_mlb
+          - title: Apple MLS (apple_mls)
+            value: apple_mls
           - title: ESPN (sportscenter)
             value: sportscenter
           - title: HBO Max (max)
@@ -3184,7 +3284,7 @@ actions:
 
   - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #pluto-for-channels icon
-    shell: /config/pluto-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" "{{ PLUTO_PORT }}" "{{ PLUTO_CODE }}" "{{ CDVR_START_CHAN }}"
+    shell: /config/pluto-for-channels.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}" '{{ PLUTO_USERNAME }}' '{{ PLUTO_PASSWORD }}' "{{ PLUTO_CODE }}" "{{ CDVR_START_CHAN }}"
     id: pluto-for-channels #project-one-click
     popupOnStart: execution-dialog-stdout-only
     arguments:
@@ -3195,15 +3295,17 @@ actions:
       - name: TAG
         type: very_dangerous_raw_string
         description: The version of the container you'd like to run. Typically "latest".
-        default: latest
+        default: main
       - name: HOST_PORT
         type: int
         description: Use the recommended port number, or optionally change it if the port is already in use on your host.
         default: 7780
-      - name: PLUTO_PORT
-        type: int
-        description: Change the port this container uses internally.      
-        default: 7777
+      - name: PLUTO_USERNAME
+        type: very_dangerous_raw_string
+        description: Your Pluto TV username. Do NOT use single or double quotes, OliveTin will handle that for you.
+      - name: PLUTO_PASSWORD
+        type: very_dangerous_raw_string
+        description: Your Pluto TV password. Do NOT use single or double quotes, OliveTin will handle that for you. 
       - name: PLUTO_CODE
         type: very_dangerous_raw_string
         description: What country streams will be hosted. Multiple can be hosted using comma separation. (local,us_west,us_east,ca,uk)
@@ -3267,7 +3369,7 @@ actions:
 
   - title: Create an PrismCast Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #prismcast icon
-    shell: /config/prismcast.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ HOST_VNC_PORT }}" "{{ HOST_NOVNC_PORT }}" "{{ HOST_HDHR_PORT }}" "{{ CDVR_START_CHAN }}"
+    shell: /config/prismcast.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ HOST_VNC_PORT }}" "{{ HOST_NOVNC_PORT }}" "{{ HOST_HDHR_PORT }}" "{{ CDVR_START_CHAN }}" "{{ TZ }}" "{{ DEVICES }}" "{{ LIBVA_DRIVER_NAME }}"
     id: prismcast #project-one-click
     popupOnStart: execution-dialog-stdout-only
     arguments:
@@ -3303,6 +3405,26 @@ actions:
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
         default: "#"
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: America/New_York
+      - name: DEVICES
+        description: If your Docker host supports Intel Quick Sync for transcoding, set to "/dev/dri", otherwise leave as "none".
+        choices:
+          - title: /dev/dri
+            value: "true"
+          - title: none
+            value: "#"
+        default: "#"
+      - name: LIBVA_DRIVER_NAME
+        description: If you've set DEVICES to /dev/dri, leave this as "iHD" or set to "i965" (for pre-Gen 9 aka Skylake).
+        choices:
+          - title: iHD
+            value: iHD
+          - title: i965
+            value: i965
+        default: iHD
     timeout: 60
 
   - title: Create a Roku-Channels-Bridge Stack in Portainer
@@ -3752,6 +3874,10 @@ actions:
             value: channels-app-remote+channels-app-remote:latest
           - title: Channels-App-Remote-Plus
             value: channels-app-remote-plus+channels-remote-plus:latest
+          - title: Channels-Collection-Manager Stack in Portainer
+            value: channels-collection-manager+channels-dvr-collection-manager:latest
+          - title: Channels-Manager Stack in Portainer
+            value: channels-manager+channels-manager:latest
           - title: ChannelWatch
             value: channelwatch+channelwatch:latest
           - title: cc4c (ChromeCapture-for-Channels)
@@ -3760,6 +3886,8 @@ actions:
             value: eplustv+eplustv:latest+EPlusTV+EPlusTV-Linear
           - title: ESPN4cc4c
             value: espn4cc4c+espn4cc4c:latest+ESPN4cc4c+ESPN4ch4c
+          - title: FastChannels
+            value: fastchannels+fastchannels:latest
           - title: FileBot
             value: filebot+filebot:latest
           - title: FrndlyTV-for-Channels
@@ -3780,11 +3908,13 @@ actions:
             value: pinchflat+pinchflat:latest
           - title: Plex-for-Channels
             value: plex-for-channels+plex-for-channels:latest+PlexTV+PlexTV-NoEPG
-          - title: Pluto-for-Channels (jonmaddox)
+          - title: Pluto-for-Channels (maddox)
             value: pluto+jonmaddox/pluto-for-channels:latest
-          - title: Pluto-for-Channels (joagomez)
+          - title: Pluto-for-Channels (kineticman)
+            value: pluto-for-channels+kineticman/pluto-for-channels:main+PlutoTV
+          - title: Pluto-for-Channels (gomez)
             value: pluto-for-channels+jgomez177/pluto-for-channels:latest+PlutoTV
-          - title: Pluto-for-Channels2 (bobby_vaughn)
+          - title: Pluto-for-Channels2 (vaughn)
             value: pluto-for-channels2+rcvaughn2/pluto-for-channels:main+PlutoTV2
           - title: PrismCast
             value: prismcast+prismcast:latest+PrismCast
@@ -3902,12 +4032,14 @@ dashboards:
         - title: Create an ADBTuner Sling JSON and its Channel Lineup
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
         - title: Create a Channels-App-Remote-Plus Stack in Portainer
+        - title: Create a Channels-Collection-Manager Stack in Portainer
+        - title: Create a Channels-Manager Stack in Portainer
         - title: Create a Channels DVR Stack in Portainer
-        - title: Create a ChannelWatch Stack in Portainer
         - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
         - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
         - title: Create an ESPN4cc4c Stack in Portainer + CDVR Custom Channels
         - title: Create ESPN4cc4c ADBTuner Lanes + CDVR Custom Channels
+        - title: Create a FastChannels Stack in Portainer
         - title: Create a FileBot Stack in Portainer
         - title: Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a FruitDeepLinks Stack in Portainer
@@ -3921,7 +4053,6 @@ dashboards:
         - title: Create a Pinchflat Stack in Portainer
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
-        - title: Create a Pluto-for-Channels2 Stack in Portainer + CDVR Custom Channels
         - title: Install Portainer on your Docker Host
         - title: Create an PrismCast Stack in Portainer + CDVR Custom Channels
         - title: Create a Roku-Channels-Bridge Stack in Portainer
@@ -3949,8 +4080,10 @@ dashboards:
         - title: Generate Plex Token for Use with Plex M3U
         - title: Generate Plex M3U & XML w/Plex Token
         - title: ChannelWatch Real-Time Alerts for CDVR
+        - title: Create a ChannelWatch Stack in Portainer
         - title: Create a Channels-App-Remote Stack in Portainer
         - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Pluto-for-Channels2 Stack in Portainer + CDVR Custom Channels
         - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Live YouTube Channel Manifest URL Updater
   - title: Experimental

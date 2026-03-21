@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.01.27.0753
+// @version      2026.03.20.0900
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -564,6 +564,7 @@
             { display: "Deep Links - Show Tuning", value: "92c0c532-aa12-4d18-abbd-72e4a9cec15c" },
             { display: "Deep Links - Compatibility", value: "bb353259-17e0-4b38-a328-8629fb1ec2ca" },
             { display: "Compatibility - Show Tuning", value: "c513c18d-19bd-47f0-9bff-4baba2a8c4cd" },
+            { display: "Custom (Paste the config into the CUSTOM_CONFIG field)", value: "custom" },
           ]
         },
         { name: "CUSTOM_CONFIG", label: "Custom Config", placeholder: "Optional ADBTuner Custom Config JSON", description: "Paste ADBTuner Custom Config (with curly braces)", optional: true },
@@ -604,10 +605,34 @@
         { name: "ALERT_EMAIL_FROM", label: "Email From", default: "#", description: "Alert email sender (# for none)" },
         { name: "ALERT_EMAIL_PASS", label: "Email Password", default: "#", description: "App-specific email password (# for none)" },
         { name: "ALERT_EMAIL_TO", label: "Email To", default: "#", description: "Alert email recipient (# for none)" },
+        { name: "LIVETV_ATTEMPTS", label: "LiveTV Attempts", placeholder: "Optional", description: "For FireTV Live Guide tuning only, max attempts to find desired channel", optional: true },
+        { name: "CREATE_M3US", label: "Create M3Us", default: "false", description: "Set to true to create device-specific M3Us for Amazon Prime Premium channels (requires FireTV)", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
+        { name: "UPDATE_SCRIPTS", label: "Update Scripts", default: "true", description: "Set to true to update sample and STREAMER_APP scripts whether they exist or not", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
+        { name: "UPDATE_M3US", label: "Update M3Us", default: "true", description: "Set to true to update sample M3Us whether they exist or not", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
         { name: "TZ", label: "Timezone", default: "US/Mountain", description: "Your local timezone in Linux tz format" },
+        { name: "SPEED_MODE", label: "Speed Mode", default: "false", description: "Set to false to close target streaming app after each tuning cycle (limited script support)", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
+        { name: "KEEP_WATCHING", label: "Keep Watching", default: "4h", description: "Delay before resending tuning deeplink to prevent 'Are you still watching?' (e.g. 4h, 240m)" },
+        { name: "AUTOCROP_CHANNELS", label: "Autocrop Channels", placeholder: "Optional - space-separated channel numbers", description: "Channels with black borders to autocrop (requires LinkPi Encoder)", optional: true },
+        { name: "LINKPI_HOSTNAME", label: "LinkPi Hostname", placeholder: "Optional - for AUTOCROP_CHANNELS", description: "Hostname or IP of your LinkPi encoder", optional: true },
+        { name: "LINKPI_USERNAME", label: "LinkPi Username", placeholder: "Optional - for AUTOCROP_CHANNELS", description: "LinkPi encoder username", optional: true },
+        { name: "LINKPI_PASSWORD", label: "LinkPi Password", placeholder: "Optional - for AUTOCROP_CHANNELS", description: "LinkPi encoder password", optional: true },
+        { name: "USER_SCRIPT", label: "User Script", placeholder: "Optional - custom script to run at container start", description: "A custom user script to run at container start. If in /HOST_DIR/olivetin, only the filename is needed", optional: true },
         { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data" },
         { name: "CDVR_START_CHAN", label: "Start Channel", default: "#", description: "Override M3U channel numbers. Use # for default" },
         { name: "CDVR_M3U_NAME", label: "M3U Filename", default: "directv.m3u", description: "M3U file name for CDVR Custom Channels" },
+        {
+          name: "AH4C_CONTAINER",
+          label: "Container Number",
+          description: "For multiple ah4c containers on same host, append this number to stack/container/path names (# for none)",
+          default: "#",
+          options: [
+            { display: "#", value: "#" },
+            { display: "1", value: "1" }, { display: "2", value: "2" }, { display: "3", value: "3" },
+            { display: "4", value: "4" }, { display: "5", value: "5" }, { display: "6", value: "6" },
+            { display: "7", value: "7" }, { display: "8", value: "8" }, { display: "9", value: "9" },
+            { display: "0", value: "0" },
+          ]
+        },
       ],
     },
     {
@@ -659,6 +684,16 @@
           ]
         },
         { name: "CDVR_START_CHAN", label: "Start Channel", default: "#", description: "Override M3U channel numbers. Use # for default" },
+        {
+          name: "M3U_TEXT",
+          label: "M3U Text Source",
+          description: "Add an additional text M3U source (Weatherscan is added automatically)",
+          default: "none",
+          options: [
+            { display: "none", value: "none" },
+            { display: "Sling StarzEncore", value: "sling_starzencore" },
+          ]
+        },
       ],
     },
     {
@@ -668,6 +703,18 @@
       arguments: [
         { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
         { name: "HOST_PORT", label: "Host Port", default: "5000", description: "Use recommended port, or change if already in use" },
+      ],
+    },
+    {
+      id: "channels-collection-manager",
+      label: "Channels-Collection-Manager",
+      title: "Create a Channels-Collection-Manager Stack in Portainer",
+      arguments: [
+        getDvrArgument(),
+        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
+        { name: "HOST_PORT", label: "Host Port", default: "5000", description: "Use recommended port, or change if already in use" },
+        { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data. Sub-directory will be channels-collection-manager" },
       ],
     },
     {
@@ -719,6 +766,17 @@
       ],
     },
     {
+      id: "channels-manager",
+      label: "Channels-Manager",
+      title: "Create a Channels-Manager Stack in Portainer",
+      arguments: [
+        getDvrArgument(),
+        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
+        { name: "HOST_PORT", label: "Host Port", default: "8090", description: "Use recommended port, or change if already in use" },
+      ],
+    },
+    {
       id: "debuglogs",
       label: "Debug Log Viewer",
       title: "Project One-Click Actions Debug Log Viewer",
@@ -734,13 +792,16 @@
             { display: "ADBTuner Sling", value: "adbtuner_sling_grabber" },
             { display: "ah4c", value: "ah4c" },
             { display: "Channels-App-Remote-Plus", value: "channels-app-remote-plus" },
+            { display: "Channels-Collection-Manager", value: "channels-collection-manager" },
             { display: "Channels DVR", value: "channels-dvr" },
+            { display: "Channels-Manager", value: "channels-manager" },
             { display: "cc4c", value: "cc4c" },
             { display: "EPlusTV", value: "eplustv" },
             { display: "ESPN4cc4c", value: "espn4cc4c" },
             { display: "FileBot", value: "filebot" },
             { display: "FrndlyTV-for-Channels", value: "frndlytv-for-channels" },
             { display: "FruitDeepLinks", value: "fruitdeeplinks" },
+            { display: "FruitDeepLinks ADBTuner Lanes", value: "fruitadbt" },
             { display: "MediaInfo", value: "mediainfo" },
             { display: "mlbserver", value: "mlbserver" },
             { display: "Organizr", value: "organizr" },
@@ -877,6 +938,18 @@
       ],
     },
     {
+      id: "fastchannels",
+      label: "FastChannels",
+      title: "Create a FastChannels Stack in Portainer",
+      arguments: [
+        getDvrArgument(),
+        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
+        { name: "HOST_PORT", label: "Host Port", default: "5523", description: "Use recommended port, or change if already in use" },
+        { name: "TZ", label: "Timezone", default: "America/New_York", description: "Your local timezone in Linux tz format" },
+      ],
+    },
+    {
       id: "frndlytv-for-channels",
       label: "FrndlyTV-for-Channels",
       title: "Create a FrndlyTV-for-Channels Stack in Portainer + CDVR Custom Channels",
@@ -930,6 +1003,73 @@
         { name: "AUTO_REFRESH_TIME", label: "Refresh Time", default: "2:30", description: "Time of day for automatic refresh" },
         { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data" },
         { name: "FRUIT_START_CHAN", label: "Start Channel", default: "14001", description: "Starting channel number for CDVR Custom Channels" },
+      ],
+    },
+    {
+      id: "fruitadbt",
+      label: "FruitDeepLinks ADBTuner Lanes",
+      title: "Create Fruit ADBTuner Lanes + CDVR Custom Channels",
+      arguments: [
+        getDvrArgument(),
+        { name: "ADBTUNER_HOST", label: "ADBTuner Host", default: "htpc6", description: "Hostname or IP of host running ADBTuner" },
+        { name: "ADBTUNER_PORT", label: "ADBTuner Port", default: "5592", description: "Port ADBTuner is available on" },
+        { name: "NUMBER_LANES", label: "Number of Lanes", default: "50", description: "Virtual channels to create in ADBTuner. Set to 0 to remove lanes only." },
+        { name: "FRUIT_HOST", label: "FruitDeepLinks Host", default: "htpc6", description: "Hostname or IP of host running FruitDeepLinks" },
+        { name: "FRUIT_PORT", label: "FruitDeepLinks Port", default: "6655", description: "Port FruitDeepLinks is available on" },
+        {
+          name: "FRUIT_PROVIDER",
+          label: "Fruit Provider",
+          description: "Android app to use for this set of FruitDeepLinks lanes",
+          default: "ESPN~sportscenter~com.espn.gtv~com.espn.score_center",
+          options: [
+            { display: "Apple MLB", value: "Apple MLB~apple_mlb~com.apple.atve.amazon.appletv~com.apple.atve.androidtv.appletv" },
+            { display: "Apple MLS", value: "Apple MLS~apple_mls~com.apple.atve.amazon.appletv~com.apple.atve.androidtv.appletv" },
+            { display: "ESPN", value: "ESPN~sportscenter~com.espn.gtv~com.espn.score_center" },
+            { display: "HBO Max", value: "HBO Max~max~com.hbo.hbonow~com.wbd.stream" },
+            { display: "NBA", value: "NBA~gametime~com.nbaimd.gametime.nba2011.amazon~com.nbaimd.gametime.nba2011" },
+            { display: "NFL", value: "NFL~nflctv~com.gotv.nflgamecenter.us.lite~com.gotv.nflgamecenter.us.lite" },
+            { display: "Paramount+", value: "Paramount+~pplus~com.cbs.ott~com.cbs.ott" },
+            { display: "Peacock", value: "Peacock~peacock_web~com.peacock.peacockfiretv~com.peacocktv.peacockandroid" },
+            { display: "Prime Video", value: "Prime Video~aiv~com.amazon.firebat~com.amazon.amazonvideo.livingroom" },
+          ]
+        },
+        {
+          name: "CONFIG_NAME",
+          label: "ADBTuner Config",
+          description: "Choose a standard ADBTuner config, or Custom",
+          default: "8ec77d65-30d6-46a3-8045-282571cff8d8",
+          options: [
+            { display: "Deep Links (default, recommended)", value: "8ec77d65-30d6-46a3-8045-282571cff8d8" },
+            { display: "Deep Links - Show Tuning Process", value: "92c0c532-aa12-4d18-abbd-72e4a9cec15c" },
+            { display: "Deep Links - Compatibility Mode", value: "bb353259-17e0-4b38-a328-8629fb1ec2ca" },
+            { display: "Deep Links - Compatibility Mode - Show Tuning Process", value: "c513c18d-19bd-47f0-9bff-4baba2a8c4cd" },
+            { display: "FruitDeepLinks - ESPN+ (FireTV and AndroidTV)", value: "51af5028-092f-4ddc-b4ea-d5e5fca58cac~custom" },
+            { display: "FruitDeepLinks - Paramount+ (FireTV and AndroidTV)", value: "62a01c95-94f8-41b7-b56b-4838859ab42d~custom" },
+            { display: "FruitDeepLinks - Peacock (FireTV and AndroidTV)", value: "7a0a4dc6-4f88-42f7-b545-2fbaadc24197~custom" },
+            { display: "FruitDeepLinks - Prime Video (FireTV and AndroidTV)", value: "a176643f-b3b6-47fb-8527-47908d089695~custom" },
+            { display: "Custom (Paste config into CUSTOM_CONFIG field)", value: "custom" },
+          ]
+        },
+        { name: "CUSTOM_CONFIG", label: "Custom Config", placeholder: "Optional - paste JSON config here", description: "ADBTuner custom config JSON (required if CONFIG_NAME is Custom)", optional: true },
+        {
+          name: "FRUIT_REMOVE",
+          label: "Remove Provider Lanes",
+          description: "Remove existing ADBTuner virtual channels with this provider before adding new lanes",
+          default: "none",
+          options: [
+            { display: "Apple MLB (apple_mlb)", value: "apple_mlb" },
+            { display: "Apple MLS (apple_mls)", value: "apple_mls" },
+            { display: "ESPN (sportscenter)", value: "sportscenter" },
+            { display: "HBO Max (max)", value: "max" },
+            { display: "NBA (gametime)", value: "gametime" },
+            { display: "NFL (nflctv)", value: "nflctv" },
+            { display: "Paramount+ (pplus)", value: "pplus" },
+            { display: "Peacock (peacock_web)", value: "peacock_web" },
+            { display: "Prime Video (aiv)", value: "aiv" },
+            { display: "none", value: "none" },
+          ]
+        },
+        { name: "ADBT_START_CHAN", label: "ADBTuner Start Chan", default: "#", description: "Override ADBTuner M3U channel numbers starting here. Use # to keep ADBTuner numbering." },
       ],
     },
     {
@@ -1030,9 +1170,10 @@
       title: "Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels",
       arguments: [
         getDvrArgument(),
-        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        { name: "TAG", label: "Tag", default: "main", description: "The version of the container you'd like to run" },
         { name: "HOST_PORT", label: "Host Port", default: "7780", description: "Use recommended port, or change if already in use" },
-        { name: "PLUTO_PORT", label: "Pluto Port", default: "7777", description: "Change the port this container uses internally" },
+        { name: "PLUTO_USERNAME", label: "Pluto Username", default: "username@email.com", description: "Your Pluto TV username. Do not use quotes." },
+        { name: "PLUTO_PASSWORD", label: "Pluto Password", default: "password", description: "Your Pluto TV password. Do not use quotes." },
         { name: "PLUTO_CODE", label: "Country Code", default: "local", description: "Country streams to host (local,us_west,us_east,ca,uk) - comma separated" },
         { name: "CDVR_START_CHAN", label: "Start Channel", default: "#", description: "Override M3U channel numbers starting here. Use # for M3U numbering" },
       ],
@@ -1048,7 +1189,29 @@
         { name: "HOST_PORT", label: "Host Port", default: "5589", description: "Use recommended port, or change if already in use" },
         { name: "HOST_VNC_PORT", label: "VNC Port", default: "5900", description: "Use recommended port, or change if already in use" },
         { name: "HOST_NOVNC_PORT", label: "noVNC Port", default: "6080", description: "Use recommended port, or change if already in use" },
+        { name: "HOST_HDHR_PORT", label: "HDHR Port", default: "5004", description: "Use recommended port, or change if already in use" },
         { name: "CDVR_START_CHAN", label: "Start Channel", default: "#", description: "Override M3U channel numbers. Use # for default" },
+        { name: "TZ", label: "Timezone", default: "America/New_York", description: "Your local timezone in Linux tz format" },
+        {
+          name: "DEVICES",
+          label: "Devices",
+          description: "If your Docker host supports Intel Quick Sync for transcoding, set to /dev/dri, otherwise leave as none",
+          default: "#",
+          options: [
+            { display: "/dev/dri", value: "true" },
+            { display: "none", value: "#" },
+          ]
+        },
+        {
+          name: "LIBVA_DRIVER_NAME",
+          label: "LIBVA Driver",
+          description: "If DEVICES is set to /dev/dri, leave as iHD or set to i965 (for pre-Gen 9/Skylake)",
+          default: "iHD",
+          options: [
+            { display: "iHD", value: "iHD" },
+            { display: "i965", value: "i965" },
+          ]
+        },
       ],
     },
     {
@@ -1231,7 +1394,7 @@
       ],
     },
     {
-      id: "weatherstar4k",
+      id: "ws4kp",
       label: "WeatherStar 4000+",
       title: "Create a WeatherStar 4000+ Stack in Portainer + CDVR Custom Channels",
       arguments: [
@@ -1271,6 +1434,8 @@
             { display: "ah4c (AndroidHDMI-for-Channels)", value: "ah4c+ah4c:latest" },
             { display: "Channels-App-Remote", value: "channels-app-remote+channels-app-remote:latest" },
             { display: "Channels-App-Remote-Plus", value: "channels-app-remote-plus+channels-remote-plus:latest" },
+            { display: "Channels-Collection-Manager", value: "channels-collection-manager+channels-dvr-collection-manager:latest" },
+            { display: "Channels-Manager", value: "channels-manager+channels-manager:latest" },
             { display: "ChannelWatch", value: "channelwatch+channelwatch:latest" },
             { display: "cc4c (ChromeCapture-for-Channels)", value: "cc4c+cc4c:latest+cc4c" },
             { display: "EPlusTV", value: "eplustv+eplustv:latest+EPlusTV+EPlusTV-Linear" },
@@ -1286,6 +1451,7 @@
             { display: "Pinchflat", value: "pinchflat+pinchflat:latest" },
             { display: "Plex-for-Channels", value: "plex-for-channels+plex-for-channels:latest+PlexTV+PlexTV-NoEPG" },
             { display: "Pluto-for-Channels (jonmaddox)", value: "pluto+jonmaddox/pluto-for-channels:latest" },
+            { display: "Pluto-for-Channels (kineticman)", value: "pluto-for-channels+kineticman/pluto-for-channels:main+PlutoTV" },
             { display: "Pluto-for-Channels (joagomez)", value: "pluto-for-channels+jgomez177/pluto-for-channels:latest+PlutoTV" },
             { display: "Pluto-for-Channels2 (bobby_vaughn)", value: "pluto-for-channels2+rcvaughn2/pluto-for-channels:main+PlutoTV2" },
             { display: "PrismCast", value: "prismcast+prismcast:latest+PrismCast" },
@@ -1736,7 +1902,7 @@
           // Options can be { display: "Show This", value: "send_this" } or just a string
           const display = typeof opt === 'object' ? opt.display : opt;
           const value = typeof opt === 'object' ? opt.value : opt;
-          return `<option value="${value}">${display}</option>`;
+          return `<option value="${value}" ${value === arg.default ? 'selected' : ''}>${display}</option>`;
         }).join('');
 
         return `

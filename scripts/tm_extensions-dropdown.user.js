@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Extensions Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.01.26.1526
+// @version      2026.03.15.1229
 // @description  Adds an Extensions dropdown with container tools (live status detection)
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -30,8 +30,11 @@
   const extensions = [
     { id: "adbtuner", label: "ADBTuner", defaultPort: "5592" },
     { id: "ah4c", label: "ah4c", defaultPort: "7654" },
+    { id: "channels-collection-manager", label: "Channels-Collection-Manager", defaultPort: "5000" },
+    { id: "channels-manager", label: "Channels-Manager", defaultPort: "8090" },
     { id: "eplustv", label: "EPlusTV", defaultPort: "8000" },
     { id: "espn4cc4c", label: "ESPNcc4c", defaultPort: "8094" },
+    { id: "fastchannels", label: "FastChannels", defaultPort: "5523" },
     { id: "filebot", label: "FileBot", defaultPort: "5800" },
     { id: "frndlytv-for-channels", label: "FrndlyTV-for-Channels", defaultPort: "80" },
     { id: "fruitdeeplinks", label: "FruitDeepLinks", defaultPort: "6655" },
@@ -111,7 +114,7 @@
 
       if (isActive) {
         item.innerHTML = `<span style="color: #4CAF50; margin-right: 6px;">●</span><span style="color: #fff;">${label}</span>`;
-        item.title = `Running - ${href}`;
+        item.title = `Running - ${href} (Ctrl+click for new tab)`;
         item.style.opacity = "1";
       } else {
         item.innerHTML = `<span style="color: #999; margin-right: 6px;">○</span><span style="color: rgba(255,255,255,0.6);">${label}</span>`;
@@ -215,10 +218,13 @@
         e.preventDefault();
         e.stopPropagation();
         setOpen(wrapper, toggle, menu, false);
-        // Navigate to the dynamically-determined URL
         const targetHref = item.dataset.href;
         if (targetHref) {
-          window.location.href = targetHref;
+          if (e.ctrlKey || e.metaKey) {
+            window.open(targetHref, "_blank");
+          } else {
+            window.location.href = targetHref;
+          }
         }
       });
 

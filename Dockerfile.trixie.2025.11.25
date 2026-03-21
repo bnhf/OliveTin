@@ -1,4 +1,4 @@
-#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl -s https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') --build-arg DOCKER_RELEASE=$(curl -s https://api.github.com/repos/moby/moby/releases/latest  | jq -r '.tag_name | sub("^.*v"; "")') -f Dockerfile.debian.2025.11.25 -t bnhf/olivetin:test.2025.11.25 . --push --no-cache
+#docker buildx build --platform linux/amd64,linux/arm64 --build-arg CDVR_RELEASE=$(curl -s https://channels-dvr.s3.amazonaws.com/latest.txt | tr -d '\n') --build-arg DOCKER_RELEASE=$(curl -s https://api.github.com/repos/moby/moby/releases/latest  | jq -r '.tag_name | sub("^.*v"; "")') -f Dockerfile.trixie.2025.11.25 -t bnhf/olivetin:latest -t bnhf/olivetin:2026.02.27 . --push --no-cache
 FROM python:3.13-slim-trixie
 
 ARG OS=linux

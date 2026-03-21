@@ -1,12 +1,11 @@
 #!/bin/bash
 # pluto-for-channels.sh
-# 2026.01.17
+# 2026.02.27
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
 BASH_XTRACEFD=3
 set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 dvr="$1"
 extension=$(basename "$0")
@@ -14,16 +13,17 @@ extension=${extension%.sh}
 cp /config/$extension.env /tmp
 envFile="/tmp/$extension.env"
 [[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "$6" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$6"
+[[ "$7" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$7"
 [[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
 curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
 
 envVars=(
 "TAG=$2"
 "HOST_PORT=$3"
-"PLUTO_PORT=$4"
-"PLUTO_CODE=$5"
-"CDVR_STARTING_CHANNEL=$6"
+"PLUTO_USERNAME=$4"
+"PLUTO_PASSWORD=$5"
+"PLUTO_CODE=$6"
+"CDVR_STARTING_CHANNEL=$7"
 )
 
 customChannels() {
@@ -32,7 +32,7 @@ cat <<EOF
   "name": "Pluto TV",
   "type": "HLS",
   "source": "URL",
-  "url": "http://$extensionURL/pluto/local/playlist.m3u",
+  "url": "http://$extensionURL/pluto/all/playlist.m3u",
   "text": "",
   "refresh": "24",
   "limit": "",
@@ -40,7 +40,7 @@ cat <<EOF
   "numbering": "$cdvrIgnoreM3UNumbers",
   "start_number": "$cdvrStartingChannel",
   "logos": "",
-  "xmltv_url": "http://$extensionURL/pluto/epg/local/epg-local.xml",
+  "xmltv_url": "http://$extensionURL/pluto/epg/all/epg-all.xml",
   "xmltv_refresh": "3600"
 }
 EOF
@@ -61,5 +61,5 @@ while true; do
   [[ $extensionUp ]] && break || sleep 5
 done
 
-greenEcho "\nJSON response from $dvr:"
-curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/PlutoTV
+echo -e "\nJSON response from $dvr:"
+curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/PlutoTV
