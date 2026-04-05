@@ -1,11 +1,12 @@
 #!/bin/bash
 # mlbserver.sh
-# 2026.01.17
+# 2026.03.23
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
 BASH_XTRACEFD=3
 set -x
+blueSpinner() { local t=$1 i=0 s='|/-\'; while (( i < t*5 )); do printf "\r\033[34m%c\033[0m" "${s:i++%4:1}"; sleep 0.2; done; printf "\r \r"; }
 greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
 
 dvr="$1"
@@ -68,7 +69,7 @@ customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
 
 while true; do
   curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || sleep 5
+  [[ $extensionUp ]] && break || blueSpinner 5
 done
 
 greenEcho "\nJSON response from $dvr:"

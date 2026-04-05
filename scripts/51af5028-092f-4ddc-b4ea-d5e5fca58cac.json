@@ -1,8 +1,8 @@
 {
-    "name": "FruitDeepLinks - ESPN+ v2.0 (FireTV and AndroidTV)",
+    "name": "FruitDeepLinks - ESPN+ v2.1 (FireTV and AndroidTV)",
     "author": "bnhf",
-    "version": "2.0",
-    "description": "Load content via ESPN+ deep link URLs (where supported). Jump to live.",
+    "version": "2.1",
+    "description": "ESPN+ for FruitDeepLinks. Compatible with FireTV and AndroidTV devices.",
     "uuid": "51af5028-092f-4ddc-b4ea-d5e5fca58cac",
     "global_options": {
         "wait_for_video_playback_detection": false,
@@ -31,6 +31,5 @@
         "input keyevent KEYCODE_MEDIA_STOP",
         "input keyevent KEYCODE_MEDIA_PAUSE",
         "input keyevent KEYCODE_HOME"
-    ],
-    "source_file": "/app/.config/user_configurations/51af5028-092f-4ddc-b4ea-d5e5fca58cac.json"
+    ]
 }

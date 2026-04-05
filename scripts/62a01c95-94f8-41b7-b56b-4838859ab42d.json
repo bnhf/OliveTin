@@ -1,14 +1,13 @@
 {
-    "name": "FruitDeepLinks - Parmount+ v2.0 (FireTV and AndroidTV)",
+    "name": "FruitDeepLinks - Parmount+ v4.0 (FireTV and AndroidTV)",
     "author": "bnhf",
-    "version": "2.0",
-    "description": "Paramount+ for FruitDeepLinks with timing-based profile selection, and a Select for tuning to the Live feed.",
+    "version": "4.0",
+    "description": "Paramount+ for FruitDeepLinks. Compatible with FireTV and AndroidTV devices.",
     "uuid": "62a01c95-94f8-41b7-b56b-4838859ab42d",
     "global_options": {
         "wait_for_video_playback_detection": false,
         "use_fixed_delay": true,
-        "fixed_delay_seconds": 0,
-        "check_for_and_clear_whos_watching_prompts": false,
+        "fixed_delay_seconds": 5,
         "wait_after_post_playback_start_commands_seconds": 0
     },
     "pre_tune_commands": [
@@ -18,15 +17,20 @@
     "tune_commands": [
         "am start -W -a android.intent.action.VIEW -d '||TARGET_URL_OR_IDENTIFIER||' '||TARGET_PACKAGE_NAME||'"
     ],
-    "post_playback_start_commands": [
-        "sleep 8",
-        "input keyevent KEYCODE_DPAD_CENTER",
-        "sleep 8",
-        "input keyevent KEYCODE_DPAD_CENTER"
+    "tune_match_text_commands": [
+        {
+            "match_text": [
+                "who's watching",
+                "edit profiles"
+            ],
+            "commands": [
+                "input keyevent KEYCODE_DPAD_CENTER"
+            ],
+            "check_after_seconds": 5
+        }
     ],
+    "post_playback_start_commands": [],
     "post_tune_commands": [
-        "input keyevent KEYCODE_MEDIA_STOP",
-        "input keyevent KEYCODE_MEDIA_PAUSE",
         "input keyevent KEYCODE_HOME",
         "am force-stop ||TARGET_PACKAGE_NAME||"
     ],

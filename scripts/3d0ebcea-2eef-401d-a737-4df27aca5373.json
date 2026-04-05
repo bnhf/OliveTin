@@ -1,9 +1,9 @@
 {
-    "name": "FruitDeepLinks - Peacock v3.0 (FireTV and AndroidTV)",
+"name": "FruitDeepLinks - HBO Max v1.0 (FireTV and AndroidTV)",
     "author": "bnhf",
-    "version": "3.0",
-    "description": "Peacock for FruitDeepLinks. Compatible with FireTV and AndroidTV devices.",
-    "uuid": "7a0a4dc6-4f88-42f7-b545-2fbaadc24197",
+    "version": "1.0",
+    "description": "HBO Max for FruitDeepLinks. Compatible with FireTV and AndroidTV devices.",
+    "uuid": "3d0ebcea-2eef-401d-a737-4df27aca5373",
     "global_options": {
         "wait_for_video_playback_detection": false,
         "use_fixed_delay": true,
@@ -14,12 +14,15 @@
         "input keyevent KEYCODE_MEDIA_STOP"
     ],
     "tune_commands": [
-        "am start -n '||TARGET_PACKAGE_NAME||'/$(dumpsys package '||TARGET_PACKAGE_NAME||' 2>/dev/null | sed -n '/MAIN:/{n;s#.*/##;s# .*##;p;q}') -d '||TARGET_URL_OR_IDENTIFIER||'"
+        "am start -W -a android.intent.action.VIEW -d '||TARGET_URL_OR_IDENTIFIER||' '||TARGET_PACKAGE_NAME||'"
     ],
     "tune_match_text_commands": [
         {
             "match_text": [
-                "who's watching"
+                "kids",
+                "add profile",
+                "watch",
+                "live"
             ],
             "commands": [
                 "input keyevent KEYCODE_DPAD_CENTER"
@@ -29,6 +32,8 @@
     ],
     "post_playback_start_commands": [],
     "post_tune_commands": [
-        "input keyevent KEYCODE_HOME"
-    ]
+        "input keyevent KEYCODE_MEDIA_STOP",
+        "input keyevent KEYCODE_MEDIA_PAUSE"
+    ],
+    "timed_keep_active_commands": []
 }

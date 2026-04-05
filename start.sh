@@ -1,6 +1,6 @@
 #!/bin/bash
 # start.sh
-# 2026.03.07
+# 2026.04.01
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -119,7 +119,16 @@ channelsDvrServers() {
 }
 
 portainerHostServers() {
-  sed -i '/default: .*PORTAINER_HOST default/s/default: .* #/default: '"$PORTAINER_HOST"' #/g' $configTemp
+  sed -i -E 's|(default: (https?://)?)[^:/ ]+((:[0-9]+)? #PORTAINER_HOST default)|\1'"$PORTAINER_HOST"'\3|' $configTemp
+}
+
+substituteTimeZone() {
+  sed -i '/default: .*TZ default/s|default: .* #|default: '"$TZ"' #|g' $configTemp
+}
+
+substituteHostDir() {
+  hostDir=$(docker inspect olivetin --format '{{ json .Mounts }}' | jq -r '.[] | select(.Destination=="/config") | .Source | split("/")[:-1] | join("/")')
+  [[ -n $hostDir ]] && sed -i -E '/default: .*HOST_DIR default/s|default: (/[^/ ]*)(.*)|default: '"$hostDir"'\2|' "$configTemp"
 }
 
 createMsmtprc() {
@@ -230,6 +239,8 @@ main() {
   checkDockerApiVersion
   channelsDvrServers
   [[ -n $PORTAINER_HOST ]] && portainerHostServers
+  [[ -n $TZ ]] && substituteTimeZone
+  substituteHostDir
   checkYamls  
   checkScripts
   #checkSubs
@@ -239,13 +250,16 @@ main() {
   createMsmtprc
   #substituteVars
   envsubst '${PORTAINER_HOST}' < /tmp/tm_extensions-dropdown.user.js > /config/data/extensions-dropdown.user.js
-  envsubst '${CHANNELS_DVR} ${CHANNELS_DVR_ALTERNATES} ${PORTAINER_HOST}' < /tmp/tm_olivetin-dropdown.user.js > /config/data/olivetin-dropdown.user.js
+  envsubst '${CHANNELS_DVR} ${CHANNELS_DVR_ALTERNATES} ${PORTAINER_HOST} ${TZ}' < /tmp/tm_olivetin-dropdown.user.js > /config/data/olivetin-dropdown.user.js
   envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_manage-lineup-helper.user.js > /config/data/manage-lineup-helper.user.js
   envsubst '${CHANNELS_DVR} ${PORTAINER_HOST}' < /tmp/tm_sticky-guide-times.user.js > /config/data/sticky-guide-times.user.js
   #mkdir -p /var/www/olivetin/icons && cp /tmp/*.png /var/www/olivetin/icons
   [[ "$UPDATE_SCRIPTS" == "true" ]] \
     && cp -a /tmp/custom-webui/. /config/custom-webui/ \
     || cp -an /tmp/custom-webui/. /config/custom-webui/
+  [[ "$UPDATE_SCRIPTS" == "true" ]] \
+    && cp -a /tmp/data/. /config/data/ \
+    || cp -an /tmp/data/. /config/data/
   #/usr/bin/OliveTin
   OliveTin
 }

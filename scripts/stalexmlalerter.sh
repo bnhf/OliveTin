@@ -1,6 +1,6 @@
 #!/bin/bash
 # stalexmlalerter.sh
-# 2025.05.05
+# 2026.03.26
 
 #set -x
 
@@ -23,7 +23,7 @@ logFile=/config/"$channelsHost"-"$channelsPort"_stalexml_latest.log
   [[ -f $logFile && $PERSISTENT_LOGS != "true" ]] && rm $logFile
 runFile=/tmp/"$channelsHost"-"$channelsPort"_stalexml.run
 while true; do
-  staleXML=$(curl -s "$xmlURL" \
+  staleXML=$(curl -sL "$xmlURL" \
   | grep -oP '<tv[^>]*generated-ts="\K[^"]+')
 
   echo "$staleXML" | awk -v now="$(date +%s)" '{ if ((now - '$staleXML') > '$staleSeconds') exit 1 }'

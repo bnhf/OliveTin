@@ -1875,7 +1875,7 @@ actions:
       - name: IPADDRESS
         type: very_dangerous_raw_string
         description: Hostname or IP address of this ah4c extension to be used in M3U file (also add port number if not in M3U).
-        default: htpc6:7654
+        default: htpc6:7654 #PORTAINER_HOST default
       - name: NUMBER_TUNERS
         type: int
         description: Number of tuners you'd like defined 1, 2, 3 or 4 supported.
@@ -1998,7 +1998,7 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: SPEED_MODE
         type: ascii
         description: Set to false if you'd like the target streaming app to be closed after each tuning cycle (limited script support).
@@ -2025,7 +2025,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directories will be ah4c/scripts, ah4c/m3us, ah4c/adb.
-        default: /data
+        default: /data #HOST_DIR default
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
@@ -2061,6 +2061,26 @@ actions:
             value: 0
         default: "#"
     timeout: 40
+
+  - title: Create an ah4c DirecTV M3U
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: |
+      {{ CURL_COMMAND }} 2>/dev/null | /config/ah4c_directv_grabber.sh '{{ URL_STYLE }}'
+    id: ah4c_directv_grabber #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: CURL_COMMAND
+        type: very_dangerous_raw_string
+        description: "Paste in your custom curl command to grab your specific DirecTV channel lineup. Details on capturing this curl command can be found here: https://community.getchannels.com/t/adbtuner-create-channels-custom-config-and-cdvr-custom-channels-for-directv/45217?u=bnhf"
+      - name: URL_STYLE
+        description: The type of ah4c URL to be generated in the M3U for each channel.
+        choices:
+          - title: Deep Links
+            value: "true"
+          - title: Channel Numbers
+            value: "false"
+        default: "true"
+    timeout: 60
 
   - title: Create a Channels-App-Remote Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
@@ -2122,7 +2142,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be channels-collection-manager.
-        default: /data
+        default: /data #HOST_DIR default
     timeout: 40
 
   - title: Create a Channels-Manager Stack in Portainer
@@ -2170,11 +2190,11 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be channels-dvr.
-        default: /data
+        default: /data #HOST_DIR default
       - name: DVR_SHARE
         type: very_dangerous_raw_string
         description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
@@ -2258,7 +2278,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be channelwatch.
-        default: /data
+        default: /data #HOST_DIR default
     timeout: 40
 
   - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
@@ -2330,7 +2350,7 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: DEVICES
         description: If your Docker host supports Intel Quick Sync for transcoding, set to "/dev/dri", otherwise leave as "none".
         choices:
@@ -2483,11 +2503,11 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: VC_RESOLVER_BASE
         type: very_dangerous_raw_string
         description: The base URL to use for this project. http://<hostname or IP>:<port>
-        default: http://htpc6:8094
+        default: http://htpc6:8094 #PORTAINER_HOST default
       - name: CC_HOST
         type: very_dangerous_raw_string
         description: Hostname or IP for your cc4c installation. Leave as "cc4c" if you're not using cc4c integration.
@@ -2519,7 +2539,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data.
-        default: /data/espn4cc4c
+        default: /data/espn4cc4c #HOST_DIR default
       - name: ESPN4cc4c_SOURCE
         description: Create a CDVR Custom Channels Source named espn4cc4c using this guide data, with virtual tuning via cc4c.
         choices:
@@ -2571,7 +2591,7 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: America/New_York
+        default: America/New_York #TZ default
     timeout: 40
 
   - title: Create a FileBot Stack in Portainer
@@ -2595,7 +2615,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be filebot.
-        default: /data
+        default: /data #HOST_DIR default
       - name: DVR_SHARE
         type: very_dangerous_raw_string
         description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
@@ -2681,11 +2701,11 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: SERVER_URL
         type: very_dangerous_raw_string
         description: The FruitDeepLinks base URL for this project. http://<hostname or IP>:<port>.
-        default: http://htpc6:6655
+        default: http://htpc6:6655 #PORTAINER_HOST default
       - name: CC_SERVER
         type: very_dangerous_raw_string
         description: If you have a cc4c instance running, enter the hostname or IP address here to enable cc4c integration. Otherwise leave as "cc4c".
@@ -2716,7 +2736,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data.
-        default: /data
+        default: /data #HOST_DIR default
       - name: FRUIT_START_CHAN
         type: int
         description: The starting channel number to use in your CDVR Custom Channels Source.
@@ -2768,6 +2788,8 @@ actions:
             value: ESPN~sportscenter~com.espn.gtv~com.espn.score_center
           - title: HBO Max
             value: HBO Max~max~com.hbo.hbonow~com.wbd.stream
+          - title: MLB.TV
+            value: MLB.TV~mlb~com.bamnetworks.mobile.android.gameday.atbat~com.bamnetworks.mobile.android.gameday.atbat
           - title: NBA
             value: NBA~gametime~com.nbaimd.gametime.nba2011.amazon~com.nbaimd.gametime.nba2011
           - title: NFL
@@ -2790,8 +2812,12 @@ actions:
             value: bb353259-17e0-4b38-a328-8629fb1ec2ca
           - title: "Deep Links - Compatibility Mode - Show Tuning Process"
             value: c513c18d-19bd-47f0-9bff-4baba2a8c4cd
+          - title: "FruitDeepLinks - AppleTV (FireTV and AndroidTV)"
+            value: 8cf23241-09e3-4b79-90fe-576086707462~custom
           - title: "FruitDeepLinks - ESPN+ (FireTV and AndroidTV)"
             value: 51af5028-092f-4ddc-b4ea-d5e5fca58cac~custom
+          - title: "FruitDeepLinks - HBO Max (FireTV and AndroidTV)"
+            value: 3d0ebcea-2eef-401d-a737-4df27aca5373~custom
           - title: "FruitDeepLinks - Paramount+ (FireTV and AndroidTV)"
             value: 62a01c95-94f8-41b7-b56b-4838859ab42d~custom
           - title: "FruitDeepLinks - Peacock (FireTV and AndroidTV)"
@@ -2815,6 +2841,8 @@ actions:
             value: sportscenter
           - title: HBO Max (max)
             value: max
+          - title: MLB.TV (mlb)
+            value: mlb
           - title: NBA (gametime)
             value: gametime
           - title: NFL (nflctv)
@@ -2855,7 +2883,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be mediainfo.
-        default: /data
+        default: /data #HOST_DIR default
       - name: DVR_SHARE
         type: very_dangerous_raw_string
         description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
@@ -2918,7 +2946,7 @@ actions:
       - name: MLB_TIMEZONE
         type: very_dangerous_raw_string
         description: if you don't specify a timezone here, the app will default to UTC.
-        default: America/Los_Angeles
+        default: America/Los_Angeles #TZ default
       - name: MLB_SHOW_TV
         type: ascii
         description: can be set to true or false to turn the TV and/or radio feeds on or off.
@@ -2958,7 +2986,7 @@ actions:
       - name: TIMEZONE
         type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
         description: in Linux Continent/City format.
-        default: America/Denver
+        default: America/Denver #TZ default
       - name: DATA_DIRECTORY
         type: very_dangerous_raw_string
         description: the path where you'd like the your mlbserver data to be stored INSIDE the container. Typically left as default value.
@@ -2978,7 +3006,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. A sub-directory name of "mlbserver" will automatically be used.
-        default: /data
+        default: /data #HOST_DIR default
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
@@ -3200,11 +3228,11 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directories will be organizr.
-        default: /data
+        default: /data #HOST_DIR default
     timeout: 40
 
   - title: Create a Pinchflat Stack in Portainer
@@ -3224,11 +3252,11 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be pinchflat.
-        default: /data
+        default: /data #HOST_DIR default
       - name: VIDEOS_SHARE
         type: very_dangerous_raw_string
         description: Volume name or path on host computer to DVR files. For network share create Portainer volume first.
@@ -3276,7 +3304,7 @@ actions:
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be plex.
-        default: /data
+        default: /data #HOST_DIR default
       - type: confirmation
         title: Click to confirm...
         description: I acknowledge that it will take several minutes per region for the EPG data to be built, and that CDVR has a 750 channel limit per source.
@@ -3408,7 +3436,7 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: America/New_York
+        default: America/New_York #TZ default
       - name: DEVICES
         description: If your Docker host supports Intel Quick Sync for transcoding, set to "/dev/dri", otherwise leave as "none".
         choices:
@@ -3514,7 +3542,7 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
@@ -3561,7 +3589,7 @@ actions:
       - name: TIMEZONE
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: SLM_HOST_FOLDER
         type: very_dangerous_raw_string
         description: Volume name or path on host computer to SLM program files.
@@ -3597,11 +3625,11 @@ actions:
       - name: TZ
         type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
         description: Your local timezone in Linux "tz" format. Continent/City or Country/Timezone.
-        default: America/Denver
+        default: America/Denver #TZ default
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directories will be threadfin/conf, threadfin/temp.
-        default: /data
+        default: /data #HOST_DIR default
     timeout: 40
 
   - title: Create a TubeArchivist Stack in Portainer
@@ -3629,7 +3657,7 @@ actions:
       - name: TA_HOST
         type: very_dangerous_raw_string
         description: TubeArchivist hostname (the hostname or IP you'll use to access the TA WebUI)
-        default: htpc6
+        default: htpc6 #PORTAINER_HOST default
       - name: TA_USERNAME
         type: very_dangerous_raw_string
         description: TubeArchivist username (used to sign-in the the TA WebUI)      
@@ -3641,7 +3669,7 @@ actions:
       - name: TZ
         type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
         description: Your local timezone in Linux "tz" format. Continent/City or Country/Timezone.
-        default: America/Denver
+        default: America/Denver #TZ default
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used for downloaded videos. Sub-directory will be tubearchivist.
@@ -3710,11 +3738,11 @@ actions:
       - name: TZ
         type: "regex:^[A-Za-z]+/[A-Za-z_]+$" # 2024.09.16 regex for timezone Continent/City or Country/Timezone
         description: Your local timezone in Linux "tz" format. Continent/City or Country/Timezone.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directories will be threadfin/conf, threadfin/temp.
-        default: /data
+        default: /data #HOST_DIR default
     timeout: 40
 
   - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
@@ -3774,7 +3802,7 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
@@ -3818,7 +3846,7 @@ actions:
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain
+        default: US/Mountain #TZ default
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
@@ -4030,6 +4058,7 @@ dashboards:
         - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
         - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
         - title: Create an ADBTuner Sling JSON and its Channel Lineup
+        - title: Create an ah4c DirecTV M3U
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
         - title: Create a Channels-App-Remote-Plus Stack in Portainer
         - title: Create a Channels-Collection-Manager Stack in Portainer
