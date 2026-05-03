@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Extensions Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.03.15.1229
+// @version      2026.04.23.1404
 // @description  Adds an Extensions dropdown with container tools (live status detection)
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -55,6 +55,7 @@
     { id: "vlc-bridge-fubo", label: "VLC-Bridge-Fubo", defaultPort: "7777" },
     { id: "vlc-bridge-pbs", label: "VLC-Bridge-PBS", defaultPort: "7777" },
     { id: "vlc-bridge-uk", label: "VLC-Bridge-UK", defaultPort: "7777" },
+    { id: "ws-scrcpy", label: "ws-scrcpy", defaultPort: "8000" },
   ];
 
   // ============================================================

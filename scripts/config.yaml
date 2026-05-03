@@ -1693,6 +1693,8 @@ actions:
             value: watchtower
           - title: Create a WeatherStar 4000+ Stack in Portainer
             value: weatherstar4k
+          - title: Create a ws-scrcpy Stack in Portainer
+            value: ws-scrcpy
           - title: Create a YouTub3r Stack in Portainer
             value: youtub3r
           - title: Delete a Project One-Click Channels DVR Extension
@@ -1704,9 +1706,9 @@ actions:
           - title: Portainer Volume Creation for SMB Shares
             value: portainervolume
 
-  - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
-    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #adbtuner icon
-    shell: /config/adbtuner.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ HOST_VOLUME }}" "{{ CDVR_START_CHAN }}"
+  - title: Create an ADBTuner Stack in Portainer
+    icon: '<img src = "custom-webui/icons/channels.png" width = "48px"/>' #adbtuner icon
+    shell: /config/adbtuner.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ STREAM_TIMEOUT }}" "{{ HOST_VOLUME }}"
     id: adbtuner #project-one-click
     popupOnStart: execution-dialog-stdout-only
     arguments:
@@ -1715,9 +1717,13 @@ actions:
         description: Channels DVR server to use. #adbtuner dvr description
         default: none #adbtuner dvr default
       - name: TAG
-        type: very_dangerous_raw_string
-        description: The version of the container you'd like to run. Typically "latest".
-        default: latest
+        description: The version of the container you'd like to run. Typically "stable", or use "development for the latest features".
+        choices:
+          - title: stable
+            value: stable
+          - title: development
+            value: development
+        default: stable
       - name: DOMAIN
         type: very_dangerous_raw_string
         description: Change to the name of your LAN's domain, which is usually local or localdomain.
@@ -1726,14 +1732,14 @@ actions:
         type: int
         description: Use the recommended port number, or optionally change it if the port is already in use on your host.
         default: 5592
+      - name: STREAM_TIMEOUT
+        type: int
+        description: Number of seconds of inactivity before ADBTuner will stop streaming content. Default is 8 seconds.
+        default: 8
       - name: HOST_VOLUME
         type: very_dangerous_raw_string
         description: The filename you'd like Docker to use for the volume.
         default: adbtuner_config
-      - name: CDVR_START_CHAN
-        type: very_dangerous_raw_string
-        description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
-        default: "#"
     timeout: 40
 
   - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
@@ -3109,6 +3115,102 @@ actions:
         description: Required. Fourth channel to include in initial 2x2 mosaic.
     timeout: 40
 
+  - title: Create Native ADBTuner Channels + CDVR Custom Channels
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/nativeadbt.sh "{{ dvr }}" "{{ ADBTUNER_HOST }}" "{{ ADBTUNER_PORT }}" "{{ NATIVE_PROVIDER }}" "{{ NATIVE_REMOVE }}" "{{ ADBT_START_CHAN }}"
+    id: nativeadbt #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #nativeadbt dvr description
+        default: none #nativeadbt dvr default
+      - name: ADBTUNER_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running ADBTuner.
+        default: htpc6 #PORTAINER_HOST default
+      - name: ADBTUNER_PORT
+        type: int
+        description: Port number ADBTuner is available on.
+        default: 5592
+      - name: NATIVE_PROVIDER
+        description: The native ADBTuner provider to create channels for. Choose ALL to process every provider. Use "Remove Only" combined with a NATIVE_REMOVE selection to delete channels only.
+        choices:
+          - title: NBC
+            value: app_nbc
+          - title: CBS
+            value: app_cbs
+          - title: FOX One
+            value: app_foxone
+          - title: PBS
+            value: app_pbs
+          - title: ESPN
+            value: app_espn
+          - title: NFL
+            value: app_nfl
+          - title: HGTV
+            value: app_hgtv
+          - title: CNN
+            value: app_cnn
+          - title: TBS
+            value: app_tbs
+          - title: TNT
+            value: app_tnt
+          - title: truTV
+            value: app_trutv
+          - title: "A&E"
+            value: app_ae
+          - title: History
+            value: app_history
+          - title: AMC
+            value: app_amc
+          - title: ALL
+            value: ALL
+          - title: Remove Only
+            value: remove_only
+        default: app_nbc
+      - name: NATIVE_REMOVE
+        description: "Remove any existing native ADBTuner channels with this provider name before adding new channels. ALL removes each provider being processed. Use 'none' to skip removal."
+        choices:
+          - title: NBC
+            value: app_nbc
+          - title: CBS
+            value: app_cbs
+          - title: FOX One
+            value: app_foxone
+          - title: PBS
+            value: app_pbs
+          - title: ESPN
+            value: app_espn
+          - title: NFL
+            value: app_nfl
+          - title: HGTV
+            value: app_hgtv
+          - title: CNN
+            value: app_cnn
+          - title: TBS
+            value: app_tbs
+          - title: TNT
+            value: app_tnt
+          - title: truTV
+            value: app_trutv
+          - title: "A&E"
+            value: app_ae
+          - title: History
+            value: app_history
+          - title: AMC
+            value: app_amc
+          - title: ALL
+            value: ALL
+          - title: none
+            value: none
+        default: none
+      - name: ADBT_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Override ADBTuner M3U channel numbers, starting with this number. Use # to keep ADBTuner M3U numbering."
+        default: "#"
+    timeout: 40
+
   - title: Create an OliveTin Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #olivetin-for-channels icon
     shell: /config/olivetin-for-channels.sh "{{ env_vars }}" "{{ container_tag }}" "{{ container_suffix }}" "{{ host_port }}" "{{ host_dir }}" "{{ host_sfs_port }}" "{{ volume_dvr1 }}" "{{ volume_logs1 }}" "{{ volume_tubearchivist1 }}" "{{ volume_dvr2 }}" "{{ volume_logs2 }}" "{{ volume_tubearchivist2 }}" "{{ volume_dvr3 }}" "{{ volume_logs3 }}" "{{ volume_tubearchivist3 }}"
@@ -3895,7 +3997,7 @@ actions:
         description: Project One-Click name for the Channels DVR extension you'd like to delete.
         choices:
           - title: ADBTuner
-            value: adbtuner+adbtuner:latest+ADBTuner
+            value: adbtuner+adbtuner
           - title: ah4c (formerly AndroidHDMI-for-Channels)
             value: ah4c+ah4c:latest
           - title: Channels-App-Remote
@@ -3974,8 +4076,34 @@ actions:
             value: watchtower+watchtower:latest
           - title: WeatherStar 4000+
             value: weatherstar4k+ghcr.io/netbymatt/ws4kp:latest+WeatherStar4K
+          - title: ws-scrcpy
+            value: ws-scrcpy+bnhf/ws-scrcpy:latest
           - title: Youtub3r
             value: youtub3r+youtub3r:latest
+    timeout: 40
+
+  - title: Create a ws-scrcpy Stack in Portainer for ADBTuner
+    icon: '<img src = "custom-webui/icons/channels.png" width = "48px"/>' #ws-scrcpy icon
+    shell: /config/ws-scrcpy.sh "{{ TAG }}" "{{ DOMAIN }}" "{{ HOST_PORT }}" "{{ PORTAINER_HOST }}"
+    id: ws-scrcpy #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number for ws-scrcpy, or optionally change it if the port is already in use on your host.
+        default: 8000
+      - name: PORTAINER_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP of the Docker host you're running Portainer on.
+        default: htpc6 #PORTAINER_HOST default
     timeout: 40
 
   - title: Create a YouTubeTV M3U or JSON
@@ -4055,7 +4183,7 @@ dashboards:
         contents:
         - title: Docker-Compose Examples for CDVR & Related Extensions
         - title: Project One-Click Actions Debug Log Viewer
-        - title: Create an ADBTuner Stack in Portainer + CDVR Custom Channels
+        - title: Create an ADBTuner Stack in Portainer
         - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
         - title: Create an ADBTuner Sling JSON and its Channel Lineup
         - title: Create an ah4c DirecTV M3U
@@ -4077,6 +4205,7 @@ dashboards:
         - title: Create an mlbserver Stack in Portainer + CDVR Custom Channels
         - title: Create a Multi4Channels Stack in Portainer + CDVR Custom Channel
         - title: Create a Multichannel View Stack in Portainer + CDVR Custom Channel
+        - title: Create Native ADBTuner Channels + CDVR Custom Channels
         - title: Create an OliveTin Stack in Portainer
         - title: Create an Organizr Stack in Portainer
         - title: Create a Pinchflat Stack in Portainer
@@ -4095,6 +4224,7 @@ dashboards:
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
         - title: Create a Watchtower Stack in Portainer
         - title: Create a WeatherStar 4000+ Stack in Portainer + CDVR Custom Channels
+        - title: Create a ws-scrcpy Stack in Portainer for ADBTuner
         - title: Create an Youtub3r Stack in Portainer
         - title: Delete a Project One-Click Channels DVR Extension
         - title: Portainer Token Creation

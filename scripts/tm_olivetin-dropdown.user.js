@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.04.05.1035
+// @version      2026.05.02.1417
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -502,14 +502,23 @@
     {
       id: "adbtuner",
       label: "ADBTuner",
-      title: "Create an ADBTuner Stack in Portainer + CDVR Custom Channels",
+      title: "Create an ADBTuner Stack in Portainer",
       arguments: [
         getDvrArgument(),
-        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        {
+          name: "TAG",
+          label: "Tag",
+          description: "The version of the container you'd like to run",
+          default: "stable",
+          options: [
+            { display: "stable", value: "stable" },
+            { display: "development", value: "development" },
+          ]
+        },
         { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
         { name: "HOST_PORT", label: "Host Port", default: "5592", description: "Use recommended port, or change if already in use" },
+        { name: "STREAM_TIMEOUT", label: "Stream Timeout", default: "8", description: "Seconds of inactivity before ADBTuner stops streaming. Default is 8 seconds." },
         { name: "HOST_VOLUME", label: "Host Volume", default: "adbtuner_config", description: "Filename for Docker volume" },
-        { name: "CDVR_START_CHAN", label: "Start Channel", default: "#", description: "Override M3U channel numbers. Use # for default" },
       ],
     },
     {
@@ -853,6 +862,7 @@
             { display: "VLC-Bridge-PBS", value: "vlc-bridge-pbs" },
             { display: "Watchtower", value: "watchtower" },
             { display: "WeatherStar 4000+", value: "weatherstar4k" },
+            { display: "ws-scrcpy", value: "ws-scrcpy" },
             { display: "Youtub3r", value: "youtub3r" },
             { display: "One-Click Delete", value: "one-click_delete" },
           ]
@@ -1444,6 +1454,17 @@
       ],
     },
     {
+      id: "ws-scrcpy",
+      label: "ws-scrcpy",
+      title: "Create a ws-scrcpy Stack in Portainer for ADBTuner",
+      arguments: [
+        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
+        { name: "HOST_PORT", label: "Host Port", default: "8000", description: "Use recommended port, or change if already in use" },
+        { name: "PORTAINER_HOST", label: "Portainer Host", default: "${PORTAINER_HOST}", description: "Hostname or IP of the Docker host running Portainer" },
+      ],
+    },
+    {
       id: "youtub3r",
       label: "Youtub3r",
       title: "Create a Youtub3r Stack in Portainer",
@@ -1467,7 +1488,7 @@
           description: "Select the project you'd like to delete",
           placeholder: "Select project...",
           options: [
-            { display: "ADBTuner", value: "adbtuner+adbtuner:latest+ADBTuner" },
+            { display: "ADBTuner", value: "adbtuner+adbtuner" },
             { display: "ah4c (AndroidHDMI-for-Channels)", value: "ah4c+ah4c:latest" },
             { display: "Channels-App-Remote", value: "channels-app-remote+channels-app-remote:latest" },
             { display: "Channels-App-Remote-Plus", value: "channels-app-remote-plus+channels-remote-plus:latest" },
@@ -1506,6 +1527,7 @@
             { display: "VLC-Bridge-UK", value: "vlc-bridge-uk+vlc-bridge-uk:latest" },
             { display: "Watchtower", value: "watchtower+watchtower:latest" },
             { display: "WeatherStar 4000+", value: "weatherstar4k+ghcr.io/netbymatt/ws4kp:latest+WeatherStar4K" },
+            { display: "ws-scrcpy", value: "ws-scrcpy+bnhf/ws-scrcpy:latest" },
             { display: "Youtub3r", value: "youtub3r+youtub3r:latest" },
           ]
         },

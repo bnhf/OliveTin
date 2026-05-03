@@ -1,6 +1,6 @@
 #!/bin/bash
 # listrunningprojects.sh
-# 2026.03.15
+# 2026.04.23
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -45,6 +45,7 @@ substituteIcons() {
     "vlc-bridge-fubo:vlc-bridge-fubo"
     "vlc-bridge-pbs:vlc-bridge-pbs"
     "vlc-bridge-uk:vlc-bridge-uk"
+    "ws-scrcpy:ws-scrcpy"
   )
 
   dockerPs="$(docker ps --format "{{.Image}}\t{{.Ports}}")"

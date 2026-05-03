@@ -1,6 +1,6 @@
 #!/bin/bash
 # listactivewebuis.sh
-# 2026.03.15
+# 2026.04.23
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -34,6 +34,7 @@ listRunningContainers() {
     "vlc-bridge-fubo:7777"
     "vlc-bridge-pbs:7777"
     "vlc-bridge-uk:7777"
+    "ws-scrcpy:8000"
   )
 
   dockerPs="$(docker ps --format "{{.Image}}\t{{.Ports}}")"
