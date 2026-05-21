@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.05.02.1417
+// @version      2026.05.19.0830
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -846,6 +846,7 @@
             { display: "FruitDeepLinks ADBTuner Lanes", value: "fruitadbt" },
             { display: "MediaInfo", value: "mediainfo" },
             { display: "mlbserver", value: "mlbserver" },
+            { display: "Native ADBTuner Channels", value: "nativeadbt" },
             { display: "Organizr", value: "organizr" },
             { display: "Pinchflat", value: "pinchflat" },
             { display: "Plex-for-Channels", value: "plex-for-channels" },
@@ -1162,6 +1163,71 @@
         { name: "FAV_TEAMS", label: "Favorite Teams", default: "0", description: "Comma-separated list (ATL,AZ,BAL,BOS,etc) or 0 for none" },
         { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data" },
         { name: "CDVR_START_CHAN", label: "Start Channel", default: "#", description: "Override M3U channel numbers. Use # for default" },
+      ],
+    },
+    {
+      id: "nativeadbt",
+      label: "Native ADBTuner Channels",
+      title: "Create Native ADBTuner Channels + CDVR Custom Channels",
+      arguments: [
+        getDvrArgument(),
+        { name: "ADBTUNER_HOST", label: "ADBTuner Host", default: "${PORTAINER_HOST}", description: "Hostname or IP of host running ADBTuner" },
+        { name: "ADBTUNER_PORT", label: "ADBTuner Port", default: "5592", description: "Port number ADBTuner is available on" },
+        {
+          name: "NATIVE_PROVIDER",
+          label: "Native Provider",
+          description: "The native ADBTuner provider to create channels for. Choose ALL to process every provider. Use \"Remove Only\" combined with a NATIVE_REMOVE selection to delete channels only.",
+          default: "app_nbc",
+          options: [
+            { display: "NBC", value: "app_nbc" },
+            { display: "CBS", value: "app_cbs" },
+            { display: "FOX One", value: "app_foxone" },
+            { display: "PBS", value: "app_pbs" },
+            { display: "PBS Kids", value: "app_pbskids" },
+            { display: "ESPN", value: "app_espn" },
+            { display: "NFL", value: "app_nfl" },
+            { display: "HGTV", value: "app_hgtv" },
+            { display: "CNN", value: "app_cnn" },
+            { display: "TBS", value: "app_tbs" },
+            { display: "TNT", value: "app_tnt" },
+            { display: "truTV", value: "app_trutv" },
+            { display: "A&E", value: "app_ae" },
+            { display: "History", value: "app_history" },
+            { display: "FYI", value: "app_fyi" },
+            { display: "Lifetime", value: "app_lifetime" },
+            { display: "AMC", value: "app_amc" },
+            { display: "ALL", value: "ALL" },
+            { display: "Remove Only", value: "remove_only" },
+          ]
+        },
+        {
+          name: "NATIVE_REMOVE",
+          label: "Remove Existing",
+          description: "Remove any existing native ADBTuner channels with this provider name before adding new channels. ALL removes each provider being processed. Use 'none' to skip removal.",
+          default: "none",
+          options: [
+            { display: "NBC", value: "app_nbc" },
+            { display: "CBS", value: "app_cbs" },
+            { display: "FOX One", value: "app_foxone" },
+            { display: "PBS", value: "app_pbs" },
+            { display: "PBS Kids", value: "app_pbskids" },
+            { display: "ESPN", value: "app_espn" },
+            { display: "NFL", value: "app_nfl" },
+            { display: "HGTV", value: "app_hgtv" },
+            { display: "CNN", value: "app_cnn" },
+            { display: "TBS", value: "app_tbs" },
+            { display: "TNT", value: "app_tnt" },
+            { display: "truTV", value: "app_trutv" },
+            { display: "A&E", value: "app_ae" },
+            { display: "History", value: "app_history" },
+            { display: "FYI", value: "app_fyi" },
+            { display: "Lifetime", value: "app_lifetime" },
+            { display: "AMC", value: "app_amc" },
+            { display: "ALL", value: "ALL" },
+            { display: "none", value: "none" },
+          ]
+        },
+        { name: "ADBT_START_CHAN", label: "ADBTuner Start Chan", default: "#", description: "Override ADBTuner M3U channel numbers starting here. Use # to keep ADBTuner numbering." },
       ],
     },
     {

@@ -1,6 +1,6 @@
 #!/bin/bash
 # nativeadbt.sh
-# 2026.04.22
+# 2026.05.19
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -15,8 +15,8 @@ nativeRemove="$5"
 [[ "$6" == "#" ]] && adbtStartingChannel="" || adbtStartingChannel="$6"
 [[ -n $adbtStartingChannel ]] && adbtIgnoreM3UNumbers="ignore" || adbtIgnoreM3UNumbers=""
 
-NATIVE_JSON_URL="https://raw.githubusercontent.com/babsonnexus/adbtuner_native/main/adbtuner_export_formatted.json"
-NATIVE_ZIP_URL="https://raw.githubusercontent.com/babsonnexus/adbtuner_native/main/user_configurations.zip"
+NATIVE_JSON_URL="https://raw.githubusercontent.com/babsonnexus/hdmi-encoder-native-apps/main/adbtuner_native/stations/0000_app_all_stations.json"
+NATIVE_REPO_URL="https://github.com/babsonnexus/hdmi-encoder-native-apps"
 
 curl -s -o /dev/null http://$adbtunerSource || { echo "ADBTuner not answering on http://$adbtunerSource"; exit 1; }
 
@@ -33,84 +33,59 @@ deleteExistingNative() {
   echo -e "\n[INFO] Deletion of existing channels for provider: $nativeRemove completed."
 }
 
-installNativeConfigs() {
-  local uuids="$1"
-  local zipFile="/tmp/native_user_configurations.zip"
-  local extractDir="/tmp/native_user_configurations"
-  local configsURL="http://${adbtunerSource}/api/v1/configurations"
-  local configURL="http://${adbtunerSource}/api/v1/configuration"
+registerNativeRepo() {
+  local reposURL="http://${adbtunerSource}/api/v1/repositories"
 
-  echo -e "\n[INFO] Downloading user_configurations.zip..."
-  curl -fsS -o "$zipFile" "$NATIVE_ZIP_URL" || { echo "[ERROR] Failed to download user_configurations.zip"; return 1; }
-
-  rm -rf "$extractDir"
-  mkdir -p "$extractDir"
-  unzip -q "$zipFile" -d "$extractDir" || { echo "[ERROR] Failed to unzip user_configurations.zip"; return 1; }
-
-  local allConfigs
-  if ! allConfigs=$(curl -sS -X GET "${configsURL}" -H 'accept: application/json'); then
-    echo "[ERROR] Failed to fetch configurations from ${configsURL}"
-    rm -rf "$extractDir" "$zipFile"
+  echo -e "\n[INFO] Checking if native repo is already registered..."
+  local existing
+  if ! existing=$(curl -sS -X GET "${reposURL}" -H 'accept: application/json'); then
+    echo "[ERROR] Failed to fetch repositories from ${reposURL}"
     return 1
   fi
 
-  while read -r uuid; do
-    [[ -z "$uuid" ]] && continue
+  local repoDir
+  repoDir=$(echo "$NATIVE_REPO_URL" | sed 's|https://||' | tr '/' '-')
 
-    echo "[INFO] Checking for configuration ${uuid} at ${configsURL}"
+  if echo "${existing}" | jq -e --arg dir "$repoDir" 'any(.[]; .directory == $dir)' >/dev/null 2>&1; then
+    echo "[INFO] Native repo already registered. Skipping."
+    return 0
+  fi
 
-    local configFile
-    configFile=$(find "$extractDir" -name "${uuid}.json" -type f 2>/dev/null | head -1)
+  echo "[INFO] Registering native repo: ${NATIVE_REPO_URL}..."
+  local httpCode
+  httpCode=$(curl -sS -o /tmp/native_repo_post_response.json -w '%{http_code}' \
+    -X POST "${reposURL}" \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d "{\"url\": \"${NATIVE_REPO_URL}\"}")
 
-    if [[ -z "$configFile" ]]; then
-      echo "[WARN] No configuration file found for UUID: ${uuid} — skipping."
-      continue
-    fi
-
-    if echo "${allConfigs}" | jq -e --arg uuid "${uuid}" '
-        (map(select(
-          (.uuid == $uuid) or
-          (.json_data.uuid == $uuid)
-        )) | length) > 0
-      ' >/dev/null 2>&1; then
-      echo "[INFO] Configuration ${uuid} already exists. Skipping."
-      continue
-    fi
-
-    local configContent
-    configContent=$(cat "$configFile" | jq 'walk(if type == "string" then gsub("monkey (?=-p)"; "monkey --pct-syskeys 0 ") else . end)')
-
-    echo "[INFO] Posting configuration ${uuid}..."
-    local postHttpReturnCode
-    postHttpReturnCode=$(curl -sS -o /tmp/native_config_post_response.json -w '%{http_code}' \
-      -X POST "${configURL}" \
-      -H 'accept: application/json' \
-      -H 'Content-Type: application/json' \
-      -d "{\"json_data\": ${configContent}}")
-
-    if [[ "${postHttpReturnCode}" =~ ^2 ]]; then
-      echo "[INFO] Configuration ${uuid} created successfully (HTTP ${postHttpReturnCode})."
-    else
-      echo "[ERROR] Failed to create configuration ${uuid} (HTTP ${postHttpReturnCode}). Response:"
-      cat /tmp/native_config_post_response.json
-      echo
-    fi
-  done <<< "$uuids"
-
-  rm -rf "$extractDir" "$zipFile"
-  echo "[INFO] Configuration installation completed."
+  if [[ "${httpCode}" =~ ^2 ]]; then
+    echo "[INFO] Native repo registered successfully (HTTP ${httpCode})."
+  else
+    echo "[ERROR] Failed to register native repo (HTTP ${httpCode}). Response:"
+    cat /tmp/native_repo_post_response.json
+    echo
+    return 1
+  fi
 }
 
 createNativeChannels() {
-  local nativeJSON
-  echo -e "\n[INFO] Fetching native channel data from GitHub..."
-  if ! nativeJSON=$(curl -fsS "$NATIVE_JSON_URL"); then
-    echo "[ERROR] Failed to fetch native channel JSON from GitHub"
-    return 1
+  local nativeJSON="$1"
+
+  if [[ -z "$nativeJSON" ]]; then
+    echo -e "\n[INFO] Fetching native channel data from GitHub..."
+    if ! nativeJSON=$(curl -fsS "$NATIVE_JSON_URL"); then
+      echo "[ERROR] Failed to fetch native channel JSON from GitHub"
+      return 1
+    fi
   fi
 
   local filteredRecords
-  filteredRecords=$(echo "$nativeJSON" | jq -c --arg provider "$nativeProviderName" '[.[] | select(.provider_name == $provider)]')
+  if [[ "$nativeProviderName" == "native" ]]; then
+    filteredRecords=$(echo "$nativeJSON" | jq -c '[.[]]')
+  else
+    filteredRecords=$(echo "$nativeJSON" | jq -c --arg provider "$nativeProviderName" '[.[] | select(.provider_name == $provider)]')
+  fi
 
   local count
   count=$(echo "$filteredRecords" | jq 'length')
@@ -120,10 +95,6 @@ createNativeChannels() {
     echo "[WARN] No channels found for provider: $nativeProviderName"
     return 0
   fi
-
-  local uniqueUUIDs
-  uniqueUUIDs=$(echo "$filteredRecords" | jq -r '.[].configuration_uuid' | sort -u)
-  installNativeConfigs "$uniqueUUIDs"
 
   echo -e "\n[INFO] Creating $count channel(s) for provider: $nativeProviderName"
 
@@ -137,7 +108,9 @@ createNativeChannels() {
     url=$(echo "$record" | jq -r '.url')
     package_name=$(echo "$record" | jq -r '.package_name')
     alt_package=$(echo "$record" | jq -r '.alternate_package_name')
-    [[ -z "$alt_package" && -n "${ALT_PACKAGE_OVERRIDES[$nativeProviderName]+x}" ]] && alt_package="${ALT_PACKAGE_OVERRIDES[$nativeProviderName]}"
+    local record_provider
+    record_provider=$(echo "$record" | jq -r '.provider_name')
+    [[ -z "$alt_package" && -n "${ALT_PACKAGE_OVERRIDES[$record_provider]+x}" ]] && alt_package="${ALT_PACKAGE_OVERRIDES[$record_provider]}"
     tvc_guide=$(echo "$record" | jq -r '.tvc_guide_stationid')
     guide_offset=$(echo "$record" | jq -r '.guide_offset_hours')
     config_uuid=$(echo "$record" | jq -r '.configuration_uuid')
@@ -210,7 +183,7 @@ cdvrCustomSource() {
   echo -e "\n[INFO] CDVR Custom Source update completed for ADBTuner provider: $nativeProviderName"
 }
 
-ALL_PROVIDERS=(app_nbc app_cbs app_foxone app_pbs app_espn app_nfl app_hgtv app_cnn app_tbs app_tnt app_trutv app_ae app_history app_amc)
+ALL_PROVIDERS=(app_nbc app_cbs app_foxone app_pbs app_pbskids app_espn app_nfl app_hgtv app_cnn app_tbs app_tnt app_trutv app_ae app_history app_fyi app_lifetime app_amc)
 
 declare -A ALT_PACKAGE_OVERRIDES
 ALT_PACKAGE_OVERRIDES=(
@@ -218,20 +191,40 @@ ALT_PACKAGE_OVERRIDES=(
   [app_espn]="com.espn.gtv"
   [app_amc]="com.amctve.amcfiretv"
   [app_cnn]="com.cnn.mobile.fire.tv"
+  [app_lifetime]="com.aetn.lifetime.watch"
+  [app_ae]="com.aetn.aetv.watch"
+  [app_history]="com.aetn.history.watch"
+  [app_hgtv]="tv.accedo.hgtv"
+  [app_trutv]="com.turner.truTV"
+  [app_fyi]="com.aetn.fyi.watch"
 )
 
 main() {
+  if [[ "$nativeProviderName" == "remove_only" ]]; then
+    if [[ "$nativeRemove" == "ALL" ]]; then
+      nativeRemove="native"
+      deleteExistingNative
+    elif [[ "$nativeRemove" != "none" ]]; then
+      deleteExistingNative
+    fi
+    exit 0
+  fi
+
+  registerNativeRepo
+
   if [[ "$nativeProviderName" == "ALL" ]]; then
-    local originalRemove="$nativeRemove"
-    for provider in "${ALL_PROVIDERS[@]}"; do
-      nativeProviderName="$provider"
-      [[ "$originalRemove" == "ALL" ]] && nativeRemove="$provider" || nativeRemove="$originalRemove"
-      [[ "$nativeRemove" != "none" ]] && deleteExistingNative && echo
-      createNativeChannels
-      cdvrCustomSource
-    done
+    local nativeJSON
+    echo -e "\n[INFO] Fetching native channel data from GitHub..."
+    if ! nativeJSON=$(curl -fsS "$NATIVE_JSON_URL"); then
+      echo "[ERROR] Failed to fetch native channel JSON from GitHub"
+      exit 1
+    fi
+    nativeProviderName="native"
+    [[ "$nativeRemove" == "ALL" ]] && nativeRemove="native"
+    [[ "$nativeRemove" != "none" ]] && deleteExistingNative && echo
+    createNativeChannels "$nativeJSON"
+    cdvrCustomSource
   else
-    [[ "$nativeProviderName" == "remove_only" && "$nativeRemove" != "none" ]] && deleteExistingNative && exit 0
     [[ "$nativeRemove" != "none" ]] && deleteExistingNative && echo
     createNativeChannels
     cdvrCustomSource

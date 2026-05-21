@@ -1469,6 +1469,11 @@ actions:
     id: listrunningprojects
     execOnStartup: true
 
+  - title: EZ-Start
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: /config/ez-start.sh
+    execOnStartup: true
+
   - title: Portainer Token Creation
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/portainertoken.sh "{{ portainer_host }}" '{{ admin_password }}' "{{ token_name }}"
@@ -3144,6 +3149,8 @@ actions:
             value: app_foxone
           - title: PBS
             value: app_pbs
+          - title: PBS Kids
+            value: app_pbskids
           - title: ESPN
             value: app_espn
           - title: NFL
@@ -3162,6 +3169,10 @@ actions:
             value: app_ae
           - title: History
             value: app_history
+          - title: FYI
+            value: app_fyi
+          - title: Lifetime
+            value: app_lifetime
           - title: AMC
             value: app_amc
           - title: ALL
@@ -3180,6 +3191,8 @@ actions:
             value: app_foxone
           - title: PBS
             value: app_pbs
+          - title: PBS Kids
+            value: app_pbskids
           - title: ESPN
             value: app_espn
           - title: NFL
@@ -3198,6 +3211,10 @@ actions:
             value: app_ae
           - title: History
             value: app_history
+          - title: FYI
+            value: app_fyi
+          - title: Lifetime
+            value: app_lifetime
           - title: AMC
             value: app_amc
           - title: ALL
