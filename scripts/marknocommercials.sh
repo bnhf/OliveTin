@@ -1,6 +1,6 @@
 #!/bin/bash
 # marknocommercials.sh
-# 2026.01.18
+# 2026.05.23
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -15,9 +15,9 @@ logFile=/config/"$channelsHost"-"$channelsPort"_marknocommercials_latest.log
 fileID=$2
 
 echo "Removing commercial markers from recording with File ID: $fileID on DVR: $dvr" > $logFile
-curl -s -XPOST "http://$dvr/dvr/files/$fileID/comskip/edit?source=local" --data-raw "[]" >> $logFile
+curl -s -XPOST "http://$dvr/dvr/files/$fileID/comskip/edit?source=standard" --data-raw "[]" >> $logFile
 echo -e "\n\nRefreshing Metadata" >> $logFile
 curl -s -XPUT "http://$dvr/dvr/files/$fileID/reprocess" >> $logFile
 echo -e "\n\nRegenerating Video Index" >> $logFile
-curl -s -XPUT "http://$dvr/dvr/files/$fileID/m3u8" >> $logFile
+curl -s -XPUT "http://$dvr/dvr/files/$fileID/fingerprint" >> $logFile
 cat $logFile
