@@ -1196,6 +1196,9 @@
             { display: "FYI", value: "app_fyi" },
             { display: "Lifetime", value: "app_lifetime" },
             { display: "AMC", value: "app_amc" },
+            { display: "CNBC", value: "app_cnbc" },
+            { display: "MSNBC", value: "app_msnow" },
+            { display: "Disney+", value: "app_disneyplus" },
             { display: "ALL", value: "ALL" },
             { display: "Remove Only", value: "remove_only" },
           ]
@@ -1223,6 +1226,9 @@
             { display: "FYI", value: "app_fyi" },
             { display: "Lifetime", value: "app_lifetime" },
             { display: "AMC", value: "app_amc" },
+            { display: "CNBC", value: "app_cnbc" },
+            { display: "MSNBC", value: "app_msnow" },
+            { display: "Disney+", value: "app_disneyplus" },
             { display: "ALL", value: "ALL" },
             { display: "none", value: "none" },
           ]

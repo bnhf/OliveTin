@@ -1472,6 +1472,7 @@ actions:
   - title: EZ-Start
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/ez-start.sh
+    hidden: true
     execOnStartup: true
 
   - title: Portainer Token Creation
@@ -3175,6 +3176,12 @@ actions:
             value: app_lifetime
           - title: AMC
             value: app_amc
+          - title: CNBC
+            value: app_cnbc
+          - title: MSNBC
+            value: app_msnow
+          - title: Disney+
+            value: app_disneyplus
           - title: ALL
             value: ALL
           - title: Remove Only
@@ -3217,6 +3224,12 @@ actions:
             value: app_lifetime
           - title: AMC
             value: app_amc
+          - title: CNBC
+            value: app_cnbc
+          - title: MSNBC
+            value: app_msnow
+          - title: Disney+
+            value: app_disneyplus
           - title: ALL
             value: ALL
           - title: none
@@ -4226,7 +4239,6 @@ dashboards:
         - title: Create an OliveTin Stack in Portainer
         - title: Create an Organizr Stack in Portainer
         - title: Create a Pinchflat Stack in Portainer
-        - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Install Portainer on your Docker Host
         - title: Create an PrismCast Stack in Portainer + CDVR Custom Channels
@@ -4235,7 +4247,6 @@ dashboards:
         - title: Create a Stream Link Manager Stack in Portainer
         - title: Create a Threadfin Stack in Portainer
         - title: Create a TubeArchivist Stack in Portainer
-        - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a TV-Logo-Manager Stack in Portainer
         - title: Create a VLC-Bridge-Fubo Stack in Portainer + CDVR Custom Channels
         - title: Create a VLC-Bridge-PBS Stack in Portainer + CDVR Custom Channels
@@ -4259,8 +4270,10 @@ dashboards:
         - title: Create a ChannelWatch Stack in Portainer
         - title: Create a Channels-App-Remote Stack in Portainer
         - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Pluto-for-Channels2 Stack in Portainer + CDVR Custom Channels
         - title: Create a Stirr-for-Channels Stack in Portainer + CDVR Custom Channels
+        - title: Create a Tubi-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Live YouTube Channel Manifest URL Updater
   - title: Experimental
     contents:
