@@ -3182,6 +3182,8 @@ actions:
             value: app_msnow
           - title: Disney+
             value: app_disneyplus
+          - title: HBO Max
+            value: app_hbomax
           - title: ALL
             value: ALL
           - title: Remove Only
@@ -3230,6 +3232,8 @@ actions:
             value: app_msnow
           - title: Disney+
             value: app_disneyplus
+          - title: HBO Max
+            value: app_hbomax
           - title: ALL
             value: ALL
           - title: none

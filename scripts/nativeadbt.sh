@@ -1,6 +1,6 @@
 #!/bin/bash
 # nativeadbt.sh
-# 2026.06.02
+# 2026.06.11
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -183,7 +183,7 @@ cdvrCustomSource() {
   echo -e "\n[INFO] CDVR Custom Source update completed for ADBTuner provider: $nativeProviderName"
 }
 
-ALL_PROVIDERS=(app_nbc app_cbs app_foxone app_pbs app_pbskids app_espn app_nfl app_hgtv app_cnn app_tbs app_tnt app_trutv app_ae app_history app_fyi app_lifetime app_amc app_cnbc app_msnow)
+ALL_PROVIDERS=(app_nbc app_cbs app_foxone app_pbs app_pbskids app_espn app_nfl app_hgtv app_cnn app_tbs app_tnt app_trutv app_ae app_history app_fyi app_lifetime app_amc app_cnbc app_msnow app_disneyplus app_hbomax)
 
 declare -A ALT_PACKAGE_OVERRIDES
 ALT_PACKAGE_OVERRIDES=(
@@ -199,6 +199,7 @@ ALT_PACKAGE_OVERRIDES=(
   [app_fyi]="com.aetn.fyi.watch"
   [app_cnbc]="com.nbcuni.cnbc.tve"
   [app_msnow]="com.nbcnews.msnbc"
+  [app_hbomax]="com.hbo.hbonow"
 )
 
 main() {

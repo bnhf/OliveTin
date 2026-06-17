@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.05.19.0830
+// @version      2026.06.11.1452
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -1199,6 +1199,7 @@
             { display: "CNBC", value: "app_cnbc" },
             { display: "MSNBC", value: "app_msnow" },
             { display: "Disney+", value: "app_disneyplus" },
+            { display: "HBO Max", value: "app_hbomax" },
             { display: "ALL", value: "ALL" },
             { display: "Remove Only", value: "remove_only" },
           ]
@@ -1229,6 +1230,7 @@
             { display: "CNBC", value: "app_cnbc" },
             { display: "MSNBC", value: "app_msnow" },
             { display: "Disney+", value: "app_disneyplus" },
+            { display: "HBO Max", value: "app_hbomax" },
             { display: "ALL", value: "ALL" },
             { display: "none", value: "none" },
           ]
