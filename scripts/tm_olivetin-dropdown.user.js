@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.06.11.1452
+// @version      2026.06.22.1320
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -815,6 +815,16 @@
         { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
         { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
         { name: "HOST_PORT", label: "Host Port", default: "8090", description: "Use recommended port, or change if already in use" },
+      ],
+    },
+    {
+      id: "channelwatch",
+      label: "ChannelWatch",
+      title: "Create a ChannelWatch Stack in Portainer",
+      arguments: [
+        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        { name: "HOST_PORT", label: "Host Port", default: "8501", description: "Use recommended port, or change if already in use" },
+        { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data. Sub-directory will be channelwatch" },
       ],
     },
     {

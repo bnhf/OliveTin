@@ -4226,6 +4226,7 @@ dashboards:
         - title: Create a Channels-Collection-Manager Stack in Portainer
         - title: Create a Channels-Manager Stack in Portainer
         - title: Create a Channels DVR Stack in Portainer
+        - title: Create a ChannelWatch Stack in Portainer
         - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
         - title: Create an EPlusTV Stack in Portainer + CDVR Custom Channels
         - title: Create an ESPN4cc4c Stack in Portainer + CDVR Custom Channels
@@ -4271,7 +4272,6 @@ dashboards:
         - title: Generate Plex Token for Use with Plex M3U
         - title: Generate Plex M3U & XML w/Plex Token
         - title: ChannelWatch Real-Time Alerts for CDVR
-        - title: Create a ChannelWatch Stack in Portainer
         - title: Create a Channels-App-Remote Stack in Portainer
         - title: Create a MLB.tv-for-Channels Stack in Portainer + CDVR Custom Channels
         - title: Create a Plex-for-Channels Stack in Portainer + CDVR Custom Channels

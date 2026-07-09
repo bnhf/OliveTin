@@ -1,6 +1,6 @@
 #!/bin/bash
 # generatem3u.sh
-# 2026.01.06
+# 2026.06.19
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -29,7 +29,7 @@ duration=$8
 m3uFolder=/config/data/"$channelsHost"-"$channelsPort" && mkdir -p $m3uFolder
   [[ -z "$collection" ]] && m3uFile="$m3uFolder"/"$source".m3u
   [[ -n "$collection" ]] && m3uFile="$m3uFolder"/"${collection// /}".m3u
-echo "m3uFile=$m3uFile" >&2
+echo "m3uFile=$m3uFile" >&3
 
 buildURL() {
   concatenator="?"
@@ -71,17 +71,17 @@ outputCollectionM3U() {
   echo -e "#EXTM3U\n" > $m3uFile
 
   for collectionChannelID in "${collectionChannelIDs[@]}"; do
-    echo -e "\ncollectionChannelID=$collectionChannelID" >&2
+    echo -e "\ncollectionChannelID=$collectionChannelID" >&3
     #collectionChannelNumber=$(echo "$allChannelsJSON" | jq -r '.[] | select(.Channel.ChannelID == "'"$collectionChannelID"'") | .Channel.Number')
     collectionChannelNumber=$(echo "$allChannelsJSON" | jq -r '[.[] | select(.Channel.ChannelID == "'"$collectionChannelID"'") | .Channel.Number][0]')
-    echo "$allChannelsJSON" | jq -c '[.[] | select(.Channel.ChannelID == "'"$collectionChannelID"'") | .Channel.Number][0]' >&2
-    echo "collectionChannelNumber=$collectionChannelNumber" >&2
+    echo "$allChannelsJSON" | jq -c '[.[] | select(.Channel.ChannelID == "'"$collectionChannelID"'") | .Channel.Number][0]' >&3
+    echo "collectionChannelNumber=$collectionChannelNumber" >&3
     [[ "$collectionChannelNumber" == "null" || -z "$collectionChannelNumber" ]] && continue
     #[[ -z $filter ]] && collectionChannelM3U=$(echo "$allChannelsM3U" | jq -r '.[] | select(.GuideNumber == "'"$collectionChannelNumber"'") | "#EXTINF:-1 channel-id=\"\(.GuideNumber)\" tvg-id=\"\(.GuideNumber)\" tvg-chno=\"\(.GuideNumber)\" tvg-logo=\"\(.Logo)\" tvc-guide-stationid=\"\(.Station)\" tvg-name=\"\(.GuideName)\",\(.GuideName)\nhttp://'$dvr'/devices/ANY/channels/\(.GuideNumber)/'$streamURL'"')
     [[ -z $filter ]] && collectionChannelM3U=$(echo "$allChannelsM3U" | jq -r '[.[] | select(.GuideNumber == "'"$collectionChannelNumber"'") | "#EXTINF:-1 channel-id=\"\(.GuideNumber)\" tvg-id=\"\(.GuideNumber)\" tvg-chno=\"\(.GuideNumber)\" tvg-logo=\"\(.Logo)\" tvc-guide-stationid=\"\(.Station)\" tvg-name=\"\(.GuideName)\",\(.GuideName)\nhttp://'"$dvr"'/devices/ANY/channels/\(.GuideNumber)/'"$streamURL"'"][0]')
     [[ $logos ]] && contentID=$(echo "$allContentUploads" | jq -r --arg number "$collectionChannelNumber" '.[] | select(.Name | test("^" + $number + "\\.(png|jpg)$")).ID') \
       && collectionChannelM3U=$(echo "$allChannelsM3U" | jq -r --arg contentID "$contentID" --arg dvr "$dvr" --arg channelNumber "$collectionChannelNumber" '.[] | select(.GuideNumber == $channelNumber) | "#EXTINF:-1 channel-id=\"\(.GuideNumber)\" tvg-id=\"\(.GuideNumber)\" tvg-chno=\"\(.GuideNumber)\" tvg-logo=\"https://\($dvr)/dvr/uploads/\($contentID)/content\" tvc-guide-stationid=\"\(.Station)\" tvg-name=\"\(.GuideName)\",\(.GuideName)"')
-    echo "$allChannelsM3U" | jq -c --arg contentID "$contentID" --arg dvr "$dvr" --arg channelNumber "$collectionChannelNumber" '.[] | select(.GuideNumber == $channelNumber)' >&2
+    echo "$allChannelsM3U" | jq -c --arg contentID "$contentID" --arg dvr "$dvr" --arg channelNumber "$collectionChannelNumber" '.[] | select(.GuideNumber == $channelNumber)' >&3
     [[ -n $collectionChannelM3U ]] && echo -e "$collectionChannelM3U\n" | awk '!seen[$0]++' | tr -s '\n' | sed 's/#EXTINF/\n#EXTINF/g' >> $m3uFile
   done
 
