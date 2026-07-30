@@ -1,6 +1,6 @@
 #!/bin/bash
 # nativeadbt.sh
-# 2026.06.11
+# 2026.07.30
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -13,7 +13,6 @@ adbtunerSource="$2:$3"
 nativeProviderName="$4"
 nativeRemove="$5"
 [[ "$6" == "#" ]] && adbtStartingChannel="" || adbtStartingChannel="$6"
-[[ -n $adbtStartingChannel ]] && adbtIgnoreM3UNumbers="ignore" || adbtIgnoreM3UNumbers=""
 
 NATIVE_JSON_URL="https://raw.githubusercontent.com/babsonnexus/hdmi-encoder-native-apps/main/adbtuner_native/stations/0000_app_all_stations.json"
 NATIVE_REPO_URL="https://github.com/babsonnexus/hdmi-encoder-native-apps"
@@ -21,16 +20,25 @@ NATIVE_REPO_URL="https://github.com/babsonnexus/hdmi-encoder-native-apps"
 curl -s -o /dev/null http://$adbtunerSource || { echo "ADBTuner not answering on http://$adbtunerSource"; exit 1; }
 
 deleteExistingNative() {
-  echo -e "[INFO] Deleting existing channels for provider: $nativeRemove..."
+  local filterDesc="$nativeRemove"
+  local jqSelect
+  if [[ "$nativeRemove" == "ALL" ]]; then
+    jqSelect='(.provider_name == "native") or (.provider_name | startswith("app_"))'
+    filterDesc="native + app_* (ALL)"
+  else
+    jqSelect='.provider_name == $provider'
+  fi
+
+  echo -e "[INFO] Deleting existing channels for provider: $filterDesc..."
   curl -fsS "http://$adbtunerSource/api/v1/channels" -H 'accept: application/json' \
-  | jq -r --arg provider "$nativeRemove" '.[] | select(.provider_name == $provider) | .id' \
+  | jq -r --arg provider "$nativeRemove" ".[] | select($jqSelect) | .id" \
   | while read -r adbtunerChannel; do
       [[ -z "$adbtunerChannel" ]] && continue
       nativeChannel="http://$adbtunerSource/api/v1/channels/$adbtunerChannel"
-      echo -e "\nDELETE $nativeRemove $nativeChannel"
+      echo -e "\nDELETE $filterDesc $nativeChannel"
       curl -sS -X DELETE "$nativeChannel"
     done
-  echo -e "\n[INFO] Deletion of existing channels for provider: $nativeRemove completed."
+  echo -e "\n[INFO] Deletion of existing channels for provider: $filterDesc completed."
 }
 
 registerNativeRepo() {
@@ -98,13 +106,14 @@ createNativeChannels() {
 
   echo -e "\n[INFO] Creating $count channel(s) for provider: $nativeProviderName"
 
-  local firstNumber
-  firstNumber=$(echo "$filteredRecords" | jq '.[0].number')
+  local channelCounter
+  [[ -n $adbtStartingChannel ]] && channelCounter=$adbtStartingChannel || channelCounter=""
 
   while IFS= read -r record; do
-    local name number url package_name alt_package tvc_guide guide_offset config_uuid m3u_id channelNumber
+    local name number sort_order url package_name alt_package tvc_guide guide_offset config_uuid m3u_id channelNumber
     name=$(echo "$record" | jq -r '.name')
     number=$(echo "$record" | jq -r '.number')
+    sort_order=$(echo "$record" | jq -r '.sort_order | tonumber | floor')
     url=$(echo "$record" | jq -r '.url')
     package_name=$(echo "$record" | jq -r '.package_name')
     alt_package=$(echo "$record" | jq -r '.alternate_package_name')
@@ -115,12 +124,14 @@ createNativeChannels() {
     guide_offset=$(echo "$record" | jq -r '.guide_offset_hours')
     config_uuid=$(echo "$record" | jq -r '.configuration_uuid')
     m3u_id="${nativeProviderName}_${number}"
-    [[ -n $adbtStartingChannel ]] && channelNumber=$(( number - firstNumber + adbtStartingChannel )) || channelNumber=$number
+    channelNumber=$channelCounter
+    [[ -n $channelCounter ]] && (( channelCounter++ ))
 
     jq -n \
       --arg m3u_id "$m3u_id" \
       --arg provider "$nativeProviderName" \
-      --argjson number "$channelNumber" \
+      --arg number "$channelNumber" \
+      --argjson sort_order "$sort_order" \
       --arg name "$name" \
       --arg package "$package_name" \
       --arg alt_package "$alt_package" \
@@ -131,7 +142,8 @@ createNativeChannels() {
       '{
         m3u_id: $m3u_id,
         provider_name: $provider,
-        number: $number,
+        number: (if $number == "" then "" else ($number | tonumber) end),
+        sort_order: $sort_order,
         name: $name,
         package_name: $package,
         alternate_package_name: $alt_package,
@@ -165,8 +177,8 @@ cat <<EOF
   "refresh": "24",
   "limit": "",
   "satip": "",
-  "numbering": "$adbtIgnoreM3UNumbers",
-  "start_number": "$adbtStartingChannel",
+  "numbering": "",
+  "start_number": "",
   "logos": "",
   "xmltv_url": "",
   "xmltv_refresh": "3600"
@@ -175,15 +187,21 @@ EOF
 }
 
 cdvrCustomSource() {
-  echo -e "\n[INFO] Updating Custom Source in CDVR for ADBTuner provider: $nativeProviderName..."
+  local sourceName="ADBTuner-${nativeProviderName// /}"
+  local sourceURL="http://$dvr/providers/m3u/sources/$sourceName"
+
+  echo -e "\n[INFO] Deleting existing Custom Source in CDVR for ADBTuner provider: $nativeProviderName..."
+  curl -s -X DELETE "$sourceURL"
+
+  echo -e "\n[INFO] Creating Custom Source in CDVR for ADBTuner provider: $nativeProviderName..."
   customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
 
   echo -e "JSON response from $dvr:" \
-  && curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" "http://$dvr/providers/m3u/sources/ADBTuner-${nativeProviderName// /}"
-  echo -e "\n[INFO] CDVR Custom Source update completed for ADBTuner provider: $nativeProviderName"
+  && curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" "$sourceURL"
+  echo -e "\n[INFO] CDVR Custom Source creation completed for ADBTuner provider: $nativeProviderName"
 }
 
-ALL_PROVIDERS=(app_nbc app_cbs app_foxone app_pbs app_pbskids app_espn app_nfl app_hgtv app_cnn app_tbs app_tnt app_trutv app_ae app_history app_fyi app_lifetime app_amc app_cnbc app_msnow app_disneyplus app_hbomax)
+ALL_PROVIDERS=(app_nbc app_cbs app_foxone app_pbs app_pbskids app_espn app_nfl app_hgtv app_cnn app_tbs app_tnt app_trutv app_ae app_history app_fyi app_lifetime app_amc app_cnbc app_msnow app_disneyplus app_hbomax app_cbssports)
 
 declare -A ALT_PACKAGE_OVERRIDES
 ALT_PACKAGE_OVERRIDES=(
@@ -200,16 +218,12 @@ ALT_PACKAGE_OVERRIDES=(
   [app_cnbc]="com.nbcuni.cnbc.tve"
   [app_msnow]="com.nbcnews.msnbc"
   [app_hbomax]="com.hbo.hbonow"
+  [app_cbssports]="com.handmark.sportcaster"
 )
 
 main() {
   if [[ "$nativeProviderName" == "remove_only" ]]; then
-    if [[ "$nativeRemove" == "ALL" ]]; then
-      nativeRemove="native"
-      deleteExistingNative
-    elif [[ "$nativeRemove" != "none" ]]; then
-      deleteExistingNative
-    fi
+    [[ "$nativeRemove" != "none" ]] && deleteExistingNative
     exit 0
   fi
 
@@ -223,7 +237,6 @@ main() {
       exit 1
     fi
     nativeProviderName="native"
-    [[ "$nativeRemove" == "ALL" ]] && nativeRemove="native"
     [[ "$nativeRemove" != "none" ]] && deleteExistingNative && echo
     createNativeChannels "$nativeJSON"
     cdvrCustomSource
