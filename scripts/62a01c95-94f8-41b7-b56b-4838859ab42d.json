@@ -1,7 +1,7 @@
 {
-    "name": "FruitDeepLinks - Parmount+ v4.0 (FireTV and AndroidTV)",
+    "name": "FruitDeepLinks - Parmount+ v4.1 (FireTV and AndroidTV)",
     "author": "bnhf",
-    "version": "4.0",
+    "version": "4.1",
     "description": "Paramount+ for FruitDeepLinks. Compatible with FireTV and AndroidTV devices.",
     "uuid": "62a01c95-94f8-41b7-b56b-4838859ab42d",
     "global_options": {
@@ -21,7 +21,8 @@
         {
             "match_text": [
                 "who's watching",
-                "edit profiles"
+                "edit profiles",
+                "watch live"
             ],
             "commands": [
                 "input keyevent KEYCODE_DPAD_CENTER"
