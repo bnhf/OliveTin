@@ -1,6 +1,6 @@
 #!/bin/bash
 # channelwatch.sh
-# 2026.01.18
+# 2026.08.24
 
 script=$(basename "$0" | sed 's/\.sh$//')
 exec 3> /config/$script.debug.log
@@ -16,15 +16,19 @@ dirsFile="/tmp/$extension.dirs"
 secondArgument="$2"
   [[ $secondArgument =~ ^[0-9]$ ]] && echo "ChannelWatch is no longer supported as an OliveTin Action. Please install it via Project One-Click instead" \
   && /config/channelwatch_old.sh $1 0 && exit 0
+channelwatchSecretStorageKey=$4
+  [[ $channelwatchSecretStorageKey == "#" ]] && channelwatchSecretStorageKey=$(openssl rand -base64 48)
 
 envVars=(
 "TAG=$1"
 "HOST_PORT=$2"
-"HOST_DIR=$3"
+"TZ=$3"
+"CHANNELWATCH_SECRET_STORAGE_KEY=$channelwatchSecretStorageKey"
+"HOST_DIR=$5"
 )
 
 synologyDirs=(
-"$3/channelwatch"
+"$5/channelwatch"
 )
 
 printf "%s\n" "${envVars[@]}" > $envFile

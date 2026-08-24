@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.06.22.1320
+// @version      2026.08.24.1102
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -824,6 +824,8 @@
       arguments: [
         { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
         { name: "HOST_PORT", label: "Host Port", default: "8501", description: "Use recommended port, or change if already in use" },
+        { name: "TZ", label: "Timezone", default: "${TZ}", description: "Your local timezone in Linux tz format" },
+        { name: "CHANNELWATCH_KEY", label: "ChannelWatch Key", default: "#", description: "Secret key to encrypt/decrypt sensitive data. Leave as # to auto-generate" },
         { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data. Sub-directory will be channelwatch" },
       ],
     },
@@ -848,8 +850,10 @@
             { display: "Channels DVR", value: "channels-dvr" },
             { display: "Channels-Manager", value: "channels-manager" },
             { display: "cc4c", value: "cc4c" },
+            { display: "ChannelWatch", value: "channelwatch" },
             { display: "EPlusTV", value: "eplustv" },
             { display: "ESPN4cc4c", value: "espn4cc4c" },
+            { display: "FastChannels", value: "fastchannels" },
             { display: "FileBot", value: "filebot" },
             { display: "FrndlyTV-for-Channels", value: "frndlytv-for-channels" },
             { display: "FruitDeepLinks", value: "fruitdeeplinks" },
@@ -1582,6 +1586,7 @@
             { display: "cc4c (ChromeCapture-for-Channels)", value: "cc4c+cc4c:latest+cc4c" },
             { display: "EPlusTV", value: "eplustv+eplustv:latest+EPlusTV+EPlusTV-Linear" },
             { display: "ESPN4cc4c", value: "espn4cc4c+espn4cc4c:latest+ESPN4cc4c+ESPN4ch4c" },
+            { display: "FastChannels", value: "fastchannels+fastchannels:latest" },
             { display: "FileBot", value: "filebot+filebot:latest" },
             { display: "FrndlyTV-for-Channels", value: "frndlytv-for-channels+frndlytv-for-channels:latest+FrndlyTV+FrndlyTV-NoEPG" },
             { display: "MediaInfo", value: "mediainfo+mediainfo:latest" },

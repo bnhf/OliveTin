@@ -1,13 +1,16 @@
-version: '3.0'
 services:
   channelwatch:
-    # 2025.04.26
+    # 2026.08.24
     # GitHub home for this project: https://github.com/CoderLuii/ChannelWatch.
     # Docker container home for this project with setup instructions: https://hub.docker.com/r/coderluii/channelwatch.
     image: coderluii/channelwatch:${TAG:-latest}
     container_name: channelwatch
+    init: true
     ports:
       - ${HOST_PORT:-8501}:8501
+    environment:
+      - TZ=${TZ:-America/New_York}
+      - CHANNELWATCH_SECRET_STORAGE_KEY=${CHANNELWATCH_SECRET_STORAGE_KEY:-}
     volumes:
       - ${HOST_DIR}/channelwatch:/config
     restart: unless-stopped

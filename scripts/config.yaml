@@ -2275,7 +2275,7 @@ actions:
 
   - title: Create a ChannelWatch Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #channelwatch icon
-    shell: /config/channelwatch.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ HOST_DIR }}"
+    shell: /config/channelwatch.sh "{{ TAG }}" "{{ HOST_PORT }}" "{{ TZ }}" "{{ CHANNELWATCH_KEY }}" "{{ HOST_DIR }}"
     id: channelwatch #project-one-click
     popupOnStart: execution-dialog-stdout-only
     arguments:
@@ -2287,10 +2287,18 @@ actions:
         type: int
         description: Use the recommended port number, or optionally change it if the port is already in use on your host.
         default: 8501
+      - name: TZ
+        type: very_dangerous_raw_string
+        description: Your local timezone in Linux "tz" format.
+        default: America/New_York #TZ default
+      - name: CHANNELWATCH_KEY
+        type: very_dangerous_raw_string
+        description: A secret key used to encrypt and decrypt sensitive data stored by ChannelWatch. It should be a long, random string of characters. If you change this key, you will lose access to any previously stored sensitive data. Leave as "#" to have Project One-Click generate a new key automatically.
+        default: "#"
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directory will be channelwatch.
-        default: /data #HOST_DIR default
+        default: /data
     timeout: 40
 
   - title: Create a cc4c Stack in Portainer + CDVR Custom Channels
