@@ -1856,7 +1856,7 @@ actions:
 
   - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #ah4c icon
-    shell: /config/ah4c.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ ADBS_PORT }}" "{{ HOST_PORT }}" "{{ SCRC_PORT }}" "{{ IPADDRESS }}" "{{ NUMBER_TUNERS }}" "{{ TUNER1_IP }}" "{{ ENCODER1_URL }}" "{{ TUNER2_IP }}" "{{ ENCODER2_URL }}" "{{ TUNER3_IP }}" "{{ ENCODER3_URL }}" "{{ TUNER4_IP }}" "{{ ENCODER4_URL }}" "{{ TUNER5_IP }}" "{{ ENCODER5_URL }}" "{{ TUNER6_IP }}" "{{ ENCODER6_URL }}" "{{ TUNER7_IP }}" "{{ ENCODER7_URL }}" "{{ TUNER8_IP }}" "{{ ENCODER8_URL }}" "{{ TUNER9_IP }}" "{{ ENCODER9_URL }}" "{{ STREAMER_APP }}" "{{ CHANNELSIP }}" "{{ ALERT_SMTP_SERVER }}" "{{ ALERT_AUTH_SERVER }}" "{{ ALERT_EMAIL_FROM }}" "{{ ALERT_EMAIL_PASS }}" "{{ ALERT_EMAIL_TO }}" "{{ LIVETV_ATTEMPTS }}" "{{ CREATE_M3US }}" "{{ UPDATE_SCRIPTS }}" "{{ UPDATE_M3US }}" "{{ TZ }}" "{{ SPEED_MODE }}" "{{ KEEP_WATCHING }}" "{{ AUTOCROP_CHANNELS }}" "{{ LINKPI_HOSTNAME }}" "{{ LINKPI_USERNAME }}" "{{ LINKPI_PASSWORD }}" "{{ USER_SCRIPT }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}" "{{ CDVR_M3U_NAME}}" "{{ AH4C_CONTAINER }}"
+    shell: /config/ah4c.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ DOCKER_RUNTIME }}" "{{ GPU_DEVICE }}" "{{ HOST_PORT }}" "{{ IPADDRESS }}" "{{ NUMBER_TUNERS }}" "{{ TUNER1_IP }}" "{{ ENCODER1_URL }}" "{{ TUNER2_IP }}" "{{ ENCODER2_URL }}" "{{ TUNER3_IP }}" "{{ ENCODER3_URL }}" "{{ TUNER4_IP }}" "{{ ENCODER4_URL }}" "{{ TUNER5_IP }}" "{{ ENCODER5_URL }}" "{{ TUNER6_IP }}" "{{ ENCODER6_URL }}" "{{ TUNER7_IP }}" "{{ ENCODER7_URL }}" "{{ TUNER8_IP }}" "{{ ENCODER8_URL }}" "{{ TUNER9_IP }}" "{{ ENCODER9_URL }}" "{{ STREAMER_APP }}" "{{ PYATV }}" "{{ CHANNELSIP }}" "{{ ALERT_SMTP_SERVER }}" "{{ ALERT_AUTH_SERVER }}" "{{ ALERT_EMAIL_FROM }}" "{{ ALERT_EMAIL_PASS }}" "{{ ALERT_EMAIL_TO }}" "{{ ALERT_WEBHOOK_URL }}" "{{ LIVETV_ATTEMPTS }}" "{{ CREATE_M3US }}" "{{ UPDATE_SCRIPTS }}" "{{ UPDATE_M3US }}" "{{ TZ }}" "{{ SPEED_MODE }}" "{{ KEEP_WATCHING }}" "{{ AUTOCROP_CHANNELS }}" "{{ LINKPI_HOSTNAME }}" "{{ LINKPI_USERNAME }}" "{{ LINKPI_PASSWORD }}" "{{ USER_SCRIPT }}" "{{ NULL_FRAME_INSERTION }}" "{{ PLAYBACK_DETECTION }}" "{{ PLAYBACK_STATIC_TIMEOUT }}" "{{ PLAYBACK_DELAY }}" "{{ PREROLL_FILE }}" "{{ ENCODER_CODEC }}" "{{ HEARTBEAT_INTERVAL }}" "{{ NVIDIA_VISIBLE_DEVICES }}" "{{ NVIDIA_DRIVER_CAPABILITIES }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}" "{{ CDVR_M3U_NAME}}" "{{ AH4C_CONTAINER }}"
     id: ah4c #project-one-click
     popupOnStart: execution-dialog-stdout-only
     arguments:
@@ -1872,22 +1872,30 @@ actions:
         type: very_dangerous_raw_string
         description: Change to the name of your LAN's domain, which is usually local or localdomain.
         default: localdomain
-      - name: ADBS_PORT
-        type: int
-        description: Use the recommended port number for the ADB Server, or optionally change it if the port is already in use on your host.
-        default: 5037
+      - name: DOCKER_RUNTIME
+        description: Closed captions only. Set to nvidia for an NVIDIA GPU with the CUDA engine build. Requires the NVIDIA container toolkit.
+        choices:
+          - title: runc
+            value: runc
+          - title: nvidia
+            value: nvidia
+        default: runc
+      - name: GPU_DEVICE
+        description: Closed captions only. Set to /dev/dri to let the Vulkan engine build use an Intel or AMD GPU. Default does nothing.
+        choices:
+          - title: /dev/null
+            value: /dev/null
+          - title: /dev/dri
+            value: /dev/dri
+        default: /dev/null
       - name: HOST_PORT
         type: int
         description: Use the recommended port number for ah4c, or optionally change it if the port is already in use on your host.
         default: 7654
-      - name: SCRC_PORT
-        type: int
-        description: Use the recommended port number for ws-scrcpy, or optionally change it if the port is already in use on your host.
-        default: 7655
       - name: IPADDRESS
         type: very_dangerous_raw_string
         description: Hostname or IP address of this ah4c extension to be used in M3U file (also add port number if not in M3U).
-        default: htpc6:7654 #PORTAINER_HOST default
+        default: htpc6:7654
       - name: NUMBER_TUNERS
         type: int
         description: Number of tuners you'd like defined 1, 2, 3 or 4 supported.
@@ -1968,10 +1976,18 @@ actions:
         type: very_dangerous_raw_string
         description: Streaming device name and streaming app you're using in the form scripts/streamer/app.
         default: scripts/firetv/directv
+      - name: PYATV
+        description: Set to true to run pyatv at container start for Apple TV tuners, instead of the default adb-based docker-start.sh.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false"
       - name: CHANNELSIP
         type: very_dangerous_raw_string
         description: Hostname or IP address of the Channels DVR server itself.
-        default: media-server8
+        default: channels
       - name: ALERT_SMTP_SERVER
         type: very_dangerous_raw_string
         description: "The domainname:port of the SMTP server you'll be using. This is for sending ah4c alerts if tuning fails. Use # for none."
@@ -1992,28 +2008,47 @@ actions:
         type: very_dangerous_raw_string
         description: "The e-mail address you'd like your alert e-mails sent to. Use # for none."
         default: xxxxxxxxxx@gmail.com
+      - name: ALERT_WEBHOOK_URL
+        type: very_dangerous_raw_string
+        description: URL to GET when an alert fires; put $reason in the URL for the URL-encoded message. Blank disables it.
       - name: LIVETV_ATTEMPTS
         type: very_dangerous_raw_string
         description: For FireTV Live Guide tuning only, set maximum number of attempts at finding the desired channel.
       - name: CREATE_M3US
-        type: ascii
         description: Set to true to create device-specific M3Us for use with Amazon Prime Premium channels -- requires a FireTV device.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
         default: "false"
       - name: UPDATE_SCRIPTS
-        type: ascii
         description: Set to true if you'd like the sample scripts and STREAMER_APP scripts updated whether they exist of not.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
         default: "true"
       - name: UPDATE_M3US
-        type: ascii
         description: Set to true if you'd like the sample m3us updated whether they exist of not.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
         default: "true"
       - name: TZ
         type: very_dangerous_raw_string
         description: Your local timezone in Linux "tz" format.
-        default: US/Mountain #TZ default
+        default: America/Denver #TZ default
       - name: SPEED_MODE
-        type: ascii
         description: Set to false if you'd like the target streaming app to be closed after each tuning cycle (limited script support).
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
         default: "false"
       - name: KEEP_WATCHING
         type: ascii
@@ -2034,10 +2069,53 @@ actions:
       - name: USER_SCRIPT
         type: very_dangerous_raw_string
         description: A custom user script to be run at container start. If placed in /HOST_DIR/olivetin, only the script name is required, like ./userscript.sh
+      - name: NULL_FRAME_INSERTION
+        description: Set to true to fill encoder stalls with MPEG-TS NULL packets (PID 0x1FFF) so the DVR never sees a zero-byte gap mid-recording.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false"
+      - name: PLAYBACK_DETECTION
+        description: Set to true to hold the stream until audio/picture are detected, then start on a keyframe. Requires adb; network tuners only.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "false"
+      - name: PLAYBACK_STATIC_TIMEOUT
+        type: very_dangerous_raw_string
+        description: Only used with PLAYBACK_DETECTION=true. Seconds before falling back to motion-only gating. Default 2 suits Ospreys; DirecTV needs more.
+      - name: PLAYBACK_DELAY
+        type: very_dangerous_raw_string
+        description: Hold every tune this long so a slow app still records in time. Accepts seconds or 30s/1m, capped at 10m. Network tuners only. Blank disables it.
+      - name: PREROLL_FILE
+        type: very_dangerous_raw_string
+        description: Video or still image shown during a PLAYBACK_DELAY/PLAYBACK_DETECTION hold instead of NULL packets. Anything ffmpeg reads. Blank uses the default.
+      - name: ENCODER_CODEC
+        description: Video codec your encoder outputs. Filler/pre-roll must match it or playback won't cross to the program. Leave at h264 unless H.265.
+        choices:
+          - title: h264
+            value: h264
+          - title: h265
+            value: h265
+        default: h264
+      - name: HEARTBEAT_INTERVAL
+        type: int
+        description: In supported scripts (osprey), seconds between keepalive keyevents to stop the app's UI inactivity timer resetting the stream. 0 disables.
+        default: 0
+      - name: NVIDIA_VISIBLE_DEVICES
+        type: very_dangerous_raw_string
+        description: Closed captions only. Set to all alongside DOCKER_RUNTIME=nvidia to expose an NVIDIA GPU. Empty means no GPU and is the default.
+      - name: NVIDIA_DRIVER_CAPABILITIES
+        type: very_dangerous_raw_string
+        description: Closed captions only. Set to compute,utility when using an NVIDIA GPU, so the driver the CUDA engine build needs is passed in.
       - name: HOST_DIR
         type: very_dangerous_raw_string
         description: Parent directory to be used on host computer for persistent data. Sub-directories will be ah4c/scripts, ah4c/m3us, ah4c/adb.
-        default: /data #HOST_DIR default
+        default: /data
       - name: CDVR_START_CHAN
         type: very_dangerous_raw_string
         description: "Override M3U channel numbers, starting with this number. Use # to keep M3U numbering."
