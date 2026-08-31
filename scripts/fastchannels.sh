@@ -1,33 +1,23 @@
 #!/bin/bash
 # fastchannels.sh
-# 2026.03.15
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$4" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
+hostPort="$4"
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
 
 envVars=(
 "TAG=$2"
 "DOMAIN=$3"
 "HOST_PORT=$4"
 "TZ=$5"
-"FASTCHANNELS_SERVER_URL=http://$PORTAINER_HOST:$4"
+"FASTCHANNELS_SERVER_URL=http://$extensionURL"
 "CHANNELS_DVR_SERVER_URL=http://$dvr"
 )
 
-printf "%s\n" "${envVars[@]}" > $envFile
-
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1 || true
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack

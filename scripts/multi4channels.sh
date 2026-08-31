@@ -1,22 +1,16 @@
 #!/bin/bash
 # multi4channels.sh
-# 2026.01.18
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
+hostPort="$3"
 cdvrChannelNumber="$5"
 rtpPort="$8"
-curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
 
 envVars=(
 "TAG=$2"
@@ -31,6 +25,7 @@ envVars=(
 "HOST_VOLUME=$9"
 )
 
+# text blob carries JSON-escaped \" so this heredoc stays local
 customChannels() {
 cat <<EOF
 {
@@ -51,20 +46,11 @@ cat <<EOF
 EOF
 }
 
-printf "%s\n" "${envVars[@]}" > $envFile
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack
 
-sed -i '/=#/d' $envFile
+# one-clickWaitForUp [url=http://$extensionURL] [label] [maxTries=60; 0=forever]
+one-clickWaitForUp
 
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1
-
-customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
-
-while true; do
-  curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || sleep 5
-done
-
-greenEcho "\nJSON response from $dvr:"
-curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/multi4channels
+# one-clickRegisterSource <CDVR source slug> <channel JSON>
+one-clickRegisterSource multi4channels "$(customChannels)"

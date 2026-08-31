@@ -1,11 +1,10 @@
-version: '3.9'
 services:
-  tubearchivist:
-    # 2024.12.17
+  tubearchivist: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project with setup instructions: https://github.com/tubearchivist/tubearchivist
     # Docker container home for this project: https://hub.docker.com/r/bbilly1/tubearchivist
     container_name: tubearchivist
-    image: bbilly1/tubearchivist:${TAG}
+    image: bbilly1/tubearchivist:${TAG:-latest}
     ports:
       - ${HOST_PORT}:8000
     environment:
@@ -33,7 +32,7 @@ services:
     restart: unless-stopped
 
   archivist-redis:
-    image: redis/redis-stack-server:${TAG}
+    image: redis/redis-stack-server:${TAG:-latest}
     container_name: archivist-redis
     expose:
       - ${REDIS_PORT}
@@ -44,7 +43,7 @@ services:
     restart: unless-stopped
     
   archivist-es:
-    image: bbilly1/tubearchivist-es:${TAG}    # only for amd64, or use official es 8.16.0
+    image: bbilly1/tubearchivist-es:${TAG:-latest}    # only for amd64, or use official es 8.16.0
     container_name: archivist-es
     expose:
       - ${ES_PORT}
@@ -68,4 +67,4 @@ volumes:
   redis:
   es:
 
-# Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

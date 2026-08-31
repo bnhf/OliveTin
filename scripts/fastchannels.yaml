@@ -1,6 +1,6 @@
 services:
-  fastchannels:
-    # 2026.03.15
+  fastchannels: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project with setup instructions: https://github.com/kineticman/FastChannels
     # Docker container home for this project: https://github.com/kineticman/FastChannels/pkgs/container/fastchannels
     image: ghcr.io/kineticman/fastchannels:${TAG:-latest}
@@ -17,3 +17,5 @@ services:
     restart: unless-stopped
 volumes:
   db_data:
+
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

@@ -1,6 +1,6 @@
 services:
-  channelwatch:
-    # 2026.08.24
+  channelwatch: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project: https://github.com/CoderLuii/ChannelWatch.
     # Docker container home for this project with setup instructions: https://hub.docker.com/r/coderluii/channelwatch.
     image: coderluii/channelwatch:${TAG:-latest}
@@ -14,3 +14,5 @@ services:
     volumes:
       - ${HOST_DIR}/channelwatch:/config
     restart: unless-stopped
+
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

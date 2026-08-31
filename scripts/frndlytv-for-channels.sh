@@ -1,25 +1,21 @@
 #!/bin/bash
 # frndlytv-for-channels.sh
-# 2026.01.17
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "$4" == "#" ]] && georelocationIP="" || georelocationIP="$4"
-[[ "$7" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$7"
+hostPort="$3"
+georelocationIP=$(emptyIfHash "$4")
+cdvrStartingChannel="$7"
 streamLimit="$8"
-[[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
+# one-clickCdvrNumbering <CDVR starting-channel arg; "#" if unset>
+one-clickCdvrNumbering "$cdvrStartingChannel"
+# the NoEPG source starts 100 channels above the first
 [[ -n $cdvrStartingChannel ]] && cdvrStartingChannel2=$((cdvrStartingChannel + 100))
-curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
 
 envVars=(
 "TAG=$2"
@@ -29,62 +25,18 @@ envVars=(
 "PASSWORD=$6"
 )
 
-customChannels() {
-cat <<EOF
-{
-  "name": "FrndlyTV",
-  "type": "HLS",
-  "source": "URL",
-  "url": "http://$extensionURL/playlist.m3u8?gracenote=include",
-  "text": "",
-  "refresh": "24",
-  "limit": "$streamLimit",
-  "satip": "",
-  "numbering": "$cdvrIgnoreM3UNumbers",
-  "start_number": "$cdvrStartingChannel",
-  "logos": "",
-  "xmltv_url": "",
-  "xmltv_refresh": "3600"
-}
-EOF
-}
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack
 
-customChannels2() {
-cat <<EOF
-{
-  "name": "FrndlyTV-NoEPG",
-  "type": "HLS",
-  "source": "URL",
-  "url": "http://$extensionURL/playlist.m3u8?gracenote=exclude",
-  "text": "",
-  "refresh": "24",
-  "limit": "$streamLimit",
-  "satip": "",
-  "numbering": "$cdvrIgnoreM3UNumbers",
-  "start_number": "$cdvrStartingChannel2",
-  "logos": "",
-  "xmltv_url": "http://$extensionURL/epg.xml?gracenote=exclude",
-  "xmltv_refresh": "3600"
-}
-EOF
-}
+# one-clickWaitForUp [url=http://$extensionURL] [label] [maxTries=60; 0=forever]
+one-clickWaitForUp
 
-printf "%s\n" "${envVars[@]}" > $envFile
-
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1
-
-customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
-customChannelsJSON2=$(echo -n "$(customChannels2)" | tr -d '\n')
-
-while true; do
-  curl -s -o /dev/null $extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || sleep 5
-done
-
-greenEcho "\nJSON response from $dvr:"
-curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/FrndlyTV; echo
-curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON2" http://$dvr/providers/m3u/sources/FrndlyTV-NoEPG
+# one-clickRegisterSource <CDVR source slug> <channel JSON>
+# one-clickChannelJson name=.. url=.. [type=HLS] [source=URL] [text=..] [limit=..] [xmltv=..] [start=..]
+one-clickRegisterSource FrndlyTV \
+  "$(one-clickChannelJson name=FrndlyTV limit="$streamLimit" \
+     url="http://$extensionURL/playlist.m3u8?gracenote=include")"
+one-clickRegisterSource FrndlyTV-NoEPG \
+  "$(one-clickChannelJson name=FrndlyTV-NoEPG limit="$streamLimit" start="$cdvrStartingChannel2" \
+     url="http://$extensionURL/playlist.m3u8?gracenote=exclude" \
+     xmltv="http://$extensionURL/epg.xml?gracenote=exclude")"

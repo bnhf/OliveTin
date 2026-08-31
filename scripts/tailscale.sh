@@ -1,11 +1,8 @@
-#! /bin/bash
+#!/bin/bash
+# tailscale.sh
+# 2026.08.29
 
-set -x
-
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 envVars=(
 "TAG=$1"
@@ -15,10 +12,5 @@ envVars=(
 "HOST_DIR=$5"
 )
 
-printf "%s\n" "${envVars[@]}" > $envFile
-
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1 || exit 0
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack

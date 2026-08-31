@@ -1,7 +1,6 @@
-version: '3.9'
 services:
-  dvr-remote:
-    # 2025.07.10
+  dvr-remote: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project: https://github.com/nuken/channels-app-remote-plus.
     # Docker container home for this project with setup instructions: https://hub.docker.com/r/rcvaughn2/channels-remote-plus.
     image: rcvaughn2/channels-remote-plus:${TAG:-latest} # Add the tag like latest or test to the environment variables below.
@@ -11,3 +10,5 @@ services:
     environment:
       - CHANNELS_DVR_SERVERS=${CHANNELS_DVR_SERVERS}  # A comma separated list of Channels DVRs by ip:port or hostname:port.
     restart: unless-stopped
+
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

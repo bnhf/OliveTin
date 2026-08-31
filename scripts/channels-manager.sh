@@ -1,18 +1,14 @@
 #!/bin/bash
 # channels-manager.sh
-# 2026.03.08
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
+hostPort="$4"
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
 
 envVars=(
 "TAG=$2"
@@ -21,10 +17,5 @@ envVars=(
 "CHANNELS_DVR_HOST=$dvr"
 )
 
-printf "%s\n" "${envVars[@]}" > $envFile
-
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1 || exit 0
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack

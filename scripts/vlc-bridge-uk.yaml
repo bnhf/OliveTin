@@ -1,7 +1,9 @@
-version: '3.9'
 services:
-  vlc-bridge-uk:
-    image: registry.gitlab.com/miibeez/vlc-bridge-uk:${TAG}
+  vlc-bridge-uk: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
+    # GitLab home for this project: https://gitlab.com/miibeez/vlc-bridge-uk
+    # Docker container home for this project: https://gitlab.com/miibeez/vlc-bridge-uk/container_registry
+    image: registry.gitlab.com/miibeez/vlc-bridge-uk:${TAG:-latest}
     container_name: vlc-bridge-uk
     ports:
       - ${HOST_PORT}:7777
@@ -10,4 +12,4 @@ services:
       - ITV_PASS=${ITV_PASS}
     restart: unless-stopped
 
-  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

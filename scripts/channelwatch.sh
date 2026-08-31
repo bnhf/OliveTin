@@ -1,23 +1,24 @@
 #!/bin/bash
 # channelwatch.sh
-# 2026.08.24
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-dirsFile="/tmp/$extension.dirs"
-secondArgument="$2"
-  [[ $secondArgument =~ ^[0-9]$ ]] && echo "ChannelWatch is no longer supported as an OliveTin Action. Please install it via Project One-Click instead" \
-  && /config/channelwatch_old.sh $1 0 && exit 0
-channelwatchSecretStorageKey=$4
-  [[ $channelwatchSecretStorageKey == "#" ]] && channelwatchSecretStorageKey=$(openssl rand -base64 48)
+# legacy call: a single-digit $2 is the old Action's arg layout -- hand off to the old script and stop
+[[ $2 =~ ^[0-9]$ ]] && {
+  echo "ChannelWatch is no longer supported as an OliveTin Action. Please install it via Project One-Click instead"
+  /config/channelwatch_old.sh "$1" 0
+  exit 0
+}
+
+hostPort="$2"
+hostDir="$5"
+channelwatchSecretStorageKey="$4"
+# "#" means: generate a key
+[[ $channelwatchSecretStorageKey == "#" ]] && channelwatchSecretStorageKey=$(openssl rand -base64 48)
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
 
 envVars=(
 "TAG=$1"
@@ -28,14 +29,8 @@ envVars=(
 )
 
 synologyDirs=(
-"$5/channelwatch"
+"$hostDir/channelwatch"
 )
 
-printf "%s\n" "${envVars[@]}" > $envFile
-printf "%s\n" "${synologyDirs[@]}" > $dirsFile
-
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1 || exit 0
+# one-clickCreateStack -- no args; uses the envVars[] and synologyDirs[] arrays above
+one-clickCreateStack

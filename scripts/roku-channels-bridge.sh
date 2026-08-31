@@ -1,20 +1,14 @@
 #!/bin/bash
 # roku-channels-bridge.sh
-# 2026.01.17
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
+hostPort="$3"
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
 
 envVars=(
 "TAG=$2"
@@ -27,10 +21,5 @@ envVars=(
 "DEVICES=$9"
 )
 
-printf "%s\n" "${envVars[@]}" > $envFile
-
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack

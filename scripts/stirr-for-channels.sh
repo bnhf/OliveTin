@@ -1,18 +1,17 @@
-#! /bin/bash
+#!/bin/bash
+# stirr-for-channels.sh
+# 2026.08.29
 
-set -x
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "$4" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$4"
-[[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
-curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
-curlAttempts=0
-maxCurlAttempts=6
+hostPort="$3"
+cdvrStartingChannel="$4"
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
+# one-clickCdvrNumbering <CDVR starting-channel arg; "#" if unset>
+one-clickCdvrNumbering "$cdvrStartingChannel"
 
 envVars=(
 "TAG=$2"
@@ -20,40 +19,15 @@ envVars=(
 "CDVR_STARTING_CHANNELS=$4"
 )
 
-customChannels() {
-cat <<EOF
-{
-  "name": "Stirr TV",
-  "type": "HLS",
-  "source": "URL",
-  "url": "http://$extensionURL/playlist.m3u",
-  "text": "",
-  "refresh": "24",
-  "limit": "",
-  "satip": "",
-  "numbering": "$cdvrIgnoreM3UNumbers",
-  "start_number": "$cdvrStartingChannel",
-  "logos": "",
-  "xmltv_url": "http://$extensionURL/epg.xml",
-  "xmltv_refresh": "3600"
-}
-EOF
-}
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack
 
-printf "%s\n" "${envVars[@]}" > $envFile
+# one-clickWaitForUp [url=http://$extensionURL] [label] [maxTries=60; 0=forever]
+one-clickWaitForUp
 
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1
-
-customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
-
-while true; do
-  curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || { curlAttempts=$((curlAttempts + 1)); sleep 5; }
-  [[ $curlAttempts -ge $maxCurlAttempts ]] && echo "Container failed to start properly. Check Portainer logs and stop the stack" && exit 1
-done
-
-curl -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/StirrTV
+# one-clickRegisterSource <CDVR source slug> <channel JSON>
+# one-clickChannelJson name=.. url=.. [type=HLS] [source=URL] [text=..] [limit=..] [xmltv=..] [start=..]
+one-clickRegisterSource StirrTV \
+  "$(one-clickChannelJson name="Stirr TV" \
+     url="http://$extensionURL/playlist.m3u" \
+     xmltv="http://$extensionURL/epg.xml")"

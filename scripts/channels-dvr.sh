@@ -1,25 +1,20 @@
 #!/bin/bash
 # channels-dvr.sh
-# 2026.01.18
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
 hostPort="$2"
 channelsPort="$3"
+hostDir="$5"
 dvrShare="$6"
 dvrContainerDir="$7"
-cdvrContainer="${12}" && [[ "$cdvrContainer" == "#" ]] && cdvrContainer=""
-[[ -z $PORTAINER_HOST ]] && portainerHost="${CHANNELS_DVR%%:*}"
+cdvrContainer=$(emptyIfHash "${12}")
+
+# bootstrap Action -- PORTAINER_HOST may not be set yet; fall back to the
+# CHANNELS_DVR host and a token file, and hand both to portainerstack.sh
+portainerHost="${PORTAINER_HOST:-${CHANNELS_DVR%%:*}}"
 [[ -f /config/olivetin.token ]] && portainerToken=$(cat /config/olivetin.token)
-dirsFile="/tmp/$extension.dirs"
 
 envVars=(
 "TAG=$1"
@@ -37,20 +32,15 @@ envVars=(
 )
 
 synologyDirs=(
-"$5/channels-dvr$cdvrContainer"
+"$hostDir/channels-dvr$cdvrContainer"
 )
 
-printf "%s\n" "${envVars[@]}" > $envFile
-printf "%s\n" "${synologyDirs[@]}" > $dirsFile
-
-sed -i '/=#/d' $envFile
-
 stackCreated() {
-  echo "A new stack, named channels-dvr$cdvrContainer has been created in Portainer at http://$PORTAINER_HOST:9000 or https://$PORTAINER_HOST:9443"
-  echo "You can now access your new Channels DVR container at http://$PORTAINER_HOST:$hostPort (if bridge network), or http://$PORTAINER_HOST:$channelsPort (if host network)."
+  echo "A new stack, named channels-dvr$cdvrContainer has been created in Portainer at http://$portainerHost:9000 or https://$portainerHost:9443"
+  echo "You can now access your new Channels DVR container at http://$portainerHost:$hostPort (if bridge network), or http://$portainerHost:$channelsPort (if host network)."
   echo "Setup Channels DVR to use this container directory $dvrContainerDir (case sensitive) for storing recordings, since that is mapped to the host directory $dvrShare you specified."
 }
 
-/config/portainerstack.sh $extension "$portainerHost" "$portainerToken"
-
-[[ $? == 1 ]] && exit 1 || { stackCreated; exit 0; }
+# one-clickCreateStack [extra portainerstack.sh args] -- uses the envVars[] and synologyDirs[] arrays above
+one-clickCreateStack "$portainerHost" "$portainerToken"
+stackCreated

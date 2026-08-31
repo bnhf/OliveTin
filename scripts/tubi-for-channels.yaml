@@ -1,10 +1,9 @@
-version: '3.9'
 services:
-  tubi-for-channels:
-    # 2025.01.27
+  tubi-for-channels: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project with setup instructions: https://github.com/jgomez177/tubi-for-channels
     # Docker container home for this project: https://ghcr.io/jgomez177/tubi-for-channels
-    image: ghcr.io/jgomez177/tubi-for-channels:${TAG}
+    image: ghcr.io/jgomez177/tubi-for-channels:${TAG:-latest}
     container_name: tubi-for-channels
     ports:
       - ${HOST_PORT}:${TUBI_PORT} # Use the recommended port number, or optionally change it if the port is already in use on your host.
@@ -14,4 +13,4 @@ services:
       - TUBI_PASS=${TUBI_PASS} # Optional variable to sign into Tubi Account.
     restart: unless-stopped
 
-  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

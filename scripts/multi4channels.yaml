@@ -1,7 +1,6 @@
-version: '3.9'
 services:
-  multi4channels:
-    # 2025.06.29
+  multi4channels: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project with setup instructions: https://github.com/rice9797/multi4channels.
     # Docker container home for this project: https://github.com/rice9797/multi4channels/pkgs/container/multi4channels.
     image: ghcr.io/rice9797/multi4channels:${TAG}
@@ -16,11 +15,13 @@ services:
       - CDVR_CHNLNUM=${CDVR_CHNLNUM} # Channel number to monitor for activity.
       - OUTPUT_FPS=${OUTPUT_FPS} # Output frame rate for the mosaic stream.
       - RTP_HOST=${RTP_HOST} # Destination host for RTP stream output (same as CDVR_HOST in bridge mode).
-      - RTP_PORT=${RTP_PORT} # Destination port for RTP stream output
-      - WEB_PAGE_PORT=${WEB_PAGE_PORT} # Port for web UI
+      - RTP_PORT=${RTP_PORT} # Destination port for RTP stream output.
+      - WEB_PAGE_PORT=${WEB_PAGE_PORT} # Port for web UI.
     volumes:
-      - multi4channels:/app/data # Directory for favorites.json
+      - multi4channels:/app/data # Directory for favorites.json.
     restart: unless-stopped
 volumes:
   multi4channels:
     name: ${HOST_VOLUME}
+
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

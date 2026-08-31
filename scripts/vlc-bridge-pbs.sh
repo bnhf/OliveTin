@@ -1,22 +1,17 @@
 #!/bin/bash
 # vlc-bridge-pbs.sh
-# 2026.01.17
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$3" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "$5" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$5"
-[[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
-curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
+hostPort="$3"
+cdvrStartingChannel="$5"
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
+# one-clickCdvrNumbering <CDVR starting-channel arg; "#" if unset>
+one-clickCdvrNumbering "$cdvrStartingChannel"
 
 envVars=(
 "TAG=$2"
@@ -25,40 +20,13 @@ envVars=(
 "CDVR_STARTING_CHANNEL=$5"
 )
 
-customChannels() {
-cat <<EOF
-{
-  "name": "PBS",
-  "type": "MPEG-TS",
-  "source": "URL",
-  "url": "http://$extensionURL/pbs/playlist.m3u",
-  "text": "",
-  "refresh": "24",
-  "limit": "",
-  "satip": "",
-  "numbering": "$cdvrIgnoreM3UNumbers",
-  "start_number": "$cdvrStartingChannel",
-  "logos": "",
-  "xmltv_url": "",
-  "xmltv_refresh": "3600"
-}
-EOF
-}
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack
 
-printf "%s\n" "${envVars[@]}" > $envFile
+# one-clickWaitForUp [url=http://$extensionURL] [label] [maxTries=60; 0=forever]
+one-clickWaitForUp
 
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1
-
-customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
-
-while true; do
-  curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || sleep 5
-done
-
-greenEcho "\nJSON response from $dvr:"
-curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/PBS
+# one-clickRegisterSource <CDVR source slug> <channel JSON>
+# one-clickChannelJson name=.. url=.. [type=HLS] [source=URL] [text=..] [limit=..] [xmltv=..] [start=..]
+one-clickRegisterSource PBS \
+  "$(one-clickChannelJson name=PBS type=MPEG-TS url="http://$extensionURL/pbs/playlist.m3u")"

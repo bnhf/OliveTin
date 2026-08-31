@@ -1,7 +1,6 @@
-version: '3.9'
 services:
-  cc4c:
-    # 2025.04.20
+  cc4c: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project: https://github.com/bnhf/chrome-capture-for-channels.
     # Docker container home for this project with setup instructions: https://hub.docker.com/r/bnhf/cc4c.
     image: bnhf/cc4c:${TAG:-latest}
@@ -11,7 +10,7 @@ services:
       #- /dev/dri:/dev/dri # Uncomment for Intel Quick Sync (GPU) access
     ports:
       - ${HOST_PORT:-5589}:${CC4C_PORT:-5589} # cc4c proxy port
-      - ${HOST_VNC_PORT:-5900}:5900 # VNC port for entering credentials
+      - ${HOST_VNC_PORT:-5900}:5900 # VNC port for entering credentials.
     environment:
       - VIDEO_BITRATE=${VIDEO_BITRATE:-6000000} # Video bitrate in bits per second  [number] [default: 6000000]
       - AUDIO_BITRATE=${AUDIO_BITRATE:-256000} # Audio bitrate in bits per second  [number] [default: 256000]
@@ -37,4 +36,4 @@ volumes:
   prefs:
   secure:
 
-  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

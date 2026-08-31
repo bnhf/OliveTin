@@ -1,34 +1,21 @@
 #!/bin/bash
 # ah4c.sh
-# 2026.08.28
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
-redEcho() { echo -e "\033[0;31m$1\033[0m ${*:2}"; }
-blueSpinner() { local t=$1 i=0 s='|/-\'; while (( i < t*5 )); do printf "\r\033[34m%c\033[0m" "${s:i++%4:1}"; sleep 0.2; done; printf "\r \r"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$6" || { redEcho "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; redEcho "\nFinished -- with errors"; exit 1; }
-[[ "${58}" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="${58}"
-[[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
+hostPort="$6"
+hostDir="${57}"
+cdvrStartingChannel="${58}"
 cdvrM3UName="${59}"
 cdvrM3UNameNoExt="${cdvrM3UName%.m3u}"
-dirsFile="/tmp/$extension.dirs"
-ah4cContainer="${60}" && [[ "$ah4cContainer" == "#" ]] && ah4cContainer=""
-hostDir="${57}"
+ah4cContainer=$(emptyIfHash "${60}")
 
-if curl -s -o /dev/null http://$extensionURL; then
-  greenEcho "\n$extensionURL already in use -- assuming $extension$ah4cContainer is already running. Skipping stack creation."
-  greenEcho "\nFinished -- no errors registered"
-  exit 0
-fi
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort" "$extension$ah4cContainer"
+# one-clickCdvrNumbering <CDVR starting-channel arg; "#" if unset>
+one-clickCdvrNumbering "$cdvrStartingChannel"
 
 envVars=(
 "TAG=$2"
@@ -95,78 +82,23 @@ envVars=(
 )
 
 synologyDirs=(
-"${57}/ah4c$ah4cContainer/scripts"
-"${57}/ah4c$ah4cContainer/m3u"
-"${57}/ah4c$ah4cContainer/adb"
+"$hostDir/ah4c$ah4cContainer/scripts"
+"$hostDir/ah4c$ah4cContainer/m3u"
+"$hostDir/ah4c$ah4cContainer/adb"
 )
 
-customChannels() {
-cat <<EOF
-{
-  "name": "ah4c$ah4cContainer - $cdvrM3UNameNoExt",
-  "type": "MPEG-TS",
-  "source": "URL",
-  "url": "http://$extensionURL/m3u/$cdvrM3UName",
-  "text": "",
-  "refresh": "24",
-  "limit": "",
-  "satip": "",
-  "numbering": "$cdvrIgnoreM3UNumbers",
-  "start_number": "$cdvrStartingChannel",
-  "logos": "",
-  "xmltv_url": "",
-  "xmltv_refresh": "3600"
-}
-EOF
-}
+# one-clickCreateStack -- no args; uses the envVars[] and synologyDirs[] arrays above
+one-clickCreateStack
 
-printf "%s\n" "${envVars[@]}" > $envFile
-printf "%s\n" "${synologyDirs[@]}" > $dirsFile
+# one-clickWaitForUp [url=http://$extensionURL] [label] [maxTries=60; 0=forever]
+one-clickWaitForUp "http://$extensionURL" "$extension$ah4cContainer"
 
-sed -i '/=#/d' $envFile
+# one-clickVerifyM3U <m3u URL to poll for #EXTM3U> [extra failure-hint line]...
+one-clickVerifyM3U "http://$extensionURL/m3u/$cdvrM3UName" \
+  "Confirm $hostDir/ah4c$ah4cContainer/m3u/$cdvrM3UName exists and matches CDVR_M3U_NAME."
 
-/config/portainerstack.sh $extension
-
-if [[ $? == 1 ]]; then
-  redEcho "\nFinished -- with errors"
-  exit 1
-fi
-
-customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
-
-greenEcho "\nWaiting for $extension$ah4cContainer ($extensionURL) to respond..."
-while true; do
-  curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || blueSpinner 5
-done
-
-m3uURL="http://$extensionURL/m3u/$cdvrM3UName"
-greenEcho "\nVerifying CDVR_M3U_NAME \"$cdvrM3UName\" is readable at $m3uURL..."
-for attempt in {1..10}; do
-  m3uFirstLine=$(curl -s "$m3uURL" | head -c 7)
-  [[ "$m3uFirstLine" == "#EXTM3U" ]] && break
-  blueSpinner 3
-done
-
-if [[ "$m3uFirstLine" != "#EXTM3U" ]]; then
-  redEcho "\nERROR: CDVR_M3U_NAME \"$cdvrM3UName\" did not return a valid M3U at $m3uURL."
-  echo "Confirm the file exists at $hostDir/ah4c$ah4cContainer/m3u/$cdvrM3UName."
-  echo "Skipping CDVR Custom Channel creation."
-  echo "The ah4c$ah4cContainer stack was already created in Portainer above -- re-running this action as-is will fail there with a name conflict."
-  echo "Either fix the file in place, or stop and delete the ah4c$ah4cContainer stack in Portainer first before re-running with a corrected CDVR_M3U_NAME."
-  redEcho "\nFinished -- with errors"
-  exit 1
-fi
-
-greenEcho "M3U verified."
-
-greenEcho "\nJSON response from $dvr:"
-curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/ah4c$ah4cContainer-$cdvrM3UNameNoExt
-curlExit=$?
-
-if [[ $curlExit -ne 0 ]]; then
-  redEcho "\nFinished -- with errors"
-  exit 1
-fi
-
-greenEcho "\nFinished -- no errors registered"
+# one-clickRegisterSource <CDVR source slug> <channel JSON>
+# one-clickChannelJson name=.. url=.. [type=HLS] [source=URL] [text=..] [limit=..] [xmltv=..] [start=..]
+one-clickRegisterSource "ah4c$ah4cContainer-$cdvrM3UNameNoExt" \
+  "$(one-clickChannelJson name="ah4c$ah4cContainer - $cdvrM3UNameNoExt" type=MPEG-TS \
+     url="http://$extensionURL/m3u/$cdvrM3UName")"

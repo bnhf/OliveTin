@@ -1,6 +1,6 @@
 services:
-  fruitdeeplinks:
-    # 2025.12.22
+  fruitdeeplinks: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
     # GitHub home for this project with setup instructions: https://github.com/kineticman/FruitDeepLinks
     # Docker container home for this project: https://github.com/kineticman/FruitDeepLinks/pkgs/container/fruitdeeplinks
     image: ghcr.io/kineticman/fruitdeeplinks:${TAG:-latest}
@@ -45,3 +45,5 @@ services:
       options:
         max-size: 10m
         max-file: 3
+
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

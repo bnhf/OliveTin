@@ -1,26 +1,22 @@
 #!/bin/bash
 # multichannelview.sh
-# 2026.01.18
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
-greenEcho() { echo -e "\033[0;32m$1\033[0m ${*:2}"; }
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
 dvr="$1"
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-[[ -n $PORTAINER_HOST ]] && extensionURL="$PORTAINER_HOST:$4" || { echo "PORTAINER_HOST not set. Confirm you're using the latest OliveTin docker-compose"; exit 1; }
-[[ "$6" == "#" ]] && cdvrStartingChannel="" || cdvrStartingChannel="$6"
-[[ -n $cdvrStartingChannel ]] && cdvrIgnoreM3UNumbers="ignore" || cdvrIgnoreM3UNumbers=""
+hostPort="$4"
+cdvrStartingChannel="$6"
 multiviewName="$7"
 ch1="$8"; ch2="$9"; ch3="${10}"; ch4="${11}"
-allChannelsM3U="$(curl -s http://media-server8:8089/devices/ANY/channels.m3u?format=ts&codec=copy)"
-curl -s -o /dev/null http://$extensionURL && echo "$extensionURL already in use" && exit 0
 
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
+# one-clickCdvrNumbering <CDVR starting-channel arg; "#" if unset>
+one-clickCdvrNumbering "$cdvrStartingChannel"
+
+# resolve the four channel IDs to names for the guide blurb
+allChannelsM3U=$(curl -s "http://$dvr/devices/ANY/channels.m3u?format=ts&codec=copy")
 channelIDs=($ch1 $ch2 $ch3 $ch4)
 for channelID in "${channelIDs[@]}"; do
   channelName=$(echo "$allChannelsM3U" | awk -v channelID="$channelID" '
@@ -34,14 +30,15 @@ done
 multiviewChannels="Mosaic of $channelIDsNames"
 
 envVars=(
-"TAG=$2 # Add the tag like latest or test to the environment variables below."
+"TAG=$2"
 "DEVICES=$3"
-"HOST_PORT=$4 # Use the same port number the container is using, or optionally change it if the port is already in use on your host."
-"CDVR_HOST=${dvr%%:*} # Hostname/IP of Channels DVR server."
-"CDVR_PORT=${dvr##*:} # Port of Channels DVR server."
-"CODEC=$5 # Use h264_qsv (hardware) or libx264 (software)."
+"HOST_PORT=$4"
+"CDVR_HOST=${dvr%%:*}"
+"CDVR_PORT=${dvr##*:}"
+"CODEC=$5"
 )
 
+# text blob carries JSON-escaped \" so this heredoc stays local
 customChannels() {
 cat <<EOF
 {
@@ -62,20 +59,11 @@ cat <<EOF
 EOF
 }
 
-printf "%s\n" "${envVars[@]}" > $envFile
+# one-clickCreateStack -- no args; uses the envVars[] array above
+one-clickCreateStack
 
-sed -i '/=#/d' $envFile
+# one-clickWaitForUp [url=http://$extensionURL] [label] [maxTries=60; 0=forever]
+one-clickWaitForUp
 
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1
-
-customChannelsJSON=$(echo -n "$(customChannels)" | tr -d '\n')
-
-while true; do
-  curl -s -o /dev/null http://$extensionURL && extensionUp=$(echo $?)
-  [[ $extensionUp ]] && break || sleep 5
-done
-
-greenEcho "\nJSON response from $dvr:"
-curl -s -X PUT -H "Content-Type: application/json" -d "$customChannelsJSON" http://$dvr/providers/m3u/sources/multichannelview
+# one-clickRegisterSource <CDVR source slug> <channel JSON>
+one-clickRegisterSource multichannelview "$(customChannels)"

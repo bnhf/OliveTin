@@ -1,7 +1,9 @@
-version: '3.9'
 services:
-  vlc-bridge-pbs:
-    image: registry.gitlab.com/miibeez/vlc-bridge-pbs:${TAG}
+  vlc-bridge-pbs: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
+    # GitLab home for this project: https://gitlab.com/miibeez/vlc-bridge-pbs
+    # Docker container home for this project: https://gitlab.com/miibeez/vlc-bridge-pbs/container_registry
+    image: registry.gitlab.com/miibeez/vlc-bridge-pbs:${TAG:-latest}
     container_name: vlc-bridge-pbs
     ports:
       - ${HOST_PORT}:7777
@@ -9,4 +11,4 @@ services:
       - TZ=${TZ}
     restart: unless-stopped
 
-  # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.

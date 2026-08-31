@@ -1,17 +1,14 @@
 #!/bin/bash
 # pinchflat.sh
-# 2025.09.26
+# 2026.08.29
 
-script=$(basename "$0" | sed 's/\.sh$//')
-exec 3> /config/$script.debug.log
-BASH_XTRACEFD=3
-set -x
+source /config/one-click.sh || { echo "one-click.sh not found in /config"; exit 1; }
 
-extension=$(basename "$0")
-extension=${extension%.sh}
-cp /config/$extension.env /tmp
-envFile="/tmp/$extension.env"
-dirsFile="/tmp/$extension.dirs"
+hostPort="$2"
+hostDir="$4"
+
+# one-clickPreflight <HOST_PORT arg> [label for status messages]
+one-clickPreflight "$hostPort"
 
 envVars=(
 "TAG=$1"
@@ -22,14 +19,8 @@ envVars=(
 )
 
 synologyDirs=(
-"$4/pinchflat"
+"$hostDir/pinchflat"
 )
 
-printf "%s\n" "${envVars[@]}" > $envFile
-printf "%s\n" "${synologyDirs[@]}" > $dirsFile
-
-sed -i '/=#/d' $envFile
-
-/config/portainerstack.sh $extension
-
-[[ $? == 1 ]] && exit 1 || exit 0
+# one-clickCreateStack -- no args; uses the envVars[] and synologyDirs[] arrays above
+one-clickCreateStack

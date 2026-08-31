@@ -1,5 +1,8 @@
 services:
-  watchtower:
+  watchtower: # This docker-compose typically requires no editing. Use the Environment variables section of Portainer to set your values.
+    # 2026.08.31
+    # GitHub home for this project: https://github.com/nicholas-fedor/watchtower
+    # Docker Hub home for this project: https://hub.docker.com/r/nickfedor/watchtower
     image: nickfedor/watchtower:${TAG:-latest}
     container_name: watchtower
     environment:
@@ -10,4 +13,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-    # Default Environment variables can be found below under stderr -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode
+# A sample set of Environment variables can be found below -- copy and paste into Portainer-Stacks Environment variables section in Advanced mode.
