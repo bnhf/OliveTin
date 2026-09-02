@@ -2172,6 +2172,18 @@ actions:
         default: "true"
     timeout: 60
 
+  - title: Create an APITuner DirecTV JSON
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: |
+      {{ CURL_COMMAND }} 2>/dev/null | /config/apituner_directv_grabber.sh
+    id: apituner_directv_grabber #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: CURL_COMMAND
+        type: very_dangerous_raw_string
+        description: "Paste in your custom curl command to grab your specific DirecTV channel lineup. Details on capturing this curl command can be found here: https://community.getchannels.com/t/adbtuner-create-channels-custom-config-and-cdvr-custom-channels-for-directv/45217?u=bnhf"
+    timeout: 60
+
   - title: Create a Channels-App-Remote Stack in Portainer
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: /config/channels-app-remote.sh "{{ dvr }}" "{{ TAG }}" "{{ HOST_PORT }}"
@@ -4306,8 +4318,9 @@ dashboards:
         - title: Create an ADBTuner Stack in Portainer
         - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
         - title: Create an ADBTuner Sling JSON and its Channel Lineup
-        - title: Create an ah4c DirecTV M3U
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
+        - title: Create an ah4c DirecTV M3U
+        - title: Create an APITuner DirecTV JSON
         - title: Create a Channels-App-Remote-Plus Stack in Portainer
         - title: Create a Channels-Collection-Manager Stack in Portainer
         - title: Create a Channels-Manager Stack in Portainer
