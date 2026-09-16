@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.08.24.1102
+// @version      2026.09.16.0814
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -598,9 +598,9 @@
         getDvrArgument(),
         { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
         { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
-        { name: "ADBS_PORT", label: "ADB Server Port", default: "5037", description: "Port for ADB Server" },
+        { name: "DOCKER_RUNTIME", label: "Docker Runtime", default: "runc", description: "Closed captions only. Set to nvidia for an NVIDIA GPU with the CUDA engine build (requires NVIDIA container toolkit)", options: [{ display: "runc", value: "runc" }, { display: "nvidia", value: "nvidia" }] },
+        { name: "GPU_DEVICE", label: "GPU Device", default: "/dev/null", description: "Closed captions only. Set to /dev/dri to let the Vulkan engine build use an Intel or AMD GPU", options: [{ display: "/dev/null", value: "/dev/null" }, { display: "/dev/dri", value: "/dev/dri" }] },
         { name: "HOST_PORT", label: "Host Port", default: "7654", description: "Port for ah4c" },
-        { name: "SCRC_PORT", label: "SCRCPY Port", default: "7655", description: "Port for ws-scrcpy" },
         { name: "IPADDRESS", label: "IP Address", default: "${PORTAINER_HOST}:7654", description: "Hostname/IP of this ah4c extension for M3U" },
         { name: "NUMBER_TUNERS", label: "Number of Tuners", default: "2", description: "Number of tuners (1-9)" },
         { name: "TUNER1_IP", label: "Tuner 1 IP", default: "firestick-rack1:5555", description: "Streaming device #1 hostname:port" },
@@ -622,12 +622,15 @@
         { name: "TUNER9_IP", label: "Tuner 9 IP", default: "#", description: "Streaming device #9 hostname:port (# for none)" },
         { name: "ENCODER9_URL", label: "Encoder 9 URL", default: "#", description: "Full URL for tuner #9 (# for none)" },
         { name: "STREAMER_APP", label: "Streamer App", default: "scripts/firetv/directv", description: "scripts/streamer/app path" },
+        { name: "PYATV", label: "Use pyatv", default: "false", description: "Set to true to run pyatv at container start for Apple TV tuners, instead of the default adb-based docker-start.sh", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
         { name: "CHANNELSIP", label: "Channels IP", default: "media-server8", description: "Hostname/IP of Channels DVR server" },
+        { name: "FASTCHANNELS_URL", label: "FastChannels URL", placeholder: "Optional - for firetv/fastchannels scripts", description: "Base URL of your FastChannels container, so the firetv/fastchannels scripts can use its built-in ah4c integration to tune", optional: true },
         { name: "ALERT_SMTP_SERVER", label: "SMTP Server", default: "smtp.gmail.com:587", description: "SMTP server for alerts (# for none)" },
         { name: "ALERT_AUTH_SERVER", label: "Auth Server", default: "smtp.gmail.com", description: "Auth server for email (# for none)" },
         { name: "ALERT_EMAIL_FROM", label: "Email From", default: "#", description: "Alert email sender (# for none)" },
         { name: "ALERT_EMAIL_PASS", label: "Email Password", default: "#", description: "App-specific email password (# for none)" },
         { name: "ALERT_EMAIL_TO", label: "Email To", default: "#", description: "Alert email recipient (# for none)" },
+        { name: "ALERT_WEBHOOK_URL", label: "Alert Webhook URL", placeholder: "Optional - blank disables it", description: "URL to GET when an alert fires; put $reason in the URL for the URL-encoded message", optional: true },
         { name: "LIVETV_ATTEMPTS", label: "LiveTV Attempts", placeholder: "Optional", description: "For FireTV Live Guide tuning only, max attempts to find desired channel", optional: true },
         { name: "CREATE_M3US", label: "Create M3Us", default: "false", description: "Set to true to create device-specific M3Us for Amazon Prime Premium channels (requires FireTV)", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
         { name: "UPDATE_SCRIPTS", label: "Update Scripts", default: "true", description: "Set to true to update sample and STREAMER_APP scripts whether they exist or not", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
@@ -640,6 +643,15 @@
         { name: "LINKPI_USERNAME", label: "LinkPi Username", placeholder: "Optional - for AUTOCROP_CHANNELS", description: "LinkPi encoder username", optional: true },
         { name: "LINKPI_PASSWORD", label: "LinkPi Password", placeholder: "Optional - for AUTOCROP_CHANNELS", description: "LinkPi encoder password", optional: true },
         { name: "USER_SCRIPT", label: "User Script", placeholder: "Optional - custom script to run at container start", description: "A custom user script to run at container start. If in /HOST_DIR/olivetin, only the filename is needed", optional: true },
+        { name: "NULL_FRAME_INSERTION", label: "Null Frame Insertion", default: "false", description: "Set to true to fill encoder stalls with MPEG-TS NULL packets (PID 0x1FFF) so the DVR never sees a zero-byte gap mid-recording", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
+        { name: "PLAYBACK_DETECTION", label: "Playback Detection", default: "false", description: "Set to true to hold the stream until audio/picture are detected, then start on a keyframe (requires adb; network tuners only)", options: [{ display: "true", value: "true" }, { display: "false", value: "false" }] },
+        { name: "PLAYBACK_STATIC_TIMEOUT", label: "Playback Static Timeout", placeholder: "Optional - for PLAYBACK_DETECTION", description: "Only used with PLAYBACK_DETECTION=true. Seconds before falling back to motion-only gating. Default 2 suits Ospreys; DirecTV needs more", optional: true },
+        { name: "PLAYBACK_DELAY", label: "Playback Delay", placeholder: "Optional - blank disables it", description: "Hold every tune this long so a slow app still records in time. Accepts seconds or 30s/1m, capped at 10m. Network tuners only", optional: true },
+        { name: "PREROLL_FILE", label: "Preroll File", placeholder: "Optional - blank uses the default", description: "Video or still image shown during a PLAYBACK_DELAY/PLAYBACK_DETECTION hold instead of NULL packets. Anything ffmpeg reads", optional: true },
+        { name: "ENCODER_CODEC", label: "Encoder Codec", default: "h264", description: "Video codec your encoder outputs. Filler/pre-roll must match it or playback won't cross to the program", options: [{ display: "h264", value: "h264" }, { display: "h265", value: "h265" }] },
+        { name: "HEARTBEAT_INTERVAL", label: "Heartbeat Interval", default: "0", description: "In supported scripts (osprey), seconds between keepalive keyevents to stop the app's UI inactivity timer resetting the stream. 0 disables" },
+        { name: "NVIDIA_VISIBLE_DEVICES", label: "NVIDIA Visible Devices", placeholder: "Optional - closed captions only", description: "Set to all alongside DOCKER_RUNTIME=nvidia to expose an NVIDIA GPU. Empty means no GPU and is the default", optional: true },
+        { name: "NVIDIA_DRIVER_CAPABILITIES", label: "NVIDIA Driver Capabilities", placeholder: "Optional - closed captions only", description: "Set to compute,utility when using an NVIDIA GPU, so the driver the CUDA engine build needs is passed in", optional: true },
         { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data" },
         { name: "CDVR_START_CHAN", label: "Start Channel", default: "#", description: "Override M3U channel numbers. Use # for default" },
         { name: "CDVR_M3U_NAME", label: "M3U Filename", default: "directv.m3u", description: "M3U file name for CDVR Custom Channels" },
@@ -1080,6 +1092,7 @@
           description: "Android app to use for this set of FruitDeepLinks lanes",
           default: "ESPN~sportscenter~com.espn.gtv~com.espn.score_center",
           options: [
+            { display: "Apple F1", value: "Apple F1~apple_f1~com.apple.atve.amazon.appletv~com.apple.atve.androidtv.appletv" },
             { display: "Apple MLB", value: "Apple MLB~apple_mlb~com.apple.atve.amazon.appletv~com.apple.atve.androidtv.appletv" },
             { display: "Apple MLS", value: "Apple MLS~apple_mls~com.apple.atve.amazon.appletv~com.apple.atve.androidtv.appletv" },
             { display: "ESPN", value: "ESPN~sportscenter~com.espn.gtv~com.espn.score_center" },
@@ -1118,6 +1131,7 @@
           description: "Remove existing ADBTuner virtual channels with this provider before adding new lanes",
           default: "none",
           options: [
+            { display: "Apple F1 (apple_f1)", value: "apple_f1" },
             { display: "Apple MLB (apple_mlb)", value: "apple_mlb" },
             { display: "Apple MLS (apple_mls)", value: "apple_mls" },
             { display: "ESPN (sportscenter)", value: "sportscenter" },
