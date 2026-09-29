@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OliveTin Dropdown for CDVR WebUI
 // @namespace    local
-// @version      2026.09.16.0814
+// @version      2026.09.22.1047
 // @description  Adds OliveTin dropdown to Channels UI; runs OliveTin actions with dynamic forms
 // @author       bnhf
 // @match        http*://*/admin/*
@@ -671,6 +671,34 @@
       ],
     },
     {
+      id: "ah4c-minimal",
+      label: "ah4c (Minimal / WebUI Settings)",
+      title: "Create an ah4c Stack in Portainer (Minimal / WebUI Settings)",
+      arguments: [
+        { name: "TAG", label: "Tag", default: "latest", description: "The version of the container you'd like to run" },
+        { name: "DOMAIN", label: "Domain", default: "localdomain", description: "Your LAN's domain (usually local or localdomain)" },
+        { name: "DOCKER_RUNTIME", label: "Docker Runtime", default: "runc", description: "Closed captions only. Set to nvidia for an NVIDIA GPU with the CUDA engine build (requires NVIDIA container toolkit)", options: [{ display: "runc", value: "runc" }, { display: "nvidia", value: "nvidia" }] },
+        { name: "GPU_DEVICE", label: "GPU Device", default: "/dev/null", description: "Closed captions only. Set to /dev/dri to let the Vulkan engine build use an Intel or AMD GPU", options: [{ display: "/dev/null", value: "/dev/null" }, { display: "/dev/dri", value: "/dev/dri" }] },
+        { name: "HOST_PORT", label: "Host Port", default: "7654", description: "Port for ah4c" },
+        { name: "NVIDIA_VISIBLE_DEVICES", label: "NVIDIA Visible Devices", placeholder: "Optional - closed captions only", description: "Set to all alongside DOCKER_RUNTIME=nvidia to expose an NVIDIA GPU. Empty means no GPU and is the default", optional: true },
+        { name: "NVIDIA_DRIVER_CAPABILITIES", label: "NVIDIA Driver Capabilities", placeholder: "Optional - closed captions only", description: "Set to compute,utility when using an NVIDIA GPU, so the driver the CUDA engine build needs is passed in", optional: true },
+        { name: "HOST_DIR", label: "Host Dir", default: "/data", description: "Parent directory for persistent data" },
+        {
+          name: "AH4C_CONTAINER",
+          label: "Container Number",
+          description: "For multiple ah4c containers on same host, append this number to stack/container/path names (# for none)",
+          default: "#",
+          options: [
+            { display: "#", value: "#" },
+            { display: "1", value: "1" }, { display: "2", value: "2" }, { display: "3", value: "3" },
+            { display: "4", value: "4" }, { display: "5", value: "5" }, { display: "6", value: "6" },
+            { display: "7", value: "7" }, { display: "8", value: "8" }, { display: "9", value: "9" },
+            { display: "0", value: "0" },
+          ]
+        },
+      ],
+    },
+    {
       id: "ah4c_directv_grabber",
       label: "ah4c DirecTV M3U",
       title: "Create an ah4c DirecTV M3U",
@@ -856,6 +884,7 @@
             { display: "ADBTuner DirecTV", value: "adbtuner_directv_grabber" },
             { display: "ADBTuner Sling", value: "adbtuner_sling_grabber" },
             { display: "ah4c", value: "ah4c" },
+            { display: "ah4c (Minimal)", value: "ah4c-minimal" },
             { display: "ah4c DirecTV", value: "ah4c_directv_grabber" },
             { display: "Channels-App-Remote-Plus", value: "channels-app-remote-plus" },
             { display: "Channels-Collection-Manager", value: "channels-collection-manager" },
@@ -909,6 +938,7 @@
           options: [
             { display: "ADBTuner", value: "adbtuner" },
             { display: "ah4c", value: "ah4c" },
+            { display: "ah4c (Minimal)", value: "ah4c-minimal" },
             { display: "cc4c", value: "cc4c" },
             { display: "ChannelWatch", value: "channelwatch" },
             { display: "EPlusTV", value: "eplustv" },

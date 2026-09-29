@@ -2155,6 +2155,81 @@ actions:
         default: "#"
     timeout: 40
 
+  - title: Create an ah4c Stack in Portainer (Minimal / WebUI Settings)
+    icon: '<img src = "custom-webui/icons/channels.png" width = "48px"/>' #ah4c-minimal icon
+    # Deploys a separate "ah4c-minimal" stack using ah4c-minimal.yaml, which only sets Docker-level
+    # settings here. Tuners, the DVR connection, alerts, etc. are configured afterward on the
+    # container's own Settings web page. No CDVR Custom Channels source is registered by this action.
+    shell: /config/ah4c-minimal.sh "{{ TAG }}" "{{ DOMAIN }}" "{{ DOCKER_RUNTIME }}" "{{ GPU_DEVICE }}" "{{ HOST_PORT }}" "{{ NVIDIA_VISIBLE_DEVICES }}" "{{ NVIDIA_DRIVER_CAPABILITIES }}" "{{ HOST_DIR }}" "{{ AH4C_CONTAINER }}"
+    id: ah4c-minimal #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: TAG
+        type: very_dangerous_raw_string
+        description: The version of the container you'd like to run. Typically "latest".
+        default: latest
+      - name: DOMAIN
+        type: very_dangerous_raw_string
+        description: Change to the name of your LAN's domain, which is usually local or localdomain.
+        default: localdomain
+      - name: DOCKER_RUNTIME
+        description: Closed captions only. Set to nvidia for an NVIDIA GPU with the CUDA engine build. Requires the NVIDIA container toolkit.
+        choices:
+          - title: runc
+            value: runc
+          - title: nvidia
+            value: nvidia
+        default: runc
+      - name: GPU_DEVICE
+        description: Closed captions only. Set to /dev/dri to let the Vulkan engine build use an Intel or AMD GPU. Default does nothing.
+        choices:
+          - title: /dev/null
+            value: /dev/null
+          - title: /dev/dri
+            value: /dev/dri
+        default: /dev/null
+      - name: HOST_PORT
+        type: int
+        description: Use the recommended port number for ah4c, or optionally change it if the port is already in use on your host.
+        default: 7654
+      - name: NVIDIA_VISIBLE_DEVICES
+        type: very_dangerous_raw_string
+        description: Closed captions only. Set to all alongside DOCKER_RUNTIME=nvidia to expose an NVIDIA GPU. Empty means no GPU and is the default.
+      - name: NVIDIA_DRIVER_CAPABILITIES
+        type: very_dangerous_raw_string
+        description: Closed captions only. Set to compute,utility when using an NVIDIA GPU, so the driver the CUDA engine build needs is passed in.
+      - name: HOST_DIR
+        type: very_dangerous_raw_string
+        description: Parent directory to be used on host computer for persistent data. Sub-directories will be ah4c/config, ah4c/scripts, ah4c/m3u, ah4c/adb.
+        default: /data
+      - name: AH4C_CONTAINER
+        description: If you have multiple ah4c containers running on a single Docker host, this number will be appended to stack, container and path names. Leave as "#" for none.
+        choices:
+          - title: "#"
+            value: "#"
+          - title: 1
+            value: 1
+          - title: 2
+            value: 2
+          - title: 3
+            value: 3
+          - title: 4
+            value: 4
+          - title: 5
+            value: 5
+          - title: 6
+            value: 6
+          - title: 7
+            value: 7
+          - title: 8
+            value: 8
+          - title: 9
+            value: 9
+          - title: 0
+            value: 0
+        default: "#"
+    timeout: 40
+
   - title: Create an ah4c DirecTV M3U
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
     shell: |
@@ -4326,6 +4401,7 @@ dashboards:
         - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
         - title: Create an ADBTuner Sling JSON and its Channel Lineup
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
+        - title: Create an ah4c Stack in Portainer (Minimal / WebUI Settings)
         - title: Create an ah4c DirecTV M3U
         - title: Create an APITuner DirecTV JSON
         - title: Create a Channels-App-Remote-Plus Stack in Portainer
