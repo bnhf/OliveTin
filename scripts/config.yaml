@@ -1854,6 +1854,48 @@ actions:
         default: "12000"
     timeout: 60
 
+  - title: Create an ADBTuner YTTV JSON and its Channel Lineup
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: |
+      cat <<'CUSTOM_JSON_EOF' >/tmp/custom_config.json
+      {{ CUSTOM_CONFIG }}
+      CUSTOM_JSON_EOF
+      {{ CURL_COMMAND }} 2>/dev/null | /config/adbtuner_yttv_grabber.sh '{{ dvr }}' '{{ ADBTUNER_HOST }}' '{{ ADBTUNER_PORT }}' '/tmp/custom_config.json' '{{ YTTV_REMOVE }}' '{{ YTTV_START_CHAN }}'
+    id: adbtuner_yttv_grabber #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: dvr
+        type: very_dangerous_raw_string
+        description: Channels DVR server to use. #adbtuner_yttv_grabber dvr description
+        default: none #adbtuner_yttv_grabber dvr default
+      - name: ADBTUNER_HOST
+        type: very_dangerous_raw_string
+        description: Hostname or IP address of host running ADBTuner.
+        default: htpc6 #PORTAINER_HOST default
+      - name: ADBTUNER_PORT
+        type: int
+        description: Port number ADBTuner is available on.
+        default: 5592
+      - name: CURL_COMMAND
+        type: very_dangerous_raw_string
+        description: "Paste in your custom curl command to grab your specific YouTube TV channel lineup. In a browser, open the YouTube TV Live guide with Developer Tools open, filter the Network tab on \"browse\", then right-click the request whose response contains epgRowRenderer and choose Copy as cURL (bash)."
+      - name: CUSTOM_CONFIG
+        type: very_dangerous_raw_string
+        description: "If you'd like to use an ADBTuner Custom Config, paste it here (including beginning and ending curly braces)."
+      - name: YTTV_REMOVE
+        description: Remove any existing ADBTuner virtual channels with a provider name of YTTV before adding these new channels.
+        choices:
+          - title: "true"
+            value: "true"
+          - title: "false"
+            value: "false"
+        default: "true"
+      - name: YTTV_START_CHAN
+        type: very_dangerous_raw_string
+        description: "Select a starting ADBTuner - YTTV M3U channel number. Use # to leave numbering to Channels DVR."
+        default: "13000"
+    timeout: 60
+
   - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
     icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>' #ah4c icon
     shell: /config/ah4c.sh "{{ dvr }}" "{{ TAG }}" "{{ DOMAIN }}" "{{ DOCKER_RUNTIME }}" "{{ GPU_DEVICE }}" "{{ HOST_PORT }}" "{{ IPADDRESS }}" "{{ NUMBER_TUNERS }}" "{{ TUNER1_IP }}" "{{ ENCODER1_URL }}" "{{ TUNER2_IP }}" "{{ ENCODER2_URL }}" "{{ TUNER3_IP }}" "{{ ENCODER3_URL }}" "{{ TUNER4_IP }}" "{{ ENCODER4_URL }}" "{{ TUNER5_IP }}" "{{ ENCODER5_URL }}" "{{ TUNER6_IP }}" "{{ ENCODER6_URL }}" "{{ TUNER7_IP }}" "{{ ENCODER7_URL }}" "{{ TUNER8_IP }}" "{{ ENCODER8_URL }}" "{{ TUNER9_IP }}" "{{ ENCODER9_URL }}" "{{ STREAMER_APP }}" "{{ PYATV }}" "{{ CHANNELSIP }}" "{{ FASTCHANNELS_URL }}" "{{ ALERT_SMTP_SERVER }}" "{{ ALERT_AUTH_SERVER }}" "{{ ALERT_EMAIL_FROM }}" "{{ ALERT_EMAIL_PASS }}" "{{ ALERT_EMAIL_TO }}" "{{ ALERT_WEBHOOK_URL }}" "{{ LIVETV_ATTEMPTS }}" "{{ CREATE_M3US }}" "{{ UPDATE_SCRIPTS }}" "{{ UPDATE_M3US }}" "{{ TZ }}" "{{ SPEED_MODE }}" "{{ KEEP_WATCHING }}" "{{ AUTOCROP_CHANNELS }}" "{{ LINKPI_HOSTNAME }}" "{{ LINKPI_USERNAME }}" "{{ LINKPI_PASSWORD }}" "{{ USER_SCRIPT }}" "{{ NULL_FRAME_INSERTION }}" "{{ PLAYBACK_DETECTION }}" "{{ PLAYBACK_STATIC_TIMEOUT }}" "{{ PLAYBACK_DELAY }}" "{{ PREROLL_FILE }}" "{{ ENCODER_CODEC }}" "{{ HEARTBEAT_INTERVAL }}" "{{ NVIDIA_VISIBLE_DEVICES }}" "{{ NVIDIA_DRIVER_CAPABILITIES }}" "{{ HOST_DIR }}" "{{ CDVR_START_CHAN }}" "{{ CDVR_M3U_NAME}}" "{{ AH4C_CONTAINER }}"
@@ -2260,6 +2302,18 @@ actions:
       - name: CURL_COMMAND
         type: very_dangerous_raw_string
         description: "Paste in your custom curl command to grab your specific DirecTV channel lineup. Details on capturing this curl command can be found here: https://community.getchannels.com/t/adbtuner-create-channels-custom-config-and-cdvr-custom-channels-for-directv/45217?u=bnhf"
+    timeout: 60
+
+  - title: Create an APITuner YTTV JSON
+    icon: '<img src = "https://community-assets.getchannels.com/original/2X/5/55232547f7e8f243069080b6aec0c71872f0f537.png" width = "48px"/>'
+    shell: |
+      {{ CURL_COMMAND }} 2>/dev/null | /config/apituner_yttv_grabber.sh
+    id: apituner_yttv_grabber #project-one-click
+    popupOnStart: execution-dialog-stdout-only
+    arguments:
+      - name: CURL_COMMAND
+        type: very_dangerous_raw_string
+        description: "Paste in your custom curl command to grab your specific YouTube TV channel lineup. In a browser, open the YouTube TV Live guide with Developer Tools open, filter the Network tab on \"browse\", then right-click the request whose response contains epgRowRenderer and choose Copy as cURL (bash)."
     timeout: 60
 
   - title: Create a Channels-App-Remote Stack in Portainer
@@ -4400,10 +4454,12 @@ dashboards:
         - title: Create an ADBTuner Stack in Portainer
         - title: Create an ADBTuner DirecTV JSON and its Channel Lineup
         - title: Create an ADBTuner Sling JSON and its Channel Lineup
+        - title: Create an ADBTuner YTTV JSON and its Channel Lineup
         - title: Create an ah4c Stack in Portainer + CDVR Custom Channels
         - title: Create an ah4c Stack in Portainer (Minimal / WebUI Settings)
         - title: Create an ah4c DirecTV M3U
         - title: Create an APITuner DirecTV JSON
+        - title: Create an APITuner YTTV JSON
         - title: Create a Channels-App-Remote-Plus Stack in Portainer
         - title: Create a Channels-Collection-Manager Stack in Portainer
         - title: Create a Channels-Manager Stack in Portainer

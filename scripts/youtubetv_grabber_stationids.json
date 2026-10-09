@@ -1,0 +1,1454 @@
+{
+  "_description": "Gracenote/TMS station ids for YouTube TV channels, shared by adbtuner_yttv_grabber.sh and apituner_yttv_grabber.sh. YouTube TV guide captures carry no Gracenote ids, so this file is the primary source. Each entry is matched first on yttvStationId (the stationId on each epgRowRenderer in a YouTube TV guide response, which survives channel renames), then on name (the YouTube TV display name) as a fallback. Entries with local=true are market-specific broadcast stations and are only ever matched on yttvStationId, since names like \"ABC 7\" mean different stations in different markets. An entry with an empty stationId deliberately suppresses a match (e.g. a secondary ESPN feed that would otherwise name-match ESPN). Seeded from a New York YouTube TV guide capture (yttv_techpro2004.json), cross-referenced by name against a New York DirecTV ADBTuner export (directv-nyc), a New York YouTube TV ADBTuner export gist by mackid1993 (gist-nyc), the ah4c youtubetv_shield.m3u (ah4c-shield-m3u), an older YouTube TV export (yttv-m3u-json, yttv_m3u_json.json), a DirecTV TVE lineup (directv-tve, test2.json), and Gracenote station lookups through a Channels DVR server (gracenote-lookup), used where YouTube TV renamed a channel but Gracenote kept its station id (e.g. ActionMax HD 59948 is now Cinemax Action). callSign is the Gracenote call sign where the source provided one.",
+  "_generated": "2026-10-08",
+  "stations": [
+    {
+      "name": "ABC 7",
+      "yttvStationId": "UCoqWr2M5M03xhsLRcJ8DLYA",
+      "stationId": "20453",
+      "callSign": "WABC",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ABC News Live",
+      "yttvStationId": "UChAbpGpJzppYHFhHflFvTQg",
+      "stationId": "113380",
+      "callSign": "ABCNL",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ACC Network",
+      "yttvStationId": "UCdj7clRJstl32igUku_7Jaw",
+      "stationId": "111871",
+      "callSign": "ACCNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "All Reality We TV",
+      "yttvStationId": "UCV2pXl1pkayqpxL8KWY6zfg",
+      "stationId": "115679",
+      "callSign": "WEREAL",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "AMC",
+      "yttvStationId": "UCbjVsshw_-h8ZRQBYAacA2Q",
+      "stationId": "59337",
+      "callSign": "AMCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "AMC Thrillers",
+      "yttvStationId": "UC3rkSU0RQVyFYK-roH4jOnA",
+      "stationId": "115678",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "AMC+",
+      "yttvStationId": "UCRXEMW5x4v3dEto7JCkPAvg",
+      "stationId": "59337",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Animal Planet",
+      "yttvStationId": "UCDRP-3aMlEQ6uoYm_RKeCOg",
+      "stationId": "57394",
+      "callSign": "APLHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "AWE",
+      "yttvStationId": "UCfyeDLNnqxH8OIo2fFoo2qw",
+      "stationId": "44895",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "BBC America",
+      "yttvStationId": "UCv15E33qNOnHUKi188QZ7Aw",
+      "stationId": "64492",
+      "callSign": "BBCAHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "BBC News",
+      "yttvStationId": "UCjwQspjtRywSoImMpdFiaXw",
+      "stationId": "76774",
+      "callSign": "BBCN",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "BET",
+      "yttvStationId": "UCgAaOBjobOPnRRACWlMn30w",
+      "stationId": "63236",
+      "callSign": "BETHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "BET Her",
+      "yttvStationId": "UCFSR1oVlgsOSiQe4dPnBOfw",
+      "stationId": "14897",
+      "callSign": "BHER",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Bloomberg Originals",
+      "yttvStationId": "UCYJX5y3lS9rvsw75gQjSvGw",
+      "stationId": "175656",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Bloomberg TV+",
+      "yttvStationId": "UCed9LOJZCWonC04hDB3H7xQ",
+      "stationId": "71799",
+      "callSign": "BTVHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Bounce",
+      "yttvStationId": "UCNFMyKDGUWEWD-xO3bQT3Hg",
+      "stationId": "73067",
+      "callSign": "Bounce",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Bravo",
+      "yttvStationId": "UCbFaRGY8Bw3eLldVIFPDYhw",
+      "stationId": "58625",
+      "callSign": "BRVOHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "BTN",
+      "yttvStationId": "UCmBskGxtl-7At_lMzyLJYKA",
+      "stationId": "58321",
+      "callSign": "BIG10HD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "C-SPAN",
+      "yttvStationId": "UCztf61frc248u2S_AMhcMbg",
+      "stationId": "10161",
+      "callSign": "CSP1",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "C-SPAN2",
+      "yttvStationId": "UCm20W8G3leJQev6jDzW2WpQ",
+      "stationId": "10162",
+      "callSign": "CSP2",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "C-SPAN3",
+      "yttvStationId": "UCERQ1rgFP5AWpoHQUSbP6cA",
+      "stationId": "68332",
+      "callSign": "CSPN3HD",
+      "local": false,
+      "source": "directv-tve"
+    },
+    {
+      "name": "CBS 2",
+      "yttvStationId": "UCj5uMivXn4xXNR-tPC3O9uw",
+      "stationId": "16689",
+      "callSign": "WCBS",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "CBS Sports Network",
+      "yttvStationId": "UCJCcn5FyhJeu718vX-7jnJQ",
+      "stationId": "59250",
+      "callSign": "CBSSNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "CHARGE!",
+      "yttvStationId": "UCaY_dmTBpOG9kWfXq-VLgtQ",
+      "stationId": "102148",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Cheddar",
+      "yttvStationId": "UCULL3PM8sg7l7yAEocqkZ6w",
+      "stationId": "101103",
+      "callSign": "CHDR",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Cinemax Action East",
+      "yttvStationId": "UCUKPIBgCHBAi7dbVeZv-GxA",
+      "stationId": "59948",
+      "callSign": "CINACHD",
+      "local": false,
+      "source": "gracenote-lookup"
+    },
+    {
+      "name": "Cinemax Classics HD",
+      "yttvStationId": "UClQPfdwgE1sF5CWYLXGctEg",
+      "stationId": "59961",
+      "callSign": "CINCLHD",
+      "local": false,
+      "source": "gracenote-lookup"
+    },
+    {
+      "name": "Cinemax East",
+      "yttvStationId": "UCFb9FWb-U9DKNwfTeCnamTw",
+      "stationId": "34933",
+      "callSign": "MAXHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Cinemax Hits East",
+      "yttvStationId": "UCnkxpCddkyNVVt5VCXHXw-g",
+      "stationId": "59373",
+      "callSign": "CINEHHD",
+      "local": false,
+      "source": "gracenote-lookup"
+    },
+    {
+      "name": "Cinemax Latino",
+      "yttvStationId": "UCKmS_J820Nlwo9RvcOvdoSA",
+      "stationId": "59965",
+      "callSign": "CMAXHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "CMT",
+      "yttvStationId": "UC3g9rzlm1aasACEwPMRV-5A",
+      "stationId": "59440",
+      "callSign": "CMTHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "CNBC",
+      "yttvStationId": "UCBvMULs2YrbFjhPJQBKILhw",
+      "stationId": "58780",
+      "callSign": "CNBCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "CNN",
+      "yttvStationId": "UCStfhR2V58QkCCyq_8dlk6g",
+      "stationId": "58646",
+      "callSign": "CNNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Comedy Central",
+      "yttvStationId": "UCwig0jo9FYVff261Pd05MgQ",
+      "stationId": "62420",
+      "callSign": "COMHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Comedy.TV",
+      "yttvStationId": "UC2vtKivdDk-kjg_qTzZTzUg",
+      "stationId": "82470",
+      "callSign": "COMTVH",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Comet TV",
+      "yttvStationId": "UC7Ir3yo2wlwLnV2KEtTMCoA",
+      "stationId": "97051",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Court TV",
+      "yttvStationId": "UCRqUfYvqYUUna8inTwtQZRg",
+      "stationId": "123605",
+      "callSign": "COURTST",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Cozi",
+      "yttvStationId": "UC9oV5ZyHOEfA93G7y-vsnVA",
+      "stationId": "89994",
+      "callSign": "COZI",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "CPTV",
+      "yttvStationId": "UCdgXjPp5LDUCPJ-yGuZsY0g",
+      "stationId": "53126",
+      "callSign": "WEDW",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Dabl",
+      "yttvStationId": "UCI-EfxFyywB_IrXCyUgLYow",
+      "stationId": "112157",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Discovery Channel",
+      "yttvStationId": "UC3KZEZtc4Iz9A_x6ms5KMOA",
+      "stationId": "56905",
+      "callSign": "DSCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Discovery Turbo",
+      "yttvStationId": "UCJDNzpdVXySLwZPI5GwhTNQ",
+      "stationId": "31046",
+      "callSign": "MTHD",
+      "local": false,
+      "source": "gracenote-lookup"
+    },
+    {
+      "name": "Disney Channel",
+      "yttvStationId": "UCVN4FmqZlqjiNT9uR48Ll1Q",
+      "stationId": "59684",
+      "callSign": "DISeHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Disney Junior",
+      "yttvStationId": "UCwCx1zNO1Qd4BHq3Jjl064Q",
+      "stationId": "74885",
+      "callSign": "DSJRHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Disney XD",
+      "yttvStationId": "UCGbypKg9TspCXLL3yYzz31g",
+      "stationId": "60006",
+      "callSign": "DXDHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "E!",
+      "yttvStationId": "UCgTSem_UW-4aayO03h3NQFw",
+      "stationId": "61812",
+      "callSign": "E!HD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ESPN",
+      "yttvStationId": "UCW7W_WAogi3qWDbO9PqOmZQ",
+      "stationId": "32645",
+      "callSign": "ESPNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ESPN",
+      "yttvStationId": "UCiMelpyn39sB3h3rba58zCA",
+      "stationId": "",
+      "callSign": "",
+      "local": false,
+      "source": "none"
+    },
+    {
+      "name": "ESPN2",
+      "yttvStationId": "UCOtYFLYvZEiaZw4YpSjOndw",
+      "stationId": "45507",
+      "callSign": "ESPN2HD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ESPNews",
+      "yttvStationId": "UChukTzuQDPENsI9IYCvDEaA",
+      "stationId": "59976",
+      "callSign": "ESNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ESPNU",
+      "yttvStationId": "UCtGP7XtIzd3bwARBmJNcZYA",
+      "stationId": "60696",
+      "callSign": "ESPNUHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Food Network",
+      "yttvStationId": "UCwOohtHXo0hkQMB4WO3Ib8g",
+      "stationId": "50747",
+      "callSign": "foodHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FOX 5",
+      "yttvStationId": "UC1QQUW-eYqjvZv9b-a7TixQ",
+      "stationId": "20360",
+      "callSign": "WNYW",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FOX Business",
+      "yttvStationId": "UCLzVssMTD4F7XUR1sh3JZMA",
+      "stationId": "58718",
+      "callSign": "FBNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FOX News",
+      "yttvStationId": "UCqWYIzQLZFW4NFXPfWBLW1w",
+      "stationId": "60179",
+      "callSign": "FNCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FOX SOUL",
+      "yttvStationId": "UC8lqGZa37U4OO610SMbyQJw",
+      "stationId": "119212",
+      "callSign": "FOXSOUL",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FOX Weather",
+      "yttvStationId": "UCOjTLqTl1gVybbm5iOT9o9g",
+      "stationId": "93141",
+      "callSign": "FOXWX",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Freeform",
+      "yttvStationId": "UCv_pZhnIyyPj3jf9TS9uToQ",
+      "stationId": "121949",
+      "callSign": "FRFMHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FS1",
+      "yttvStationId": "UC8f_6NxAk-x_HqzrIHTem9w",
+      "stationId": "82547",
+      "callSign": "FS1HD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FS2",
+      "yttvStationId": "UCFsj5mvKOU6gEkbaptDHc3w",
+      "stationId": "59305",
+      "callSign": "FS2HD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FX",
+      "yttvStationId": "UCP7l2eYJokMkMQVwPs8WB_A",
+      "stationId": "58574",
+      "callSign": "FXHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FXM",
+      "yttvStationId": "UC0ARTCKFnn6CNqBnrV3VLRg",
+      "stationId": "14988",
+      "callSign": "FXM",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "FXX",
+      "yttvStationId": "UC2u6by_bSmjjFSThIktJSRQ",
+      "stationId": "66379",
+      "callSign": "FXXHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Galavision",
+      "yttvStationId": "UCKowx-8h-zSLiVshzKgcsRw",
+      "stationId": "68367",
+      "callSign": "GALAHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Game Show Network",
+      "yttvStationId": "UCmzl5oTI37uvXbAv_UN9NNQ",
+      "stationId": "68827",
+      "callSign": "GSNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "GFAM",
+      "yttvStationId": "UCyn1QNRFEptWzFMqcXDbndg",
+      "stationId": "82892",
+      "callSign": "GFAMHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "GLIV",
+      "yttvStationId": "UClCsq6O9azG2Wki7fA133wg",
+      "stationId": "90858",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Golf Channel",
+      "yttvStationId": "UCChSzsVWe1H3Kc2Fqn4atEQ",
+      "stationId": "61854",
+      "callSign": "GolfHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Hallmark Channel",
+      "yttvStationId": "UCrxOU69oUq5Pb8oneCtTIyQ",
+      "stationId": "66268",
+      "callSign": "HALLHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Hallmark Family",
+      "yttvStationId": "UCi2WWF4AMSF8vvNjMrBvDgw",
+      "stationId": "105723",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Hallmark Mystery",
+      "yttvStationId": "UCwmtfDGiiipObmIEi37e9hg",
+      "stationId": "46710",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "HBO Comedy East",
+      "yttvStationId": "UCR9hPhAxagm_0FdbX_1UCoQ",
+      "stationId": "59839",
+      "callSign": "HBOCHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "HBO Drama East",
+      "yttvStationId": "UCiG6vqJXFHxaLfcyvy_0CHw",
+      "stationId": "59363",
+      "callSign": "HBODRHD",
+      "local": false,
+      "source": "gracenote-lookup"
+    },
+    {
+      "name": "HBO East",
+      "yttvStationId": "UCZwxosConLtVUgnydqL08dQ",
+      "stationId": "19548",
+      "callSign": "HBOHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "HBO Latino East",
+      "yttvStationId": "UCxlgoUf5jJaGXbH_GaD4G5Q",
+      "stationId": "59837",
+      "callSign": "HBOLAHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "HGTV",
+      "yttvStationId": "UClxYtgBSuQzBdpIsGHXJx5g",
+      "stationId": "49788",
+      "callSign": "HGTVHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "HLN",
+      "yttvStationId": "UCPIvHJrgKn3AWMhkMA8EoPQ",
+      "stationId": "64549",
+      "callSign": "HLNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "HSN",
+      "yttvStationId": "UC3A3AJWkUb8xZnlmL6ayOOQ",
+      "stationId": "62077",
+      "callSign": "HSNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ID",
+      "yttvStationId": "UCZaTc6ohEtA1uNyWD_5-O8Q",
+      "stationId": "65342",
+      "callSign": "IDHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "IFC",
+      "yttvStationId": "UCguDPkNwA5sSy3C3upoKGDg",
+      "stationId": "59444",
+      "callSign": "IFCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ION",
+      "yttvStationId": "UCbji8ZLXWwsBOrw6VQB7IgQ",
+      "stationId": "76894",
+      "callSign": "IONEHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "JusticeCentral.TV",
+      "yttvStationId": "UC2NY4WS4K-rSwsDRHIKWKwg",
+      "stationId": "78850",
+      "callSign": "JCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Law & Crime",
+      "yttvStationId": "UC0pCltT2BMAmsAVPk1uP17g",
+      "stationId": "119221",
+      "callSign": "VIZLWCR",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "LiveNOW from FOX",
+      "yttvStationId": "UC33MnhgSnxj6gi6u78KFsBg",
+      "stationId": "119219",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Local Now",
+      "yttvStationId": "UCQrQtBNyVxtlNwvBi6p9mxw",
+      "stationId": "99988",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "Localish",
+      "yttvStationId": "UC_iYDoUH42IulhrKQnUdLgw",
+      "stationId": "118952",
+      "callSign": "LOCALSH",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Magnolia Network",
+      "yttvStationId": "UC7I_eOniDUFbPeESYDeL4DQ",
+      "stationId": "67375",
+      "callSign": "MAGNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "MGM+ Drive-In",
+      "yttvStationId": "UCVQ9StUJS6wzebqN7KRgxkQ",
+      "stationId": "103828",
+      "callSign": "MGMDRHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "MGM+ East",
+      "yttvStationId": "UCB60DsHM5eD6FYUv_kw-7Ww",
+      "stationId": "65687",
+      "callSign": "MGMHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "MGM+ Hits",
+      "yttvStationId": "UClLiyqVgOVfuZxaKUHSCLgQ",
+      "stationId": "67929",
+      "callSign": "MGMHTH",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "MGM+ Marquee",
+      "yttvStationId": "UC-zVwDuCJxADjeftYF_YQyg",
+      "stationId": "74073",
+      "callSign": "MGMMRHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "MS NOW",
+      "yttvStationId": "UCPMoZoTUinLM-MngPHWijUw",
+      "stationId": "64241",
+      "callSign": "MS NOW",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "MTV",
+      "yttvStationId": "UCQBq9yc19hqHFxMhFLDcXCA",
+      "stationId": "60964",
+      "callSign": "MTVHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "MTV Classic",
+      "yttvStationId": "UCIVWabtxQrh8o2lzEu4EvBw",
+      "stationId": "22561",
+      "callSign": "MTVC",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "MTV2",
+      "yttvStationId": "UC8cihSzdMLhd7Z1LpHubbTQ",
+      "stationId": "75077",
+      "callSign": "MTV2HD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "My 9",
+      "yttvStationId": "UCnrB42woBfcU0pa7cuyHGFg",
+      "stationId": "26566",
+      "callSign": "WWOR",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Nat Geo",
+      "yttvStationId": "UCRQcfaq4UbB7EisWRXD-9xA",
+      "stationId": "49438",
+      "callSign": "NGCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Nat Geo Wild",
+      "yttvStationId": "UCevSLUtapg5P80Eu2WIDzdg",
+      "stationId": "67331",
+      "callSign": "NGWHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "NBA TV",
+      "yttvStationId": "UCjeeSYEak0yoYOPXtKlLjOQ",
+      "stationId": "45526",
+      "callSign": "NBAHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "NBC 4",
+      "yttvStationId": "UCqCBUi7Fz18_Nh9tjYBpAmg",
+      "stationId": "20459",
+      "callSign": "WNBC",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "NBC News NOW",
+      "yttvStationId": "UCSRDwPEZ5tkrRx_oXYX4o_Q",
+      "stationId": "114174",
+      "callSign": "NBCNNW",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "NBC Sports Network",
+      "yttvStationId": "UC2tza2d01CFaPEYsFxYoqvQ",
+      "stationId": "194412",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "NEWSMAX",
+      "yttvStationId": "UClJKvIp41p37bGJOPWEO2Og",
+      "stationId": "97163",
+      "callSign": "NEWSMXH",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "NewsNation",
+      "yttvStationId": "UC-lP-hsD59yeNhLV-cL266A",
+      "stationId": "91096",
+      "callSign": "NwsNnHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "NFL Network",
+      "yttvStationId": "UCNp8TLrPZ6VB52E6tjqgu7w",
+      "stationId": "45399",
+      "callSign": "NFLHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Nick Jr.",
+      "yttvStationId": "UC2HeknU5r0Gmr1a9Pz1O2Ug",
+      "stationId": "82649",
+      "callSign": "NKJRHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Nickelodeon",
+      "yttvStationId": "UCEo26zV6dzpkFvEd1408olw",
+      "stationId": "59432",
+      "callSign": "NIKeHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Nicktoons",
+      "yttvStationId": "UCRpa59GI1QwGkXq2V0kSCVQ",
+      "stationId": "30420",
+      "callSign": "NKTN",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "One America News",
+      "yttvStationId": "UCb8Prbrv7Xghfdoc-jlejug",
+      "stationId": "83953",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "OWN",
+      "yttvStationId": "UC-HQSAeHQfSy-MEsqMIzJgA",
+      "stationId": "70388",
+      "callSign": "OWNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Oxygen True Crime",
+      "yttvStationId": "UCNxCYxwUbCRBDzA0RB0bSDw",
+      "stationId": "70522",
+      "callSign": "OXGNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Paramount",
+      "yttvStationId": "UCIZnLsx7JgR0b47tsmO9j1g",
+      "stationId": "59186",
+      "callSign": "PARHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Pickleball TV",
+      "yttvStationId": "UCQRRBYgUQJ_EhwqS_dAy33w",
+      "stationId": "146769",
+      "callSign": "PBTV",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "PIX 11",
+      "yttvStationId": "UC10w-oPVxfpXdZwjYEV13eA",
+      "stationId": "20373",
+      "callSign": "WPIX",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Pop",
+      "yttvStationId": "UCWmVVvAgjJQzvI29zWD4V-Q",
+      "stationId": "68796",
+      "callSign": "POPHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Portlandia",
+      "yttvStationId": "UCXgV84lI09EqItQYLxCrZ0w",
+      "stationId": "122435",
+      "callSign": "PRTLNDA",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "QVC",
+      "yttvStationId": "UCmaPhYJOxFSETzGlJzZytpA",
+      "stationId": "60222",
+      "callSign": "QVCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Recipe.TV",
+      "yttvStationId": "UCA6ODcHN12JiMJ-D8qOfW_w",
+      "stationId": "81289",
+      "callSign": "RECIPE",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "ScreenPix",
+      "yttvStationId": "UCIMG7wOFkuGnuo5ZwwU08-A",
+      "stationId": "113001",
+      "callSign": "SCRNPIX",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "ScreenPix Action",
+      "yttvStationId": "UCfMg7kRbNcYIpTRhWBmRAtw",
+      "stationId": "113003",
+      "callSign": "SCRNACT",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "ScreenPix Voices",
+      "yttvStationId": "UCgIhjvCt1We6i7oFjy242Xg",
+      "stationId": "113004",
+      "callSign": "SCRNVOI",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "ScreenPix Westerns",
+      "yttvStationId": "UCvaTleka5KrZxTWcmFFUpjg",
+      "stationId": "113006",
+      "callSign": "SCWSTHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Scripps News",
+      "yttvStationId": "UCD2hzWipLHCVmwHux7oZbKw",
+      "stationId": "120010",
+      "callSign": "SCNEWST",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "SEC Network",
+      "yttvStationId": "UCpj5ieQ9I6GFSsRnON4AOBQ",
+      "stationId": "89714",
+      "callSign": "SECHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Showtime 2",
+      "yttvStationId": "UC3yf-Rw0bg-iT0q57dhHkhA",
+      "stationId": "58533",
+      "callSign": "SHO2HD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Showtime East",
+      "yttvStationId": "UCvd5mBfn5QSez1f6i4F-dQg",
+      "stationId": "21868",
+      "callSign": "PARSHOH",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Showtime Extreme",
+      "yttvStationId": "UCumdadB3EZECXspnGutJNEg",
+      "stationId": "60947",
+      "callSign": "SHOWXHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Showtime Family Zone",
+      "yttvStationId": "UCdloZ69KU3lzw9mlNeJwsXA",
+      "stationId": "103892",
+      "callSign": "FAMZHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Showtime Next",
+      "yttvStationId": "UCX6uEhY1FuU3yz7if36XlYA",
+      "stationId": "68342",
+      "callSign": "NEXTHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Showtime Showcase",
+      "yttvStationId": "UCRwOhBPh7Md88TNvxvO48vA",
+      "stationId": "61001",
+      "callSign": "SHOCSHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Showtime West",
+      "yttvStationId": "UCEfD9yuRsH9ZIqmnHHBJfqw",
+      "stationId": "22532",
+      "callSign": "PASHOHW",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Showtime Women",
+      "yttvStationId": "UCE_hCgEokRm29XFFHusTKZw",
+      "stationId": "68338",
+      "callSign": "WOMENHD",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "SHOxBET",
+      "yttvStationId": "UCEDGa3iCzYDSBCdC4iJU6xw",
+      "stationId": "68340",
+      "callSign": "SHOBETH",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "Smithsonian Channel",
+      "yttvStationId": "UCFehJp_rl3lm8-8OHoqO3gw",
+      "stationId": "58532",
+      "callSign": "SMTHHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Start TV",
+      "yttvStationId": "UCJ1bMGjLxUVz_uQL-3UyvlA",
+      "stationId": "109454",
+      "callSign": "START",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZ Cinema",
+      "yttvStationId": "UCbE0fBz-3rt6UW0mBvoAD7g",
+      "stationId": "67236",
+      "callSign": "STRZCIH",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "STARZ Comedy",
+      "yttvStationId": "UC82DH9XlBvAiTPPcGTWldaw",
+      "stationId": "57569",
+      "callSign": "STZCHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "STARZ East",
+      "yttvStationId": "UCwUoTw92Bghbi86Mua1jM6Q",
+      "stationId": "34941",
+      "callSign": "STZHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "STARZ Edge",
+      "yttvStationId": "UCRUaN9crBc_JInWlxOVuymA",
+      "stationId": "57573",
+      "callSign": "STZEHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "STARZ inBlack",
+      "yttvStationId": "UCOU8W2EKGsLD10F2Vujo40w",
+      "stationId": "67235",
+      "callSign": "STRZIBH",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "STARZ Kids & Family",
+      "yttvStationId": "UCazXZSdH_UXDGvmSrtdfxuA",
+      "stationId": "57581",
+      "callSign": "STZKHD",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "STARZ West",
+      "yttvStationId": "UCp5PQrmM0FmLtn_ZCSrL8jg",
+      "stationId": "34949",
+      "callSign": "STZHDP",
+      "local": false,
+      "source": "ah4c-shield-m3u"
+    },
+    {
+      "name": "STARZEncore Action",
+      "yttvStationId": "UCYcks1y0PKWWkhQBMkf5uMA",
+      "stationId": "72015",
+      "callSign": "SEACHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZEncore Black",
+      "yttvStationId": "UCqhyiwRnWi8k8BVuffvoRSQ",
+      "stationId": "14870",
+      "callSign": "SEBK",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZEncore Classic",
+      "yttvStationId": "UCCji-FUr16pJrPC0QGYX8NA",
+      "stationId": "14764",
+      "callSign": "SECL",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZEncore East",
+      "yttvStationId": "UC3UMF1UVLKV0-nHFIJRlVcA",
+      "stationId": "36225",
+      "callSign": "SENCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZEncore Español",
+      "yttvStationId": "UCV6aAjNXFAq4sM8NHO35wKA",
+      "stationId": "72016",
+      "callSign": "STZESP",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "STARZEncore Family",
+      "yttvStationId": "UComo7105e_nqubnARiG7hjA",
+      "stationId": "102903",
+      "callSign": "SEFM",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZEncore Suspense",
+      "yttvStationId": "UCik6qJnVdzpvs5cShUCASbw",
+      "stationId": "14766",
+      "callSign": "SESU",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZEncore West",
+      "yttvStationId": "UCEyNozLxr4I7rZimVumfVHg",
+      "stationId": "17125",
+      "callSign": "SENw",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "STARZEncore Westerns",
+      "yttvStationId": "UCaPfU4OoKvm-bRrsay4T4qw",
+      "stationId": "102906",
+      "callSign": "SEWS",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Stories by AMC",
+      "yttvStationId": "UCiiV9Ifjzxq1R0VhMs8DmOw",
+      "stationId": "188539",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "SundanceTV",
+      "yttvStationId": "UC8j-HIVNIgtewBryQ4o2k8A",
+      "stationId": "71280",
+      "callSign": "SUNDHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "SYFY",
+      "yttvStationId": "UC4S7frnF1aFbe_zcygsYe3A",
+      "stationId": "58623",
+      "callSign": "SyfyHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "T2",
+      "yttvStationId": "UCWBR8qGJOBAe5PJXOeMLB0w",
+      "stationId": "137752",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "TBS",
+      "yttvStationId": "UCD9-oAYJYLAX5GAKCz_48SA",
+      "stationId": "58515",
+      "callSign": "TBSHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "TeenNick",
+      "yttvStationId": "UCDn_3JCrVk1CD8aBWvW-QQQ",
+      "stationId": "59036",
+      "callSign": "TNCK",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Telemundo NY",
+      "yttvStationId": "UCR2woIh3DO5BVNdMydCqZvQ",
+      "stationId": "54437",
+      "callSign": "WNJU",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "The Nest",
+      "yttvStationId": "UC6e9zqzPIz3HgBfOEVkZX3A",
+      "stationId": "147367",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "The Walking Dead Channel",
+      "yttvStationId": "UCOBaG_GW4MyOXCZYBr0jxlQ",
+      "stationId": "115945",
+      "callSign": "TWDC",
+      "local": false,
+      "source": "yttv-m3u-json"
+    },
+    {
+      "name": "The Walking Dead Universe",
+      "yttvStationId": "UCHa70oFCrg1M4sFJbhV5L7g",
+      "stationId": "115540",
+      "callSign": "TWDU",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "The Weather Channel",
+      "yttvStationId": "UCcHKBCoR3g3jorhhRgdrjRg",
+      "stationId": "58812",
+      "callSign": "WEAHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "theGRIO",
+      "yttvStationId": "UCYLG3atJfxvRoVjsH_4zQqg",
+      "stationId": "132272",
+      "callSign": "GRIOTV",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "THIRTEEN PBS",
+      "yttvStationId": "UCxh65Iy6sAFBBkOx1zDAx-A",
+      "stationId": "26182",
+      "callSign": "WNET",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "THIRTEEN PBS",
+      "yttvStationId": "UCCpTnAF19gsNheOnmMYS9uQ",
+      "stationId": "112893",
+      "callSign": "",
+      "local": true,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "TLC",
+      "yttvStationId": "UC4WzX4rjxyOavZENjRCHEaw",
+      "stationId": "57391",
+      "callSign": "TLCHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "TNT",
+      "yttvStationId": "UCMrLeKNQLIcj2l1k4yqkILQ",
+      "stationId": "42642",
+      "callSign": "TNTHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Travel Channel",
+      "yttvStationId": "UCO0DprpzkgRs0zpSGxMI6bw",
+      "stationId": "59303",
+      "callSign": "TRAVHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "True CRMZ",
+      "yttvStationId": "UCyeti25JXK1zbcL33QtJ2zg",
+      "stationId": "114278",
+      "callSign": "CRMES",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "truTV",
+      "yttvStationId": "UCp9TSEVSOM5TrZR1xyftSDQ",
+      "stationId": "64490",
+      "callSign": "truTVHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "TUDN",
+      "yttvStationId": "UCNd6UJFGnUUjllgfXMz_Y7A",
+      "stationId": "77033",
+      "callSign": "TUDNHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "Turner Classic Movies",
+      "yttvStationId": "UCWkkY4JJBkGZtFae6kkUbSw",
+      "stationId": "64312",
+      "callSign": "TCMHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "TV Land",
+      "yttvStationId": "UCko2QKmtBtKuh6KoKVDZWtA",
+      "stationId": "73541",
+      "callSign": "TVLDHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "USA",
+      "yttvStationId": "UCxXjdrevcsy6xh0_O3KhokA",
+      "stationId": "58452",
+      "callSign": "USAHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "VH1",
+      "yttvStationId": "UCIfeUa31arBgYR1GuDzMR6w",
+      "stationId": "60046",
+      "callSign": "VH1HD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "WE tv",
+      "yttvStationId": "UCRXsF67RpQTpfgrHdCKoOSA",
+      "stationId": "59296",
+      "callSign": "WEHD",
+      "local": false,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "WFUT",
+      "yttvStationId": "UClu1IghYI0kehxPe1YVjZmg",
+      "stationId": "73882",
+      "callSign": "",
+      "local": true,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "WLNY TV",
+      "yttvStationId": "UC-uzXJ1LhcGMFCq5mZdHWVg",
+      "stationId": "31225",
+      "callSign": "WLNY",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "World at War",
+      "yttvStationId": "UCK9Q4fLemL37Au_y0UgNM4A",
+      "stationId": "165997",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    },
+    {
+      "name": "WXTV",
+      "yttvStationId": "UCa1oChdy4ZJ4Gyd9vLDYejA",
+      "stationId": "35361",
+      "callSign": "WXTV",
+      "local": true,
+      "source": "directv-nyc"
+    },
+    {
+      "name": "YouTube TV Zen",
+      "yttvStationId": "UCtfoIx_MZ0h5bX3i9YsF5xw",
+      "stationId": "171005",
+      "callSign": "",
+      "local": false,
+      "source": "gist-nyc"
+    }
+  ]
+}
